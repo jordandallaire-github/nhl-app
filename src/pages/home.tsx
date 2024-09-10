@@ -1,7 +1,7 @@
-import Carousel from "../components/carousel";
 import Video from "../components/youtube";
 import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/scrolly";
+import TeamRoster from "../fetcher/player";
 
 function Home() {
   Scrolly();
@@ -25,48 +25,8 @@ function Home() {
           <div className="fade"></div>
         </div>
       </section>
-      <section>
-        <div className="wrapper">
-          <Carousel autoplay>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div className="swiper-pagination"></div>
-          </Carousel>
-          <Carousel autoplay>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div data-is-swiper-slide className="card">
-              <h1>oui</h1>
-              <p>dhsihdhshhdis</p>
-            </div>
-            <div className="swiper-pagination"></div>
-          </Carousel>
-        </div>
-      </section>
+      <TeamRoster></TeamRoster>
+
     </>
   );
 }
