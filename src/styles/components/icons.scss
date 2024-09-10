@@ -1,0 +1,51 @@
+/* ==========================================================================
+   icons / component
+   ========================================================================== */
+$icon-sizes: (
+    xs: 0.75em,
+    sm: 0.8em,
+    md: 4em,
+    lg: 2em,
+    xl: 8em
+);
+  
+
+[class^='icon'] {
+    fill: currentColor; // inherit color of its context
+    display: inline-block;
+    flex: 0 0 auto; // prevent icon shrink/grow if in a flex parent
+    height: 1em;
+    vertical-align: middle;
+    width: 1em;
+    stroke: transparent;
+}
+
+.icon--stroke {
+    fill: transparent;
+    stroke: currentColor;
+}
+
+.icon--xs {
+    height: map-get($icon-sizes, xs);
+    width: map-get($icon-sizes, xs);
+}
+
+.icon--sm {
+    height: map-get($icon-sizes, sm);
+    width: map-get($icon-sizes, sm);
+}
+
+.icon--md {
+    height: map-get($icon-sizes, md);
+    width: map-get($icon-sizes, md);
+}
+
+.icon--lg {
+    height: map-get($icon-sizes, lg);
+    width: map-get($icon-sizes, lg);
+}
+
+.icon--xl {
+    height: map-get($icon-sizes, xl);
+    width: map-get($icon-sizes, xl);
+}

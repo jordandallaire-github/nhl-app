@@ -1,0 +1,33 @@
+/* ==========================================================================
+   carousel / component
+   ========================================================================== */
+   .swiper-slide {
+    height: 50vh;
+    color: var(--color-bg-primary);
+    background-color: var(--color-bg-secondary);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-pagination-bullets {
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    padding-top: 20px;
+}
+.swiper-pagination-bullet {
+    --size: 20px;
+
+    border: 2px solid var(--color-white);
+    border-radius: 100%;
+    height: var(--size);
+    margin: 0 5px;
+    transition: border 0.4s ease-out;
+    width: var(--size);
+}
+
+.swiper-pagination-bullet-active {
+    border-width: calc(var(--size, 20px) / 2);
+}
