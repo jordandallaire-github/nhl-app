@@ -1,7 +1,7 @@
 import Video from "../components/youtube";
 import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/scrolly";
-import TeamRoster from "../fetcher/player";
+import TeamRoster from "../fetcher/playerInfos";
 
 function Home() {
   Scrolly();
@@ -25,8 +25,11 @@ function Home() {
           <div className="fade"></div>
         </div>
       </section>
-      <TeamRoster></TeamRoster>
-
+      <section>
+        <div className="wrapper">
+          <TeamRoster></TeamRoster>
+        </div>
+      </section>
     </>
   );
 }

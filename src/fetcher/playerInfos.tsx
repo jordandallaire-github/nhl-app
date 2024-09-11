@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import PlayerCard from '../components/player/playerCard'; // Chemin correct vers PlayerCard
 
-interface Player {
+ export interface Player {
   sweaterNumber: string;
   positionCode: string;
   firstName: { default: string };
@@ -8,16 +9,19 @@ interface Player {
   id: string;
   teamAbbrev?: string;
   headshot: string;
-  teamLogo: string;
+  teamLogo?: string;
+  teamName: string;
+  shootsCatches: string;
 }
 
 interface Team {
   teamAbbrev: { default: string };
-  teamLogo : string;
+  teamLogo: string;
+  teamName: { default: string; fr: string };
 }
 
-const NHLTeams: React.FC = () => {
-  const [teams, setTeams] = useState<string[]>([]);
+const PlayerInfos: React.FC = () => {
+  const [teams, setTeams] = useState<{ [key: string]: { teamLogo: string; teamName: string } }>({});
   const [players, setPlayers] = useState<Player[]>([]);
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<string>('');
@@ -32,16 +36,23 @@ const NHLTeams: React.FC = () => {
         if (!teamRes.ok) throw new Error('Failed to fetch teams');
         const teamData = await teamRes.json();
 
-        const teamCodes = teamData.standings
-          .map((team: Team) => team.teamAbbrev.default)
-          .filter((teamCode: string) => teamCode !== 'ARI'); // Exclude Arizona team
+        const teamMap: { [key: string]: { teamLogo: string, teamName: string } } = {};
 
-        setTeams(teamCodes);
+        teamData.standings.forEach((team: Team) => {
+          if (team.teamAbbrev.default !== 'ARI') {
+            teamMap[team.teamAbbrev.default] = {
+              teamLogo: team.teamLogo,
+              teamName: team.teamName.fr,
+            };
+          }
+        });
+
+        setTeams(teamMap);
 
         // Fetch players for each team
-        const playerPromises = teamCodes.map(async (team : Team) => {
-          const playerRes = await fetch(`https://api-web.nhle.com/v1/roster/${team}/current`);
-          if (!playerRes.ok) throw new Error(`Failed to fetch players for team ${team}`);
+        const playerPromises = Object.keys(teamMap).map(async (teamAbbrev) => {
+          const playerRes = await fetch(`https://api-web.nhle.com/v1/roster/${teamAbbrev}/current`);
+          if (!playerRes.ok) throw new Error(`Failed to fetch players for team ${teamAbbrev}`);
           const playerData = await playerRes.json();
 
           const playersArray: Player[] = [
@@ -50,11 +61,13 @@ const NHLTeams: React.FC = () => {
             ...(playerData.goalies || []),
           ];
 
-          // Add teamAbbrev to each player
+          // Add teamAbbrev and teamLogo to each player
           return playersArray.map(player => ({
             ...player,
             sweaterNumber: player.sweaterNumber || '00', // Handle undefined sweaterNumber
-            teamAbbrev: team,
+            teamAbbrev: teamAbbrev,
+            teamLogo: teamMap[teamAbbrev].teamLogo,
+            teamName: teamMap[teamAbbrev].teamName,
           }));
         });
 
@@ -113,12 +126,12 @@ const NHLTeams: React.FC = () => {
 
   return (
     <div>
-      <h1>NHL Teams and Players</h1>
+      <h1>Joueur dans la LNH</h1>
       <div>
         <label>Select a Team: </label>
         <select onChange={handleTeamChange} value={selectedTeam}>
-          <option value="">Select a team</option>
-          {teams.map((team, index) => (
+          <option value="">Sélectionné une équipe</option>
+          {Object.keys(teams).map((team, index) => (
             <option key={index} value={team}>
               {team}
             </option>
@@ -129,26 +142,22 @@ const NHLTeams: React.FC = () => {
       <div>
         <label>Select Positions: </label>
         <select onChange={handlePositionChange}>
-          <option value="F">Forwards</option>
+          <option value="F">Attaquant</option>
           <option value="C">Centre</option>
-          <option value="L">Left Wing</option>
-          <option value="R">Right Wing</option>
-          <option value="D">Defensemen</option>
-          <option value="G">Goalie</option>
+          <option value="L">Ailier gauche</option>
+          <option value="R">Ailier droit</option>
+          <option value="D">Defenseur</option>
+          <option value="G">Gardien</option>
         </select>
       </div>
 
-      <ul>
+      <div className="players-cards">
         {filteredPlayers.map((player, index) => (
-          <li key={index}>
-            {player.teamAbbrev} | #{player.sweaterNumber} {player.positionCode} {player.firstName.default} {player.lastName.default}
-            <img src={`${player.headshot}`} alt={`${player.firstName.default} ${player.lastName.default}`} />
-            <img src={`${player.teamLogo}`} alt={`${player.teamAbbrev} logo`} />
-          </li>
+          <PlayerCard key={index} player={player} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
 
-export default NHLTeams;
+export default PlayerInfos;
