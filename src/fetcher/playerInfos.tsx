@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import PlayerCard from '../components/player/playerCard'; // Chemin correct vers PlayerCard
+import React, { useEffect, useState } from "react";
+import PlayerCard from "../components/player/playerCard"; // Chemin correct vers PlayerCard
 
- export interface Player {
+export interface Player {
   sweaterNumber: string;
   positionCode: string;
   firstName: { default: string };
@@ -12,6 +12,7 @@ import PlayerCard from '../components/player/playerCard'; // Chemin correct vers
   teamLogo?: string;
   teamName: string;
   shootsCatches: string;
+  teamColor?: string;
 }
 
 interface Team {
@@ -20,29 +21,48 @@ interface Team {
   teamName: { default: string; fr: string };
 }
 
+interface TeamColor {
+  [key: string]: {
+    name: string;
+    color: string;
+  };
+}
+
 const PlayerInfos: React.FC = () => {
-  const [teams, setTeams] = useState<{ [key: string]: { teamLogo: string; teamName: string } }>({});
+  const [teams, setTeams] = useState<{
+    [key: string]: { teamLogo: string; teamName: string };
+  }>({});
   const [players, setPlayers] = useState<Player[]>([]);
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
-  const [selectedTeam, setSelectedTeam] = useState<string>('');
+  const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [selectedPositions, setSelectedPositions] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTeamsAndPlayers = async () => {
       try {
+        // Fetch team colors
+        const colorRes = await fetch("/teamColor.json");
+        if (!colorRes.ok) throw new Error("Failed to fetch team colors");
+        const teamColorData: TeamColor = await colorRes.json();
+
         // Fetch all teams
-        const teamRes = await fetch('https://api-web.nhle.com/v1/standings/now');
-        if (!teamRes.ok) throw new Error('Failed to fetch teams');
+        const teamRes = await fetch(
+          "https://api-web.nhle.com/v1/standings/now"
+        );
+        if (!teamRes.ok) throw new Error("Failed to fetch teams");
         const teamData = await teamRes.json();
 
-        const teamMap: { [key: string]: { teamLogo: string, teamName: string } } = {};
+        const teamMap: {
+          [key: string]: { teamLogo: string; teamName: string; color?: string };
+        } = {};
 
         teamData.standings.forEach((team: Team) => {
-          if (team.teamAbbrev.default !== 'ARI') {
+          if (team.teamAbbrev.default !== "ARI") {
             teamMap[team.teamAbbrev.default] = {
               teamLogo: team.teamLogo,
               teamName: team.teamName.fr,
+              color: teamColorData[team.teamAbbrev.default]?.color,
             };
           }
         });
@@ -51,8 +71,11 @@ const PlayerInfos: React.FC = () => {
 
         // Fetch players for each team
         const playerPromises = Object.keys(teamMap).map(async (teamAbbrev) => {
-          const playerRes = await fetch(`https://api-web.nhle.com/v1/roster/${teamAbbrev}/current`);
-          if (!playerRes.ok) throw new Error(`Failed to fetch players for team ${teamAbbrev}`);
+          const playerRes = await fetch(
+            `https://api-web.nhle.com/v1/roster/${teamAbbrev}/current`
+          );
+          if (!playerRes.ok)
+            throw new Error(`Failed to fetch players for team ${teamAbbrev}`);
           const playerData = await playerRes.json();
 
           const playersArray: Player[] = [
@@ -61,13 +84,14 @@ const PlayerInfos: React.FC = () => {
             ...(playerData.goalies || []),
           ];
 
-          // Add teamAbbrev and teamLogo to each player
-          return playersArray.map(player => ({
+          // Add teamAbbrev, teamLogo, and teamColor to each player
+          return playersArray.map((player) => ({
             ...player,
-            sweaterNumber: player.sweaterNumber || '00', // Handle undefined sweaterNumber
+            sweaterNumber: player.sweaterNumber || "00", // Handle undefined sweaterNumber
             teamAbbrev: teamAbbrev,
             teamLogo: teamMap[teamAbbrev].teamLogo,
             teamName: teamMap[teamAbbrev].teamName,
+            teamColor: teamMap[teamAbbrev].color, // Add teamColor here
           }));
         });
 
@@ -75,11 +99,11 @@ const PlayerInfos: React.FC = () => {
         setPlayers(playersData.flat());
       } catch (error: unknown) {
         if (error instanceof Error) {
-          console.error('Error fetching data:', error.message);
+          console.error("Error fetching data:", error.message);
           setError(error.message);
         } else {
-          console.error('An unexpected error occurred');
-          setError('An unexpected error occurred');
+          console.error("An unexpected error occurred");
+          setError("An unexpected error occurred");
         }
       }
     };
@@ -91,11 +115,15 @@ const PlayerInfos: React.FC = () => {
     let filtered = players;
 
     if (selectedTeam) {
-      filtered = filtered.filter(player => player.teamAbbrev === selectedTeam);
+      filtered = filtered.filter(
+        (player) => player.teamAbbrev === selectedTeam
+      );
     }
 
     if (selectedPositions.length > 0) {
-      filtered = filtered.filter(player => selectedPositions.includes(player.positionCode));
+      filtered = filtered.filter((player) =>
+        selectedPositions.includes(player.positionCode)
+      );
     }
 
     setFilteredPlayers(selectedTeam ? filtered : []); // Ensure no players are shown if none match
@@ -110,8 +138,8 @@ const PlayerInfos: React.FC = () => {
     const selectedPositions: string[] = [];
     for (let i = 0; i < options.length; i++) {
       if (options[i].selected) {
-        if (options[i].value === 'F') {
-          selectedPositions.push('C', 'L', 'R');
+        if (options[i].value === "F") {
+          selectedPositions.push("C", "L", "R");
         } else {
           selectedPositions.push(options[i].value);
         }
