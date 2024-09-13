@@ -1,15 +1,16 @@
 import Video from "../components/youtube";
 import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/scrolly";
+import TeamRoster from "../fetcher/playerSimpleInfos";
 
-function Player() {
+function Players() {
   Scrolly();
   return (
     <>
       <section className="hero">
         <div className="wrapper">
           <h1 data-scrolly="opacity" data-norepeat>
-            Autre
+            Joueurs
           </h1>
           <div className="window-effect glare-item">
             <Video
@@ -24,8 +25,13 @@ function Player() {
           <div className="fade"></div>
         </div>
       </section>
+      <section>
+        <div className="wrapper">
+          <TeamRoster></TeamRoster>
+        </div>
+      </section>
     </>
   );
 }
 
-export default Player;
+export default Players;

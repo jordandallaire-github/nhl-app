@@ -1,7 +1,7 @@
 import Video from "../components/youtube";
 import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/scrolly";
-import TeamRoster from "../fetcher/playerInfos";
+import TeamRoster from "../fetcher/playerSimpleInfos";
 
 function Home() {
   Scrolly();
@@ -10,7 +10,7 @@ function Home() {
       <section className="hero">
         <div className="wrapper">
           <h1 data-scrolly="opacity" data-norepeat>
-            Home
+            Accueil
           </h1>
           <div className="window-effect glare-item">
             <Video

@@ -2,14 +2,14 @@ import Video from "../components/youtube";
 import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/scrolly";
 
-function Other() {
+function Teams() {
   Scrolly();
   return (
     <>
       <section className="hero">
         <div className="wrapper">
           <h1 data-scrolly="opacity" data-norepeat>
-            Autre
+            Équipes
           </h1>
           <div className="window-effect glare-item">
             <Video
@@ -28,4 +28,4 @@ function Other() {
   );
 }
 
-export default Other;
+export default Teams;

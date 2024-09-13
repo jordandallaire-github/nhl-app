@@ -1,126 +1,95 @@
 {
   "ANA": {
-    "name": "Anaheim Ducks",
     "color": "#F47A38"
   },
   "BOS": {
-    "name": "Boston Bruins",
     "color": "#FFB81C"
   },
   "BUF": {
-    "name": "Buffalo Sabres",
     "color": "#003087"
   },
   "CAR": {
-    "name": "Carolina Hurricanes",
     "color": "#CE1126"
   },
   "CBJ": {
-    "name": "Columbus Blue Jackets",
     "color": "#002654"
   },
   "CGY": {
-    "name": "Calgary Flames",
     "color": "#D2001C"
   },
   "CHI": {
-    "name": "Chicago Blackhawks",
     "color": "#CF0A2C"
   },
   "COL": {
-    "name": "Colorado Avalanche",
     "color": "#6F263D"
   },
   "DAL": {
-    "name": "Dallas Stars",
     "color": "#006847"
   },
   "DET": {
-    "name": "Detroit Red Wings",
     "color": "#CE1126"
   },
   "EDM": {
-    "name": "Edmonton Oilers",
     "color": "#041E42"
   },
   "FLA": {
-    "name": "Florida Panthers",
     "color": "#C8102E"
   },
   "LAK": {
-    "name": "Los Angeles Kings",
     "color": "#111111"
   },
   "MIN": {
-    "name": "Minnesota Wild",
     "color": "#154734"
   },
   "MTL": {
-    "name": "Montreal Canadiens",
     "color": "#AF1E2D"
   },
   "NSH": {
-    "name": "Nashville Predators",
     "color": "#FFB81C"
   },
   "NJD": {
-    "name": "New Jersey Devils",
     "color": "#CE1126"
   },
   "NYI": {
-    "name": "New York Islanders",
     "color": "#00539b"
   },
   "NYR": {
-    "name": "New York Rangers",
     "color": "#0038A8"
   },
   "OTT": {
-    "name": "Ottawa Senators",
     "color": "#000000"
   },
   "PHI": {
-    "name": "Philadelphia Flyers",
     "color": "#F74902"
   },
   "PIT": {
-    "name": "Pittsburgh Penguins",
     "color": "#FCB514"
   },
   "SJS": {
-    "name": "San Jose Sharks",
     "color": "#006D75"
   },
   "STL": {
-    "name": "St. Louis Blues",
     "color": "#002F87"
   },
   "TBL": {
-    "name": "Tampa Bay Lightning",
     "color": "#002868"
   },
   "TOR": {
-    "name": "Toronto Maple Leafs",
     "color": "#00205B"
   },
   "VAN": {
-    "name": "Vancouver Canucks",
     "color": "#00205B"
   },
   "WSH": {
-    "name": "Washington Capitals",
     "color": "#C8102E"
   },
   "VGK": {
-    "name": "Vegas Golden Knights",
     "color": "#B4975A"
   },
   "WPG": {
-    "name": "Winnipeg Jets",
     "color": "#041E42"
   },
   "SEA": {
-    "name": "Seattle Kraken",
     "color": "#99d9D9"
   }
 }

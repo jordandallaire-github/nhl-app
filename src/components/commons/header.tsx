@@ -30,14 +30,14 @@ export default function Header() {
                     <div>Accueil</div>
                   </ActiveCustomLink>
                 </li>
-                <li>
-                  <ActiveCustomLink to="/other">
-                    <div>autre</div>
+                <li>  
+                  <ActiveCustomLink to="/equipes">
+                    <div>équipes</div>
                   </ActiveCustomLink>
                 </li>
-                <li>
-                  <ActiveCustomLink to="/player">
-                    <div>player</div>
+                <li>  
+                  <ActiveCustomLink to="/players">
+                    <div>joueurs</div>
                   </ActiveCustomLink>
                 </li>
               </ul>

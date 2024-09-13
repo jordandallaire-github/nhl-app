@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PlayerCard from "../components/player/playerCard"; // Chemin correct vers PlayerCard
 
-export interface Player {
+export interface PlayerInfos {
   sweaterNumber: string;
   positionCode: string;
   firstName: { default: string };
@@ -28,12 +28,12 @@ interface TeamColor {
   };
 }
 
-const PlayerInfos: React.FC = () => {
+const PlayerSimpleInfos: React.FC = () => {
   const [teams, setTeams] = useState<{
     [key: string]: { teamLogo: string; teamName: string };
   }>({});
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<PlayerInfos[]>([]);
+  const [filteredPlayers, setFilteredPlayers] = useState<PlayerInfos[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [selectedPositions, setSelectedPositions] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -78,7 +78,7 @@ const PlayerInfos: React.FC = () => {
             throw new Error(`Failed to fetch players for team ${teamAbbrev}`);
           const playerData = await playerRes.json();
 
-          const playersArray: Player[] = [
+          const playersArray: PlayerInfos[] = [
             ...(playerData.forwards || []),
             ...(playerData.defensemen || []),
             ...(playerData.goalies || []),
@@ -188,4 +188,4 @@ const PlayerInfos: React.FC = () => {
   );
 };
 
-export default PlayerInfos;
+export default PlayerSimpleInfos;

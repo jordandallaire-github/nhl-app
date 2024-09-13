@@ -1,14 +1,17 @@
 import React from "react";
-import { Player } from "../../fetcher/playerInfos";
+import { Link } from "react-router-dom";
+import { PlayerInfos } from "../../fetcher/playerSimpleInfos";
+import { generatePlayerSlug } from "../utils/generatePlayerSlug";
 
 interface PlayerCardProps {
-  player: Player;
+  player: PlayerInfos;
 }
 
 const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => (
-  <a
-    href="#"
-    className="player-card window-effect" /* style={{backgroundColor: player.teamColor}} */
+  <Link
+    to={`/players/${generatePlayerSlug(player.firstName.default, player.lastName.default, player.id)}`}
+    key={player.id}
+    className="player-card window-effect"
   >
     <div className="player-media">
       <img
@@ -42,7 +45,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => (
         backgroundImage: `radial-gradient(circle at 50% 0, #7fcfff33, #0000 80%), radial-gradient(circle at 50% 0, ${player.teamColor}, #0000)`,
       }}
     ></div>
-  </a>
+  </Link>
 );
 
 export default PlayerCard;
