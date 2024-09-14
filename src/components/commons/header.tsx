@@ -31,13 +31,8 @@ export default function Header() {
                   </ActiveCustomLink>
                 </li>
                 <li>  
-                  <ActiveCustomLink to="/equipes">
+                  <ActiveCustomLink to="/equipe">
                     <div>équipes</div>
-                  </ActiveCustomLink>
-                </li>
-                <li>  
-                  <ActiveCustomLink to="/players">
-                    <div>joueurs</div>
                   </ActiveCustomLink>
                 </li>
               </ul>

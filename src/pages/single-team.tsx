@@ -1,11 +1,11 @@
 import Scrolly from "../components/scrolly";
-import PlayerDetails from "../fetcher/playerDetails";
+import TeamDetails from "../fetcher/teamRoster";
 
 function Player() {
   Scrolly();
   return (
     <>
-      <PlayerDetails></PlayerDetails>
+    <TeamDetails></TeamDetails>
     </>
   );
 }
