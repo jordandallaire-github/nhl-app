@@ -15,6 +15,10 @@
     align-items: center;
     justify-content: center;
   }
+
+  &.teams{
+    row-gap: 65px;
+  }
 }
 
 .card {
@@ -64,12 +68,6 @@
       gap: 15px;
     }
 
-    .team-logo{
-      max-width: 100px;
-      min-height: 100px;
-      filter: drop-shadow(2px 4px 6px black) brightness(1.2);
-    }
-
     p{
       font-size: 3.0rem;
       font-weight: 600;
@@ -77,6 +75,17 @@
       align-items: center;
       text-align: center;
     }
+  }
+}
+
+.team-logo{
+  max-width: 100px;
+  min-height: 100px;
+  filter: drop-shadow(2px 4px 6px black) brightness(1.2);
+
+  &.list-team{
+    max-width: 100%;
+    min-height: 100%;
   }
 }
 

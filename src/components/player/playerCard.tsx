@@ -7,15 +7,15 @@ interface PlayerCardProps {
   player: PlayerInfos;
   teamAbbrev?: string;
   teamColor?: string | null;
+  teamCommonName?: string;
 }
 
-const PlayerCard: React.FC<PlayerCardProps> = ({ player, teamAbbrev, teamColor }) => {
-  const fetchedTeamAbbrev = teamAbbrev;
+const PlayerCard: React.FC<PlayerCardProps> = ({ player, teamAbbrev, teamColor, teamCommonName }) => {
   const teamLogo = `https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_light.svg`;
 
   return (
     <Link
-      to={`/equipe/${fetchedTeamAbbrev}/${generatePlayerSlug(
+      to={`/equipes/${teamCommonName}/${generatePlayerSlug(
         player.firstName.default,
         player.lastName.default,
         player.id

@@ -72,19 +72,19 @@ const ListTeams: React.FC = () => {
         {Object.entries(teamsByDivision).map(([division, teams]) => (
           <div key={division} className="division-section">
             <h2>{division}</h2>
-            <div className="cards">
+            <div className="cards teams">
               {teams.length > 0 ? (
                 teams.map((team, index) => {
                   const teamAbbrev = team.teamAbbrev.default;
                   const teamColor = teamColors?.[teamAbbrev]?.color;
                   return (
                     <Link
-                      to={`/equipe/${team.teamAbbrev.default}`}
+                      to={`/equipes/${team.teamCommonName.default.toLowerCase().replace(/\s+/g, '-')}`}
                       className="card window-effect"
                       key={index}
                     >
                       <div className="card-media">
-                        <img src={team.teamLogo} alt={team.teamName.fr} />
+                        <img className="team-logo list-team" src={team.teamLogo} alt={team.teamName.fr} />
                       </div>
                       <div className="card-content">
                         <h3>{team.teamName.fr}</h3>

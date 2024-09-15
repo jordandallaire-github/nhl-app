@@ -22,7 +22,9 @@ export default function Header() {
             </Link>
           </div>
           <nav className="nav-wrapper">
-            <div className={`indicator-page-top ${currentPath.substring(1)}`}></div>
+            <div
+              className={`indicator-pill ${currentPath.split("/")[1]}`}
+            ></div>
             <div className="nav-pill">
               <ul>
                 <li>
@@ -30,22 +32,24 @@ export default function Header() {
                     <div>Accueil</div>
                   </ActiveCustomLink>
                 </li>
-                <li>  
-                  <ActiveCustomLink to="/equipe">
+                <li>
+                  <ActiveCustomLink to="/equipes">
                     <div>équipes</div>
                   </ActiveCustomLink>
                 </li>
               </ul>
-              <div className={`indicator-pill ${currentPath.substring(1)}`}></div>
+              <div
+                className={`indicator-pill ${currentPath.split("/")[1]}`}
+              ></div>
             </div>
           </nav>
           <button className="header__toggle js-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
         </div>
-        <div className="bg-menu-mobile"></div>  
+        <div className="bg-menu-mobile"></div>
       </header>
     </>
   );

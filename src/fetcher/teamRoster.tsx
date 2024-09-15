@@ -9,82 +9,114 @@ export interface PlayerInfos {
   lastName: { default: string };
   id: string;
   headshot: string;
+  teamCommonName?: string;
 }
 
 interface Team {
   color: string;
   teamAbbrev: { default: string };
-  teamName: { default: string; fr: string };
+  teamCommonName: { default: string; fr: string };
 }
 
 const TeamRoster: React.FC = () => {
-  const { teamAbbrev } = useParams<{
-    teamCommonName: string;
-    teamAbbrev: string;
-  }>();
+  const { teamCommonName } = useParams<{ teamCommonName: string }>();
+  const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
   const [players, setPlayers] = useState<PlayerInfos[]>([]);
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  // Fetch team abbreviation based on teamCommonName
   useEffect(() => {
-    const fetchPlayers = async () => {
+    const fetchTeamAbbrev = async () => {
       try {
-        const playerRes = await fetch(
-          `https://api-web.nhle.com/v1/roster/${teamAbbrev}/current`
+        const res = await fetch("https://api-web.nhle.com/v1/standings/now");
+        if (!res.ok) throw new Error("Failed to fetch team data");
+        const data = await res.json();
+  
+        // Accéder à la liste des équipes dans "standings"
+        const teams = data.standings || [];
+  
+        const team = teams.find(
+          (t: Team) =>
+            t.teamCommonName.default.toLowerCase().replace(/\s+/g, "-") ===
+            teamCommonName
         );
-        if (!playerRes.ok) throw new Error("Failed to fetch players");
-        const playerData = await playerRes.json();
-
-        const playersArray: PlayerInfos[] = [
-          ...(playerData.forwards || []),
-          ...(playerData.defensemen || []),
-          ...(playerData.goalies || []),
-        ];
-
-        setPlayers(playersArray);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error fetching players:", error.message);
-          setError(error.message);
+        if (team) {
+          setTeamAbbrev(team.teamAbbrev.default);
         } else {
-          console.error("An unexpected error occurred");
-          setError("An unexpected error occurred");
-        }
-      }
-    };
-
-    const fetchTeamColor = async () => {
-      try {
-        const colorRes = await fetch("/teamColor.json");
-        if (!colorRes.ok) throw new Error("Failed to fetch team colors");
-        const colorData: Record<string, Team> = await colorRes.json();
-
-        const teamInfo = colorData[teamAbbrev as keyof typeof colorData];
-        if (teamInfo) {
-          setTeamColor(teamInfo.color);
-        } else {
-          setError("Team color not found");
+          throw new Error("Team not found");
         }
       } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error fetching team color:", error.message);
-          setError(error.message);
-        } else {
-          console.error("An unexpected error occurred");
-          setError("An unexpected error occurred");
-        }
+        setError(error instanceof Error ? error.message : "An error occurred");
       }
     };
+  
+    fetchTeamAbbrev();
+  }, [teamCommonName]);
 
-    fetchPlayers();
-    fetchTeamColor();
+  // Fetch players based on teamAbbrev
+  useEffect(() => {
+    if (teamAbbrev) {
+      const fetchPlayers = async () => {
+        setLoading(true);
+        try {
+          const playerRes = await fetch(
+            `https://api-web.nhle.com/v1/roster/${teamAbbrev}/current`
+          );
+          if (!playerRes.ok) throw new Error("Failed to fetch players");
+          const playerData = await playerRes.json();
+
+          const playersArray: PlayerInfos[] = [
+            ...(playerData.forwards || []),
+            ...(playerData.defensemen || []),
+            ...(playerData.goalies || []),
+          ];
+
+          setPlayers(playersArray);
+        } catch (error: unknown) {
+          setError(error instanceof Error ? error.message : "An error occurred");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchPlayers();
+    }
+  }, [teamAbbrev]);
+
+  // Fetch team color based on teamAbbrev
+  useEffect(() => {
+    if (teamAbbrev) {
+      const fetchTeamColor = async () => {
+        try {
+          const colorRes = await fetch("/teamColor.json");
+          if (!colorRes.ok) throw new Error("Failed to fetch team colors");
+          const colorData: Record<string, Team> = await colorRes.json();
+
+          const teamInfo = colorData[teamAbbrev as keyof typeof colorData];
+          if (teamInfo) {
+            setTeamColor(teamInfo.color);
+          } else {
+            setError("Team color not found");
+          }
+        } catch (error: unknown) {
+          setError(error instanceof Error ? error.message : "An error occurred");
+        }
+      };
+
+      fetchTeamColor();
+    }
   }, [teamAbbrev]);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  // Separate players by position
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   const forwards = players.filter(
     (player) =>
       player.positionCode === "C" ||
@@ -97,7 +129,7 @@ const TeamRoster: React.FC = () => {
   return (
     <section className="hero">
       <div className="wrapper">
-        <h1>Joueurs de l'équipe {teamAbbrev}</h1>
+        <h1>Joueurs de l'équipe {teamCommonName}</h1>
         <div>
           <div className="player-position">
             <h2>Attaquants :</h2>
@@ -106,8 +138,9 @@ const TeamRoster: React.FC = () => {
                 <PlayerCard
                   key={player.id}
                   player={player}
-                  teamAbbrev={teamAbbrev}
                   teamColor={teamColor}
+                  teamAbbrev={teamAbbrev ?? ""}
+                  teamCommonName={teamCommonName}
                 />
               ))}
             </div>
@@ -119,8 +152,9 @@ const TeamRoster: React.FC = () => {
                 <PlayerCard
                   key={player.id}
                   player={player}
-                  teamAbbrev={teamAbbrev}
                   teamColor={teamColor}
+                  teamAbbrev={teamAbbrev ?? ""}
+                  teamCommonName={teamCommonName}
                 />
               ))}
             </div>
@@ -132,8 +166,9 @@ const TeamRoster: React.FC = () => {
                 <PlayerCard
                   key={player.id}
                   player={player}
-                  teamAbbrev={teamAbbrev}
                   teamColor={teamColor}
+                  teamAbbrev={teamAbbrev ?? ""}
+                  teamCommonName={teamCommonName}
                 />
               ))}
             </div>
