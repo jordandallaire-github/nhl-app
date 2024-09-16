@@ -6,6 +6,8 @@ import React from "react";
 interface CarouselProps {
   centeredSlides?: boolean;
   loop?: boolean;
+  noSwiping?: boolean;
+  noSwipingClass?: string;
   autoplay?:
     | {
         pauseOnMouseEnter?: boolean;
@@ -14,14 +16,21 @@ interface CarouselProps {
     | boolean;
   grabCursor?: boolean;
   navigation?: {
-    nextEl?: string;
-    prevEl?: string;
+    nextEl: string;
+    prevEl: string;
   };
   pagination?: {
     clickable?: boolean;
-    type?: "bullets" | "fraction" | "progressbar" | "custom";
-    el?: string;
+    type: "bullets" | "fraction" | "progressbar" | "custom";
+    el: string;
+    bulletActiveClass?: string;
+    bulletClass?: string;
+    bulletElement?: string;
   };
+  breakpoint?: Record<number, {
+    spaceBetween: number;
+    slidesPerView: number;
+  }>;
   children: ReactNode;
 }
 
@@ -29,15 +38,34 @@ function Carousel({
   centeredSlides = false,
   loop = false,
   autoplay = false, 
+  noSwiping = false,
+  noSwipingClass = "",
   grabCursor = true,
   navigation = {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
+    nextEl: "",
+    prevEl: "",
   },
   pagination = {
     clickable: true,
     type: "bullets",
     el: ".swiper-pagination",
+    bulletActiveClass: "swiper-pagination-bullet-active",
+    bulletClass: "swiper-pagination-bullet",
+    bulletElement: "span"
+  },
+  breakpoint = {
+    320: {
+      spaceBetween: 1,
+      slidesPerView: 10,
+    },
+    820: {
+      spaceBetween: 20,
+      slidesPerView: 2,
+    },
+    1020: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
   },
   children,
 }: CarouselProps) {
@@ -56,20 +84,11 @@ function Carousel({
       navigation={navigation}
       autoplay={autoplaySettings}
       pagination={pagination}
+      noSwiping = {noSwiping}
+      noSwipingClass={noSwipingClass}
       centeredSlides={centeredSlides}
       loop={loop}
-      breakpoints={{
-        320: {
-          spaceBetween: 10,
-          slidesPerView: 1,
-        },
-        820: {
-          spaceBetween: 10,
-        },
-        1020: {
-          slidesPerView: 2,
-        },
-      }}
+      breakpoints={breakpoint}
     >
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.props['data-is-swiper-slide']) {

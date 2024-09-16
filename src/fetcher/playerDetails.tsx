@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Carousel from "../components/carousel";
 
 export interface PlayerDetails {
   id: number;
@@ -33,6 +34,40 @@ export interface PlayerDetails {
 interface FeaturedStats {
   season: number;
   regularSeason: {
+    subSeason: {
+      assists: number;
+      gameWinningGoals: number;
+      gamesPlayed: number;
+      goals: number;
+      otGoals: number;
+      pim: number;
+      plusMinus: number;
+      points: number;
+      powerPlayGoals: number;
+      powerPlayPoints: number;
+      shootingPctg: number;
+      shorthandedGoals: number;
+      shorthandedPoints: number;
+      shots: number;
+    };
+    career: {
+      assists: number;
+      gameWinningGoals: number;
+      gamesPlayed: number;
+      goals: number;
+      otGoals: number;
+      pim: number;
+      plusMinus: number;
+      points: number;
+      powerPlayGoals: number;
+      powerPlayPoints: number;
+      shootingPctg: number;
+      shorthandedGoals: number;
+      shorthandedPoints: number;
+      shots: number;
+    };
+  };
+  playoffs: {
     subSeason: {
       assists: number;
       gameWinningGoals: number;
@@ -222,84 +257,240 @@ const PlayerDetails: React.FC = () => {
       </section>
       <section className="global-stats">
         <div className="wrapper">
-          <div className="current-season-stats">
-            <h2>{formatSeason(player.featuredStats?.season)}</h2>
-            <div className="short-stats-list">
-              <table>
-                <thead>
-                  <tr>
-                    <th>PJ</th>
-                    <th>B</th>
-                    <th>A</th>
-                    <th>P</th>
-                    <th>+/-</th>
-                    <th>PUN</th>
-                    <th>%T</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <th>
-                    {player.featuredStats?.regularSeason.subSeason.gamesPlayed}
-                  </th>
-                  <th>{player.featuredStats?.regularSeason.subSeason.goals}</th>
-                  <th>
-                    {player.featuredStats?.regularSeason.subSeason.assists}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.subSeason.points}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.subSeason.plusMinus}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.subSeason.pim}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.subSeason.shootingPctg.toFixed(3)}
-                  </th>
-                </tbody>
-              </table>
+          <Carousel
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
+            breakpoint={{ 1020: { spaceBetween: 10, slidesPerView: 1 } }}
+            noSwiping={true}
+            noSwipingClass=".noSwipe"
+            grabCursor={false}
+          >
+            <div className="nav">
+              <div className="swiper-button-prev">
+                <h2>Saisons</h2>
+              </div>
+              <div className="swiper-button-next">
+                <h2>Séries</h2>
+              </div>
             </div>
-          </div>
-          <div className="current-total-stats">
-            <h2>Carrière</h2>
-            <div className="short-stats-list">
-            <table>
-                <thead>
-                  <tr>
-                    <th>PJ</th>
-                    <th>B</th>
-                    <th>A</th>
-                    <th>P</th>
-                    <th>+/-</th>
-                    <th>PUN</th>
-                    <th>%T</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <th>
-                    {player.featuredStats?.regularSeason.career.gamesPlayed}
-                  </th>
-                  <th>{player.featuredStats?.regularSeason.career.goals}</th>
-                  <th>
-                    {player.featuredStats?.regularSeason.career.assists}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.career.points}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.career.plusMinus}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.career.pim}
-                  </th>
-                  <th>
-                    {player.featuredStats?.regularSeason.career.shootingPctg.toFixed(3)}
-                  </th>
-                </tbody>
-              </table>
+            <div data-is-swiper-slide className="normal-stats noSwipe">
+              <div className="current-season-stats">
+                <h3>
+                  {`Saison ${
+                    formatSeason(player.featuredStats?.season)
+                      ? formatSeason(player.featuredStats?.season)
+                      : "2023-24"
+                  }`}
+                </h3>
+                <div className="short-stats-list">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>PJ</th>
+                        <th>B</th>
+                        <th>A</th>
+                        <th>P</th>
+                        <th>+/-</th>
+                        <th className="statsNoMobile">PUN</th>
+                        <th className="statsNoMobile">%T</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>
+                          {player.featuredStats?.regularSeason?.subSeason
+                            ?.gamesPlayed ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.subSeason
+                            ?.goals ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.subSeason
+                            ?.assists ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.subSeason
+                            ?.points ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.subSeason
+                            ?.plusMinus ?? 0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.regularSeason?.subSeason
+                            ?.pim ?? 0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.regularSeason?.subSeason?.shootingPctg?.toFixed(
+                            3
+                          ) ?? 0}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="current-total-stats">
+                <h3>Carrière</h3>
+                <div className="short-stats-list">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>PJ</th>
+                        <th>B</th>
+                        <th>A</th>
+                        <th>P</th>
+                        <th>+/-</th>
+                        <th className="statsNoMobile">PUN</th>
+                        <th className="statsNoMobile">%T</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>
+                          {player.featuredStats?.regularSeason?.career
+                            ?.gamesPlayed ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.career?.goals ??
+                            0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.career
+                            ?.assists ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.career
+                            ?.points ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.regularSeason?.career
+                            ?.plusMinus ?? 0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.regularSeason?.career?.pim ??
+                            0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.regularSeason?.career?.shootingPctg?.toFixed(
+                            3
+                          ) ?? 0}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
+            <div data-is-swiper-slide className="playoff-stats noSwipe">
+              <div className="current-season-stats">
+                <h3>
+                  {`Série ${
+                    formatSeason(player.featuredStats?.season)
+                      ? formatSeason(player.featuredStats?.season)
+                      : "2023-24"
+                  }`}
+                </h3>
+                <div className="short-stats-list">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>PJ</th>
+                        <th>B</th>
+                        <th>A</th>
+                        <th>P</th>
+                        <th>+/-</th>
+                        <th className="statsNoMobile">PUN</th>
+                        <th className="statsNoMobile">%T</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>
+                          {player.featuredStats?.playoffs?.subSeason
+                            ?.gamesPlayed ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.subSeason?.goals ??
+                            0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.subSeason?.assists ??
+                            0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.subSeason?.points ??
+                            0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.subSeason
+                            ?.plusMinus ?? 0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.playoffs?.subSeason?.pim ?? 0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.playoffs?.subSeason?.shootingPctg?.toFixed(
+                            3
+                          ) ?? 0}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div className="current-total-stats">
+                <h3>Carrière en séries</h3>
+                <div className="short-stats-list">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>PJ</th>
+                        <th>B</th>
+                        <th>A</th>
+                        <th>P</th>
+                        <th>+/-</th>
+                        <th className="statsNoMobile">PUN</th>
+                        <th className="statsNoMobile">%T</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>
+                          {player.featuredStats?.playoffs?.career
+                            ?.gamesPlayed ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.career?.goals ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.career?.assists ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.career?.points ?? 0}
+                        </th>
+                        <th>
+                          {player.featuredStats?.playoffs?.career?.plusMinus ??
+                            0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.playoffs?.career?.pim ?? 0}
+                        </th>
+                        <th className="statsNoMobile">
+                          {player.featuredStats?.playoffs?.career?.shootingPctg?.toFixed(
+                            3
+                          ) ?? 0}
+                        </th>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </Carousel>
         </div>
       </section>
       <section className="general-infos-player">
