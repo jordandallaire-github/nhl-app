@@ -11,10 +11,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
 
   & .basic-infos-player {
     margin-top: -130px;
+  }
+}
+
+.more-infos {
+  h2 {
+    margin-top: 0;
+  }
+  p {
+    font-size: 1.6rem;
+  }
+  @media screen and (max-width: 868px) {
+    display: none;
+  }
+  &.mobile {
+    display: none;
+    @media screen and (max-width: 868px) {
+      display: block;
+    }
   }
 }
 
@@ -71,7 +89,7 @@
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 
       h2 {
-        min-width: 130px; 
+        min-width: 130px;
       }
 
       &.swiper-button-disabled {
@@ -79,8 +97,8 @@
       }
     }
 
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       display: block;
       position: absolute;
       bottom: 40%;
@@ -94,10 +112,10 @@
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    &:has(.swiper-button-next.swiper-button-disabled)::after{
+    &:has(.swiper-button-next.swiper-button-disabled)::after {
       left: calc(50%);
     }
-    &:has(.swiper-button-prev.swiper-button-disabled)::after{
+    &:has(.swiper-button-prev.swiper-button-disabled)::after {
       left: calc(50% - var(--width-line));
     }
   }
@@ -114,14 +132,14 @@
   }
 }
 
-.swiper-button-next.swiper-button-disabled{
-  .nav::after &{
+.swiper-button-next.swiper-button-disabled {
+  .nav::after & {
     left: calc(50%);
   }
 }
 
-.swiper-button-prev.swiper-button-disabled{
-  .nav::after &{
+.swiper-button-prev.swiper-button-disabled {
+  .nav::after & {
     left: calc(50% - 130px);
   }
 }
@@ -175,7 +193,7 @@
     h3 {
       position: absolute;
       top: -50%;
-      font-size: 2.0rem;
+      font-size: 2rem;
     }
   }
 }

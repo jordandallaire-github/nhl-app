@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PlayerCard from "../components/player/playerCard";
+import SingleTeamPlayerGroup from "../components/team/single/single-team-player";
 
 export interface PlayerInfos {
   sweaterNumber: string;
@@ -19,14 +19,13 @@ interface Team {
 }
 
 const TeamRoster: React.FC = () => {
-  const { teamCommonName } = useParams<{ teamCommonName: string }>();
+  const {teamCommonName } = useParams<{ teamCommonName: string }>();
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
   const [players, setPlayers] = useState<PlayerInfos[]>([]);
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch team abbreviation based on teamCommonName
   useEffect(() => {
     const fetchTeamAbbrev = async () => {
       try {
@@ -34,7 +33,6 @@ const TeamRoster: React.FC = () => {
         if (!res.ok) throw new Error("Failed to fetch team data");
         const data = await res.json();
   
-        // Accéder à la liste des équipes dans "standings"
         const teams = data.standings || [];
   
         const team = teams.find(
@@ -130,50 +128,27 @@ const TeamRoster: React.FC = () => {
     <section className="hero">
       <div className="wrapper">
         <h1>Joueurs de l'équipe {teamCommonName}</h1>
-        <div>
-          <div className="player-position">
-            <h2>Attaquants :</h2>
-            <div className="cards">
-              {forwards.map((player) => (
-                <PlayerCard
-                  key={player.id}
-                  player={player}
-                  teamColor={teamColor}
-                  teamAbbrev={teamAbbrev ?? ""}
-                  teamCommonName={teamCommonName}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="player-position">
-            <h2>Défenseurs :</h2>
-            <div className="cards">
-              {defensemen.map((player) => (
-                <PlayerCard
-                  key={player.id}
-                  player={player}
-                  teamColor={teamColor}
-                  teamAbbrev={teamAbbrev ?? ""}
-                  teamCommonName={teamCommonName}
-                />
-              ))}
-            </div>
-          </div>
-          <div className="player-position">
-            <h2>Gardiens :</h2>
-            <div className="cards">
-              {goalies.map((player) => (
-                <PlayerCard
-                  key={player.id}
-                  player={player}
-                  teamColor={teamColor}
-                  teamAbbrev={teamAbbrev ?? ""}
-                  teamCommonName={teamCommonName}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        <SingleTeamPlayerGroup
+          title="Attaquants"
+          players={forwards}
+          teamColor={teamColor}
+          teamAbbrev={teamAbbrev ?? ""}
+          teamCommonName={teamCommonName}
+        />
+        <SingleTeamPlayerGroup
+          title="Défenseurs"
+          players={defensemen}
+          teamColor={teamColor}
+          teamAbbrev={teamAbbrev ?? ""}
+          teamCommonName={teamCommonName}
+        />
+        <SingleTeamPlayerGroup
+          title="Gardiens"
+          players={goalies}
+          teamColor={teamColor}
+          teamAbbrev={teamAbbrev ?? ""}
+          teamCommonName={teamCommonName}
+        />
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PlayerInfos } from "../../fetcher/teamRoster";
-import { generatePlayerSlug } from "../utils/generatePlayerSlug";
+import { PlayerInfos } from "../../../fetcher/teamRoster";
+import { generatePlayerSlug } from "../../utils/generatePlayerSlug";
 
 interface PlayerCardProps {
   player: PlayerInfos;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import TemplateTeamDivision from "../components/team/template/template-team-division";
 
-interface Team {
+export interface Team {
   teamAbbrev: { default: string };
   teamName: { default: string; fr: string };
   teamLogo: string;
@@ -9,7 +9,7 @@ interface Team {
   teamCommonName: { default: string };
 }
 
-interface TeamColor {
+export interface TeamColor {
   [key: string]: {
     name: string;
     color: string;
@@ -70,39 +70,12 @@ const ListTeams: React.FC = () => {
       <div className="wrapper">
         <h1>Équipes NHL</h1>
         {Object.entries(teamsByDivision).map(([division, teams]) => (
-          <div key={division} className="division-section">
-            <h2>{division}</h2>
-            <div className="cards teams">
-              {teams.length > 0 ? (
-                teams.map((team, index) => {
-                  const teamAbbrev = team.teamAbbrev.default;
-                  const teamColor = teamColors?.[teamAbbrev]?.color;
-                  return (
-                    <Link
-                      to={`/equipes/${team.teamCommonName.default.toLowerCase().replace(/\s+/g, '-')}`}
-                      className="card window-effect"
-                      key={index}
-                    >
-                      <div className="card-media">
-                        <img className="team-logo list-team" src={team.teamLogo} alt={team.teamName.fr} />
-                      </div>
-                      <div className="card-content">
-                        <h3>{team.teamName.fr}</h3>
-                      </div>
-                      <div
-                        className="card-background-color"
-                        style={{
-                          backgroundImage: `radial-gradient(circle at 50% 0, #7fcfff33, #0000 80%), radial-gradient(circle at 50% 0, ${teamColor}, #0000)`,
-                        }}
-                      ></div>
-                    </Link>
-                  );
-                })
-              ) : (
-                <p>Aucune équipe trouvée</p>
-              )}
-            </div>
-          </div>
+          <TemplateTeamDivision
+            key={division}
+            division={division}
+            teams={teams}
+            teamColors={teamColors}
+          />
         ))}
       </div>
     </section>
