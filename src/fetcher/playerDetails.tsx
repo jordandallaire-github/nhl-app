@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import PlayerSingleHero from "../components/player/single/single-player-hero";
 import PlayerSingleGeneralStats from "../components/player/single/single-player-general-stats";
 import PlayerSingleMoreInfos from "../components/player/single/single-player-more-infos";
+import PlayerSingleLast5Games from "../components/player/single/single-player-last-5-games";
 
 export interface PlayerDetailsType {
   id: number;
@@ -32,6 +33,24 @@ export interface PlayerDetailsType {
   draftOverallPick: string;
   featuredStats?: FeaturedStats;
   careerTotals?: CareerTotals;
+  last5Games?: {
+    assists: number;
+    gameDate: string;
+    gameId: number;
+    gameTypeId: number;
+    goals: number;
+    homeRoadFlag: string;
+    opponentAbbrev: string;
+    pim: number;
+    plusMinus: number;
+    points: number;
+    powerPlayGoals: number;
+    shifts: number;
+    shorthandedGoals: number;
+    shots: number;
+    teamAbbrev: string;
+    toi: string;
+  }[];
 }
 
 interface FeaturedStats {
@@ -188,6 +207,7 @@ const PlayerDetails: React.FC = () => {
           draftPickRound: playerData.draftDetails?.pickInRound || "",
           featuredStats: playerData.featuredStats,
           careerTotals: playerData.careerTotals,
+          last5Games: playerData.last5Games,
         });
       } catch (error) {
         if (error instanceof Error) setError(error.message);
@@ -205,6 +225,7 @@ const PlayerDetails: React.FC = () => {
       <PlayerSingleHero player={player}></PlayerSingleHero>
       <PlayerSingleGeneralStats player={player}></PlayerSingleGeneralStats>
       <PlayerSingleMoreInfos player={player}></PlayerSingleMoreInfos>
+      <PlayerSingleLast5Games last5Games={player.last5Games}></PlayerSingleLast5Games>
     </>
   );
 };
