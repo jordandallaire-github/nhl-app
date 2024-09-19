@@ -5,6 +5,7 @@ import PlayerSingleGeneralStats from "../components/player/single/single-player-
 import PlayerSingleMoreInfos from "../components/player/single/single-player-more-infos";
 import PlayerSingleLast5Games from "../components/player/single/single-player-last-5-games";
 import PlayerSingleStats from "../components/player/single/single-player-stats";
+import PlayerSingleAwards from "../components/player/single/single-player-awards";
 
 export interface PlayerDetailsType {
   id: number;
@@ -51,8 +52,15 @@ export interface PlayerDetailsType {
     shots: number;
     teamAbbrev: string;
     toi: string;
+    decision: string, //Only goalie value
+    gamesStarted: number, //Only goalie value
+    goalsAgainst: number, //Only goalie value
+    penaltyMins: number, //Only goalie value
+    savePctg: number, //Only goalie value
+    shotsAgainst: number, //Only goalie value
   }[];
   seasonTotals?: SeasonTotals[];
+  awards?: Award[];
 }
 
 interface FeaturedStats {
@@ -73,6 +81,12 @@ interface FeaturedStats {
       shorthandedGoals: number;
       shorthandedPoints: number;
       shots: number;
+      goalsAgainstAvg: number, //Only goalie value
+      losses: number, //Only goalie value
+      otLosses: number, //Only goalie value
+      savePctg: number, //Only goalie value
+      shutouts: number, //Only goalie value
+      wins: number, //Only goalie value
     };
   };
   playoffs: {
@@ -91,6 +105,12 @@ interface FeaturedStats {
       shorthandedGoals: number;
       shorthandedPoints: number;
       shots: number;
+      goalsAgainstAvg: number, //Only goalie value
+      losses: number, //Only goalie value
+      otLosses: number, //Only goalie value
+      savePctg: number, //Only goalie value
+      shutouts: number, //Only goalie value
+      wins: number, //Only goalie value
     };
   };
 }
@@ -113,6 +133,12 @@ interface CareerTotals {
     shorthandedGoals: number;
     shorthandedPoints: number;
     shots: number;
+    goalsAgainstAvg: number, //Only goalie value
+    losses: number, //Only goalie value
+    otLosses: number, //Only goalie value
+    savePctg: number, //Only goalie value
+    shutouts: number, //Only goalie value
+    wins: number, //Only goalie value
   };
   playoffs: {
     assists: number;
@@ -131,6 +157,12 @@ interface CareerTotals {
     shorthandedGoals: number;
     shorthandedPoints: number;
     shots: number;
+    goalsAgainstAvg: number, //Only goalie value
+    losses: number, //Only goalie value
+    otLosses: number, //Only goalie value
+    savePctg: number, //Only goalie value
+    shutouts: number, //Only goalie value
+    wins: number, //Only goalie value
   };
 }
 
@@ -155,6 +187,16 @@ export interface SeasonTotals {
   shorthandedGoals: number;
   shorthandedPoints: number;
   shots: number;
+  gamesStarted: number, //Only goalie value
+  goalsAgainst: number, //Only goalie value
+  goalsAgainstAvg: number, //Only goalie value
+  losses: number, //Only goalie value
+  otLosses: number, //Only goalie value
+  savePctg: number, //Only goalie value
+  shotsAgainst: number, //Only goalie value
+  shutouts: number, //Only goalie value
+  timeOnIce: number, //Only goalie value
+  wins: number, //Only goalie value
   teamCommonName: {
     default: string;
   };
@@ -166,6 +208,26 @@ export interface SeasonTotals {
     default: string;
     fr: string;
   };
+
+}
+
+ export interface Award {
+  trophy: {
+    default: string;
+    fr?: string;
+  };
+  seasons: {
+    assists: number;
+    blockedShots: number;
+    gameTypeId: number;
+    gamesPlayed: number;
+    goals: number;
+    hits: number;
+    pim: number;
+    plusMinus: number;
+    points: number;
+    seasonId: number;
+  }[];
 }
 
 function calculateAge(birthDate: string): string {
@@ -246,7 +308,8 @@ const PlayerDetails: React.FC = () => {
           last5Games: playerData.last5Games,
           seasonTotals: playerData.seasonTotals?.filter((season: SeasonTotals) => 
             season.leagueAbbrev === "NHL"
-          ) || []
+          ) || [],
+          awards: playerData.awards,
         });
       } catch (error) {
         if (error instanceof Error) setError(error.message);
@@ -264,8 +327,9 @@ const PlayerDetails: React.FC = () => {
       <PlayerSingleHero player={player}></PlayerSingleHero>
       <PlayerSingleGeneralStats player={player}></PlayerSingleGeneralStats>
       <PlayerSingleMoreInfos player={player}></PlayerSingleMoreInfos>
-      <PlayerSingleLast5Games last5Games={player.last5Games}></PlayerSingleLast5Games>
+      <PlayerSingleLast5Games last5Games={player.last5Games} player={player}></PlayerSingleLast5Games>
       <PlayerSingleStats player={player}></PlayerSingleStats>
+      <PlayerSingleAwards awards={player.awards}></PlayerSingleAwards>
     </>
   );
 };

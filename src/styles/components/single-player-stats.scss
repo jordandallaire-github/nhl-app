@@ -19,6 +19,10 @@
     max-width: 150px;
     min-width: 50px;
     width: calc((100vw - 60px) / 18);
+
+    a{
+      font-size: inherit;
+    }
   }
 
   thead th {
@@ -34,6 +38,10 @@
     overflow-x: scroll;
     scrollbar-width: thin;
     scrollbar-color: var(--color-white) var(--color-bg-primary);
+  }
+
+  h4{
+    padding: 25px;
   }
 }
 
