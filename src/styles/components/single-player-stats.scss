@@ -1,0 +1,40 @@
+.season-stats,
+.playoff-stats {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  background-color: #f2f2f20d;
+  border: 1px solid #f2f2f21a;
+  justify-content: space-between;
+  border-radius: 24px;
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1),
+    border 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 10px 25px #00000026;
+  th,
+  td {
+    font-size: 1.6rem;
+    text-align: center;
+    max-width: 150px;
+    min-width: 50px;
+    width: calc((100vw - 60px) / 18);
+  }
+
+  thead th {
+    cursor: pointer;
+  }
+
+  th[scope="row"],
+  td[scope="row"] {
+    min-width: 120px;
+  }
+
+  @media screen and (max-width: 868px) {
+    overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-white) var(--color-bg-primary);
+  }
+}
+
+

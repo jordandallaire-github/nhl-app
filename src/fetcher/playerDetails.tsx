@@ -4,6 +4,7 @@ import PlayerSingleHero from "../components/player/single/single-player-hero";
 import PlayerSingleGeneralStats from "../components/player/single/single-player-general-stats";
 import PlayerSingleMoreInfos from "../components/player/single/single-player-more-infos";
 import PlayerSingleLast5Games from "../components/player/single/single-player-last-5-games";
+import PlayerSingleStats from "../components/player/single/single-player-stats";
 
 export interface PlayerDetailsType {
   id: number;
@@ -51,6 +52,7 @@ export interface PlayerDetailsType {
     teamAbbrev: string;
     toi: string;
   }[];
+  seasonTotals?: SeasonTotals[];
 }
 
 interface FeaturedStats {
@@ -132,6 +134,40 @@ interface CareerTotals {
   };
 }
 
+export interface SeasonTotals {
+  assists: number;
+  avgToi: number;
+  faceoffWinningPctg: number;
+  gameTypeId: number;
+  gameWinningGoals: number;
+  gamesPlayed: number;
+  goals: number;
+  leagueAbbrev: string;
+  otGoals: number;
+  pim: number;
+  plusMinus: number;
+  points: number;
+  powerPlayGoals: number;
+  powerPlayPoints: number;
+  season: number;
+  sequence: number;
+  shootingPctg: number;
+  shorthandedGoals: number;
+  shorthandedPoints: number;
+  shots: number;
+  teamCommonName: {
+    default: string;
+  };
+  teamName: {
+    default: string;
+    fr: string;
+  };
+  teamPlaceNameWithPreposition: {
+    default: string;
+    fr: string;
+  };
+}
+
 function calculateAge(birthDate: string): string {
   const today = new Date();
   const birthDay = new Date(birthDate);
@@ -208,6 +244,9 @@ const PlayerDetails: React.FC = () => {
           featuredStats: playerData.featuredStats,
           careerTotals: playerData.careerTotals,
           last5Games: playerData.last5Games,
+          seasonTotals: playerData.seasonTotals?.filter((season: SeasonTotals) => 
+            season.leagueAbbrev === "NHL"
+          ) || []
         });
       } catch (error) {
         if (error instanceof Error) setError(error.message);
@@ -226,6 +265,7 @@ const PlayerDetails: React.FC = () => {
       <PlayerSingleGeneralStats player={player}></PlayerSingleGeneralStats>
       <PlayerSingleMoreInfos player={player}></PlayerSingleMoreInfos>
       <PlayerSingleLast5Games last5Games={player.last5Games}></PlayerSingleLast5Games>
+      <PlayerSingleStats player={player}></PlayerSingleStats>
     </>
   );
 };

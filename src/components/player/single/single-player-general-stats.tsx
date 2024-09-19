@@ -21,7 +21,6 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
         }}
         breakpoint={{ 1020: { spaceBetween: 10, slidesPerView: 1 } }}
         noSwiping={true}
-        noSwipingClass=".noSwipe"
         grabCursor={false}
       >
         <div className="nav">
@@ -32,7 +31,7 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
             <h2>Séries</h2>
           </div>
         </div>
-        <div data-is-swiper-slide className="normal-stats noSwipe">
+        <div data-is-swiper-slide className="normal-stats-general swiper-no-swiping">
           <div className="current-season-stats">
             <h3>
               {`Saison ${
@@ -129,7 +128,7 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
             </div>
           </div>
         </div>
-        <div data-is-swiper-slide className="playoff-stats noSwipe">
+        <div data-is-swiper-slide className="playoff-stats-general swiper-no-swiping">
           <div className="current-season-stats">
             <h3>
               {`Série ${

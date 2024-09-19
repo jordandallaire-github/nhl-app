@@ -18,6 +18,7 @@ interface CarouselProps {
   navigation?: {
     nextEl: string;
     prevEl: string;
+    lockClass?: string;
   };
   pagination?: {
     clickable?: boolean;
@@ -39,11 +40,12 @@ function Carousel({
   loop = false,
   autoplay = false, 
   noSwiping = false,
-  noSwipingClass = "",
+  noSwipingClass = "swiper-no-swiping",
   grabCursor = true,
   navigation = {
     nextEl: "",
     prevEl: "",
+    lockClass: "",
   },
   pagination = {
     clickable: true,
@@ -73,7 +75,7 @@ function Carousel({
   const autoplaySettings =
     typeof autoplay === "object"
       ? autoplay
-      : (autoplay ? { pauseOnMouseEnter: true, delay: 6000 } : false);
+      : (autoplay ? { pauseOnMouseEnter: true, delay: 1000 } : false);
 
   return (
     <Swiper

@@ -1,162 +1,183 @@
 .global-stats {
-    margin-top: 90px;
-  
-    .swiper {
-      overflow-y: visible;
-      overflow-x: clip;
-    }
-  
-    .swiper-wrapper {
-      box-sizing: inherit;
-      padding-top: 30px;
-      pointer-events: none;
-    }
-    .swiper-slide {
-      pointer-events: none;
-      height: inherit;
-      color: inherit;
-      background-color: inherit;
-      display: block;
-      align-items: inherit;
-      justify-content: inherit;
-      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-  
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: -35%;
-      width: 100%;
-      height: 100%;
-      height: fit-content;
-  
-      .swiper-button-next::after,
-      .swiper-button-prev::after {
-        display: none;
-      }
-  
-      .swiper-button-next,
-      .swiper-button-prev {
-        position: relative;
-        top: inherit;
-        width: initial;
-        height: inherit;
-        right: inherit;
-        text-align: center;
-        left: inherit;
-        color: var(--color--white);
-        opacity: 0.35;
-        transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-  
-        h2 {
-          min-width: 130px;
-        }
-  
-        &.swiper-button-disabled {
-          opacity: 1;
-        }
-      }
-  
-      &::after {
-        content: "";
-        display: block;
-        position: absolute;
-        bottom: 40%;
-        left: 0;
-        --width-line: 130px;
-        background-color: var(--color-white);
-        border-radius: 2px;
-        width: var(--width-line);
-        height: 4px;
-        box-shadow: 0 2px 25px 2px var(--color-white);
-        transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-      }
-  
-      &:has(.swiper-button-next.swiper-button-disabled)::after {
-        left: calc(50%);
-      }
-      &:has(.swiper-button-prev.swiper-button-disabled)::after {
-        left: calc(50% - var(--width-line));
-      }
-    }
-  
-    .normal-stats,
-    .playoff-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-  
-      @media screen and (max-width: 868px) {
-        gap: 60px;
-      }
-    }
+  margin-top: 90px;
+
+  .swiper {
+    overflow-y: visible;
+    overflow-x: clip;
   }
-  
-  .swiper-button-next.swiper-button-disabled {
-    .nav::after & {
-      left: calc(50%);
-    }
+
+  .swiper-wrapper {
+    box-sizing: inherit;
+    padding-top: 30px;
   }
-  
-  .swiper-button-prev.swiper-button-disabled {
-    .nav::after & {
-      left: calc(50% - 130px);
-    }
+  .swiper-slide {
+    height: inherit;
+    color: inherit;
+    background-color: inherit;
+    display: block;
+    align-items: inherit;
+    justify-content: inherit;
+    transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
-  
-  .current-season-stats,
-  .current-total-stats {
-    width: 100%;
+
+  .nav {
     display: flex;
     align-items: center;
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-    background-color: #f2f2f20d;
-    border: 1px solid #f2f2f21a;
-    justify-content: space-between;
-    border-radius: 24px;
-    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1),
-      border 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    box-shadow: 0 10px 25px #00000026;
-  
-    table {
-      width: 100%;
-      text-align: center;
-    }
-  
-    h3 {
-      min-width: 300px;
-      text-align: center;
-      margin: 0;
-    }
-  
-    th,
-    td {
-      font-size: 2rem;
-      text-align: center;
-      max-width: 150px;
-      min-width: 50px;
-      width: calc((100vw - 50px) / 7);
-  
-      @media screen and (max-width: 500px) {
-        width: calc((100vw - 40px) / 5);
-        &.statsNoMobile {
-          display: none;
-        }
+    justify-content: center;
+    position: absolute;
+    top: -30%;
+    width: 100%;
+    min-height: 40px;
+
+    &.stats {
+      top: -3%;
+
+      h3 {
+        min-width: 100px;
+        text-transform: capitalize;
+      }
+
+      &::after {
+        --width-line: 100px;
+        bottom: 10%;
       }
     }
-  
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      display: none;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      position: relative;
+      top: inherit;
+      width: initial;
+      right: inherit;
+      text-align: center;
+      left: inherit;
+      color: var(--color--white);
+      opacity: 0.35;
+      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+      h2 {
+        min-width: 130px;
+        text-transform: capitalize;
+      }
+
+      &.swiper-button-disabled {
+        opacity: 1;
+      }
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 25%;
+      left: 0;
+      --width-line: 130px;
+      background-color: var(--color-white);
+      border-radius: 2px;
+      width: var(--width-line);
+      height: 4px;
+      box-shadow: 0 2px 25px 2px var(--color-white);
+      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    &:has(.swiper-button-next.swiper-button-disabled)::after {
+      left: calc(50%);
+    }
+    &:has(.swiper-button-prev.swiper-button-disabled)::after {
+      left: calc(50% - var(--width-line));
+    }
+
     @media screen and (max-width: 868px) {
-      flex-direction: column;
-      padding: 0;
-  
-      h3 {
-        position: absolute;
-        top: -50%;
-        font-size: 2rem;
+      top: -35%;
+
+      &::after {
+        bottom: 80%;
       }
     }
   }
-  
+
+  .normal-stats-general,
+  .playoff-stats-general {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (max-width: 868px) {
+      gap: 60px;
+    }
+  }
+}
+
+.swiper-button-next.swiper-button-disabled {
+  .nav::after & {
+    left: calc(50%);
+  }
+}
+
+.swiper-button-prev.swiper-button-disabled {
+  .nav::after & {
+    left: calc(50% - 130px);
+  }
+}
+
+.current-season-stats,
+.current-total-stats {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  background-color: #f2f2f20d;
+  border: 1px solid #f2f2f21a;
+  justify-content: space-between;
+  border-radius: 24px;
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1),
+    border 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 10px 25px #00000026;
+
+  table {
+    width: 100%;
+    text-align: center;
+  }
+
+  h3 {
+    min-width: 300px;
+    text-align: center;
+    margin: 0;
+  }
+
+  th,
+  td {
+    font-size: 2rem;
+    text-align: center;
+    max-width: 150px;
+    min-width: 50px;
+    width: calc((100vw - 50px) / 7);
+
+    @media screen and (max-width: 500px) {
+      width: calc((100vw - 40px) / 5);
+      &.statsNoMobile {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 868px) {
+    padding: 0;
+
+    h3 {
+      position: absolute;
+      top: -50%;
+      font-size: 2rem;
+      left: 50%;
+      min-width: initial;
+      transform: translateX(-50%);
+      text-wrap: nowrap;
+    }
+  }
+}

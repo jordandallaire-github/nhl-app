@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { PlayerDetailsType } from "../../../fetcher/playerDetails";
 import { Link } from "react-router-dom";
 
@@ -44,28 +44,7 @@ const PlayerSingleLast5Games: React.FC<{
     loadTeamNames();
   }, []);
 
-  const sortedGames = React.useMemo(() => {
-    if (!last5Games) return [];
-    
-    return [...last5Games].sort((a, b) => {
-      if (sortConfig?.key === "date") {
-        const dateA = new Date(a.gameDate).getTime();
-        const dateB = new Date(b.gameDate).getTime();
-        return sortConfig.direction === "ascending" ? dateA - dateB : dateB - dateA;
-      } else {
-        const valueA = a[sortConfig?.key as keyof typeof a];
-        const valueB = b[sortConfig?.key as keyof typeof b];
-        if (valueA < valueB) {
-          return sortConfig?.direction === "ascending" ? -1 : 1;
-        }
-        if (valueA > valueB) {
-          return sortConfig?.direction === "ascending" ? 1 : -1;
-        }
-        return 0;
-      }
-    });
-  }, [last5Games, sortConfig]);
-
+  // Fonction pour trier les données
   const requestSort = (key: string) => {
     let direction = "descending";
     if (sortConfig && sortConfig.key === key && sortConfig.direction === "descending") {
@@ -73,6 +52,26 @@ const PlayerSingleLast5Games: React.FC<{
     }
     setSortConfig({ key, direction });
   };
+
+  // Trier les matchs récents en fonction du critère de tri sélectionné
+  const sortedGames = useMemo(() => {
+    if (!last5Games) return [];
+
+    return [...last5Games].sort((a, b) => {
+      if (!sortConfig) return 0;
+
+      const valueA = a[sortConfig.key as keyof typeof a];
+      const valueB = b[sortConfig.key as keyof typeof b];
+
+      if (valueA < valueB) {
+        return sortConfig.direction === "ascending" ? -1 : 1;
+      }
+      if (valueA > valueB) {
+        return sortConfig.direction === "ascending" ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [last5Games, sortConfig]);
 
   if (error) {
     return <div>Error: {error}</div>;

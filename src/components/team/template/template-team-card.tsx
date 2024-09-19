@@ -19,7 +19,7 @@ const TemplateTeamCard: React.FC<TeamCardProps> = ({ team, teamColor }) => {
       <div className="card-media">
         <img
           className="team-logo list-team"
-          src={team.teamLogo}
+          src={`https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_dark.svg`}
           alt={team.teamName.fr}
         />
       </div>
