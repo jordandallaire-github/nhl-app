@@ -227,6 +227,11 @@ export interface SeasonTotals {
     plusMinus: number;
     points: number;
     seasonId: number;
+    gaa: number, //Only goalie value
+    losses: number, //Only goalie value
+    otLosses: number, //Only goalie value
+    savePctg: number, //Only goalie value
+    wins: number, //Only goalie value
   }[];
 }
 
@@ -329,7 +334,7 @@ const PlayerDetails: React.FC = () => {
       <PlayerSingleMoreInfos player={player}></PlayerSingleMoreInfos>
       <PlayerSingleLast5Games last5Games={player.last5Games} player={player}></PlayerSingleLast5Games>
       <PlayerSingleStats player={player}></PlayerSingleStats>
-      <PlayerSingleAwards awards={player.awards}></PlayerSingleAwards>
+      <PlayerSingleAwards awards={player.awards} player={player}></PlayerSingleAwards>
     </>
   );
 };

@@ -25,12 +25,12 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: -30%;
+    top: -15px;
     width: 100%;
     min-height: 40px;
 
     &.stats {
-      top: -3%;
+      top: -30px;
 
       h3 {
         min-width: 100px;
@@ -39,7 +39,7 @@
 
       &::after {
         --width-line: 100px;
-        bottom: 10%;
+        bottom: 30px;
       }
     }
 
@@ -74,7 +74,7 @@
       content: "";
       display: block;
       position: absolute;
-      bottom: 25%;
+      bottom: 20px;
       left: 0;
       --width-line: 130px;
       background-color: var(--color-white);
@@ -93,10 +93,10 @@
     }
 
     @media screen and (max-width: 868px) {
-      top: -35%;
+      top: -30px;
 
       &::after {
-        bottom: 80%;
+        bottom: 35px;
       }
     }
   }

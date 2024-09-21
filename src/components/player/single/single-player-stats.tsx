@@ -43,6 +43,11 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
     });
   }, [player.seasonTotals, sortConfig]);
 
+  const getSortArrow = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return null;
+    return sortConfig.direction === "ascending" ? "↓" : "↑";
+  };
+
   if (!player.seasonTotals || player.seasonTotals.length === 0)
     return (
       <section className="last-games">
@@ -69,6 +74,7 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
               breakpoint={{ 1020: { spaceBetween: 10, slidesPerView: 1 } }}
               noSwiping={true}
               grabCursor={false}
+              autoHeight={true}
             >
               <div className="nav stats">
                 <div className="swiper-button-prev">
@@ -83,24 +89,52 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                   <table>
                     <thead>
                       <tr>
-                        <th onClick={() => requestSort("season")}>Saison</th>
-                        <th>Équipe</th>
-                        <th onClick={() => requestSort("gamesStarted")}>PJ</th>
-                        <th onClick={() => requestSort("wins")}>V</th>
-                        <th onClick={() => requestSort("losses")}>D</th>
-                        <th onClick={() => requestSort("otLosses")}>DP</th>
-                        <th onClick={() => requestSort("shotsAgainst")}>TC</th>
-                        <th onClick={() => requestSort("goalsAgainst")}>BC</th>
-                        <th onClick={() => requestSort("savePctg")}>%Arr.</th>
-                        <th onClick={() => requestSort("goalsAgainstAvg")}>
-                          Moy.
+                        <th onClick={() => requestSort("season")}>
+                          Saison {getSortArrow("season")}
                         </th>
-                        <th onClick={() => requestSort("shutouts")}>BL</th>
-                        <th onClick={() => requestSort("goals")}>B</th>
-                        <th onClick={() => requestSort("assists")}>A</th>
-                        <th onClick={() => requestSort("points")}>P</th>
-                        <th onClick={() => requestSort("pim")}>PUN</th>
-                        <th onClick={() => requestSort("timeOnIce")}>TG</th>
+                        <th>Équipe</th>
+                        <th onClick={() => requestSort("gamesStarted")}>
+                          PJ {getSortArrow("gamesStarted")}
+                        </th>
+                        <th onClick={() => requestSort("wins")}>
+                          V {getSortArrow("wins")}
+                        </th>
+                        <th onClick={() => requestSort("losses")}>
+                          D {getSortArrow("losses")}
+                        </th>
+                        <th onClick={() => requestSort("otLosses")}>
+                          DP {getSortArrow("otLosses")}
+                        </th>
+                        <th onClick={() => requestSort("shotsAgainst")}>
+                          TC {getSortArrow("shotsAgainst")}
+                        </th>
+                        <th onClick={() => requestSort("goalsAgainst")}>
+                          BC {getSortArrow("goalsAgainst")}
+                        </th>
+                        <th onClick={() => requestSort("savePctg")}>
+                          %Arr. {getSortArrow("savePctg")}
+                        </th>
+                        <th onClick={() => requestSort("goalsAgainstAvg")}>
+                          Moy. {getSortArrow("goalsAgainstAvg")}
+                        </th>
+                        <th onClick={() => requestSort("shutouts")}>
+                          BL {getSortArrow("shutouts")}
+                        </th>
+                        <th onClick={() => requestSort("goals")}>
+                          B {getSortArrow("goals")}
+                        </th>
+                        <th onClick={() => requestSort("assists")}>
+                          A {getSortArrow("assists")}
+                        </th>
+                        <th onClick={() => requestSort("points")}>
+                          P {getSortArrow("points")}
+                        </th>
+                        <th onClick={() => requestSort("pim")}>
+                          PUN {getSortArrow("pim")}
+                        </th>
+                        <th onClick={() => requestSort("timeOnIce")}>
+                          TG {getSortArrow("timeOnIce")}
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -108,10 +142,10 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                         (seasonData, index) =>
                           seasonData.gameTypeId === 2 && (
                             <tr key={index}>
-                              <th scope="row">
+                              <td scope="row">
                                 {formatSeason(seasonData.season)}
-                              </th>
-                              <th scope="row">
+                              </td>
+                              <td scope="row">
                                 <Link
                                   to={`/equipes/${seasonData.teamCommonName.default
                                     .toLowerCase()
@@ -119,21 +153,21 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                                 >
                                   {seasonData.teamName.fr}
                                 </Link>
-                              </th>
-                              <th>{seasonData.gamesStarted}</th>
-                              <th>{seasonData.wins}</th>
-                              <th>{seasonData.losses}</th>
-                              <th>{seasonData.otLosses}</th>
-                              <th>{seasonData.shotsAgainst}</th>
-                              <th>{seasonData.goalsAgainst}</th>
-                              <th>{seasonData.savePctg.toFixed(3)}</th>
-                              <th>{seasonData.goalsAgainstAvg.toFixed(2)}</th>
-                              <th>{seasonData.shutouts}</th>
-                              <th>{seasonData.goals}</th>
-                              <th>{seasonData.assists}</th>
-                              <th>{seasonData.goals + seasonData.assists}</th>
-                              <th>{seasonData.pim}</th>
-                              <th>{seasonData.timeOnIce}</th>
+                              </td>
+                              <td>{seasonData.gamesStarted}</td>
+                              <td>{seasonData.wins}</td>
+                              <td>{seasonData.losses}</td>
+                              <td>{seasonData.otLosses}</td>
+                              <td>{seasonData.shotsAgainst}</td>
+                              <td>{seasonData.goalsAgainst}</td>
+                              <td>{seasonData.savePctg.toFixed(3)}</td>
+                              <td>{seasonData.goalsAgainstAvg.toFixed(2)}</td>
+                              <td>{seasonData.shutouts}</td>
+                              <td>{seasonData.goals}</td>
+                              <td>{seasonData.assists}</td>
+                              <td>{seasonData.goals + seasonData.assists}</td>
+                              <td>{seasonData.pim}</td>
+                              <td>{seasonData.timeOnIce}</td>
                             </tr>
                           )
                       )}
@@ -147,39 +181,61 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                     <table>
                       <thead>
                         <tr>
-                          <th onClick={() => requestSort("season")}>Saison</th>
+                          <th onClick={() => requestSort("season")}>
+                            Saison {getSortArrow("season")}
+                          </th>
                           <th>Équipe</th>
                           <th onClick={() => requestSort("gamesStarted")}>
-                            PJ
+                            PJ {getSortArrow("gamesStarted")}
                           </th>
-                          <th onClick={() => requestSort("wins")}>V</th>
-                          <th onClick={() => requestSort("losses")}>D</th>
-                          <th onClick={() => requestSort("otLosses")}>DP</th>
+                          <th onClick={() => requestSort("wins")}>
+                            V {getSortArrow("wins")}
+                          </th>
+                          <th onClick={() => requestSort("losses")}>
+                            D {getSortArrow("losses")}
+                          </th>
+                          <th onClick={() => requestSort("otLosses")}>
+                            DP {getSortArrow("otLosses")}
+                          </th>
                           <th onClick={() => requestSort("shotsAgainst")}>
-                            TC
+                            TC {getSortArrow("shotsAgainst")}
                           </th>
                           <th onClick={() => requestSort("goalsAgainst")}>
-                            BC
+                            BC {getSortArrow("goalsAgainst")}
                           </th>
-                          <th onClick={() => requestSort("savePctg")}>%Arr.</th>
+                          <th onClick={() => requestSort("savePctg")}>
+                            %Arr. {getSortArrow("savePctg")}
+                          </th>
                           <th onClick={() => requestSort("goalsAgainstAvg")}>
-                            Moy.
+                            Moy. {getSortArrow("goalsAgainstAvg")}
                           </th>
-                          <th onClick={() => requestSort("shutouts")}>BL</th>
-                          <th onClick={() => requestSort("goals")}>B</th>
-                          <th onClick={() => requestSort("assists")}>A</th>
-                          <th onClick={() => requestSort("points")}>P</th>
-                          <th onClick={() => requestSort("pim")}>PUN</th>
-                          <th onClick={() => requestSort("timeOnIce")}>TG</th>
+                          <th onClick={() => requestSort("shutouts")}>
+                            BL {getSortArrow("shutouts")}
+                          </th>
+                          <th onClick={() => requestSort("goals")}>
+                            B {getSortArrow("goals")}
+                          </th>
+                          <th onClick={() => requestSort("assists")}>
+                            A {getSortArrow("assists")}
+                          </th>
+                          <th onClick={() => requestSort("points")}>
+                            P {getSortArrow("points")}
+                          </th>
+                          <th onClick={() => requestSort("pim")}>
+                            PUN {getSortArrow("pim")}
+                          </th>
+                          <th onClick={() => requestSort("timeOnIce")}>
+                            TG {getSortArrow("timeOnIce")}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
                         {playoffStats.map((seasonData, index) => (
                           <tr key={index}>
-                            <th scope="row">
+                            <td scope="row">
                               {formatSeason(seasonData.season)}
-                            </th>
-                            <th scope="row">
+                            </td>
+                            <td scope="row">
                               <Link
                                 to={`/equipes/${seasonData.teamCommonName.default
                                   .toLowerCase()
@@ -187,21 +243,21 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                               >
                                 {seasonData.teamName.fr}
                               </Link>
-                            </th>
-                            <th>{seasonData.gamesStarted}</th>
-                            <th>{seasonData.wins}</th>
-                            <th>{seasonData.losses}</th>
-                            <th>{seasonData.otLosses}</th>
-                            <th>{seasonData.shotsAgainst}</th>
-                            <th>{seasonData.goalsAgainst}</th>
-                            <th>{seasonData.savePctg.toFixed(3)}</th>
-                            <th>{seasonData.goalsAgainstAvg.toFixed(2)}</th>
-                            <th>{seasonData.shutouts}</th>
-                            <th>{seasonData.goals}</th>
-                            <th>{seasonData.assists}</th>
-                            <th>{seasonData.goals + seasonData.assists}</th>
-                            <th>{seasonData.pim}</th>
-                            <th>{seasonData.timeOnIce}</th>
+                            </td>
+                            <td>{seasonData.gamesStarted}</td>
+                            <td>{seasonData.wins}</td>
+                            <td>{seasonData.losses}</td>
+                            <td>{seasonData.otLosses}</td>
+                            <td>{seasonData.shotsAgainst}</td>
+                            <td>{seasonData.goalsAgainst}</td>
+                            <td>{seasonData.savePctg.toFixed(3)}</td>
+                            <td>{seasonData.goalsAgainstAvg.toFixed(2)}</td>
+                            <td>{seasonData.shutouts}</td>
+                            <td>{seasonData.goals}</td>
+                            <td>{seasonData.assists}</td>
+                            <td>{seasonData.goals + seasonData.assists}</td>
+                            <td>{seasonData.pim}</td>
+                            <td>{seasonData.timeOnIce}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -226,6 +282,7 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
               breakpoint={{ 1020: { spaceBetween: 10, slidesPerView: 1 } }}
               noSwiping={true}
               grabCursor={false}
+              autoHeight={true}
             >
               <div className="nav stats">
                 <div className="swiper-button-prev">
@@ -240,35 +297,57 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                   <table>
                     <thead>
                       <tr>
-                        <th onClick={() => requestSort("season")}>Saison</th>
+                        <th onClick={() => requestSort("season")}>
+                          Saison {getSortArrow("season")}
+                        </th>
                         <th>Équipe</th>
-                        <th onClick={() => requestSort("gamesPlayed")}>PJ</th>
-                        <th onClick={() => requestSort("goals")}>B</th>
-                        <th onClick={() => requestSort("assists")}>A</th>
-                        <th onClick={() => requestSort("points")}>P</th>
-                        <th onClick={() => requestSort("plusMinus")}>+/-</th>
-                        <th onClick={() => requestSort("pim")}>PUN</th>
-                        <th onClick={() => requestSort("shots")}>T</th>
-                        <th onClick={() => requestSort("shootingPctg")}>%T</th>
+                        <th onClick={() => requestSort("gamesPlayed")}>
+                          PJ {getSortArrow("gamesPlayed")}
+                        </th>
+                        <th onClick={() => requestSort("goals")}>
+                          B {getSortArrow("goals")}
+                        </th>
+                        <th onClick={() => requestSort("assists")}>
+                          A {getSortArrow("assists")}
+                        </th>
+                        <th onClick={() => requestSort("points")}>
+                          P {getSortArrow("points")}
+                        </th>
+                        <th onClick={() => requestSort("plusMinus")}>
+                          +/- {getSortArrow("plusMinus")}
+                        </th>
+                        <th onClick={() => requestSort("pim")}>
+                          PUN {getSortArrow("pim")}
+                        </th>
+                        <th onClick={() => requestSort("shots")}>
+                          T {getSortArrow("shots")}
+                        </th>
+                        <th onClick={() => requestSort("shootingPctg")}>
+                          %T {getSortArrow("shootingPctg")}
+                        </th>
                         <th onClick={() => requestSort("powerPlayGoals")}>
-                          BAN
+                          BAN {getSortArrow("powerPlayGoals")}
                         </th>
                         <th onClick={() => requestSort("powerPlayPoints")}>
-                          PAN
+                          PAN {getSortArrow("powerPlayPoints")}
                         </th>
                         <th onClick={() => requestSort("shorthandedGoals")}>
-                          BIN
+                          BIN {getSortArrow("shorthandedGoals")}
                         </th>
                         <th onClick={() => requestSort("shorthandedPoints")}>
-                          PIN
+                          PIN {getSortArrow("shorthandedPoints")}
                         </th>
-                        <th onClick={() => requestSort("avgToi")}>TG/PJ</th>
+                        <th onClick={() => requestSort("avgToi")}>
+                          TG/PJ {getSortArrow("avgToi")}
+                        </th>
                         <th onClick={() => requestSort("gameWinningGoals")}>
-                          BG
+                          BG {getSortArrow("gameWinningGoals")}
                         </th>
-                        <th onClick={() => requestSort("otGoals")}>B Pr</th>
+                        <th onClick={() => requestSort("otGoals")}>
+                          B Pr {getSortArrow("otGoals")}
+                        </th>
                         <th onClick={() => requestSort("faceoffWinningPctg")}>
-                          %MAJ
+                          %MAJ {getSortArrow("faceoffWinningPctg")}
                         </th>
                       </tr>
                     </thead>
@@ -277,10 +356,10 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                         (seasonData, index) =>
                           seasonData.gameTypeId === 2 && (
                             <tr key={index}>
-                              <th scope="row">
+                              <td scope="row">
                                 {formatSeason(seasonData.season)}
-                              </th>
-                              <th scope="row">
+                              </td>
+                              <td scope="row">
                                 <Link
                                   to={`/equipes/${seasonData.teamCommonName.default
                                     .toLowerCase()
@@ -288,25 +367,25 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                                 >
                                   {seasonData.teamName.fr}
                                 </Link>
-                              </th>
-                              <th>{seasonData.gamesPlayed}</th>
-                              <th>{seasonData.goals}</th>
-                              <th>{seasonData.assists}</th>
-                              <th>{seasonData.points}</th>
-                              <th>{seasonData.plusMinus}</th>
-                              <th>{seasonData.pim}</th>
-                              <th>{seasonData.shots}</th>
-                              <th>{seasonData.shootingPctg.toFixed(3)}</th>
-                              <th>{seasonData.powerPlayGoals}</th>
-                              <th>{seasonData.powerPlayPoints}</th>
-                              <th>{seasonData.shorthandedGoals}</th>
-                              <th>{seasonData.shorthandedPoints}</th>
-                              <th>{seasonData.avgToi}</th>
-                              <th>{seasonData.gameWinningGoals}</th>
-                              <th>{seasonData.otGoals}</th>
-                              <th>
+                              </td>
+                              <td>{seasonData.gamesPlayed}</td>
+                              <td>{seasonData.goals}</td>
+                              <td>{seasonData.assists}</td>
+                              <td>{seasonData.points}</td>
+                              <td>{seasonData.plusMinus}</td>
+                              <td>{seasonData.pim}</td>
+                              <td>{seasonData.shots}</td>
+                              <td>{seasonData.shootingPctg.toFixed(3)}</td>
+                              <td>{seasonData.powerPlayGoals}</td>
+                              <td>{seasonData.powerPlayPoints}</td>
+                              <td>{seasonData.shorthandedGoals}</td>
+                              <td>{seasonData.shorthandedPoints}</td>
+                              <td>{seasonData.avgToi}</td>
+                              <td>{seasonData.gameWinningGoals}</td>
+                              <td>{seasonData.otGoals}</td>
+                              <td>
                                 {seasonData.faceoffWinningPctg.toFixed(3)}
-                              </th>
+                              </td>
                             </tr>
                           )
                       )}
@@ -320,47 +399,67 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                     <table>
                       <thead>
                         <tr>
-                          <th onClick={() => requestSort("season")}>Saison</th>
+                          <th onClick={() => requestSort("season")}>
+                            Saison {getSortArrow("season")}
+                          </th>
                           <th>Équipe</th>
-                          <th onClick={() => requestSort("gamesPlayed")}>PJ</th>
-                          <th onClick={() => requestSort("goals")}>B</th>
-                          <th onClick={() => requestSort("assists")}>A</th>
-                          <th onClick={() => requestSort("points")}>P</th>
-                          <th onClick={() => requestSort("plusMinus")}>+/-</th>
-                          <th onClick={() => requestSort("pim")}>PUN</th>
-                          <th onClick={() => requestSort("shots")}>T</th>
+                          <th onClick={() => requestSort("gamesPlayed")}>
+                            PJ {getSortArrow("gamesPlayed")}
+                          </th>
+                          <th onClick={() => requestSort("goals")}>
+                            B {getSortArrow("goals")}
+                          </th>
+                          <th onClick={() => requestSort("assists")}>
+                            A {getSortArrow("assists")}
+                          </th>
+                          <th onClick={() => requestSort("points")}>
+                            P {getSortArrow("points")}
+                          </th>
+                          <th onClick={() => requestSort("plusMinus")}>
+                            +/- {getSortArrow("plusMinus")}
+                          </th>
+                          <th onClick={() => requestSort("pim")}>
+                            PUN {getSortArrow("pim")}
+                          </th>
+                          <th onClick={() => requestSort("shots")}>
+                            T {getSortArrow("shots")}
+                          </th>
                           <th onClick={() => requestSort("shootingPctg")}>
-                            %T
+                            %T {getSortArrow("shootingPctg")}
                           </th>
                           <th onClick={() => requestSort("powerPlayGoals")}>
-                            BAN
+                            BAN {getSortArrow("powerPlayGoals")}
                           </th>
                           <th onClick={() => requestSort("powerPlayPoints")}>
-                            PAN
+                            PAN {getSortArrow("powerPlayPoints")}
                           </th>
                           <th onClick={() => requestSort("shorthandedGoals")}>
-                            BIN
+                            BIN {getSortArrow("shorthandedGoals")}
                           </th>
                           <th onClick={() => requestSort("shorthandedPoints")}>
-                            PIN
+                            PIN {getSortArrow("shorthandedPoints")}
                           </th>
-                          <th onClick={() => requestSort("avgToi")}>TG/PJ</th>
+                          <th onClick={() => requestSort("avgToi")}>
+                            TG/PJ {getSortArrow("avgToi")}
+                          </th>
                           <th onClick={() => requestSort("gameWinningGoals")}>
-                            BG
+                            BG {getSortArrow("gameWinningGoals")}
                           </th>
-                          <th onClick={() => requestSort("otGoals")}>B Pr</th>
+                          <th onClick={() => requestSort("otGoals")}>
+                            B Pr {getSortArrow("otGoals")}
+                          </th>
                           <th onClick={() => requestSort("faceoffWinningPctg")}>
-                            %MAJ
+                            %MAJ {getSortArrow("faceoffWinningPctg")}
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {playoffStats.map((seasonData, index) => (
                           <tr key={index}>
-                            <th scope="row">
+                            <td scope="row">
                               {formatSeason(seasonData.season)}
-                            </th>
-                            <th scope="row">
+                            </td>
+                            <td scope="row">
                               <Link
                                 to={`/equipes/${seasonData.teamCommonName.default
                                   .toLowerCase()
@@ -368,23 +467,23 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
                               >
                                 {seasonData.teamName.fr}
                               </Link>
-                            </th>
-                            <th>{seasonData.gamesPlayed}</th>
-                            <th>{seasonData.goals}</th>
-                            <th>{seasonData.assists}</th>
-                            <th>{seasonData.points}</th>
-                            <th>{seasonData.plusMinus}</th>
-                            <th>{seasonData.pim}</th>
-                            <th>{seasonData.shots}</th>
-                            <th>{seasonData.shootingPctg.toFixed(3)}</th>
-                            <th>{seasonData.powerPlayGoals}</th>
-                            <th>{seasonData.powerPlayPoints}</th>
-                            <th>{seasonData.shorthandedGoals}</th>
-                            <th>{seasonData.shorthandedPoints}</th>
-                            <th>{seasonData.avgToi}</th>
-                            <th>{seasonData.gameWinningGoals}</th>
-                            <th>{seasonData.otGoals}</th>
-                            <th>{seasonData.faceoffWinningPctg.toFixed(3)}</th>
+                            </td>
+                            <td>{seasonData.gamesPlayed}</td>
+                            <td>{seasonData.goals}</td>
+                            <td>{seasonData.assists}</td>
+                            <td>{seasonData.points}</td>
+                            <td>{seasonData.plusMinus}</td>
+                            <td>{seasonData.pim}</td>
+                            <td>{seasonData.shots}</td>
+                            <td>{seasonData.shootingPctg.toFixed(3)}</td>
+                            <td>{seasonData.powerPlayGoals}</td>
+                            <td>{seasonData.powerPlayPoints}</td>
+                            <td>{seasonData.shorthandedGoals}</td>
+                            <td>{seasonData.shorthandedPoints}</td>
+                            <td>{seasonData.avgToi}</td>
+                            <td>{seasonData.gameWinningGoals}</td>
+                            <td>{seasonData.otGoals}</td>
+                            <td>{seasonData.faceoffWinningPctg.toFixed(3)}</td>
                           </tr>
                         ))}
                       </tbody>

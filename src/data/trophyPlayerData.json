@@ -1,62 +1,305 @@
 {
-    "Trophée Art Ross": {
-      "description": "Attribué au joueur ayant fait le plus de points en une saison.",
-      "specialTitle": null
-    },
-    "Trophée Hart": {
-      "description": "Attribué au joueur le plus utile à son équipe.",
-      "specialTitle": null
-    },
-    "Maurice “Rocket” Richard Trophy": {
-      "description": "Attribué au joueur qui à marqué le plus de buts en saison régulière.",
-      "specialTitle": "Trophée Maurice Rocket Richard"
-    },
-    "Trophée Conn Smythe": {
-      "description": "Attribué au joueur le plus utile à son équipe durant les séries éliminatoires.",
-      "specialTitle": null
-    },
-    "Trophée Calder": {
-      "description": "Attribué au joueur qui a su démontrer des qualités exceptionnelles durant sa première saison.",
-      "specialTitle": null
-    },
-    "Trophée Bill Masterton": {
-      "description": "Attribué au joueur ayant démontré le plus de qualité de persévérance et d'esprit d'équipe.",
-      "specialTitle": null
-    },
-    "Trophée Frank J. Selke": {
-      "description": "Attribué à l'attaquant ayant démontré le plus de compétence défensive.",
-      "specialTitle": null
-    },
-    "Trophée Ted Lindsay": {
-      "description": "Attribué au meilleur joueur de hockey sur glace de la LNH choisi par ses pairs par le vote de l'Association des joueurs de la LNH.",
-      "specialTitle": null
-    },
-    "Trophée James Norris": {
-      "description": "Attribué au meilleur défenseur ayant démontré d'excellentes qualités de hockey sur glace de la LNH.",
-      "specialTitle": null
-    },
-    "Stanley Cup": {
-      "description": "Attribué à l'équipe championne des séries éliminatoires.",
-      "specialTitle": "Coupe Stanley"
-    },
-    "Trophée Lady Byng": {
-      "description": "Attribué au joueur ayant le meilleur esprit sportif tout en conservant des performances remarquables dans la LNH.",
-      "specialTitle": null
-    },
-    "Trophée King Clancy": {
-      "description": "Attribué au joueur ayant démontré le meilleur exemple de leadership et ayant le plus contribué à la société.",
-      "specialTitle": null
-    },
-    "Trophée Vezina": {
-      "description": "Attribué au meilleur gardien de but de la saison régulière.",
-      "specialTitle": "Trophée Vézina"
-    },
-    "Trophée William M. Jennings": {
-      "description": "Attribué au gardiens de but ayant participé à au moins 25 matchs durant la saison, au sein de l’équipe ayant la plus basse moyenne de buts accordés.",
-      "specialTitle": null
-    },
-    "Trophée Mark Messier": {
-      "description": "Attribué au joueur de la LNH ayant montré le plus grand leadership au cours de la saison",
-      "specialTitle": null
+  "Trophée Art Ross": {
+    "description": "Attribué au joueur ayant fait le plus de points en une saison.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed", "plusMinus"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ",
+          "plusMinus": "+/-"
+        }
+      }
+    }
+  },
+  "Trophée Hart": {
+    "description": "Attribué au joueur le plus utile à son équipe.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed", "plusMinus"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ",
+          "plusMinus": "+/-"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Maurice “Rocket” Richard Trophy": {
+    "description": "Attribué au joueur qui a marqué le plus de buts en saison régulière.",
+    "specialTitle": "Trophée Maurice Rocket Richard",
+    "stats": {
+      "player": {
+        "fields": ["goals", "gamesPlayed"],
+        "labels": {
+          "goals": "B",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Conn Smythe": {
+    "description": "Attribué au joueur le plus utile à son équipe durant les séries éliminatoires.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed", "plusMinus"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ",
+          "plusMinus": "+/-"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Calder": {
+    "description": "Attribué au joueur qui a su démontrer des qualités exceptionnelles durant sa première saison.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Bill Masterton": {
+    "description": "Attribué au joueur ayant démontré le plus de qualité de persévérance et d'esprit d'équipe.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "gamesPlayed"],
+        "labels": {
+          "points": "P",
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gamesPlayed"],
+        "labels": {
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Frank J. Selke": {
+    "description": "Attribué à l'attaquant ayant démontré le plus de compétence défensive.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": [
+          "points",
+          "assists",
+          "goals",
+          "gamesPlayed",
+          "blockedShots",
+          "plusMinus"
+        ],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ",
+          "blockedShots": "TB",
+          "plusMinus": "+/-"
+        }
+      }
+    }
+  },
+  "Trophée Ted Lindsay": {
+    "description": "Attribué au meilleur joueur de hockey sur glace de la LNH choisi par ses pairs par le vote de l'Association des joueurs de la LNH.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée James Norris": {
+    "description": "Attribué au meilleur défenseur ayant démontré d'excellentes qualités de hockey sur glace de la LNH.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed", "plusMinus"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ",
+          "plusMinus" : "+/-"
+        }
+      }
+    }
+  },
+  "Stanley Cup": {
+    "description": "Attribué à l'équipe championne des séries éliminatoires.",
+    "specialTitle": "Coupe Stanley",
+    "stats": {
+      "player": {
+        "fields": ["gamesPlayed"],
+        "labels": {
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gamesPlayed"],
+        "labels": {
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Lady Byng": {
+    "description": "Attribué au joueur ayant le meilleur esprit sportif tout en conservant des performances remarquables dans la LNH.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "goals", "gamesPlayed"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "goals": "B",
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée King Clancy": {
+    "description": "Attribué au joueur ayant démontré le meilleur exemple de leadership et ayant le plus contribué à la société.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "gamesPlayed"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Vezina": {
+    "description": "Attribué au meilleur gardien de but de la saison régulière.",
+    "specialTitle": "Trophée Vézina",
+    "stats": {
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée Mark Messier": {
+    "description": "Attribué au joueur ayant montré le plus grand leadership au cours de la saison.",
+    "specialTitle": null,
+    "stats": {
+      "player": {
+        "fields": ["points", "assists", "gamesPlayed"],
+        "labels": {
+          "points": "P",
+          "assists": "A",
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gaa", "savePctg", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "savePctg": "%Arr.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "Trophée William M. Jennings": {
+    "description": "Attribué au gardiens de but ayant participé à au moins 25 matchs durant la saison, au sein de l’équipe ayant la plus basse moyenne de buts accordés.",
+    "specialTitle": null,
+    "stats": {
+      "goalie": {
+        "fields": ["gaa", "wins", "gamesPlayed"],
+        "labels": {
+          "gaa": "Moy.",
+          "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
     }
   }
+}

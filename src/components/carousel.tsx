@@ -8,6 +8,7 @@ interface CarouselProps {
   loop?: boolean;
   noSwiping?: boolean;
   noSwipingClass?: string;
+  autoHeight?: boolean;
   autoplay?:
     | {
         pauseOnMouseEnter?: boolean;
@@ -40,6 +41,7 @@ function Carousel({
   loop = false,
   autoplay = false, 
   noSwiping = false,
+  autoHeight = false,
   noSwipingClass = "swiper-no-swiping",
   grabCursor = true,
   navigation = {
@@ -89,6 +91,7 @@ function Carousel({
       noSwiping = {noSwiping}
       noSwipingClass={noSwipingClass}
       centeredSlides={centeredSlides}
+      autoHeight={autoHeight}
       loop={loop}
       breakpoints={breakpoint}
     >

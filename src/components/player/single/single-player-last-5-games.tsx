@@ -12,7 +12,7 @@ const PlayerSingleLast5Games: React.FC<{
   const [error, setError] = useState<string | null>(null);
   const [sortConfig, setSortConfig] = useState<{
     key: string;
-    direction: string;
+    direction: "ascending" | "descending" | null;
   } | null>(null);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const PlayerSingleLast5Games: React.FC<{
   }, []);
 
   const requestSort = (key: string) => {
-    let direction = "descending";
+    let direction: "ascending" | "descending" = "descending";
     if (
       sortConfig &&
       sortConfig.key === key &&
@@ -74,6 +74,11 @@ const PlayerSingleLast5Games: React.FC<{
     });
   }, [last5Games, sortConfig]);
 
+  const getSortArrow = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return null;
+    return sortConfig.direction === "ascending" ? "↓" : "↑";
+  };
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -97,14 +102,28 @@ const PlayerSingleLast5Games: React.FC<{
               <table>
                 <thead>
                   <tr>
-                    <th onClick={() => requestSort("date")}>Date</th>
+                    <th onClick={() => requestSort("date")}>
+                      Date {getSortArrow("date")}
+                    </th>
                     <th>Adv.</th>
-                    <th onClick={() => requestSort("gamesStarted")}>MA</th>
-                    <th onClick={() => requestSort("decision")}>DÉC</th>
-                    <th onClick={() => requestSort("shotsAgainst")}>TC</th>
-                    <th onClick={() => requestSort("goalsAgainst")}>BC</th>
-                    <th onClick={() => requestSort("savePctg")}>%Arr.</th>
-                    <th onClick={() => requestSort("goalsAgainstAvg")}>Moy.</th>
+                    <th onClick={() => requestSort("gamesStarted")}>
+                      MA {getSortArrow("gamesStarted")}
+                    </th>
+                    <th onClick={() => requestSort("decision")}>
+                      DÉC {getSortArrow("decision")}
+                    </th>
+                    <th onClick={() => requestSort("shotsAgainst")}>
+                      TC {getSortArrow("shotsAgainst")}
+                    </th>
+                    <th onClick={() => requestSort("goalsAgainst")}>
+                      BC {getSortArrow("goalsAgainst")}
+                    </th>
+                    <th onClick={() => requestSort("savePctg")}>
+                      %Arr. {getSortArrow("savePctg")}
+                    </th>
+                    <th onClick={() => requestSort("goalsAgainstAvg")}>
+                      Moy. {getSortArrow("goalsAgainstAvg")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -120,7 +139,15 @@ const PlayerSingleLast5Games: React.FC<{
                         </Link>
                       </td>
                       <td>{game.gamesStarted}</td>
-                      <td>{game.decision === "W" ? "V" : game.decision === "L" ? "D" : game.decision === "O" ? "DP" : game.decision}</td>
+                      <td>
+                        {game.decision === "W"
+                          ? "V"
+                          : game.decision === "L"
+                          ? "D"
+                          : game.decision === "O"
+                          ? "DP"
+                          : game.decision}
+                      </td>
                       <td>{game.shotsAgainst}</td>
                       <td>{game.goalsAgainst}</td>
                       <td>{game.savePctg.toFixed(3)}</td>
@@ -149,15 +176,31 @@ const PlayerSingleLast5Games: React.FC<{
               <table>
                 <thead>
                   <tr>
-                    <th onClick={() => requestSort("date")}>Date</th>
+                    <th onClick={() => requestSort("date")}>
+                      Date {getSortArrow("date")}
+                    </th>
                     <th>Adv.</th>
-                    <th onClick={() => requestSort("goals")}>B</th>
-                    <th onClick={() => requestSort("assists")}>A</th>
-                    <th onClick={() => requestSort("points")}>P</th>
-                    <th onClick={() => requestSort("pim")}>PIM</th>
-                    <th onClick={() => requestSort("toi")}>TG</th>
-                    <th onClick={() => requestSort("shots")}>T</th>
-                    <th onClick={() => requestSort("plusMinus")}>+/-</th>
+                    <th onClick={() => requestSort("goals")}>
+                      B {getSortArrow("goals")}
+                    </th>
+                    <th onClick={() => requestSort("assists")}>
+                      A {getSortArrow("assists")}
+                    </th>
+                    <th onClick={() => requestSort("points")}>
+                      P {getSortArrow("points")}
+                    </th>
+                    <th onClick={() => requestSort("pim")}>
+                      PIM {getSortArrow("pim")}
+                    </th>
+                    <th onClick={() => requestSort("toi")}>
+                      TG {getSortArrow("toi")}
+                    </th>
+                    <th onClick={() => requestSort("shots")}>
+                      T {getSortArrow("shots")}
+                    </th>
+                    <th onClick={() => requestSort("plusMinus")}>
+                      +/- {getSortArrow("plusMinus")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

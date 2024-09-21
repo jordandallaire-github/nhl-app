@@ -1,0 +1,68 @@
+.trophy {
+  margin-top: 50px;
+
+  .table-trophy {
+    overflow-x: visible;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    background-color: #f2f2f20d;
+    border: 1px solid #f2f2f21a;
+    border-radius: 24px;
+    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1),
+      border 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 25px #00000026;
+    width: 100%;
+    text-align: center;
+    font-size: 1.6rem;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        th {
+          cursor: pointer;
+        }
+      }
+
+      tbody tr {
+        height: 60px;
+        border-bottom: 1px solid var(--color-white);
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &:first-child {
+          border-top: 1px solid var(--color-white);
+        }
+      }
+    }
+
+    th:first-child,
+    td:first-child {
+      min-width: 50%;
+      width: 50%;
+      text-align: left;
+      padding-left: 20px;
+
+      @media screen and (max-width: 500px) {
+        min-width: 65%;
+        width: 65%;
+      }
+    }
+    th,
+    td {
+      text-align: center;
+      width: calc((100vw - 60px) / 18);
+      height: 50px;
+
+      @media screen and (max-width: 500px) {
+        width: calc((100vw - 40px) / 9);
+        font-size: 1.4rem;
+        max-width: 80px;
+        min-width: 45px;
+      }
+    }
+  }
+}

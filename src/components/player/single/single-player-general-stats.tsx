@@ -53,32 +53,32 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.gamesPlayed ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.wins ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.losses ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason?.savePctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason?.goalsAgainstAvg?.toFixed(
                               2
                             ) ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.shutouts ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -100,29 +100,29 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.careerTotals?.regularSeason?.gamesPlayed ??
                               0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.wins ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.losses ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.savePctg.toFixed(
                               3
                             ) ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.goalsAgainstAvg.toFixed(
                               2
                             ) ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.careerTotals?.regularSeason?.shutouts ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -155,32 +155,32 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason
                               ?.gamesPlayed ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason?.wins ??
                               0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason
                               ?.losses ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason?.savePctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason?.goalsAgainstAvg?.toFixed(
                               2
                             ) ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.featuredStats?.playoffs?.subSeason
                               ?.shutouts ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -202,32 +202,32 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.careerTotals?.playoffs
                               ?.gamesPlayed ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.playoffs?.wins ??
                               0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.playoffs
                               ?.losses ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.playoffs?.savePctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.playoffs?.goalsAgainstAvg?.toFixed(
                               2
                             ) ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.careerTotals?.playoffs
                               ?.shutouts ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -285,35 +285,35 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.gamesPlayed ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.goals ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.assists ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.points ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.plusMinus ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.featuredStats?.regularSeason?.subSeason
                               ?.pim ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.featuredStats?.regularSeason?.subSeason?.shootingPctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -336,30 +336,30 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.careerTotals?.regularSeason?.gamesPlayed ??
                               0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.goals ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.assists ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.points ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.careerTotals?.regularSeason?.plusMinus ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.careerTotals?.regularSeason?.pim ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.careerTotals?.regularSeason?.shootingPctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -393,35 +393,35 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason
                               ?.gamesPlayed ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason?.goals ??
                               0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason
                               ?.assists ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason
                               ?.points ?? 0}
-                          </th>
-                          <th>
+                          </td>
+                          <td>
                             {player.featuredStats?.playoffs?.subSeason
                               ?.plusMinus ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.featuredStats?.playoffs?.subSeason?.pim ??
                               0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.featuredStats?.playoffs?.subSeason?.shootingPctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -444,23 +444,23 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
                       </thead>
                       <tbody>
                         <tr>
-                          <th>
+                          <td>
                             {player.careerTotals?.playoffs?.gamesPlayed ?? 0}
-                          </th>
-                          <th>{player.careerTotals?.playoffs?.goals ?? 0}</th>
-                          <th>{player.careerTotals?.playoffs?.assists ?? 0}</th>
-                          <th>{player.careerTotals?.playoffs?.points ?? 0}</th>
-                          <th>
+                          </td>
+                          <td>{player.careerTotals?.playoffs?.goals ?? 0}</td>
+                          <td>{player.careerTotals?.playoffs?.assists ?? 0}</td>
+                          <td>{player.careerTotals?.playoffs?.points ?? 0}</td>
+                          <td>
                             {player.careerTotals?.playoffs?.plusMinus ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.careerTotals?.playoffs?.pim ?? 0}
-                          </th>
-                          <th className="statsNoMobile">
+                          </td>
+                          <td className="statsNoMobile">
                             {player.careerTotals?.playoffs?.shootingPctg?.toFixed(
                               3
                             ) ?? 0}
-                          </th>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
