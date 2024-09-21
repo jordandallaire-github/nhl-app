@@ -6,236 +6,19 @@ import PlayerSingleMoreInfos from "../components/player/single/single-player-mor
 import PlayerSingleLast5Games from "../components/player/single/single-player-last-5-games";
 import PlayerSingleStats from "../components/player/single/single-player-stats";
 import PlayerSingleAwards from "../components/player/single/single-player-awards";
+import { PlayerDetailsType } from "../interfaces/player/playerDetails";
+import { SeasonTotals } from "../interfaces/player/seasonTotals";
 
-export interface PlayerDetailsType {
-  id: number;
-  heroImage: string;
-  firstName: string;
-  lastName: string;
-  sweaterNumber: string;
-  positionCode: string;
-  currentTeamAbbrev: string;
-  headshot: string;
-  teamLogo: string;
-  teamName: string;
-  fullTeamName: string;
-  shootsCatches: string;
-  teamColor: string;
-  heightInFeet: string;
-  birthDate: string;
-  weightInPounds: string;
-  age: string;
-  birthCity: string;
-  birthStateProvince: string;
-  birthCountry: string;
-  draftYear: string;
-  draftTeamAbbre: string;
-  draftRound: string;
-  draftPickRound: string;
-  draftOverallPick: string;
-  featuredStats?: FeaturedStats;
-  careerTotals?: CareerTotals;
-  last5Games?: {
-    assists: number;
-    gameDate: string;
-    gameId: number;
-    gameTypeId: number;
-    goals: number;
-    homeRoadFlag: string;
-    opponentAbbrev: string;
-    pim: number;
-    plusMinus: number;
-    points: number;
-    powerPlayGoals: number;
-    shifts: number;
-    shorthandedGoals: number;
-    shots: number;
-    teamAbbrev: string;
-    toi: string;
-    decision: string, //Only goalie value
-    gamesStarted: number, //Only goalie value
-    goalsAgainst: number, //Only goalie value
-    penaltyMins: number, //Only goalie value
-    savePctg: number, //Only goalie value
-    shotsAgainst: number, //Only goalie value
-  }[];
-  seasonTotals?: SeasonTotals[];
-  awards?: Award[];
-}
+const DEFAULT_LANGUAGE = "default";
+const FRENCH_LANGUAGE = "fr";
 
-interface FeaturedStats {
-  season: number;
-  regularSeason: {
-    subSeason: {
-      assists: number;
-      gameWinningGoals: number;
-      gamesPlayed: number;
-      goals: number;
-      otGoals: number;
-      pim: number;
-      plusMinus: number;
-      points: number;
-      powerPlayGoals: number;
-      powerPlayPoints: number;
-      shootingPctg: number;
-      shorthandedGoals: number;
-      shorthandedPoints: number;
-      shots: number;
-      goalsAgainstAvg: number, //Only goalie value
-      losses: number, //Only goalie value
-      otLosses: number, //Only goalie value
-      savePctg: number, //Only goalie value
-      shutouts: number, //Only goalie value
-      wins: number, //Only goalie value
-    };
-  };
-  playoffs: {
-    subSeason: {
-      assists: number;
-      gameWinningGoals: number;
-      gamesPlayed: number;
-      goals: number;
-      otGoals: number;
-      pim: number;
-      plusMinus: number;
-      points: number;
-      powerPlayGoals: number;
-      powerPlayPoints: number;
-      shootingPctg: number;
-      shorthandedGoals: number;
-      shorthandedPoints: number;
-      shots: number;
-      goalsAgainstAvg: number, //Only goalie value
-      losses: number, //Only goalie value
-      otLosses: number, //Only goalie value
-      savePctg: number, //Only goalie value
-      shutouts: number, //Only goalie value
-      wins: number, //Only goalie value
-    };
-  };
-}
+const cmToFeetAndInches = (cm: number): string => {
+  const feet = Math.floor(cm / 30.48);
+  const inches = Math.round((cm % 30.48) / 2.54);
+  return `${feet}'${inches}"`;
+};
 
-interface CareerTotals {
-  regularSeason: {
-    assists: number;
-    avgToi: number;
-    faceoffWinningPctg: number;
-    gameWinningGoals: number;
-    gamesPlayed: number;
-    goals: number;
-    otGoals: number;
-    pim: number;
-    plusMinus: number;
-    points: number;
-    powerPlayGoals: number;
-    powerPlayPoints: number;
-    shootingPctg: number;
-    shorthandedGoals: number;
-    shorthandedPoints: number;
-    shots: number;
-    goalsAgainstAvg: number, //Only goalie value
-    losses: number, //Only goalie value
-    otLosses: number, //Only goalie value
-    savePctg: number, //Only goalie value
-    shutouts: number, //Only goalie value
-    wins: number, //Only goalie value
-  };
-  playoffs: {
-    assists: number;
-    avgToi: number;
-    faceoffWinningPctg: number;
-    gameWinningGoals: number;
-    gamesPlayed: number;
-    goals: number;
-    otGoals: number;
-    pim: number;
-    plusMinus: number;
-    points: number;
-    powerPlayGoals: number;
-    powerPlayPoints: number;
-    shootingPctg: number;
-    shorthandedGoals: number;
-    shorthandedPoints: number;
-    shots: number;
-    goalsAgainstAvg: number, //Only goalie value
-    losses: number, //Only goalie value
-    otLosses: number, //Only goalie value
-    savePctg: number, //Only goalie value
-    shutouts: number, //Only goalie value
-    wins: number, //Only goalie value
-  };
-}
-
-export interface SeasonTotals {
-  assists: number;
-  avgToi: number;
-  faceoffWinningPctg: number;
-  gameTypeId: number;
-  gameWinningGoals: number;
-  gamesPlayed: number;
-  goals: number;
-  leagueAbbrev: string;
-  otGoals: number;
-  pim: number;
-  plusMinus: number;
-  points: number;
-  powerPlayGoals: number;
-  powerPlayPoints: number;
-  season: number;
-  sequence: number;
-  shootingPctg: number;
-  shorthandedGoals: number;
-  shorthandedPoints: number;
-  shots: number;
-  gamesStarted: number, //Only goalie value
-  goalsAgainst: number, //Only goalie value
-  goalsAgainstAvg: number, //Only goalie value
-  losses: number, //Only goalie value
-  otLosses: number, //Only goalie value
-  savePctg: number, //Only goalie value
-  shotsAgainst: number, //Only goalie value
-  shutouts: number, //Only goalie value
-  timeOnIce: number, //Only goalie value
-  wins: number, //Only goalie value
-  teamCommonName: {
-    default: string;
-  };
-  teamName: {
-    default: string;
-    fr: string;
-  };
-  teamPlaceNameWithPreposition: {
-    default: string;
-    fr: string;
-  };
-
-}
-
- export interface Award {
-  trophy: {
-    default: string;
-    fr?: string;
-  };
-  seasons: {
-    assists: number;
-    blockedShots: number;
-    gameTypeId: number;
-    gamesPlayed: number;
-    goals: number;
-    hits: number;
-    pim: number;
-    plusMinus: number;
-    points: number;
-    seasonId: number;
-    gaa: number, //Only goalie value
-    losses: number, //Only goalie value
-    otLosses: number, //Only goalie value
-    savePctg: number, //Only goalie value
-    wins: number, //Only goalie value
-  }[];
-}
-
-function calculateAge(birthDate: string): string {
+const calculateAge = (birthDate: string): string => {
   const today = new Date();
   const birthDay = new Date(birthDate);
   const age = today.getFullYear() - birthDay.getFullYear();
@@ -246,17 +29,9 @@ function calculateAge(birthDate: string): string {
       today.getDate() < birthDay.getDate());
 
   return isBeforeBirthday ? (age - 1).toString() : age.toString();
-}
+};
 
-function cmToFeetAndInches(cm: number): string {
-  const feet = Math.floor(cm / 30.48);
-  const inches = Math.round((cm % 30.48) / 2.54);
-  return `${feet}'${inches}"`;
-}
-
-
-const PlayerDetails: React.FC = () => {
-  const { playerSlug } = useParams<{ playerSlug: string }>();
+const usePlayerDetails = (playerSlug: string) => {
   const [player, setPlayer] = useState<PlayerDetailsType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -281,15 +56,15 @@ const PlayerDetails: React.FC = () => {
         setPlayer({
           id: playerData.id,
           heroImage: playerData.heroImage,
-          firstName: playerData.firstName.default,
-          lastName: playerData.lastName.default,
+          firstName: playerData.firstName?.[DEFAULT_LANGUAGE],
+          lastName: playerData.lastName?.[DEFAULT_LANGUAGE],
           sweaterNumber: playerData.sweaterNumber || "00",
           positionCode: playerData.position,
           currentTeamAbbrev: playerData.currentTeamAbbrev,
           headshot: playerData.headshot,
           teamLogo: playerData.teamLogo,
-          teamName: playerData.teamName,
-          fullTeamName: playerData.fullTeamName.fr,
+          teamName: playerData.teamName?.[DEFAULT_LANGUAGE],
+          fullTeamName: playerData.fullTeamName?.[FRENCH_LANGUAGE],
           shootsCatches: playerData.shootsCatches,
           teamColor: teamColorData[playerData.currentTeamAbbrev].color,
           heightInFeet: cmToFeetAndInches(playerData.heightInCentimeters),
@@ -297,10 +72,12 @@ const PlayerDetails: React.FC = () => {
           birthDate: playerData.birthDate,
           age: calculateAge(playerData.birthDate),
           birthCity:
-            playerData.birthCity?.fr || playerData.birthCity?.default || "",
+            playerData.birthCity?.[FRENCH_LANGUAGE] ||
+            playerData.birthCity?.[DEFAULT_LANGUAGE] ||
+            "",
           birthStateProvince:
-            playerData.birthStateProvince?.fr ||
-            playerData.birthStateProvince?.default ||
+            playerData.birthStateProvince?.[FRENCH_LANGUAGE] ||
+            playerData.birthStateProvince?.[DEFAULT_LANGUAGE] ||
             "",
           birthCountry: playerData.birthCountry,
           draftOverallPick: playerData.draftDetails?.overallPick || "",
@@ -311,9 +88,10 @@ const PlayerDetails: React.FC = () => {
           featuredStats: playerData.featuredStats,
           careerTotals: playerData.careerTotals,
           last5Games: playerData.last5Games,
-          seasonTotals: playerData.seasonTotals?.filter((season: SeasonTotals) => 
-            season.leagueAbbrev === "NHL"
-          ) || [],
+          seasonTotals:
+            playerData.seasonTotals?.filter(
+              (season: SeasonTotals) => season.leagueAbbrev === "NHL"
+            ) || [],
           awards: playerData.awards,
         });
       } catch (error) {
@@ -323,6 +101,13 @@ const PlayerDetails: React.FC = () => {
 
     fetchPlayer();
   }, [playerSlug]);
+
+  return { player, error };
+};
+
+const PlayerDetails: React.FC = () => {
+  const params = useParams<{ playerSlug?: string }>();
+  const { player, error } = usePlayerDetails(params.playerSlug ?? "");
 
   if (error) return <div>Error: {error}</div>;
   if (!player) return <div>Loading...</div>;
@@ -339,4 +124,4 @@ const PlayerDetails: React.FC = () => {
   );
 };
 
-export default PlayerDetails;
+export default React.memo(PlayerDetails);
