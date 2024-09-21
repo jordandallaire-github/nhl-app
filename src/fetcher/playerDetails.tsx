@@ -59,6 +59,7 @@ const usePlayerDetails = (playerSlug: string) => {
           firstName: playerData.firstName?.[DEFAULT_LANGUAGE],
           lastName: playerData.lastName?.[DEFAULT_LANGUAGE],
           sweaterNumber: playerData.sweaterNumber || "00",
+          teamCommonName: playerData.teamCommonName?.[DEFAULT_LANGUAGE],
           positionCode: playerData.position,
           currentTeamAbbrev: playerData.currentTeamAbbrev,
           headshot: playerData.headshot,

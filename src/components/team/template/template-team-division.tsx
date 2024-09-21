@@ -1,10 +1,11 @@
 import React from "react";
 import TemplateTeamCard from "./template-team-card";
-import { Team, TeamColor } from "../../../fetcher/teamLists";
+import { TeamColor } from "../../../interfaces/team/teamColor";
+import { TeamDetails } from "../../../interfaces/team/teamDetails";
 
 interface TeamsByDivisionProps {
   division: string;
-  teams: Team[];
+  teams: TeamDetails[];
   teamColors: TeamColor | null;
 }
 

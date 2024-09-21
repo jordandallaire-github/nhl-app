@@ -1,5 +1,5 @@
-import { PlayerDetailsType } from "../../../fetcher/playerDetails";
-import { Award } from "../../../fetcher/playerDetails";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
+import { Award } from "../../../interfaces/player/awards";
 import formatSeason from "../../utils/formatSeason";
 import trophyDataJson from "../../../data/trophyPlayerData.json";
 

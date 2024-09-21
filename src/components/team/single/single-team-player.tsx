@@ -1,10 +1,10 @@
 import React from "react";
 import PlayerCard from "../../player/template/playerCard";
-import { PlayerInfos } from "../../../fetcher/teamRoster";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 
 interface PlayerGroupProps {
   title: string;
-  players: PlayerInfos[];
+  players: PlayerDetailsType[];
   teamColor: string | null;
   teamAbbrev: string;
   teamCommonName?: string;

@@ -1,24 +1,26 @@
-import { PlayerDetailsType } from "../../../fetcher/playerDetails";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 
 const getDraftDetails = (player: PlayerDetailsType) => {
-    if (
-      player.draftYear &&
-      player.draftTeamAbbre &&
-      player.draftOverallPick &&
-      player.draftRound &&
-      player.draftPickRound
-    ) {
-      const overallSuffix = player.draftOverallPick === "1" ? "re" : "e";
-      const roundSuffix = player.draftRound === "1" ? "re" : "e";
-      const pickSuffix = player.draftPickRound === "1" ? "re" : "e";
-  
-      return `${player.draftYear}, ${player.draftTeamAbbre} (${player.draftOverallPick}${overallSuffix} au total), ${player.draftRound}${roundSuffix} ronde, ${player.draftPickRound}${pickSuffix} choix`;
-    }
-  
-    return "Jamais repêché";
+  if (
+    player.draftYear &&
+    player.draftTeamAbbre &&
+    player.draftOverallPick &&
+    player.draftRound &&
+    player.draftPickRound
+  ) {
+    const overallSuffix = player.draftOverallPick === "1" ? "re" : "e";
+    const roundSuffix = player.draftRound === "1" ? "re" : "e";
+    const pickSuffix = player.draftPickRound === "1" ? "re" : "e";
+
+    return `${player.draftYear}, ${player.draftTeamAbbre} (${player.draftOverallPick}${overallSuffix} au total), ${player.draftRound}${roundSuffix} ronde, ${player.draftPickRound}${pickSuffix} choix`;
+  }
+
+  return "Jamais repêché";
 };
 
-const PlayerSingleMoreInfos: React.FC<{ player: PlayerDetailsType }> = ({ player }) => (
+const PlayerSingleMoreInfos: React.FC<{ player: PlayerDetailsType }> = ({
+  player,
+}) => (
   <section className="more-infos mobile">
     <div className="wrapper">
       <h2>Connaître le joueur: </h2>

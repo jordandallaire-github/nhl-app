@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
-import { Team, TeamColor } from "../../../fetcher/teamLists";
+import { TeamDetails } from "../../../interfaces/team/teamDetails";
+import { TeamColor } from "../../../interfaces/team/teamColor";
 
 interface TeamCardProps {
-  team: Team;
+  team: TeamDetails;
   teamColor: TeamColor | null;
 }
 
 const TemplateTeamCard: React.FC<TeamCardProps> = ({ team, teamColor }) => {
   const teamAbbrev = team.teamAbbrev.default;
   const teamColors = teamColor?.[teamAbbrev]?.color;
+
   return (
     <Link
       to={`/equipes/${team.teamCommonName.default

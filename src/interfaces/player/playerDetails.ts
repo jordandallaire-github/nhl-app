@@ -4,16 +4,18 @@ import { SeasonTotals } from "./seasonTotals";
 import { Award } from "./awards";
 
 export interface PlayerDetailsType {
-  id: number;
+  id: string;
   heroImage: string;
-  firstName: string;
-  lastName: string;
+  firstName: { default: string; fr: string };
+  lastName: { default: string; fr: string };
   sweaterNumber: string;
   positionCode: string;
   currentTeamAbbrev: string;
   headshot: string;
   teamLogo: string;
   teamName: string;
+  color?: string;
+  teamCommonName:{ default: string; fr: string }
   fullTeamName: string;
   shootsCatches: string;
   teamColor: string;

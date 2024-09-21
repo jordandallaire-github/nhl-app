@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PlayerInfos } from "../../../fetcher/teamRoster";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { generatePlayerSlug } from "../../utils/generatePlayerSlug";
 
 interface PlayerCardProps {
-  player: PlayerInfos;
+  player: PlayerDetailsType;
   teamAbbrev?: string;
   teamColor?: string | null;
   teamCommonName?: string;

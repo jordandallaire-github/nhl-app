@@ -1,4 +1,4 @@
-import { PlayerDetailsType } from "../../../fetcher/playerDetails";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 
 const getPositionLabel = (positionCode: string) => {
     switch (positionCode) {

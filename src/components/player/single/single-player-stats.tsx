@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import Carousel from "../../carousel";
-import { PlayerDetailsType } from "../../../fetcher/playerDetails";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { Link } from "react-router-dom";
 import formatSeason from "../../utils/formatSeason";
 

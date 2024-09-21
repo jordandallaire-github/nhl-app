@@ -1,23 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TemplateTeamDivision from "../components/team/template/template-team-division";
+import { TeamColor } from "../interfaces/team/teamColor";
+import { TeamDetails } from "../interfaces/team/teamDetails";
 
-export interface Team {
-  teamAbbrev: { default: string };
-  teamName: { default: string; fr: string };
-  teamLogo: string;
-  divisionName: string;
-  teamCommonName: { default: string };
-}
 
-export interface TeamColor {
-  [key: string]: {
-    name: string;
-    color: string;
-  };
-}
-
-const groupTeamsByDivision = (teams: Team[]) => {
-  return teams.reduce((acc: { [key: string]: Team[] }, team) => {
+const groupTeamsByDivision = (teams: TeamDetails[]) => {
+  return teams.reduce((acc: { [key: string]: TeamDetails[] }, team) => {
     const division = team.divisionName;
     if (!acc[division]) {
       acc[division] = [];
@@ -28,7 +16,7 @@ const groupTeamsByDivision = (teams: Team[]) => {
 };
 
 const ListTeams: React.FC = () => {
-  const [teams, setTeams] = useState<Team[]>([]);
+  const [teams, setTeams] = useState<TeamDetails[]>([]);
   const [teamColors, setTeamColors] = useState<TeamColor | null>(null);
   const [error, setError] = useState<string | null>(null);
 

@@ -1,5 +1,5 @@
 import Carousel from "../../carousel";
-import { PlayerDetailsType } from "../../../fetcher/playerDetails";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import formatSeason from "../../utils/formatSeason";
 
 const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({
