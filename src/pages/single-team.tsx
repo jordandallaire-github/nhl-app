@@ -1,5 +1,5 @@
 import Scrolly from "../components/scrolly";
-import TeamDetails from "../fetcher/teamRoster";
+import TeamDetails from "../fetcher/teamDetails";
 
 function Player() {
   Scrolly();

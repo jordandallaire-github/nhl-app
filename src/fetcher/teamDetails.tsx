@@ -2,12 +2,15 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import SingleTeamPlayerGroup from "../components/team/single/single-team-player";
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
-import { TeamDetails } from "../interfaces/team/teamDetails";
+import { TeamDetail } from "../interfaces/team/teamDetails";
+import { TeamScoreboard } from "../interfaces/team/teamScoreboard";
+import SingleTeamScoreboard from "../components/team/single/single-team-scoreboard";
 
-const TeamRoster: React.FC = () => {
+const TeamDetails: React.FC = () => {
   const { teamCommonName } = useParams<{ teamCommonName: string }>();
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
   const [players, setPlayers] = useState<PlayerDetailsType[]>([]);
+  const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,7 +22,7 @@ const TeamRoster: React.FC = () => {
       if (!res.ok) throw new Error("Failed to fetch team data");
       const data = await res.json();
       const team = data.standings?.find(
-        (t: TeamDetails) =>
+        (t: TeamDetail) =>
           t.teamCommonName.default.toLowerCase().replace(/\s+/g, "-") ===
           teamCommonName
       );
@@ -41,9 +44,17 @@ const TeamRoster: React.FC = () => {
         ];
         setPlayers(playersArray);
 
+        // Fetch game data and set the scoreboard state
+        const gameDataResponse = await fetch(
+          `https://api-web.nhle.com/v1/scoreboard/${teamAbbrev}/now`
+        );
+        if (!gameDataResponse.ok) throw new Error("Failed to fetch game data");
+        const gameData: TeamScoreboard = await gameDataResponse.json();
+        setScoreBoard(gameData);
+
         const colorRes = await fetch("/teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
-        const colorData: Record<string, TeamDetails> = await colorRes.json();
+        const colorData: Record<string, TeamDetail> = await colorRes.json();
         const teamInfo = colorData[teamAbbrev as keyof typeof colorData];
         if (teamInfo) {
           setTeamColor(teamInfo.color);
@@ -79,33 +90,39 @@ const TeamRoster: React.FC = () => {
   const goalies = players.filter((player) => player.positionCode === "G");
 
   return (
-    <section className="hero">
-      <div className="wrapper">
-        <h1>Joueurs de l'équipe {teamCommonName}</h1>
-        <SingleTeamPlayerGroup
-          title="Attaquants"
-          players={forwards}
-          teamColor={teamColor}
-          teamAbbrev={teamAbbrev ?? ""}
-          teamCommonName={teamCommonName}
-        />
-        <SingleTeamPlayerGroup
-          title="Défenseurs"
-          players={defensemen}
-          teamColor={teamColor}
-          teamAbbrev={teamAbbrev ?? ""}
-          teamCommonName={teamCommonName}
-        />
-        <SingleTeamPlayerGroup
-          title="Gardiens"
-          players={goalies}
-          teamColor={teamColor}
-          teamAbbrev={teamAbbrev ?? ""}
-          teamCommonName={teamCommonName}
-        />
-      </div>
-    </section>
+    <>
+      <section className="hero">
+        <div className="wrapper"></div>
+      </section>
+      <section className="roster">
+        <div className="wrapper">
+          <h1>Joueurs de l'équipe {teamCommonName}</h1>
+          <SingleTeamPlayerGroup
+            title="Attaquants"
+            players={forwards}
+            teamColor={teamColor}
+            teamAbbrev={teamAbbrev ?? ""}
+            teamCommonName={teamCommonName}
+          />
+          <SingleTeamPlayerGroup
+            title="Défenseurs"
+            players={defensemen}
+            teamColor={teamColor}
+            teamAbbrev={teamAbbrev ?? ""}
+            teamCommonName={teamCommonName}
+          />
+          <SingleTeamPlayerGroup
+            title="Gardiens"
+            players={goalies}
+            teamColor={teamColor}
+            teamAbbrev={teamAbbrev ?? ""}
+            teamCommonName={teamCommonName}
+          />
+        </div>
+      </section>
+      <SingleTeamScoreboard teamScoreboard={scoreBoard}></SingleTeamScoreboard>
+    </>
   );
 };
 
-export default TeamRoster;
+export default TeamDetails;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { Link } from "react-router-dom";
-import formatDate from "../../utils/formatDate";
+import { formatDate } from "../../utils/formatDate";
 import fetchTeamNames from "../../../fetcher/teamName";
 
 const PlayerSingleLast5Games: React.FC<{

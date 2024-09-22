@@ -2,13 +2,9 @@
    carousel / component
    ========================================================================== */
    .swiper-slide {
-    height: 50vh;
-    color: var(--color-bg-primary);
-    background-color: var(--color-bg-secondary);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: inherit;
+    color: inherit;
+    background-color: inherit;
 }
 
 .swiper-pagination-bullets {

@@ -1,7 +1,7 @@
 import Video from "../components/youtube";
 import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/scrolly";
-import TeamRoster from "../fetcher/teamRoster";
+import TeamRoster from "../fetcher/teamDetails";
 
 function Players() {
   Scrolly();

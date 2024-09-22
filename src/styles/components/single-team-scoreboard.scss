@@ -1,0 +1,74 @@
+.scoreboard {
+  color: var(--color-white);
+  .game-card {
+    font-size: 1.4rem;
+    padding: 15px;
+    color: inherit;
+
+    h3{
+      text-align: center;
+      margin: 0;
+    }
+
+    p{
+      margin: 0;
+    }
+
+    .game-media {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .team {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        justify-content: space-between;
+      }
+
+      img {
+        min-width: 75px;
+        min-height: 75px;
+      }
+
+      a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .broadcast {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+    }
+
+    .livescore {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .game-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      gap: 10px;
+
+      .game-links {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 20px;
+      }
+    }
+  }
+}

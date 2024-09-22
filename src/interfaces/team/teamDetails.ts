@@ -1,4 +1,4 @@
-export interface TeamDetails {
+export interface TeamDetail {
   color: string;
   teamAbbrev: { default: string };
   teamCommonName: { default: string; fr: string };

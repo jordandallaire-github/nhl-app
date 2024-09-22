@@ -1,11 +1,11 @@
 import React from "react";
 import TemplateTeamCard from "./template-team-card";
 import { TeamColor } from "../../../interfaces/team/teamColor";
-import { TeamDetails } from "../../../interfaces/team/teamDetails";
+import { TeamDetail } from "../../../interfaces/team/teamDetails";
 
 interface TeamsByDivisionProps {
   division: string;
-  teams: TeamDetails[];
+  teams: TeamDetail[];
   teamColors: TeamColor | null;
 }
 

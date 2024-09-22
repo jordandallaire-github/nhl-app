@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { TeamDetails } from "../../../interfaces/team/teamDetails";
+import { TeamDetail } from "../../../interfaces/team/teamDetails";
 import { TeamColor } from "../../../interfaces/team/teamColor";
 
 interface TeamCardProps {
-  team: TeamDetails;
+  team: TeamDetail;
   teamColor: TeamColor | null;
 }
 
