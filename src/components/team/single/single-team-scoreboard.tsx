@@ -10,10 +10,12 @@ import { formatDateMonthDay } from "../../utils/formatDate";
 
 interface SingleTeamScoreboardProps {
   teamScoreboard: TeamScoreboard | null;
+  teamColor: string | null;
 }
 
 const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
   teamScoreboard,
+  teamColor,
 }) => {
   if (!teamScoreboard || teamScoreboard.gamesByDate.length === 0) {
     return <p>Aucun match à venir</p>;
@@ -23,14 +25,27 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
     <section className="scoreboard">
       <div className="wrapper">
         <h2>Match à venir</h2>
-        <Carousel>
+        <Carousel
+          breakpoint={{
+            1300: { slidesPerView: 3.2, spaceBetween: 30 },
+            1020: { slidesPerView: 2.5, spaceBetween: 30 },
+            720: { slidesPerView: 1.8, spaceBetween: 10 },
+            350: { slidesPerView: 1.1, spaceBetween: 20 },
+          }}
+        >
           {teamScoreboard.gamesByDate.map((gameData: GameData) =>
             gameData.games.map((game) => (
               <div
                 data-is-swiper-slide
                 key={game.id}
-                className="game-card window-effect glare-item"
+                className="game-card window-effect scoreboard"
               >
+                <div
+                  style={{
+                    backgroundImage: `linear-gradient(to right, #0000 15%, ${teamColor} 50%, #0000 95%)`,
+                  }}
+                  className="glare-effect"
+                ></div>
                 <h3>{formatDateMonthDay(game.gameDate)}</h3>
                 <div className="game-media">
                   <div className="team">
@@ -40,7 +55,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                         .replace(/\s+/g, "-")}`}
                     >
                       <img
-                        src={`${game.awayTeam.logo}`}
+                        src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
                         alt={`${game.awayTeam.name.fr} logo`}
                       />
                     </Link>
@@ -76,12 +91,18 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                     ) : (
                       <>
                         <p>
-                          {game.gameState === "FINAL"
-                            ? "Finale"
-                            : formatGameTime(
-                                game.startTimeUTC,
-                                game.easternUTCOffset
-                              )}
+                          {`${
+                            game.gameState === "FINAL"
+                              ? `Finale${
+                                  game.periodDescriptor.periodType === "OT"
+                                    ? "/Pr."
+                                    : ""
+                                }`
+                              : formatGameTime(
+                                  game.startTimeUTC,
+                                  game.easternUTCOffset
+                                ) + " UTC-4"
+                          }`}
                         </p>
                         <p>@</p>
                         <p>{game.venue.default}</p>
@@ -100,7 +121,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                         .replace(/\s+/g, "-")}`}
                     >
                       <img
-                        src={`${game.homeTeam.logo}`}
+                        src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
                         alt={`${game.homeTeam.name.fr} logo`}
                       />
                     </Link>
@@ -117,7 +138,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                 <div className="game-content">
                   <div className="game-links">
                     <a href={`#`}>Détails de la partie</a>
-                    {game.ticketsLink && (
+                    {game.ticketsLink && game.gameState === "FUT" && (
                       <a href={game.ticketsLinkFr}>Acheter des billets</a>
                     )}
                   </div>

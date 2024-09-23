@@ -30,8 +30,8 @@ interface CarouselProps {
     bulletElement?: string;
   };
   breakpoint?: Record<number, {
-    spaceBetween: number;
-    slidesPerView: number;
+    spaceBetween?: number;
+    slidesPerView?: number;
   }>;
   children: ReactNode;
 }

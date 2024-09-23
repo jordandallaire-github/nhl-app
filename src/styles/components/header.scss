@@ -146,6 +146,7 @@ header {
   margin-left: calc(var(--total-nav-width)/2 - var(--link-width)/2 * 2);
   box-shadow: 0 2px 25px 2px var(--color-white);
   transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  filter: brightness(2);
 
   &.equipes{
     margin-left: calc(var(--total-nav-width)/2 - var(--link-width)/2 * 0);

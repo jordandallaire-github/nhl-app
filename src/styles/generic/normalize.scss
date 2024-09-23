@@ -30,6 +30,12 @@
   
   main {
     display: block;
+    z-index: 1;
+    background-image: radial-gradient(
+      circle closest-corner at 50% 0,
+      #f2f2f226,
+      #0000
+    );
   }
   
   /**

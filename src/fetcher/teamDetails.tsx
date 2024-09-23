@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import SingleTeamPlayerGroup from "../components/team/single/single-team-player";
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
 import { TeamDetail } from "../interfaces/team/teamDetails";
@@ -14,6 +14,7 @@ const TeamDetails: React.FC = () => {
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const location = useLocation();
 
   const fetchTeamData = useCallback(async () => {
     setLoading(true);
@@ -75,6 +76,34 @@ const TeamDetails: React.FC = () => {
     fetchTeamData();
   }, [fetchTeamData]);
 
+  useEffect(() => {
+    const mainElement = document.querySelector("main");
+    const navPill = document.querySelector(".indicator-page-top");
+
+    if (
+      location.pathname === `/equipes/${teamCommonName}` &&
+      teamColor &&
+      mainElement &&
+      navPill
+    ) {
+      const rgb = parseInt(teamColor.slice(1), 16);
+      const r = (rgb >> 16) & 255;
+      const g = (rgb >> 8) & 255;
+      const b = rgb & 255;
+
+      (navPill as HTMLDivElement).style.backgroundColor = `${teamColor}`;
+      (navPill as HTMLDivElement).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
+      mainElement.style.backgroundImage = `radial-gradient(circle closest-corner at 50% 0, rgba(${r}, ${g}, ${b}, 0.6) 0%, #0000 60%)`;
+    }
+    return () => {
+      if (mainElement) {
+        mainElement.style.backgroundImage = "";
+        (navPill as HTMLDivElement).style.backgroundColor = ``;
+        (navPill as HTMLDivElement).style.boxShadow = ``;
+      }
+    };
+  }, [location.pathname, teamCommonName, teamColor]);
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -91,12 +120,19 @@ const TeamDetails: React.FC = () => {
 
   return (
     <>
-      <section className="hero">
-        <div className="wrapper"></div>
+      <section className="hero team">
+        <div className="wrapper">
+          <img
+            className="hero-logo"
+            src={`https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_dark.svg`}
+            alt={`${teamCommonName} logo`}
+          />
+        </div>
       </section>
+      <SingleTeamScoreboard teamColor={teamColor} teamScoreboard={scoreBoard}></SingleTeamScoreboard>
       <section className="roster">
         <div className="wrapper">
-          <h1>Joueurs de l'équipe {teamCommonName}</h1>
+          <h2>Joueurs de l'équipe des {teamCommonName}</h2>
           <SingleTeamPlayerGroup
             title="Attaquants"
             players={forwards}
@@ -120,7 +156,6 @@ const TeamDetails: React.FC = () => {
           />
         </div>
       </section>
-      <SingleTeamScoreboard teamScoreboard={scoreBoard}></SingleTeamScoreboard>
     </>
   );
 };
