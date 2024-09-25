@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TemplateTeamDivision from "../components/team/template/template-team-division";
 import { TeamColor } from "../interfaces/team/teamColor";
-import { TeamDetails } from "../interfaces/team/teamDetails";
+import { TeamDetail } from "../interfaces/team/teamDetails";
 
 
-const groupTeamsByDivision = (teams: TeamDetails[]) => {
-  return teams.reduce((acc: { [key: string]: TeamDetails[] }, team) => {
+const groupTeamsByDivision = (teams: TeamDetail[]) => {
+  return teams.reduce((acc: { [key: string]: TeamDetail[] }, team) => {
     const division = team.divisionName;
     if (!acc[division]) {
       acc[division] = [];
@@ -16,7 +16,7 @@ const groupTeamsByDivision = (teams: TeamDetails[]) => {
 };
 
 const ListTeams: React.FC = () => {
-  const [teams, setTeams] = useState<TeamDetails[]>([]);
+  const [teams, setTeams] = useState<TeamDetail[]>([]);
   const [teamColors, setTeamColors] = useState<TeamColor | null>(null);
   const [error, setError] = useState<string | null>(null);
 

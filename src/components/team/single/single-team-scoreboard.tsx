@@ -49,6 +49,17 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                 <h3>{formatDateMonthDay(game.gameDate)}</h3>
                 <div className="game-media">
                   <div className="team">
+                    {game?.situation?.teamAbbrev === game?.awayTeam?.abbrev &&
+                      (game?.situation?.situationCode === "PP" ? (
+                        <p className="situation">
+                          AN {game?.situation?.timeRemaining}
+                        </p>
+                      ) : (
+                        <p className="situation">
+                          {game?.situation?.situationCode}{" "}
+                          {game?.situation?.timeRemaining}
+                        </p>
+                      ))}
                     <Link
                       to={`/equipes/${game.awayTeam.commonName.default
                         .toLowerCase()
@@ -74,14 +85,13 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                         <p>
                           {`${
                             game.period === 1
-                              ? game.period + "er"
+                              ? game.period + "re"
                               : game.period + "e"
                           }`}{" "}
-                          {game.clock.inIntermission === true ? "INT" : ""}{" "}
+                          {game.clock.inIntermission === true ? "ENT" : ""}{" "}
                           {game.clock.timeRemaining}
                         </p>
                         <p>@</p>
-                        <p>{game.venue.default}</p>
                         <div className="broadcast">
                           {game.tvBroadcasts.map((broadcast) => (
                             <p key={broadcast.id}>{broadcast.network}</p>
@@ -105,7 +115,6 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                           }`}
                         </p>
                         <p>@</p>
-                        <p>{game.venue.default}</p>
                         <div className="broadcast">
                           {game.tvBroadcasts.map((broadcast) => (
                             <p key={broadcast.id}>{broadcast.network}</p>
@@ -115,6 +124,17 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                     )}
                   </div>
                   <div className="team">
+                    {game?.situation?.teamAbbrev === game?.homeTeam?.abbrev &&
+                      (game?.situation?.situationCode === "PP" ? (
+                        <p className="situation">
+                          AN {game?.situation?.timeRemaining}
+                        </p>
+                      ) : (
+                        <p className="situation">
+                          {game?.situation?.situationCode}{" "}
+                          {game?.situation?.timeRemaining}
+                        </p>
+                      ))}
                     <Link
                       to={`/equipes/${game.homeTeam.commonName.default
                         .toLowerCase()

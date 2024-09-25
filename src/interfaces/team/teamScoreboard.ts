@@ -58,6 +58,7 @@ export interface GameData {
     situation: {
         teamAbbrev: string,
         situationCode: string
+        timeRemaining: string,
       }
   }>;
 }

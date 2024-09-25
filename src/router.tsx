@@ -10,6 +10,7 @@ import {
   import Team from "./pages/single-team.tsx";
   import Player from "./pages/single-player.tsx";
   
+  
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>

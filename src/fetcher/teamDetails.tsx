@@ -4,16 +4,21 @@ import SingleTeamPlayerGroup from "../components/team/single/single-team-player"
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
 import { TeamDetail } from "../interfaces/team/teamDetails";
 import { TeamScoreboard } from "../interfaces/team/teamScoreboard";
+import { INTeamSchedule } from "../interfaces/team/teamSchedule";
 import SingleTeamScoreboard from "../components/team/single/single-team-scoreboard";
+import SingleTeamHero from "../components/team/single/single-team-hero";
+import SingleTeamSchedule from "../components/team/single/single-team-schedule";
 
 const TeamDetails: React.FC = () => {
   const { teamCommonName } = useParams<{ teamCommonName: string }>();
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
   const [players, setPlayers] = useState<PlayerDetailsType[]>([]);
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
+  const [schedule, setSchedule] = useState<INTeamSchedule | null>(null);
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const location = useLocation();
 
   const fetchTeamData = useCallback(async () => {
@@ -45,13 +50,19 @@ const TeamDetails: React.FC = () => {
         ];
         setPlayers(playersArray);
 
-        // Fetch game data and set the scoreboard state
         const gameDataResponse = await fetch(
           `https://api-web.nhle.com/v1/scoreboard/${teamAbbrev}/now`
         );
         if (!gameDataResponse.ok) throw new Error("Failed to fetch game data");
         const gameData: TeamScoreboard = await gameDataResponse.json();
         setScoreBoard(gameData);
+
+        const scheduleResponse = await fetch(
+          `https://api-web.nhle.com/v1/club-schedule/${teamAbbrev}/month/2024-09`
+        );
+        if (!scheduleResponse.ok) throw new Error("Failed to fetch game data");
+        const scheduleData: INTeamSchedule = await scheduleResponse.json();
+        setSchedule(scheduleData);
 
         const colorRes = await fetch("/teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
@@ -79,9 +90,10 @@ const TeamDetails: React.FC = () => {
   useEffect(() => {
     const mainElement = document.querySelector("main");
     const navPill = document.querySelector(".indicator-page-top");
+    console.log(`Applying styles for ${teamCommonName}`);
 
     if (
-      location.pathname === `/equipes/${teamCommonName}` &&
+      location.pathname.startsWith(`/equipes/${teamCommonName}`) &&
       teamColor &&
       mainElement &&
       navPill
@@ -92,16 +104,19 @@ const TeamDetails: React.FC = () => {
       const b = rgb & 255;
 
       (navPill as HTMLDivElement).style.backgroundColor = `${teamColor}`;
-      (navPill as HTMLDivElement).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
+      (
+        navPill as HTMLDivElement
+      ).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
       mainElement.style.backgroundImage = `radial-gradient(circle closest-corner at 50% 0, rgba(${r}, ${g}, ${b}, 0.6) 0%, #0000 60%)`;
-    }
-    return () => {
+    } else {
       if (mainElement) {
         mainElement.style.backgroundImage = "";
-        (navPill as HTMLDivElement).style.backgroundColor = ``;
-        (navPill as HTMLDivElement).style.boxShadow = ``;
       }
-    };
+      if (navPill) {
+        (navPill as HTMLDivElement).style.backgroundColor = "";
+        (navPill as HTMLDivElement).style.boxShadow = "";
+      }
+    }
   }, [location.pathname, teamCommonName, teamColor]);
 
   if (error) {
@@ -120,42 +135,60 @@ const TeamDetails: React.FC = () => {
 
   return (
     <>
-      <section className="hero team">
+      <SingleTeamHero
+        teamName={teamCommonName ?? ""}
+        abr={teamAbbrev}
+      ></SingleTeamHero>
+      <section className="nav-section">
         <div className="wrapper">
-          <img
-            className="hero-logo"
-            src={`https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_dark.svg`}
-            alt={`${teamCommonName} logo`}
-          />
+          <button onClick={() => setShowCalendar((prev) => !prev)}>
+            {showCalendar ? "Masquer le calendrier" : "Voir tout le calendrier"}
+          </button>
         </div>
       </section>
-      <SingleTeamScoreboard teamColor={teamColor} teamScoreboard={scoreBoard}></SingleTeamScoreboard>
-      <section className="roster">
-        <div className="wrapper">
-          <h2>Joueurs de l'équipe des {teamCommonName}</h2>
-          <SingleTeamPlayerGroup
-            title="Attaquants"
-            players={forwards}
+
+      {!showCalendar && (
+        <>
+          <SingleTeamScoreboard
             teamColor={teamColor}
-            teamAbbrev={teamAbbrev ?? ""}
-            teamCommonName={teamCommonName}
-          />
-          <SingleTeamPlayerGroup
-            title="Défenseurs"
-            players={defensemen}
-            teamColor={teamColor}
-            teamAbbrev={teamAbbrev ?? ""}
-            teamCommonName={teamCommonName}
-          />
-          <SingleTeamPlayerGroup
-            title="Gardiens"
-            players={goalies}
-            teamColor={teamColor}
-            teamAbbrev={teamAbbrev ?? ""}
-            teamCommonName={teamCommonName}
-          />
-        </div>
-      </section>
+            teamScoreboard={scoreBoard}
+          ></SingleTeamScoreboard>
+          <section className="roster">
+            <div className="wrapper">
+              <h2>Joueurs de l'équipe des {teamCommonName}</h2>
+              <SingleTeamPlayerGroup
+                title="Attaquants"
+                players={forwards}
+                teamColor={teamColor}
+                teamAbbrev={teamAbbrev ?? ""}
+                teamCommonName={teamCommonName}
+              />
+              <SingleTeamPlayerGroup
+                title="Défenseurs"
+                players={defensemen}
+                teamColor={teamColor}
+                teamAbbrev={teamAbbrev ?? ""}
+                teamCommonName={teamCommonName}
+              />
+              <SingleTeamPlayerGroup
+                title="Gardiens"
+                players={goalies}
+                teamColor={teamColor}
+                teamAbbrev={teamAbbrev ?? ""}
+                teamCommonName={teamCommonName}
+              />
+            </div>
+          </section>
+        </>
+      )}
+
+      {showCalendar && (
+        <SingleTeamSchedule
+          abr={teamAbbrev}
+          teamColor={teamColor}
+          schedule={schedule}
+        ></SingleTeamSchedule>
+      )}
     </>
   );
 };
