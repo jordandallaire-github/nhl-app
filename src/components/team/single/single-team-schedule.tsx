@@ -217,9 +217,9 @@ const DayWithGames: React.FC<{
               >
                 Direct
               </p>
-              <p className="noMobile">{`${game.homeTeam.abbrev + " " + game.homeTeam.score}, ${
-                game.awayTeam.abbrev + " " + game.awayTeam.score
-              }`}</p>
+              <p className="noMobile">{`${
+                game.homeTeam.abbrev + " " + game.homeTeam.score
+              }, ${game.awayTeam.abbrev + " " + game.awayTeam.score}`}</p>
               <div className="game-links noMobile">
                 <a href={`#`}>
                   <Svg name="game-stats" size="sm" />
