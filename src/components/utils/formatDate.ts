@@ -3,6 +3,7 @@ export const formatDate = (dateString: string): string => {
     day: "2-digit",
     month: "long",
     year: "2-digit",
+    timeZone: "UTC",
   };
   const date = new Date(dateString);
   return date.toLocaleDateString("fr-FR", options);
@@ -14,6 +15,7 @@ export const formatDateMonthDay = (dateString: string): string => {
     year: undefined,
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 };
 
@@ -23,6 +25,7 @@ export const formatDateMonthShortYear = (dateString: string): string => {
     year: "numeric",
     month: "short",
     day: undefined,
+    timeZone: "UTC",
   });
 };
 
@@ -33,5 +36,6 @@ export const formatDateMonthYear = (dateString: string): string => {
     month: "long",
     year: "numeric",
     day: undefined,
+    timeZone: "UTC",
   });
 };

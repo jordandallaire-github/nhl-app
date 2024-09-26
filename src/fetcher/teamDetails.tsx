@@ -19,6 +19,7 @@ const TeamDetails: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("accueil");  
   const location = useLocation();
 
   const fetchTeamData = useCallback(async () => {
@@ -87,7 +88,6 @@ const TeamDetails: React.FC = () => {
     fetchTeamData();
   }, [fetchTeamData]);
 
-
   useEffect(() => {
     const mainElement = document.querySelector("main");
     const navPill = document.querySelector(".indicator-page-top");
@@ -128,11 +128,26 @@ const TeamDetails: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+
   const forwards = players.filter((player) =>
     ["C", "L", "R"].includes(player.positionCode)
   );
   const defensemen = players.filter((player) => player.positionCode === "D");
   const goalies = players.filter((player) => player.positionCode === "G");
+
+  const handleNavClick = (type: string) => {
+    if (type === "calendrier") {
+      setShowCalendar(true);
+    } else {
+      setShowCalendar(false);
+    }
+
+    const navContainer = document.querySelector(".nav-container");
+    if (navContainer) {
+      navContainer.className = `nav-container ${type}`;
+      setActiveTab(type);
+    }
+  };
 
   return (
     <>
@@ -142,9 +157,10 @@ const TeamDetails: React.FC = () => {
       ></SingleTeamHero>
       <section className="nav-section">
         <div className="wrapper">
-          <button onClick={() => setShowCalendar((prev) => !prev)}>
-            {showCalendar ? "Masquer le calendrier" : "Voir tout le calendrier"}
-          </button>
+          <div className={`nav-container ${activeTab}`}>
+            <p className={activeTab === "accueil" ? "active" : ""} onClick={() => handleNavClick("accueil")}>Accueil</p>
+            <p className={activeTab === "calendrier" ? "active" : ""} onClick={() => handleNavClick("calendrier")}>Calendrier</p>
+          </div>
         </div>
       </section>
 

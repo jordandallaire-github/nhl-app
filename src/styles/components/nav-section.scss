@@ -1,0 +1,44 @@
+.nav-section {
+  font-size: 2.4rem;
+  color: var(--color-white);
+  font-weight: 600;
+
+  .nav-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    width: fit-content;
+    gap: 20px;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      --width-line: 120px;
+      background-color: var(--color-white);
+      border-radius: 2px;
+      width: var(--width-line);
+      height: 4px;
+      box-shadow: 0 2px 25px 2px var(--color-white);
+      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    p {
+      opacity: 0.35;
+      min-width: 120px;
+      cursor: pointer;
+
+      &.active{
+        opacity: 1;
+      }
+    }
+
+    &.calendrier::after{
+        left: calc(var(--width-line) + 20px);
+    }
+  }
+}

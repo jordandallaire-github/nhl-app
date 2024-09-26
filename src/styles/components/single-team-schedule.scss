@@ -38,9 +38,14 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 10px;
       text-align: center;
+
+      @media screen and (max-width: 1050px) {
+        gap: 4px;
+      }
     }
 
     .day {
+      position: initial;
       font-size: 1.6rem;
       font-weight: bold;
       padding: 15px;
@@ -58,6 +63,7 @@
 
       .day-number{
         width: fit-content;
+        font-size: 1.4rem;
       }
 
       &.games-day{
@@ -85,8 +91,9 @@
           }
 
           @media screen and (max-width: 1050px) {
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
+            margin-top: -4px;
           }
 
         }
@@ -102,10 +109,11 @@
       }
 
       @media screen and (max-width: 1050px) {
-        min-height: 100px;
-        max-height: 100px;
-        padding: 5px;
+        min-height: 65px;
+        max-height: 85px;
+        padding: 2px;
         border-radius: 0;
+        min-width: 36px;
       }
     }
   }
@@ -128,6 +136,68 @@
     justify-content: space-around;
     text-align: center;
     margin-top: 8px;
+
+    svg:last-child{
+      display: none;
+    }
+
+    &.active,
+    &.modal{
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      z-index: 5;
+      top: 100%;
+      margin-top: 0;
+      left: 41px;
+      width: 220px;
+      padding: 10px;
+      height: 115px;
+      background-color: var(--color-white);
+      color: var(--color-black);
+    }
+
+    @media screen and (max-width: 1050px) {
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      z-index: 5;
+      top: 100%;
+      margin-top: 0;
+      left: 41px;
+      width: 220px;
+      height: 115px;
+      padding: 10px;
+      background-color: var(--color-white);
+      color: var(--color-black);
+
+      a{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+
+        &:last-child{
+          border-top: 1px solid var(--color-black);
+        }
+      }
+
+      svg:last-child{
+        display: block;
+      }
+
+      &.active{
+        opacity: 1;
+        pointer-events: initial;
+      }
+    }
   }
 
   .broadcast{
@@ -177,6 +247,14 @@
     display: none;
     &.broadcast{
       display: none;
+    }
+  }
+
+  .day-week{
+    @media screen and (max-width: 1050px) {
+      h4{
+        font-size: 1.6rem;
+      }
     }
   }
   

@@ -27,3 +27,6 @@ const TemplateTeamDivision: React.FC<TeamsByDivisionProps> = ({ division, teams,
 };
 
 export default TemplateTeamDivision;
+
+
+

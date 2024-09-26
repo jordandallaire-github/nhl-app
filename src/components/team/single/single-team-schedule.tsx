@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { INTeamSchedule } from "../../../interfaces/team/teamSchedule";
 import {
   formatDateMonthYear,
@@ -19,6 +19,13 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
   abr,
 }) => {
   const [, setCurrentMonth] = useState<string>("2024-09");
+  const [selectedGame, setSelectedGame] = useState<
+    INTeamSchedule["games"][number] | null
+  >(null);
+  const [activeGameTop, setActiveGameTop] = useState<number | null>(null);
+  const [activeGameLeft, setActiveGameLeft] = useState<number | null>(null);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const gameLinksRef = useRef<HTMLDivElement | null>(null);
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(
     initialSchedule
   );
@@ -78,6 +85,51 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
     [abr, schedule]
   );
 
+  const handleGameClick = (
+    event: React.MouseEvent,
+    game: INTeamSchedule["games"][number],
+    gameDayElement: HTMLElement
+  ) => {
+    const { top, left } = gameDayElement.getBoundingClientRect();
+    if (gameLinksRef.current) {
+      const gameLinksWidth = gameLinksRef.current.getBoundingClientRect().width;
+      const gameDayHeight = gameDayElement.offsetHeight;
+      if (left + gameLinksWidth > window.innerWidth) {
+        setActiveGameLeft(window.innerWidth - gameLinksWidth - 20);
+      } else {
+        setActiveGameLeft(left);
+      }
+
+      setActiveGameTop(top + window.scrollY + gameDayHeight);
+      setIsActive(true);
+      setSelectedGame(game);
+    }
+  };
+
+  useEffect(() => {
+    if (window.innerWidth < 1050) {
+      if (isActive) {
+        document.documentElement.style.overflow = "hidden";
+      } else {
+        document.documentElement.style.overflow = "";
+      }
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          gameLinksRef.current &&
+          !gameLinksRef.current.contains(event.target as Node)
+        ) {
+          setIsActive(false);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [isActive]);
+
   return (
     <section className="schedule">
       <div className="wrapper">
@@ -105,17 +157,11 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
           </div>
           <div className="schedule-container">
             <div className="day-week">
-              {[
-                "Dimanche",
-                "Lundi",
-                "Mardi",
-                "Mercredi",
-                "Jeudi",
-                "Vendredi",
-                "Samedi",
-              ].map((day, index) => (
-                <h4 key={index}>{day}</h4>
-              ))}
+              {["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."].map(
+                (day, index) => (
+                  <h4 key={index}>{day}</h4>
+                )
+              )}
             </div>
             <div className="schedule-day">
               {daysArray.map((date, index) => {
@@ -133,6 +179,9 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
                         teamAbr={abr}
                         game={game}
                         teamColor={teamColor}
+                        onClick={(e) =>
+                          handleGameClick(e, game, e.currentTarget)
+                        }
                       />
                     ) : (
                       <DayWithoutGames dayNumber={date?.getDate() ?? null} />
@@ -140,6 +189,49 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
                   </React.Fragment>
                 );
               })}
+            </div>
+            <div
+              className={`game-links modal ${isActive ? "active" : ""}`}
+              style={{
+                top: `calc(${activeGameTop}px)`,
+                left: `calc(${activeGameLeft}px)`,
+              }}
+              ref={gameLinksRef}
+            >
+              {selectedGame ? (
+                <>
+                  <a href={`#`}>
+                    <Svg name="game-stats" size="sm" />
+                    <span className="mobile">Détails match</span>
+                    <Svg className="mobile" name="right-arrow" size="sm" />
+                  </a>
+                  {selectedGame.ticketsLink &&
+                    selectedGame.gameState === "FUT" && (
+                      <a target="_blank" href={selectedGame.ticketsLinkFr}>
+                        <Svg name="ticket" size="sm" isStroke={true} />
+                        <span className="mobile">Billets</span>
+                        <Svg className="mobile" name="right-arrow" size="sm" />
+                      </a>
+                    )}
+                  {(selectedGame?.threeMinRecap !== undefined ||
+                    selectedGame?.threeMinRecapFr !== undefined) && (
+                    <a
+                      target="_blank"
+                      href={`https://www.nhl.com${
+                        selectedGame?.threeMinRecap
+                          ? selectedGame?.threeMinRecap
+                          : selectedGame?.threeMinRecapFr
+                      }`}
+                    >
+                      <Svg name="recap-play-video" size="sm" />
+                      <span className="mobile">Résumé</span>
+                      <Svg className="mobile" name="right-arrow" size="sm" />
+                    </a>
+                  )}
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
@@ -176,8 +268,10 @@ const DayWithGames: React.FC<{
   game: INTeamSchedule["games"][number];
   teamColor: string | null;
   teamAbr: string | null;
-}> = ({ game, teamColor, teamAbr }) => (
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+}> = ({ game, teamColor, teamAbr, onClick }) => (
   <div
+    onClick={onClick}
     style={{
       backgroundColor: `${game.homeTeam.abbrev === teamAbr ? teamColor : ""}`,
     }}
@@ -228,18 +322,21 @@ const DayWithGames: React.FC<{
             </>
           ) : (
             <>
-              {game.gameState !== "LIVE" && game.gameState !== "FINAL" && (
-                <>
-                  <p>
-                    {formatGameTime(game.startTimeUTC, game.easternUTCOffset)}
-                  </p>
-                  <div className="broadcast noMobile">
-                    {game.tvBroadcasts.map((broadcast) => (
-                      <p key={broadcast.id}>{broadcast.network}</p>
-                    ))}
-                  </div>
-                </>
-              )}
+              {game.gameState !== "LIVE" &&
+                game.gameState !== "FINAL" &&
+                game.gameState !== "OFF" && (
+                  <>
+                    <p>
+                      {formatGameTime(game.startTimeUTC, game.easternUTCOffset)}{" "}
+                      <span className="noMobile">HAE</span>
+                    </p>
+                    <div className="broadcast noMobile">
+                      {game.tvBroadcasts.map((broadcast) => (
+                        <p key={broadcast.id}>{broadcast.network}</p>
+                      ))}
+                    </div>
+                  </>
+                )}
               {game.awayTeam.score !== undefined &&
                 game.homeTeam.score !== undefined && (
                   <p>
@@ -249,13 +346,18 @@ const DayWithGames: React.FC<{
                       : "D " + game.awayTeam.score + "-" + game.homeTeam.score}
                   </p>
                 )}
+
               <div className="game-links noMobile">
                 <a href={`#`}>
                   <Svg name="game-stats" size="sm" />
+                  <span className="mobile">Détails match</span>
+                  <Svg className="mobile" name="right-arrow" size="sm" />
                 </a>
                 {game.ticketsLink && game.gameState === "FUT" && (
                   <a target="_blank" href={game.ticketsLinkFr}>
                     <Svg name="ticket" size="sm" isStroke={true} />
+                    <span className="mobile">Billets</span>
+                    <Svg className="mobile" name="right-arrow" size="sm" />
                   </a>
                 )}
                 {(game?.threeMinRecap !== undefined ||
@@ -269,6 +371,8 @@ const DayWithGames: React.FC<{
                     }`}
                   >
                     <Svg name="recap-play-video" size="sm" />
+                    <span className="mobile">Résumé</span>
+                    <Svg className="mobile" name="right-arrow" size="sm" />
                   </a>
                 )}
               </div>
