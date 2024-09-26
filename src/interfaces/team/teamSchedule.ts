@@ -66,6 +66,7 @@ export interface INTeamSchedule {
       lastName: { default: string };
     };
     threeMinRecapFr?: string;
+    threeMinRecap?: string;
     gameCenterLink: string;
   }>;
 }

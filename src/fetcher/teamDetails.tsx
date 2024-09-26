@@ -87,6 +87,7 @@ const TeamDetails: React.FC = () => {
     fetchTeamData();
   }, [fetchTeamData]);
 
+
   useEffect(() => {
     const mainElement = document.querySelector("main");
     const navPill = document.querySelector(".indicator-page-top");

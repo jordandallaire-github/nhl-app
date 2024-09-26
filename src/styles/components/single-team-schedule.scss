@@ -41,9 +41,12 @@
     }
 
     .day {
+      font-size: 1.6rem;
+      font-weight: bold;
       padding: 15px;
       text-align: left;
       color: var(--color-white);
+      max-height: 175px;
       min-height: 175px;
       width: 100%;
       height: 100%;
@@ -51,8 +54,10 @@
 
       p {
         margin: 0;
-        font-size: 1.6rem;
-        font-weight: 700;
+      }
+
+      .day-number{
+        width: fit-content;
       }
 
       &.games-day{
@@ -62,7 +67,137 @@
           background-color: var(--color-white);
           color: var(--color-black);
         }
+
+        .game-infos{
+          height: 80%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          text-align: center;
+          margin-top: -10px;
+
+          .content{
+            width: 100%;
+
+            @media screen and (max-width: 1050px) {
+              width: fit-content;
+            }
+          }
+
+          @media screen and (max-width: 1050px) {
+            justify-content: center;
+            align-items: center;
+          }
+
+        }
+
+        .opp-logo{
+          width: 100%;
+          text-align: center;
+          img{
+            max-width: 70px;
+          }
+
+        }
       }
+
+      @media screen and (max-width: 1050px) {
+        min-height: 100px;
+        max-height: 100px;
+        padding: 5px;
+        border-radius: 0;
+      }
+    }
+  }
+
+  .live{
+    position: absolute;
+    padding: 5px 15px;
+    color: red;
+    right: 0;
+    top: 0;
+
+    &.homeTeam{
+      color: var(--color-white);
+    }
+  }
+
+  .game-links{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .broadcast{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    p{
+      font-size: 1.4rem;
+      letter-spacing: 0.01px;
+      line-height: 10px;
+      width: fit-content;
+      font-weight: 400;
+    }
+  }
+
+  .nav-month{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+
+    button{
+      font-weight: bold;
+      color: var(--color-white);
+      text-transform: capitalize;
+      font-size: 1.8rem;
+      min-width: 150px;
+      max-width: 180px;
+      border: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+       &.window-effect{
+        background: inherit;
+       }
+    }
+  }
+
+
+  .mobile{
+    display: none;
+    &.broadcast{
+      display: none;
+    }
+  }
+  
+  
+  @media screen and (max-width: 1050px) {
+    .mobile{
+      width: fit-content;
+      margin: 0;
+      font-size: 1.4rem;
+      display: block;
+    }
+    .noMobile{
+      display: none;
+    }
+    .livescore{
+      text-align: center;
+      font-size: 1.4rem;
+      width: fit-content;
+    }
+    .live{
+      position: relative;
     }
   }
 }

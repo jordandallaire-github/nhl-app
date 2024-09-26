@@ -17,6 +17,16 @@ export const formatDateMonthDay = (dateString: string): string => {
   });
 };
 
+export const formatDateMonthShortYear = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("fr-FR", {
+    year: "numeric",
+    month: "short",
+    day: undefined,
+  });
+};
+
+
 export const formatDateMonthYear = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString("fr-FR", {

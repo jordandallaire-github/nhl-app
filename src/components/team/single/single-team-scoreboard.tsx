@@ -92,11 +92,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                           {game.clock.timeRemaining}
                         </p>
                         <p>@</p>
-                        <div className="broadcast">
-                          {game.tvBroadcasts.map((broadcast) => (
-                            <p key={broadcast.id}>{broadcast.network}</p>
-                          ))}
-                        </div>
+                        <p>{game.venue.default}</p>
                       </>
                     ) : (
                       <>
@@ -111,15 +107,19 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                               : formatGameTime(
                                   game.startTimeUTC,
                                   game.easternUTCOffset
-                                ) + " UTC-4"
+                                ) + " HAE"
                           }`}
                         </p>
                         <p>@</p>
-                        <div className="broadcast">
-                          {game.tvBroadcasts.map((broadcast) => (
-                            <p key={broadcast.id}>{broadcast.network}</p>
-                          ))}
-                        </div>
+                        {game.gameState === "FUT" ? (
+                          <div className="broadcast">
+                            {game.tvBroadcasts.map((broadcast) => (
+                              <p key={broadcast.id}>{broadcast.network}</p>
+                            ))}
+                          </div>
+                        ) : (
+                          <p>{game.venue.default}</p>
+                        )}
                       </>
                     )}
                   </div>
