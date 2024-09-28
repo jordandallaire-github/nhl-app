@@ -1,4 +1,5 @@
 .nav-section {
+  --number-links: 2;
   font-size: 2.4rem;
   color: var(--color-white);
   font-weight: 600;
@@ -18,7 +19,7 @@
       position: absolute;
       bottom: 20px;
       left: 0;
-      --width-line: 120px;
+      --width-line: 130px;
       background-color: var(--color-white);
       border-radius: 2px;
       width: var(--width-line);
@@ -29,16 +30,21 @@
 
     p {
       opacity: 0.35;
-      min-width: 120px;
+      min-width: 130px;
       cursor: pointer;
 
-      &.active{
+      &.active {
         opacity: 1;
       }
     }
 
-    &.calendrier::after{
-        left: calc(var(--width-line) + 20px);
+    &.calendrier::after {
+      left: calc(var(--width-line) + 20px);
+    }
+    &.statistiques::after {
+      left: calc(
+        var(--width-line) * var(--number-links) + 20px * var(--number-links)
+      );
     }
   }
 }

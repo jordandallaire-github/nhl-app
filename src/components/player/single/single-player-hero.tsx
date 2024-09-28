@@ -1,15 +1,5 @@
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
-
-const getPositionLabel = (positionCode: string) => {
-    switch (positionCode) {
-      case "R":
-        return "AD";
-      case "L":
-        return "AG";
-      default:
-        return positionCode;
-    }
-};
+import { FormatPosition } from "../../utils/formatPosition";
 
 const getDraftDetails = (player: PlayerDetailsType) => {
     if (
@@ -53,7 +43,7 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({ player }) =
               src={player.teamLogo}
               alt={`${player.fullTeamName} logo`}
             />
-            <p>{`${getPositionLabel(player.positionCode)}`}</p>
+            <p>{`${FormatPosition(player.positionCode)}`}</p>
           </div>
         </div>
       </div>

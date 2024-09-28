@@ -1,0 +1,12 @@
+.stats-team-player{
+    .player-stats-container{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .player-stat{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+}

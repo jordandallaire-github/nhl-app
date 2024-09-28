@@ -5,21 +5,29 @@ import { PlayerDetailsType } from "../interfaces/player/playerDetails";
 import { TeamDetail } from "../interfaces/team/teamDetails";
 import { TeamScoreboard } from "../interfaces/team/teamScoreboard";
 import { INTeamSchedule } from "../interfaces/team/teamSchedule";
+import { TeamPlayerStats } from "../interfaces/team/teamPlayerStats";
 import SingleTeamScoreboard from "../components/team/single/single-team-scoreboard";
 import SingleTeamHero from "../components/team/single/single-team-hero";
 import SingleTeamSchedule from "../components/team/single/single-team-schedule";
+import SingleTeamPlayerStats from "../components/team/single/single-team-player-stats";
 
 const TeamDetails: React.FC = () => {
   const { teamCommonName } = useParams<{ teamCommonName: string }>();
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
-  const [players, setPlayers] = useState<PlayerDetailsType[]>([]);
+  const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>(
+    []
+  );
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(null);
+  const [playerStats, setTeamPlayerStats] = useState<TeamPlayerStats | null>(
+    null
+  );
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>("accueil");  
+  const [showPlayerStats, setShowPlayerStats] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("accueil");
   const location = useLocation();
 
   const fetchTeamData = useCallback(async () => {
@@ -49,7 +57,7 @@ const TeamDetails: React.FC = () => {
           ...(playerData.defensemen || []),
           ...(playerData.goalies || []),
         ];
-        setPlayers(playersArray);
+        setPlayersPosition(playersArray);
 
         const gameDataResponse = await fetch(
           `https://api-web.nhle.com/v1/scoreboard/${teamAbbrev}/now`
@@ -64,6 +72,15 @@ const TeamDetails: React.FC = () => {
         if (!scheduleResponse.ok) throw new Error("Failed to fetch game data");
         const scheduleData: INTeamSchedule = await scheduleResponse.json();
         setSchedule(scheduleData);
+
+        const playerStatsResponse = await fetch(
+          `https://api-web.nhle.com/v1/club-stats/${teamAbbrev}/now`
+        );
+        if (!playerStatsResponse.ok)
+          throw new Error("Failed to fetch game data");
+        const playerStatsData: TeamPlayerStats =
+          await playerStatsResponse.json();
+        setTeamPlayerStats(playerStatsData);
 
         const colorRes = await fetch("/teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
@@ -128,18 +145,26 @@ const TeamDetails: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-
-  const forwards = players.filter((player) =>
+  const forwards = playersPosition.filter((player) =>
     ["C", "L", "R"].includes(player.positionCode)
   );
-  const defensemen = players.filter((player) => player.positionCode === "D");
-  const goalies = players.filter((player) => player.positionCode === "G");
+  const defensemen = playersPosition.filter(
+    (player) => player.positionCode === "D"
+  );
+  const goalies = playersPosition.filter(
+    (player) => player.positionCode === "G"
+  );
 
   const handleNavClick = (type: string) => {
     if (type === "calendrier") {
       setShowCalendar(true);
     } else {
       setShowCalendar(false);
+    }
+    if (type === "statistiques") {
+      setShowPlayerStats(true);
+    } else {
+      setShowPlayerStats(false);
     }
 
     const navContainer = document.querySelector(".nav-container");
@@ -158,13 +183,29 @@ const TeamDetails: React.FC = () => {
       <section className="nav-section">
         <div className="wrapper">
           <div className={`nav-container ${activeTab}`}>
-            <p className={activeTab === "accueil" ? "active" : ""} onClick={() => handleNavClick("accueil")}>Accueil</p>
-            <p className={activeTab === "calendrier" ? "active" : ""} onClick={() => handleNavClick("calendrier")}>Calendrier</p>
+            <p
+              className={activeTab === "accueil" ? "active" : ""}
+              onClick={() => handleNavClick("accueil")}
+            >
+              Accueil
+            </p>
+            <p
+              className={activeTab === "calendrier" ? "active" : ""}
+              onClick={() => handleNavClick("calendrier")}
+            >
+              Calendrier
+            </p>
+            <p
+              className={activeTab === "statistiques" ? "active" : ""}
+              onClick={() => handleNavClick("statistiques")}
+            >
+              Statistiques
+            </p>
           </div>
         </div>
       </section>
 
-      {!showCalendar && (
+      {!showCalendar && !showPlayerStats && (
         <>
           <SingleTeamScoreboard
             teamColor={teamColor}
@@ -198,13 +239,20 @@ const TeamDetails: React.FC = () => {
           </section>
         </>
       )}
-
-      {showCalendar && (
+      {showCalendar && !showPlayerStats && (
         <SingleTeamSchedule
           abr={teamAbbrev}
           teamColor={teamColor}
           schedule={schedule}
         ></SingleTeamSchedule>
+      )}
+      {!showCalendar && showPlayerStats && (
+        <SingleTeamPlayerStats
+          playerOtherInfos={[...forwards, ...defensemen, ...goalies]}
+          playerStats={playerStats}
+          abr={teamAbbrev}
+          teamName={teamCommonName}
+        ></SingleTeamPlayerStats>
       )}
     </>
   );
