@@ -1,23 +1,21 @@
 export interface TeamPlayerStats {
   season: string;
   gameType: number;
-  skaters: Player[];
+  skaters: Skater[];
+  goalies: Goalie[];
 }
 
-export interface Player {
+export interface Skater {
   playerId: string;
   headshot: string;
   firstName: { default: string };
   lastName: { default: string };
+  positionCode: string;
   gamesPlayed: number;
-  shutouts: number;
   goals: number;
   assists: number;
-  plusMinus: number;
   points: number;
-  positionCode: "G";
-  faceoffWinPctg: number;
-  timeOnIce: number;
+  plusMinus: number;
   penaltyMinutes: number;
   powerPlayGoals: number;
   shorthandedGoals: number;
@@ -27,7 +25,29 @@ export interface Player {
   shootingPctg: number;
   avgTimeOnIcePerGame: number;
   avgShiftsPerGame: number;
-  goalsAgainstAverage: number;
-  savePercentage: number;
+  faceoffWinPctg: number;
 }
 
+export interface Goalie {
+  playerId: string;
+  headshot: string;
+  firstName: { default: string };
+  lastName: { default: string };
+  gamesPlayed: number;
+  gamesStarted: number;
+  wins: number;
+  losses: number;
+  ties: number;
+  overtimeLosses: number;
+  goalsAgainstAverage: number;
+  savePercentage: number;
+  shotsAgainst: number;
+  saves: number;
+  goalsAgainst: number;
+  shutouts: number;
+  goals: number;
+  assists: number;
+  points: number;
+  penaltyMinutes: number;
+  timeOnIce: number;
+}
