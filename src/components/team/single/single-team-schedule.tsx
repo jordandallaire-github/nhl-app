@@ -133,7 +133,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
   return (
     <section className="schedule">
       <div className="wrapper">
-        <h2>Calendrier :</h2>
+        <h1>Calendrier :</h1>
         <div className="schedule-panel">
           <div className="general-schedule-infos">
             <h3>
@@ -279,7 +279,7 @@ const DayWithGames: React.FC<{
       game.homeTeam.abbrev === teamAbr ? "homeTeam" : "awayTeam"
     }`}
   >
-    <p className="day-number">{new Date(game.gameDate).getDate() + 1}</p>
+    <p className="day-number">{new Date(game.gameDate).getDate() + 1 === 32 ? 1 : new Date(game.gameDate).getDate() + 1 }</p>
     <div className="game-infos">
       <div className="opp-logo noMobile">
         <img

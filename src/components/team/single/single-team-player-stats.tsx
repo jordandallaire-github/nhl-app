@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   TeamPlayerStats,
@@ -12,6 +12,7 @@ import { generatePlayerSlug } from "../../utils/generatePlayerSlug";
 interface PlayerStatsProps {
   playerStats: TeamPlayerStats | null;
   playerOtherInfos: PlayerDetailsType[] | null;
+  teamColor: string | null;
   abr: string | null;
   teamName?: string;
 }
@@ -73,10 +74,14 @@ const formatStatName = (value: string): string => {
 const getTopPlayers = <T extends Player>(
   players: T[],
   statToCompare: keyof T,
-  ascending = false
+  ascending = false,
+  minGamesPlayed = 15
 ): T[] => {
   return players
-    .filter((player): player is T => statToCompare in player)
+    .filter(
+      (player): player is T =>
+        statToCompare in player && (player.gamesPlayed || 0) >= minGamesPlayed
+    )
     .sort((a, b) => {
       const aValue = a[statToCompare];
       const bValue = b[statToCompare];
@@ -133,42 +138,55 @@ const PlayerDisplay: React.FC<{
           )}
         </div>
         <p>
-          {statValue} {formatStatName(titleStats)}
+          <strong>
+            {statValue} {formatStatName(titleStats)}
+          </strong>
         </p>
       </div>
     </div>
   )
 );
 
-const PlayerStatList: React.FC<{
-  players: Player[];
-  statKey: keyof Player;
-  onPlayerClick: (player: Player) => void;
-}> = React.memo(({ players, statKey, onPlayerClick }) => (
-  <>
-    {players.map((player, index) => (
-      <div
-        className="content"
-        key={player.playerId}
-        onClick={() => onPlayerClick(player)}
-      >
-        <p>{index + 1}.</p>
-        <div className="main-stats">
-          <p>
-            {player.firstName.default} {player.lastName.default}
-          </p>
-          <p>{formatStatValue(player[statKey], statKey)}</p>
-        </div>
-      </div>
-    ))}
-  </>
-));
-
 const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
-  ({ playerStats, playerOtherInfos, abr, teamName }) => {
+  ({ playerStats, playerOtherInfos, abr, teamName, teamColor }) => {
     const [selectedPlayers, setSelectedPlayers] = useState<
       Record<string, Player | null>
     >({});
+
+    const PlayerStatList: React.FC<{
+      players: Player[];
+      statKey: keyof Player;
+      onPlayerClick: (player: Player) => void;
+    }> = React.memo(({ players, statKey, onPlayerClick }) => {
+      return (
+        <>
+          {players.map((player, index) => (
+            <div
+              className={`content window-effect ${
+                selectedPlayers[statKey] === player ? "active" : ""
+              }`}
+              style={{
+                backgroundColor: `${
+                  selectedPlayers[statKey] === player ? teamColor : ""
+                }`,
+              }}
+              key={player.playerId}
+              onClick={() => onPlayerClick(player)}
+            >
+              <p>{index + 1}.</p>
+              <div className="main-stats">
+                <p>
+                  {player.firstName.default} {player.lastName.default}
+                </p>
+                <p>
+                  <strong>{formatStatValue(player[statKey], statKey)}</strong>
+                </p>
+              </div>
+            </div>
+          ))}
+        </>
+      );
+    });
 
     const topPlayers = useMemo(() => {
       if (!playerStats?.skaters) return {};
@@ -189,11 +207,28 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
         acc[key] = getTopPlayers(
           players as Player[],
           key as keyof Player,
-          key === "goalsAgainstAverage"
+          key === "goalsAgainstAverage",
+          15
         );
         return acc;
       }, {} as Record<string, Player[]>);
     }, [playerStats]);
+
+    const defaultSelectedPlayers = useMemo(() => {
+      const initialSelectedPlayers: Record<string, Player | null> = {};
+      if (playerStats?.skaters || playerStats?.goalies) {
+        Object.entries(topPlayers).forEach(([category, players]) => {
+          if (players.length > 0) {
+            initialSelectedPlayers[category] = players[0];
+          }
+        });
+      }
+      return initialSelectedPlayers;
+    }, [playerStats?.goalies, playerStats?.skaters, topPlayers]);
+
+    useEffect(() => {
+      setSelectedPlayers(defaultSelectedPlayers);
+    }, [defaultSelectedPlayers]);
 
     const getPlayerDetails = useCallback(
       (playerId: string): PlayerDetailsType | null => {
@@ -236,7 +271,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
               titleStats={title}
             />
             <div className="stats">
-              <h3>{title}</h3>
+              <h2>{title}</h2>
               <PlayerStatList
                 players={players}
                 statKey={category as keyof Player}
@@ -252,6 +287,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
         getPlayerDetails,
         abr,
         teamName,
+        PlayerStatList,
         handlePlayerClick,
       ]
     );
@@ -280,7 +316,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
       },
       {
         category: "savePercentage",
-        title: "% D'arrêts",
+        title: "% Arr.",
         format: (value: number) => (value * 10).toFixed(2),
       },
     ];
@@ -288,7 +324,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
     return (
       <section className="stats-team-player">
         <div className="wrapper">
-          <h2>Meilleur de l'équipe :</h2>
+          <h1>Meilleur de l'équipe :</h1>
           <div className="player-stats-container">
             {statCategories.map(({ category, title, format }) =>
               renderPlayerStat(category as PlayerCategory, title, format)

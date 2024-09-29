@@ -105,36 +105,53 @@ const TeamDetails: React.FC = () => {
     fetchTeamData();
   }, [fetchTeamData]);
 
-  useEffect(() => {
-    const mainElement = document.querySelector("main");
-    const navPill = document.querySelector(".indicator-page-top");
-    console.log(`Applying styles for ${teamCommonName}`);
-
-    if (
-      location.pathname.startsWith(`/equipes/${teamCommonName}`) &&
-      teamColor &&
-      mainElement &&
-      navPill
-    ) {
-      const rgb = parseInt(teamColor.slice(1), 16);
-      const r = (rgb >> 16) & 255;
-      const g = (rgb >> 8) & 255;
-      const b = rgb & 255;
-
-      (navPill as HTMLDivElement).style.backgroundColor = `${teamColor}`;
-      (
-        navPill as HTMLDivElement
-      ).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
-      mainElement.style.backgroundImage = `radial-gradient(circle closest-corner at 50% 0, rgba(${r}, ${g}, ${b}, 0.6) 0%, #0000 60%)`;
+  const calculateBackgroundPercentage = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 768) {
+      return Math.max(Math.min((screenWidth / 768) * 100, 200), 170);
     } else {
-      if (mainElement) {
-        mainElement.style.backgroundImage = "";
-      }
-      if (navPill) {
-        (navPill as HTMLDivElement).style.backgroundColor = "";
-        (navPill as HTMLDivElement).style.boxShadow = "";
-      }
+      return Math.max(Math.min((screenWidth / 1920) * 100, 80), 90);
     }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mainElement = document.querySelector("main");
+      const navPill = document.querySelector(".indicator-page-top");
+
+      if (
+        location.pathname.startsWith(`/equipes/${teamCommonName}`) &&
+        teamColor &&
+        mainElement &&
+        navPill
+      ) {
+        const rgb = parseInt(teamColor.slice(1), 16);
+        const r = (rgb >> 16) & 255;
+        const g = (rgb >> 8) & 255;
+        const b = rgb & 255;
+
+        (navPill as HTMLDivElement).style.backgroundColor = `${teamColor}`;
+        (
+          navPill as HTMLDivElement
+        ).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
+        mainElement.style.backgroundImage = `radial-gradient(circle closest-corner at 50% 0, rgba(${r}, ${g}, ${b}, 0.6) 0%, #0000 ${calculateBackgroundPercentage()}%)`;
+      } else {
+        if (mainElement) {
+          mainElement.style.backgroundImage = "";
+        }
+        if (navPill) {
+          (navPill as HTMLDivElement).style.backgroundColor = "";
+          (navPill as HTMLDivElement).style.boxShadow = "";
+        }
+      }
+    };
+
+    handleResize(); // Appelle la fonction pour initialiser le style lors du montage
+
+    window.addEventListener("resize", handleResize); // Ajoute un écouteur d'événements de redimensionnement
+    return () => {
+      window.removeEventListener("resize", handleResize); // Nettoie l'écouteur lors du démontage
+    };
   }, [location.pathname, teamCommonName, teamColor]);
 
   if (error) {
@@ -248,6 +265,7 @@ const TeamDetails: React.FC = () => {
       )}
       {!showCalendar && showPlayerStats && (
         <SingleTeamPlayerStats
+          teamColor={teamColor}
           playerOtherInfos={[...forwards, ...defensemen, ...goalies]}
           playerStats={playerStats}
           abr={teamAbbrev}

@@ -39,7 +39,7 @@
 
       &::after {
         --width-line: 100px;
-        bottom: 30px;
+        top: 0;
       }
     }
 
@@ -74,7 +74,6 @@
       content: "";
       display: block;
       position: absolute;
-      bottom: 20px;
       left: 0;
       --width-line: 130px;
       background-color: var(--color-white);

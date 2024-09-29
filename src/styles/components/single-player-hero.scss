@@ -5,6 +5,11 @@
   display: block;
   object-position: 0 15%;
   max-height: 625px;
+  min-height: 325px;
+
+  @media screen and (max-width: 515px) {
+    object-position: 35% 0%;
+  }
 }
 
 .hero.single-player .wrapper {
@@ -15,11 +20,17 @@
 
   & .basic-infos-player {
     margin-top: -130px;
-    h1{
+    h1 {
       margin: 0;
+    }
+
+    @media screen and (max-width: 868px) {
+      margin-top: 0;
     }
   }
 }
+
+
 
 .more-infos {
   h2 {
@@ -38,4 +49,3 @@
     }
   }
 }
-
