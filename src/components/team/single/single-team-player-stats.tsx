@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import {
   TeamPlayerStats,
   Skater,
@@ -6,9 +7,7 @@ import {
 } from "../../../interfaces/team/teamPlayerStats";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { FormatPosition } from "../../utils/formatPosition";
-import { Link } from "react-router-dom";
 import { generatePlayerSlug } from "../../utils/generatePlayerSlug";
-import { title } from "process";
 
 interface PlayerStatsProps {
   playerStats: TeamPlayerStats | null;
@@ -16,6 +15,26 @@ interface PlayerStatsProps {
   abr: string | null;
   teamName?: string;
 }
+
+type ExtendedSkater = Skater & {
+  avgTimeOnIcePerGame: number;
+  faceoffWinPctg: number;
+  plusMinus: number;
+};
+
+type ExtendedGoalie = Goalie & {
+  savePercentage: number;
+  goalsAgainstAverage: number;
+};
+
+type Player = ExtendedSkater | ExtendedGoalie;
+
+type SkaterCategory = keyof ExtendedSkater;
+type GoalieCategory = keyof ExtendedGoalie;
+type PlayerCategory = SkaterCategory | GoalieCategory;
+
+const isSkater = (player: Player): player is ExtendedSkater =>
+  "plusMinus" in player;
 
 const formatStatValue = (value: unknown, category: PlayerCategory): string => {
   if (typeof value === "number") {
@@ -40,44 +59,16 @@ const formatStatValue = (value: unknown, category: PlayerCategory): string => {
   return String(value);
 };
 
-const formatStatName = (value: string) => {
-  switch (value) {
-    case "% Mises en jeu gagnées":
-      return "% MAJ";
-    case "% D'arrêts":
-      return "% Arr";
-    case "Moyenne de buts accordés":
-      return "Moy.";
-    case "Différentiel":
-      return "+/-";
-    case "Moyenne de temps de glace":
-      return "TG/PJ";
-    default:
-      return value;
-  }
+const formatStatName = (value: string): string => {
+  const statNameMap: Record<string, string> = {
+    "% Mises en jeu gagnées": "% MAJ",
+    "% D'arrêts": "% Arr",
+    "Moyenne de buts accordés": "Moy.",
+    Différentiel: "+/-",
+    "Moyenne de temps de glace": "TG/PJ",
+  };
+  return statNameMap[value] || value;
 };
-
-type ExtendedSkater = Skater & {
-  avgTimeOnIcePerGame: number;
-  faceoffWinPctg: number;
-  plusMinus: number;
-};
-
-type ExtendedGoalie = Goalie & {
-  savePercentage: number;
-  goalsAgainstAverage: number;
-};
-
-type Player = ExtendedSkater | ExtendedGoalie;
-
-const isSkater = (player: Player): player is ExtendedSkater =>
-  "gamesPlayed" in player;
-const isGoalie = (player: Player): player is ExtendedGoalie =>
-  "gamesStarted" in player;
-
-type SkaterCategory = keyof ExtendedSkater;
-type GoalieCategory = keyof ExtendedGoalie;
-type PlayerCategory = SkaterCategory | GoalieCategory;
 
 const getTopPlayers = <T extends Player>(
   players: T[],
@@ -122,7 +113,7 @@ const PlayerDisplay: React.FC<{
           )}`}
         >
           <img
-            src={playerDetails?.headshot}
+            src={player?.headshot}
             alt={`${player.firstName.default} ${player.lastName.default}`}
           />
         </Link>
@@ -135,7 +126,7 @@ const PlayerDisplay: React.FC<{
             src={`https://assets.nhle.com/logos/nhl/svg/${abr}_dark.svg`}
             alt=""
           />
-          {isSkater(player) && !isGoalie(player) ? (
+          {isSkater(player) ? (
             <p>{FormatPosition(player.positionCode)}</p>
           ) : (
             <p>G</p>
@@ -173,113 +164,140 @@ const PlayerStatList: React.FC<{
   </>
 ));
 
-const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = ({
-  playerStats,
-  playerOtherInfos,
-  abr,
-  teamName,
-}) => {
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
+  ({ playerStats, playerOtherInfos, abr, teamName }) => {
+    const [selectedPlayers, setSelectedPlayers] = useState<
+      Record<string, Player | null>
+    >({});
 
-  const topPlayers = useMemo(() => {
-    if (!playerStats) return {};
-    const { skaters, goalies } = playerStats;
-    return {
-      points: getTopPlayers(skaters as ExtendedSkater[], "points"),
-      goals: getTopPlayers(skaters as ExtendedSkater[], "goals"),
-      assists: getTopPlayers(skaters as ExtendedSkater[], "assists"),
-      plusMinus: getTopPlayers(skaters as ExtendedSkater[], "plusMinus"),
-      faceoffWinPctg: getTopPlayers(
-        skaters as ExtendedSkater[],
-        "faceoffWinPctg"
-      ),
-      avgTimeOnIcePerGame: getTopPlayers(
-        skaters as ExtendedSkater[],
-        "avgTimeOnIcePerGame"
-      ),
-      savePercentage: getTopPlayers(
-        goalies as ExtendedGoalie[],
-        "savePercentage"
-      ),
-      goalsAgainstAverage: getTopPlayers(
-        goalies as ExtendedGoalie[],
-        "goalsAgainstAverage",
-        true
-      ),
-    };
-  }, [playerStats]);
+    const topPlayers = useMemo(() => {
+      if (!playerStats?.skaters) return {};
+      const { skaters, goalies } = playerStats;
 
-  const playerDetails = useMemo(() => {
-    if (!selectedPlayer) return null;
-    return (
-      playerOtherInfos?.find(
-        (player) => player.id === selectedPlayer.playerId
-      ) || null
+      const categories = {
+        points: skaters,
+        goals: skaters,
+        assists: skaters,
+        plusMinus: skaters,
+        faceoffWinPctg: skaters,
+        avgTimeOnIcePerGame: skaters,
+        savePercentage: goalies,
+        goalsAgainstAverage: goalies,
+      };
+
+      return Object.entries(categories).reduce((acc, [key, players]) => {
+        acc[key] = getTopPlayers(
+          players as Player[],
+          key as keyof Player,
+          key === "goalsAgainstAverage"
+        );
+        return acc;
+      }, {} as Record<string, Player[]>);
+    }, [playerStats]);
+
+    const getPlayerDetails = useCallback(
+      (playerId: string): PlayerDetailsType | null => {
+        return (
+          playerOtherInfos?.find((player) => player.id === playerId) || null
+        );
+      },
+      [playerOtherInfos]
     );
-  }, [selectedPlayer, playerOtherInfos]);
 
-  if (!playerStats || !playerStats.skaters) return null;
+    const handlePlayerClick = useCallback(
+      (category: string, player: Player) => {
+        setSelectedPlayers((prev) => ({ ...prev, [category]: player }));
+      },
+      []
+    );
 
-  const renderPlayerStat = (
-    category: PlayerCategory,
-    title: string,
-    formatFunc = (value: any) => value
-  ) => {
-    const players = topPlayers[category as keyof typeof topPlayers] || [];
-    const bestPlayer = players[0];
+    const renderPlayerStat = useCallback(
+      (
+        category: PlayerCategory,
+        title: string,
+        formatFunc: (value: any) => any = (value) => value
+      ) => {
+        const players = topPlayers[category] || [];
+        const bestPlayer = players[0];
 
-    if (!bestPlayer) return null;
-    const playerDetails =
-      playerOtherInfos?.find((player) => player.id === bestPlayer.playerId) ||
-      null;
+        if (!bestPlayer) return null;
+
+        const selectedPlayer = selectedPlayers[category] || bestPlayer;
+        const selectedPlayerDetails = getPlayerDetails(selectedPlayer.playerId);
+
+        return (
+          <div className="player-stat" key={category}>
+            <PlayerDisplay
+              player={selectedPlayer}
+              statValue={formatFunc(selectedPlayer[category as keyof Player])}
+              playerDetails={selectedPlayerDetails}
+              abr={abr}
+              teamName={teamName}
+              titleStats={title}
+            />
+            <div className="stats">
+              <h3>{title}</h3>
+              <PlayerStatList
+                players={players}
+                statKey={category as keyof Player}
+                onPlayerClick={(player) => handlePlayerClick(category, player)}
+              />
+            </div>
+          </div>
+        );
+      },
+      [
+        topPlayers,
+        selectedPlayers,
+        getPlayerDetails,
+        abr,
+        teamName,
+        handlePlayerClick,
+      ]
+    );
+
+    if (!playerStats?.skaters) return null;
+
+    const statCategories = [
+      { category: "points", title: "Points" },
+      { category: "goals", title: "Buts" },
+      { category: "assists", title: "Aides" },
+      { category: "plusMinus", title: "Différentiel" },
+      {
+        category: "avgTimeOnIcePerGame",
+        title: "Moyenne de temps de glace",
+        format: formatTimeOnIce,
+      },
+      {
+        category: "faceoffWinPctg",
+        title: "% Mises en jeu gagnées",
+        format: (value: number) => (value * 100).toFixed(2),
+      },
+      {
+        category: "goalsAgainstAverage",
+        title: "Moyenne de buts accordés",
+        format: (value: number) => value.toFixed(2),
+      },
+      {
+        category: "savePercentage",
+        title: "% D'arrêts",
+        format: (value: number) => (value * 10).toFixed(2),
+      },
+    ];
 
     return (
-      <div className="player-stat">
-        <PlayerDisplay
-          player={bestPlayer}
-          statValue={
-            isGoalie(bestPlayer)
-              ? formatFunc(
-                  (bestPlayer as ExtendedGoalie)[category as GoalieCategory]
-                )
-              : formatFunc(
-                  (bestPlayer as ExtendedSkater)[category as SkaterCategory]
-                )
-          }
-          playerDetails={playerDetails}
-          abr={abr}
-          teamName={teamName}
-          titleStats={title}
-        />
-        <div className="stats">
-          <h3>{title}</h3>
-          <PlayerStatList
-            players={players}
-            statKey={category as keyof Player}
-            onPlayerClick={setSelectedPlayer}
-          />
+      <section className="stats-team-player">
+        <div className="wrapper">
+          <h2>Meilleur de l'équipe :</h2>
+          <div className="player-stats-container">
+            {statCategories.map(({ category, title, format }) =>
+              renderPlayerStat(category as PlayerCategory, title, format)
+            )}
+          </div>
         </div>
-      </div>
+      </section>
     );
-  };
-
-  return (
-    <section className="stats-team-player">
-      <div className="wrapper">
-        <h2>Meilleur de l'équipe :</h2>
-        <div className="player-stats-container">
-          {renderPlayerStat("points", "Points")}
-          {renderPlayerStat("goals", "Buts")}
-          {renderPlayerStat("assists", "Aides")}
-          {renderPlayerStat("plusMinus", "Différentiel")}
-          {renderPlayerStat("avgTimeOnIcePerGame", "Moyenne de temps de glace", formatTimeOnIce)}
-          {renderPlayerStat("faceoffWinPctg", "% Mises en jeu gagnées", (value: number) => (value * 100).toFixed(2))}
-          {renderPlayerStat("goalsAgainstAverage", "Moyenne de buts accordés", (value: number) => value.toFixed(2))}
-          {renderPlayerStat("savePercentage", "% D'arrêts", (value: number) => (value * 10).toFixed(2))}
-        </div>
-      </div>
-    </section>
-  );
-};
+  }
+);
 
 export default SingleTeamPlayerStats;

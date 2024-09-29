@@ -180,7 +180,7 @@
           "assists": "A",
           "goals": "B",
           "gamesPlayed": "PJ",
-          "plusMinus" : "+/-"
+          "plusMinus": "+/-"
         }
       }
     }
@@ -297,6 +297,24 @@
         "labels": {
           "gaa": "Moy.",
           "wins": "V",
+          "gamesPlayed": "PJ"
+        }
+      }
+    }
+  },
+  "E.J. McGuire Award of Excellence": {
+    "description": "Espoir qui incarne le mieux l'excellence, le caractère, la compétitivité et les capacités athlétiques.",
+    "specialTitle": "Prix d'excellence E.-J.-McGuire",
+    "stats": {
+      "player": {
+        "fields": ["gamesPlayed"],
+        "labels": {
+          "gamesPlayed": "PJ"
+        }
+      },
+      "goalie": {
+        "fields": ["gamesPlayed"],
+        "labels": {
           "gamesPlayed": "PJ"
         }
       }
