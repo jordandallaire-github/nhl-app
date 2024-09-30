@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SingleTeamPlayerGroup from "../components/team/single/single-team-player";
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
 import { TeamDetail } from "../interfaces/team/teamDetails";
@@ -28,7 +28,6 @@ const TeamDetails: React.FC = () => {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [showPlayerStats, setShowPlayerStats] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("accueil");
-  const location = useLocation();
 
   const fetchTeamData = useCallback(async () => {
     setLoading(true);
@@ -104,55 +103,6 @@ const TeamDetails: React.FC = () => {
   useEffect(() => {
     fetchTeamData();
   }, [fetchTeamData]);
-
-  const calculateBackgroundPercentage = () => {
-    const screenWidth = window.innerWidth;
-    if (screenWidth < 768) {
-      return Math.max(Math.min((screenWidth / 768) * 100, 200), 170);
-    } else {
-      return Math.max(Math.min((screenWidth / 1920) * 100, 80), 90);
-    }
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      const mainElement = document.querySelector("main");
-      const navPill = document.querySelector(".indicator-page-top");
-
-      if (
-        location.pathname.startsWith(`/equipes/${teamCommonName}`) &&
-        teamColor &&
-        mainElement &&
-        navPill
-      ) {
-        const rgb = parseInt(teamColor.slice(1), 16);
-        const r = (rgb >> 16) & 255;
-        const g = (rgb >> 8) & 255;
-        const b = rgb & 255;
-
-        (navPill as HTMLDivElement).style.backgroundColor = `${teamColor}`;
-        (
-          navPill as HTMLDivElement
-        ).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
-        mainElement.style.backgroundImage = `radial-gradient(circle closest-corner at 50% 0, rgba(${r}, ${g}, ${b}, 0.6) 0%, #0000 ${calculateBackgroundPercentage()}%)`;
-      } else {
-        if (mainElement) {
-          mainElement.style.backgroundImage = "";
-        }
-        if (navPill) {
-          (navPill as HTMLDivElement).style.backgroundColor = "";
-          (navPill as HTMLDivElement).style.boxShadow = "";
-        }
-      }
-    };
-
-    handleResize(); // Appelle la fonction pour initialiser le style lors du montage
-
-    window.addEventListener("resize", handleResize); // Ajoute un écouteur d'événements de redimensionnement
-    return () => {
-      window.removeEventListener("resize", handleResize); // Nettoie l'écouteur lors du démontage
-    };
-  }, [location.pathname, teamCommonName, teamColor]);
 
   if (error) {
     return <div>Error: {error}</div>;
