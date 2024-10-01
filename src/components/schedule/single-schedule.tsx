@@ -45,11 +45,11 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                             {game.clock.inIntermission === true ? "ENT" : ""}{" "}
                             {game.clock.timeRemaining}
                           </p>
-                          {game?.situation?.homeTeam.strength &&
-                          game?.situation?.homeTeam.strength ? (
+                          {game?.situation?.homeTeam?.strength &&
+                          game?.situation?.homeTeam?.strength ? (
                             <p>
                               {game?.situation?.homeTeam?.strength >
-                              game?.situation?.homeTeam?.strength
+                              game?.situation?.awayTeam?.strength
                                 ? game?.situation?.homeTeam?.strength +
                                   " contre " +
                                   game?.situation?.awayTeam?.strength
@@ -77,17 +77,13 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                                   ) + " HAE"
                             }`}
                           </p>
-                          {game.gameState === "FUT" ? (
-                            <div className="broadcast">
-                              {game.tvBroadcasts.map((broadcast) => (
-                                <p key={broadcast.id}>{broadcast.network}</p>
-                              ))}
-                            </div>
-                          ) : (
-                            <p>{game.venue.default}</p>
-                          )}
                         </>
                       )}
+                      <div className="broadcast">
+                        {game.tvBroadcasts.map((broadcast) => (
+                          <p key={broadcast.id}>{broadcast.network}</p>
+                        ))}
+                      </div>
                     </div>
                     <div className="team">
                       <Link
