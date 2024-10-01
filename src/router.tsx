@@ -9,6 +9,7 @@ import {
   import Teams from "./pages/team.tsx";
   import Team from "./pages/single-team.tsx";
   import Player from "./pages/single-player.tsx";
+  import MainSchedule from "./pages/schedule.tsx";
   
   
   const router = createBrowserRouter(
@@ -17,6 +18,7 @@ import {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/equipes" element={<Teams />} />
+          <Route path="/calendrier" element={<MainSchedule />} />
           <Route path="/equipes/:teamCommonName" element={<Team />} />
           <Route path="/equipes/:teamCommonName/:playerSlug" element={<Player />} />
         </Route>

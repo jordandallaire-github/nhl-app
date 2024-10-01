@@ -1,0 +1,60 @@
+.main-schedule {
+    font-size: 1.8rem;
+  .schedule-game {
+    padding: 10px 15px;
+    .team {
+        width: 100%;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+      gap: 30px;
+
+
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0;
+        width: 100%;
+
+        .left-side{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          img{
+            max-width: 75px;
+            max-height: 75px;
+            min-height: 75px;
+            min-width: 75px;
+          }
+        }
+      }
+
+      p{
+        margin: 0;
+      }
+    }
+  }
+
+  .container-games{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+  }
+
+  .situation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .broadcast{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+}

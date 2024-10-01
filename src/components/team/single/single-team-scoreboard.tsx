@@ -46,7 +46,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                   }}
                   className="glare-effect"
                 ></div>
-                <h3>{formatDateMonthDay(game.gameDate)}</h3>             
+                <h3>{formatDateMonthDay(game.gameDate, false)}</h3>             
                 <div className="game-media">
                   <div className="team">
                     {game?.situation?.teamAbbrev === game?.awayTeam?.abbrev &&

@@ -28,16 +28,27 @@
     }
   }
 
-  tr {
-    height: 80px;
-    border-top: 1px solid var(--color-white);
-    border-bottom: 1px solid var(--color-white);
-
-    &:last-child {
-      border-top: 0;
-      border-bottom: 0;
+  thead{
+    tr {
+      height: 80px;
+      border-bottom: 1px solid var(--color-white);
     }
   }
+
+  tbody{
+    tr {
+      height: 80px;
+      border-top: 1px solid var(--color-white);
+      border-bottom: 1px solid var(--color-white);
+  
+      &:last-child {
+        border-top: 0;
+        border-bottom: 0;
+      }
+    }
+  }
+
+
 
   thead th {
     cursor: pointer;
