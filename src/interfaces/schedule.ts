@@ -86,6 +86,10 @@ export interface INTSchedule {
     gameCenterLink: string;
     neutralSite: boolean;
     venueTimezone: string;
+    threeMinRecap: string;
+    condensedGame: string;
+    threeMinRecapFr: string;
+    condensedGameFr: string;
     ticketsLink: string;
     ticketsLinkFr: string;
     teamLeaders: Array<{

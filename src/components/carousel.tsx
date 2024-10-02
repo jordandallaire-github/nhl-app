@@ -31,7 +31,7 @@ interface CarouselProps {
   };
   breakpoint?: Record<number, {
     spaceBetween?: number;
-    slidesPerView?: number;
+    slidesPerView?: number | "auto";
   }>;
   children: ReactNode;
 }

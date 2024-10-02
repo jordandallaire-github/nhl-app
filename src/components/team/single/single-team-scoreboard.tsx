@@ -46,7 +46,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                   }}
                   className="glare-effect"
                 ></div>
-                <h3>{formatDateMonthDay(game.gameDate, false)}</h3>             
+                <h3>{formatDateMonthDay(game.gameDate, false)}</h3>
                 <div className="game-media">
                   <div className="team">
                     {game?.situation?.teamAbbrev === game?.awayTeam?.abbrev &&
@@ -83,11 +83,11 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                     {game.gameState === "LIVE" ? (
                       <>
                         <p>
-                          {`${
+                          <strong className="period">{`${
                             game.period === 1
                               ? game.period + "re"
                               : game.period + "e"
-                          }`}{" "}
+                          }`}</strong>{" "}
                           {game.clock.inIntermission === true ? "ENT" : ""}{" "}
                           {game.clock.timeRemaining}
                         </p>

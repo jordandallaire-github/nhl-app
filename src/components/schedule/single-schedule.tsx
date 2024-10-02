@@ -3,6 +3,9 @@ import { formatDateMonthDay } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import { formatDateDay } from "../utils/formatDate";
 import { formatGameTime } from "../utils/formatGameTime";
+import Carousel from "../carousel";
+import React from "react";
+import { Svg } from "../utils/Icons";
 
 interface SingleScheduleProps {
   schedule: INTSchedule | null;
@@ -33,15 +36,18 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
               {todayGames.length > 0 ? (
                 todayGames.map((game) => (
                   <div key={game.id} className="schedule-game window-effect">
+                    <div className="glare-effect"></div>
                     <div className="situation">
                       {game.gameState === "LIVE" ? (
                         <>
                           <p>
-                            {`${
-                              game.period === 1
-                                ? game.period + "re"
-                                : game.period + "e"
-                            }`}{" "}
+                            <strong className="period">
+                              {`${
+                                game.period === 1
+                                  ? game.period + "re"
+                                  : game.period + "e"
+                              }`}{" "}
+                            </strong>
                             {game.clock.inIntermission === true ? "ENT" : ""}{" "}
                             {game.clock.timeRemaining}
                           </p>
@@ -69,6 +75,9 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                                 ? `Finale${
                                     game.periodDescriptor.periodType === "OT"
                                       ? "/Pr."
+                                      : game.periodDescriptor.periodType ===
+                                        "SO"
+                                      ? "/TB"
                                       : ""
                                   }`
                                 : formatGameTime(
@@ -79,11 +88,15 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                           </p>
                         </>
                       )}
-                      <div className="broadcast">
-                        {game.tvBroadcasts.map((broadcast) => (
-                          <p key={broadcast.id}>{broadcast.network}</p>
-                        ))}
-                      </div>
+                      {game.gameState !== "FINAL" ? (
+                        <div className="broadcast">
+                          {game.tvBroadcasts.map((broadcast) => (
+                            <p key={broadcast.id}>{broadcast.network}</p>
+                          ))}
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="team">
                       <Link
@@ -176,7 +189,240 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                         </div>
                       </Link>
                     </div>
-                    <div className="content"></div>
+                    <div className="content">
+                      {game?.teamLeaders?.length > 0 ? (
+                        <>
+                          <p>Meneurs de l'équipe</p>
+                          <Carousel
+                            breakpoint={{
+                              375: { slidesPerView: "auto", spaceBetween: 10 },
+                            }}
+                          >
+                            {game.teamLeaders.map((leader) => (
+                              <div
+                                className="slide window-effect leader"
+                                key={leader.id}
+                                data-is-swiper-slide
+                              >
+                                <div className="player-infos">
+                                  <Link
+                                    to={`/equipes/${
+                                      game.awayTeam.abbrev === leader.teamAbbrev
+                                        ? game.awayTeam.name.default
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "-")
+                                        : game.homeTeam.name.default
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "-")
+                                    }/${leader.firstName.default.toLowerCase()}-${leader.lastName.default.toLowerCase()}-${
+                                      leader.id
+                                    }`}
+                                  >
+                                    <img
+                                      src={leader.headshot}
+                                      alt={`${leader.firstName.default} ${leader.lastName.default}`}
+                                    />
+                                  </Link>
+                                  <div className="other-infos">
+                                    <p>{leader.firstName.default}</p>
+                                    <p>
+                                      <strong>{leader.lastName.default}</strong>
+                                    </p>
+                                    <p>{leader.teamAbbrev}</p>
+                                  </div>
+                                </div>
+                                <div className="player-stats">
+                                  <p>
+                                    <strong className="stats">
+                                      {leader.value}
+                                    </strong>
+                                  </p>
+                                  <p>
+                                    {leader.category === "goals"
+                                      ? "Buts"
+                                      : leader.category === "assists"
+                                      ? "Aides"
+                                      : leader.category === "wins"
+                                      ? "Victoires"
+                                      : ""}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </Carousel>
+                        </>
+                      ) : (
+                        <>
+                          <p>Buts</p>
+                          <Carousel
+                            breakpoint={{
+                              375: { slidesPerView: "auto", spaceBetween: 10 },
+                            }}
+                          >
+                            {game.goals.map((goal) => (
+                              <div
+                                key={goal.playerId}
+                                className="slide window-effect"
+                                data-is-swiper-slide
+                              >
+                                <div className="media">
+                                  <Link
+                                    to={`/equipes/${
+                                      game.awayTeam.abbrev === goal.teamAbbrev
+                                        ? game.awayTeam.name.default
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "-")
+                                        : game.homeTeam.name.default
+                                            .toLowerCase()
+                                            .replace(/\s+/g, "-")
+                                    }/${goal.firstName.default.toLowerCase()}-${goal.lastName.default.toLowerCase()}-${
+                                      goal.playerId
+                                    }`}
+                                  >
+                                    <img
+                                      src={goal.mugshot}
+                                      alt={`${goal.firstName.default} ${goal.lastName.default}`}
+                                    />
+                                  </Link>
+                                </div>
+                                <div className="goal-infos">
+                                  <p>
+                                    <strong>{`${goal.firstName.default} ${
+                                      goal.lastName.default
+                                    }${
+                                      goal.periodDescriptor.periodType !== "SO"
+                                        ? " (" + goal.goalsToDate + ")"
+                                        : ""
+                                    }`}</strong>
+                                    {(goal.strength !== "ev" ||
+                                      goal.goalModifier !== "none") && (
+                                      <span className="strength">
+                                        {goal.strength === "pp"
+                                          ? " BAN"
+                                          : goal.strength === "sh"
+                                          ? " BIN"
+                                          : goal.goalModifier === "empty-net"
+                                          ? " FD"
+                                          : ""}
+                                      </span>
+                                    )}
+                                  </p>
+                                  <span className="assists">
+                                    {goal.assists.length > 0 ? (
+                                      <>
+                                        {goal.assists.map((assist, index) => (
+                                          <React.Fragment key={assist.playerId}>
+                                            {index > 0 && <span> et </span>}
+                                            <span>{`${assist.name.default} (${assist.assistsToDate})`}</span>
+                                          </React.Fragment>
+                                        ))}
+                                      </>
+                                    ) : (
+                                      <span>Sans aide</span>
+                                    )}
+                                  </span>
+                                  {goal.teamAbbrev === game.homeTeam.abbrev ? (
+                                    <p>
+                                      {game.awayTeam.abbrev} {goal.awayScore} -{" "}
+                                      <strong>
+                                        {game.homeTeam.abbrev} {goal.homeScore}
+                                      </strong>{" "}
+                                      {goal.periodDescriptor.periodType ===
+                                      "REG"
+                                        ? `(${
+                                            goal.period === 1
+                                              ? goal.period + "re"
+                                              : goal.period + "e"
+                                          } - ${goal.timeInPeriod})`
+                                        : `(${
+                                            goal.periodDescriptor.periodType ===
+                                            "OT"
+                                              ? "Pr" + " - " + goal.timeInPeriod
+                                              : goal.periodDescriptor
+                                                  .periodType === "SO"
+                                              ? "TB"
+                                              : ""
+                                          })`}
+                                    </p>
+                                  ) : (
+                                    <p>
+                                      <strong>
+                                        {game.awayTeam.abbrev} {goal.awayScore}
+                                      </strong>{" "}
+                                      - {game.homeTeam.abbrev} {goal.homeScore}{" "}
+                                      {goal.periodDescriptor.periodType ===
+                                      "REG"
+                                        ? `(${
+                                            goal.period === 1
+                                              ? goal.period + "re"
+                                              : goal.period + "e"
+                                          } - ${goal.timeInPeriod})`
+                                        : `(${
+                                            goal.periodDescriptor.periodType ===
+                                            "OT"
+                                              ? "Pr" +
+                                                "(" +
+                                                goal.timeInPeriod +
+                                                ")"
+                                              : goal.periodDescriptor
+                                                  .periodType === "SO"
+                                              ? "TB"
+                                              : ""
+                                          })`}
+                                    </p>
+                                  )}
+                                </div>
+                                {goal.highlightClipSharingUrl !== undefined && (
+                                  <div className="clip">
+                                    <Link
+                                      to={goal.highlightClipSharingUrl}
+                                      target="_blank"
+                                    >
+                                      <Svg
+                                        name="recap-play-video"
+                                        size="xs"
+                                      ></Svg>
+                                    </Link>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </Carousel>
+                        </>
+                      )}
+                    </div>
+                    <div className="game-links">
+                      {(game?.threeMinRecapFr !== undefined ||
+                        game?.threeMinRecap !== undefined ||
+                        game?.condensedGame !== undefined ||
+                        game?.condensedGameFr !== undefined) && (
+                        <a
+                          target="_blank"
+                          href={`https://www.nhl.com${
+                            game?.threeMinRecapFr
+                              ? game?.threeMinRecapFr
+                              : game?.threeMinRecap
+                              ? game?.threeMinRecap
+                              : game?.condensedGameFr
+                              ? game.condensedGameFr
+                              : game.condensedGame
+                          }`}
+                        >
+                          <span className="mobile">Résumé du match</span>
+                        </a>
+                      )}
+                      <a href={`#`}>
+                        <span className="mobile">Détails match</span>
+                      </a>
+                      {game.gameState === "FUT" && (
+                        <a
+                          target="_blank"
+                          href={game.ticketsLinkFr ?? game.ticketsLink}
+                        >
+                          <span className="mobile">Billets</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 ))
               ) : (

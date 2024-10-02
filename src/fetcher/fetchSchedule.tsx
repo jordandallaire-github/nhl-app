@@ -11,7 +11,7 @@ const Schedule: React.FC = () => {
     setLoading(true);
     try {
       const scheduleDataResponse = await fetch(
-        `https://api-web.nhle.com/v1/score/2024-09-30`
+        `https://api-web.nhle.com/v1/score/now`
       );
       if (!scheduleDataResponse.ok)
         throw new Error("Failed to fetch game data");

@@ -1,16 +1,15 @@
 .main-schedule {
-    font-size: 1.8rem;
+  font-size: 1.8rem;
   .schedule-game {
     padding: 10px 15px;
+    background-image: none;
     .team {
-        width: 100%;
+      width: 100%;
       display: flex;
       align-items: flex-start;
       flex-direction: column;
       justify-content: center;
       gap: 30px;
-
-
 
       a {
         display: flex;
@@ -19,12 +18,12 @@
         margin: 0;
         width: 100%;
 
-        .left-side{
+        .left-side {
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 10px;
-          img{
+          img {
             max-width: 75px;
             max-height: 75px;
             min-height: 75px;
@@ -33,28 +32,133 @@
         }
       }
 
-      p{
+      p {
         margin: 0;
       }
     }
+ 
   }
 
-  .container-games{
+  .container-games {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 60px;
+    grid-template-columns: repeat( auto-fit, minmax(340px, 1fr) );
+    gap: 24px;
   }
 
-  .situation{
+  .situation {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .broadcast{
+    .broadcast {
       display: flex;
       align-items: center;
       gap: 10px;
     }
   }
 
+  .slide {
+    background-image: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.4rem;
+    width: fit-content;
+    min-width: fit-content;
+    max-width: 450px;
+    gap: 15px;
+    padding: 10px 15px;
+
+    .media,
+    a {
+      max-width: 65px;
+      max-height: 65px;
+      min-width: 65px;
+      min-height: 65px;
+      aspect-ratio: 16 / 9;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .goal-infos {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 5px;
+      width: 100%;
+
+      p:first-child{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        min-width: 190px;
+        max-width: 215px;
+      }
+
+      .strength{
+        background-color: red;
+        padding: 3px 3px;
+        border-radius: 5px;
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .assists {
+      white-space: nowrap;
+      font-size: 1.2rem;
+    }
+
+    .clip{
+      margin-left: -24px;
+    }
+  }
+
+  .slide.leader{
+    .player-infos{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .player-stats{
+      text-align: center;
+    }
+    
+
+    .stats{
+      font-size: 1.8rem;
+      text-align: center;
+    }
+  }
+
+  .swiper {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  .swiper-slide {
+    width: fit-content;
+  }
+}
+
+.period{
+  background-color: green;
+  padding: 5px;
+  border-radius: 5px;
+  margin-right: 5px;
 }
