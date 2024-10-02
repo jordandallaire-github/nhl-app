@@ -47,6 +47,34 @@ export const formatDateMonthShortYear = (dateString: string): string => {
   return date.toLocaleDateString('fr-FR', { weekday: 'long' });
 };
 
+export const formatDateMonthNumeric= (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("fr-FR", {
+    month: "2-digit",
+    year: undefined,
+    day: "2-digit",
+    timeZone: "UTC",
+  });
+};
+
+export const getFrenchDayAbbr = (dateString: string): string => {
+  const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+  const date = new Date(dateString);
+  const dayIndex = (date.getDay() + 7) % 7;
+  return days[dayIndex];
+};
+
+export const formatJustDay= (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("fr-FR", {
+    month: undefined,
+    year: undefined,
+    day: "2-digit",
+    timeZone: "UTC",
+  });
+};
+
+
 export const formatDateMonthYear = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString("fr-FR", {

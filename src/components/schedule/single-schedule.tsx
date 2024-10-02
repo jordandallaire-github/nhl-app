@@ -1,41 +1,87 @@
 import { INTSchedule } from "../../interfaces/schedule";
 import { formatDateMonthDay } from "../utils/formatDate";
 import { Link } from "react-router-dom";
-import { formatDateDay } from "../utils/formatDate";
+import {
+  formatDateDay,
+  getFrenchDayAbbr,
+  formatJustDay,
+} from "../utils/formatDate";
 import { formatGameTime } from "../utils/formatGameTime";
 import Carousel from "../carousel";
-import React from "react";
 import { Svg } from "../utils/Icons";
+import React from "react";
 
 interface SingleScheduleProps {
   schedule: INTSchedule | null;
+  onChangeWeek: (direction: "prev" | "next") => void;
+  onChangeDay: (dayIndex: string) => void;
 }
 
-const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
+const SingleSchedule: React.FC<SingleScheduleProps> = ({
+  schedule,
+  onChangeWeek,
+  onChangeDay,
+}) => {
   if (!schedule || !schedule.currentDate) {
     return <div>Aucun calendrier disponible.</div>;
   }
 
-  const todayGames = schedule.games.filter(
-    (game) =>
-      new Date(game.gameDate).toDateString() ===
-      new Date(schedule.currentDate).toDateString()
-  );
+  const currentDate = schedule.currentDate;
+
+  const todayGames = schedule.games || [];
+
 
   return (
     <>
       <section className="main-schedule hero">
         <div className="wrapper">
           <h1>Calendrier de la journée</h1>
+          <div className="nav-week">
+            <div className="change-week window-effect">
+              <button onClick={() => onChangeWeek("prev")}>
+                <Svg name="left-arrow" size="sm" />
+              </button>
+              <p>
+                {formatDateMonthDay(schedule.gameWeek[0].date, false)} -{" "}
+                {formatDateMonthDay(schedule.gameWeek[6].date, false)}
+              </p>
+              <button onClick={() => onChangeWeek("next")}>
+                <Svg name="right-arrow" size="sm" />
+              </button>
+            </div>
+          </div>
+          <div className="day-of-week">
+            {schedule.gameWeek.map((game, index) => (
+              <button
+                className={`window-effect ${
+                  game.date === currentDate ? "active" : ""
+                }`}
+                key={`${game.date}-${index}`}
+                onClick={() => {
+                  onChangeDay(game.date)
+                }}
+              >
+                <p>{getFrenchDayAbbr(game.date)}</p>
+                <p>{formatJustDay(game.date)}</p>
+                <p>{game.numberOfGames}</p>
+              </button>
+            ))}
+          </div>
           <div className="schedule-container">
             <h2>
-              {formatDateDay(schedule.currentDate)}{" "}
-              {formatDateMonthDay(schedule.currentDate, true)}
+              {formatDateDay(currentDate)}{" "}
+              {formatDateMonthDay(
+                currentDate,
+                true
+              )}
             </h2>
             <div className="container-games">
               {todayGames.length > 0 ? (
-                todayGames.map((game) => (
-                  <div key={game.id} className="schedule-game window-effect">
+                todayGames.map((game, index) => (
+                  <div
+                    key={`{${game.id}-${index}`}
+                    className="schedule-game window-effect"
+                  >
                     <div className="glare-effect"></div>
                     <div className="situation">
                       {game.gameState === "LIVE" ? (
@@ -69,10 +115,10 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                         </>
                       ) : (
                         <>
-                          <p>
+                          <p className="result-game">
                             {`${
                               game.gameState === "FINAL"
-                                ? `Finale${
+                                ? `Final${
                                     game.periodDescriptor.periodType === "OT"
                                       ? "/Pr."
                                       : game.periodDescriptor.periodType ===
@@ -90,8 +136,10 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                       )}
                       {game.gameState !== "FINAL" ? (
                         <div className="broadcast">
-                          {game.tvBroadcasts.map((broadcast) => (
-                            <p key={broadcast.id}>{broadcast.network}</p>
+                          {game.tvBroadcasts.map((broadcast, index) => (
+                            <p key={`${broadcast.id}-${index}`}>
+                              {broadcast.network}
+                            </p>
                           ))}
                         </div>
                       ) : (
@@ -138,7 +186,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                         <div className="score-games">
                           {game.gameState === "LIVE" ||
                           game.gameState === "FINAL" ? (
-                            <p>{game.awayTeam.score}</p>
+                            <p className="score">{game.awayTeam.score}</p>
                           ) : (
                             ""
                           )}
@@ -182,7 +230,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                         <div className="score-games">
                           {game.gameState === "LIVE" ||
                           game.gameState === "FINAL" ? (
-                            <p>{game.homeTeam.score}</p>
+                            <p className="score">{game.homeTeam.score}</p>
                           ) : (
                             ""
                           )}
@@ -198,10 +246,10 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                               375: { slidesPerView: "auto", spaceBetween: 10 },
                             }}
                           >
-                            {game.teamLeaders.map((leader) => (
+                            {game.teamLeaders.map((leader, index) => (
                               <div
                                 className="slide window-effect leader"
-                                key={leader.id}
+                                key={`${leader.id}-${index}`}
                                 data-is-swiper-slide
                               >
                                 <div className="player-infos">
@@ -259,9 +307,9 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                               375: { slidesPerView: "auto", spaceBetween: 10 },
                             }}
                           >
-                            {game.goals.map((goal) => (
+                            {game.goals.map((goal, index) => (
                               <div
-                                key={goal.playerId}
+                                key={`${goal.playerId}-${index}`}
                                 className="slide window-effect"
                                 data-is-swiper-slide
                               >
@@ -414,7 +462,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({ schedule }) => {
                       <a href={`#`}>
                         <span className="mobile">Détails match</span>
                       </a>
-                      {game.gameState === "FUT" && (
+                      {(game.gameState === "FUT" || game.gameState === "PRE")  && (
                         <a
                           target="_blank"
                           href={game.ticketsLinkFr ?? game.ticketsLink}

@@ -139,8 +139,8 @@ export interface INTSchedule {
       homeScore: number;
       strength: string;
       highlightClipSharingUrl: string,
-      highlightClip: 6362690901112,
-      discreteClip: 6362692969112
+      highlightClip: number,
+      discreteClip: number
     }>;
   }>;
 }

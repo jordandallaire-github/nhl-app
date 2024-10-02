@@ -1,7 +1,69 @@
 .main-schedule {
+  margin-bottom: 60px;
   font-size: 1.8rem;
+
+  .day-of-week {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    button {
+      min-width: 45px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      background-color: initial;
+      background-image: none;
+      color: var(--color-white);
+      border-width: 0;
+      cursor: pointer;
+
+      p{
+        margin: 0;
+
+        &:nth-child(2){
+          font-size: 1.8rem;
+          font-weight: 800;
+        }
+
+        &:last-child{
+          font-size: 1.6rem;
+        }
+      }
+
+      &.active{
+          box-shadow: inset 0 0 8px var(--color-white), 0 0 60px #0003, 0 30px 120px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  .change-week{
+    display: flex;
+    justify-content: space-between;
+    background-image: none;
+    align-items: center;
+    font-weight: 800;
+    max-width: 270px;
+    max-height: 50px;
+    margin-bottom: 50px;
+    padding: 8px;
+     button{
+      border-width: 0;
+      padding: 0;
+      background-color: initial;
+      color: var(--color-white);
+      cursor: pointer;
+     }
+
+     p{
+      margin: 0;
+     }
+  }
   .schedule-game {
-    padding: 10px 15px;
+    padding: 10px 15px 0 15px;
     background-image: none;
     .team {
       width: 100%;
@@ -34,25 +96,45 @@
 
       p {
         margin: 0;
+        font-weight: 800;
       }
+
+      .score {
+        font-size: 2rem;
+      }
+    }
+
+    .result-game {
+      color: var(--color-black);
+      padding: 4px 8px;
+      background-color: var(--color-white);
+      border-radius: 5px;
+      margin: 0;
+      font-size: 1.4rem;
     }
   }
 
   .container-games {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(332px, 1fr));
     gap: 24px;
   }
 
   .situation {
+    padding: 16px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 1.6rem;
 
     .broadcast {
       display: flex;
       align-items: center;
       gap: 10px;
+    }
+
+    p{
+      margin: 0;
     }
   }
 
@@ -62,7 +144,6 @@
     align-items: center;
     justify-content: flex-start;
     font-size: 1.4rem;
-    width: fit-content;
     min-width: fit-content;
     max-width: 450px;
     gap: 15px;
@@ -70,10 +151,10 @@
 
     .media,
     a {
-      max-width: 65px;
-      max-height: 65px;
-      min-width: 65px;
-      min-height: 65px;
+      max-width: 60px;
+      max-height: 60px;
+      min-width: 60px;
+      min-height: 60px;
       aspect-ratio: 16 / 9;
 
       a {
@@ -109,6 +190,7 @@
         background-color: red;
         padding: 3px 3px;
         border-radius: 5px;
+        margin-right: 12px;
       }
     }
 
@@ -122,7 +204,7 @@
     }
 
     .clip {
-      margin-left: -24px;
+      margin-left: -15px;
     }
   }
 
@@ -151,6 +233,33 @@
 
   .swiper-slide {
     width: fit-content;
+  }
+
+  .game-links {
+    position: relative;
+    width: 100%;
+    border-top: 1px solid var(--color-white);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 25px;
+
+    a {
+      padding: 15px;
+      text-align: center;
+      min-width: 150px;
+
+      &:nth-child(2):after {
+        position: absolute;
+        content: "";
+        height: 80%;
+        width: 1px;
+        background-color: var(--color-white);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
   }
 }
 
