@@ -9,7 +9,8 @@
     justify-content: flex-start;
     gap: 8px;
     button {
-      min-width: 45px;
+      min-width: 40px;
+      max-width: 100px;
       padding: 10px;
       display: flex;
       flex-direction: column;
@@ -20,27 +21,33 @@
       color: var(--color-white);
       border-width: 0;
       cursor: pointer;
+      width: 100%;
 
-      p{
+      p {
         margin: 0;
 
-        &:nth-child(2){
+        &:nth-child(2) {
           font-size: 1.8rem;
           font-weight: 800;
         }
 
-        &:last-child{
+        &:last-child {
           font-size: 1.6rem;
         }
       }
 
-      &.active{
-          box-shadow: inset 0 0 8px var(--color-white), 0 0 60px #0003, 0 30px 120px rgba(0, 0, 0, 0.3);
+      &.active {
+        box-shadow: inset 0 0 8px var(--color-white), 0 0 60px #0003,
+          0 30px 120px rgba(0, 0, 0, 0.3);
+      }
+
+      @media screen and (max-width: 500px) {
+        border-radius: 0;
       }
     }
   }
 
-  .change-week{
+  .change-week {
     display: flex;
     justify-content: space-between;
     background-image: none;
@@ -50,17 +57,17 @@
     max-height: 50px;
     margin-bottom: 50px;
     padding: 8px;
-     button{
+    button {
       border-width: 0;
       padding: 0;
       background-color: initial;
       color: var(--color-white);
       cursor: pointer;
-     }
+    }
 
-     p{
+    p {
       margin: 0;
-     }
+    }
   }
   .schedule-game {
     padding: 10px 15px 0 15px;
@@ -133,7 +140,7 @@
       gap: 10px;
     }
 
-    p{
+    p {
       margin: 0;
     }
   }
@@ -144,7 +151,6 @@
     align-items: center;
     justify-content: flex-start;
     font-size: 1.4rem;
-    min-width: fit-content;
     max-width: 450px;
     gap: 15px;
     padding: 10px 15px;
@@ -258,6 +264,50 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  .content {
+    .swiper-pagination-bullet {
+      height: 10px;
+      width: 16px;
+      padding: 0;
+      border: 2px solid var(--color-white);
+    }
+
+    .swiper-pagination-bullet-active {
+      background: var(--color-white);
+      background-image: none;
+      height: 10px;
+      width: 16px;
+      padding: 0;
+      border: 2px solid var(--color-white);
+    }
+
+    .swiper-navigation {
+      position: absolute;
+      top: 66%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 120px;
+      padding-top: 20px;
+
+      .swiper-button-disabled {
+        opacity: 0.6;
+        cursor: not-allowed !important;
+      }
+
+      .next,
+      .prev {
+        cursor: pointer;
+        z-index: 15;
+      }
+
+      &.more{
+        gap: 240px;
       }
     }
   }

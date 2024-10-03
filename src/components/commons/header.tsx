@@ -42,6 +42,11 @@ export default function Header() {
                     <div>calendrier</div>
                   </ActiveCustomLink>
                 </li>
+                <li>
+                  <ActiveCustomLink to="/classements">
+                    <div>classements</div>
+                  </ActiveCustomLink>
+                </li>
               </ul>
               <div
                 className={`indicator-pill ${currentPath.split("/")[1]}`}

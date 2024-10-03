@@ -65,6 +65,8 @@ export interface INTeamSchedule {
       firstInitial: { default: string };
       lastName: { default: string };
     };
+    ticketsLink: string,
+    ticketsLinkFr: string,
     threeMinRecapFr?: string;
     threeMinRecap?: string;
     gameCenterLink: string;
