@@ -32,7 +32,7 @@ const Schedule: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [currentDate]);
 
   useEffect(() => {
     fetchSchedule(currentDate);
