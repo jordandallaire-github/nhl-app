@@ -64,7 +64,6 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
 
   const { currentDate, games = [] } = schedule;
 
-  console.log(currentDate);
 
   const renderGameSituation = (game: Game) => {
     if (game.gameState === "LIVE") {

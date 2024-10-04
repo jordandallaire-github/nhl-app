@@ -21,7 +21,6 @@ const Schedule: React.FC = () => {
     try {
       const response = await fetch(`https://api-web.nhle.com/v1/score/${date}`);
       if (!response.ok) {
-        console.log(currentDate)
         throw new Error("Erreur lors de la récupération du calendrier.");
       }
       const data: INTSchedule = await response.json();
@@ -32,7 +31,7 @@ const Schedule: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentDate]);
+  }, []);
 
   useEffect(() => {
     fetchSchedule(currentDate);
