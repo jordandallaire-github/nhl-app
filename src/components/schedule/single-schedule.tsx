@@ -28,11 +28,43 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
   onChangeWeek,
   onChangeDay,
 }) => {
+  const translateSituation = (situationCodes: string[] | string): string => {
+    if (Array.isArray(situationCodes)) {
+      return situationCodes
+        .map((code) => {
+          switch (code) {
+            case "PP":
+              return "AN";
+            case "EN":
+              return "FD";
+            case "PS":
+              return "TP";
+            default:
+              return code;
+          }
+        })
+        .join(", ");
+    } else {
+      switch (situationCodes) {
+        case "PP":
+          return "AN";
+        case "EN":
+          return "FD";
+        case "PS":
+          return "TP";
+        default:
+          return situationCodes;
+      }
+    }
+  };
+
   if (!schedule || !schedule.currentDate) {
     return <div>Aucun calendrier disponible.</div>;
   }
 
   const { currentDate, games = [] } = schedule;
+
+  console.log(currentDate);
 
   const renderGameSituation = (game: Game) => {
     if (game.gameState === "LIVE") {
@@ -91,10 +123,10 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                   team.abbrev &&
                   game.situation?.[isAway ? "awayTeam" : "homeTeam"]
                     ?.situationDescriptions &&
-                  `| ${
+                  `| ${translateSituation(
                     game.situation[isAway ? "awayTeam" : "homeTeam"]
                       .situationDescriptions
-                  } ${game.situation.timeRemaining}`}
+                  )} ${game.situation.timeRemaining}`}
               </p>
             ) : (
               <p>{team.record}</p>
@@ -249,7 +281,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                     : game.homeTeam.name.default
                         .toLowerCase()
                         .replace(/\s+/g, "-")
-                }/${goal.firstName.default.toLowerCase()}-${goal.lastName.default.toLowerCase()}-${
+                }/${goal.firstName?.default.toLowerCase()}-${goal.lastName?.default.toLowerCase()}-${
                   goal.playerId
                 }`}
               >

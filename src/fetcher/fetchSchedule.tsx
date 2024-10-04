@@ -4,7 +4,7 @@ import SingleSchedule from "../components/schedule/single-schedule";
 
 const modifyDateByDays = (date: string, days: number): string => {
   const resultDate = new Date(date);
-  resultDate.setDate(resultDate.getDate() + days);
+  resultDate.setDate(resultDate.getDate() - days);
   return resultDate.toISOString().split("T")[0];
 };
 
@@ -21,6 +21,7 @@ const Schedule: React.FC = () => {
     try {
       const response = await fetch(`https://api-web.nhle.com/v1/score/${date}`);
       if (!response.ok) {
+        console.log(currentDate)
         throw new Error("Erreur lors de la récupération du calendrier.");
       }
       const data: INTSchedule = await response.json();

@@ -66,7 +66,7 @@ const TeamDetails: React.FC = () => {
         setScoreBoard(gameData);
 
         const scheduleResponse = await fetch(
-          `https://api-web.nhle.com/v1/club-schedule/${teamAbbrev}/month/2024-09`
+          `https://api-web.nhle.com/v1/club-schedule/${teamAbbrev}/month/now`
         );
         if (!scheduleResponse.ok) throw new Error("Failed to fetch game data");
         const scheduleData: INTeamSchedule = await scheduleResponse.json();
