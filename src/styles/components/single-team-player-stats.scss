@@ -1,4 +1,5 @@
-.stats-team-player {
+.stats-team-player,
+.stats-leaders {
   .player-stats-container {
     display: flex;
     flex-direction: column;
@@ -40,7 +41,7 @@
       }
 
       h2 {
-      width: 100%;
+        width: 100%;
         margin: 0;
       }
     }
@@ -61,7 +62,6 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        
       }
 
       .other-infos {
@@ -102,8 +102,8 @@
         }
       }
 
-      .display-player{
-        p{
+      .display-player {
+        p {
           margin: 0 0 20px 0;
         }
       }

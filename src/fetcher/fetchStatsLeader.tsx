@@ -1,33 +1,44 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { INTStanding, INTStandingOtherInfos } from "../interfaces/standing";
-import SingleStanding from "../components/single-standing";
+import {
+  LeaderPlayerStats,
+  LeaderGoalieStats,
+} from "../interfaces/leader-stats";
+import SingleLeaderStats from "../components/single-stats-leader";
 
 const StatsLeader: React.FC = () => {
-  const [standing, setStanding] = useState<INTStanding | null>(null);
-  const [standingOther, setStandingOther] =
-    useState<INTStandingOtherInfos | null>(null);
+  const [playerStats, setPlayerStats] = useState<LeaderPlayerStats | null>(
+    null
+  );
+  const [goalieStats, setGoalieStats] = useState<LeaderGoalieStats | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchStanding = useCallback(async () => {
     setLoading(true);
     try {
-      const responseOtherTeamInfos = await fetch(
-        `https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22teamId%22,%22direction%22:%22ASC%22%7D%5D&start=0&limit=50&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20242025%20and%20seasonId%3E=20242025`
+      const responsePlayerStats = await fetch(
+        `https://api-web.nhle.com/v1/skater-stats-leaders/current`
       );
-      if (!responseOtherTeamInfos.ok) {
-        throw new Error("Erreur lors de la récupération des autres stats.");
+      if (!responsePlayerStats.ok) {
+        throw new Error(
+          "Erreur lors de la récupération des stats des joueurs."
+        );
       }
-      const dataOtherInfos: INTStandingOtherInfos =
-        await responseOtherTeamInfos.json();
-      setStandingOther(dataOtherInfos);
+      const dataPlayerStats: LeaderPlayerStats =
+        await responsePlayerStats.json();
+      setPlayerStats(dataPlayerStats);
 
-      const response = await fetch(`https://api-web.nhle.com/v1/standings/now`);
-      if (!response.ok) {
+      const responseGoalieStats = await fetch(
+        `https://api-web.nhle.com/v1/goalie-stats-leaders/current`
+      );
+      if (!responseGoalieStats.ok) {
         throw new Error("Erreur lors de la récupération du classement.");
       }
-      const data: INTStanding = await response.json();
-      setStanding(data);
+      const dataGoalieStats: LeaderGoalieStats =
+        await responseGoalieStats.json();
+      setGoalieStats(dataGoalieStats);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
     } finally {
@@ -49,10 +60,10 @@ const StatsLeader: React.FC = () => {
 
   return (
     <>
-      <SingleStanding
-        standingOther={standingOther}
-        standing={standing}
-      ></SingleStanding>
+      <SingleLeaderStats
+        player={playerStats}
+        goalie={goalieStats}
+      ></SingleLeaderStats>
     </>
   );
 };

@@ -129,7 +129,7 @@ const PlayerDisplay: React.FC<{
           <p>{`#${playerDetails?.sweaterNumber}`}</p>
           <img
             src={`https://assets.nhle.com/logos/nhl/svg/${abr}_dark.svg`}
-            alt=""
+            alt={`${abr} Logo`}
           />
           {isSkater(player) ? (
             <p>{FormatPosition(player.positionCode)}</p>

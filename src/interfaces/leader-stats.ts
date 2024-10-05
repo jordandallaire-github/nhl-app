@@ -16,7 +16,7 @@ export interface LeaderGoalieStats {
 }
 
 export interface PlayerStatGeneric {
-  id: number;
+  id: string;
   firstName: { default: string };
   lastName: { default: string };
   sweaterNumber: number;
