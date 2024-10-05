@@ -75,7 +75,7 @@ const getTopPlayers = <T extends Player>(
   players: T[],
   statToCompare: keyof T,
   ascending = false,
-  minGamesPlayed = 15
+  minGamesPlayed = 1
 ): T[] => {
   return players
     .filter(
@@ -208,7 +208,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
           players as Player[],
           key as keyof Player,
           key === "goalsAgainstAverage",
-          15
+          1
         );
         return acc;
       }, {} as Record<string, Player[]>);

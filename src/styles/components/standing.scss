@@ -1,0 +1,139 @@
+.standing {
+  h2 {
+    margin-top: 60px;
+  }
+  .standing-container:last-child {
+    border-top: 2px solid var(--color-white);
+  }
+  .table-standing-container {
+    font-size: 1.6rem;
+    width: 100%;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 1px solid #f2f2f21a;
+    border-radius: 24px;
+    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1),
+      border 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 25px #00000026;
+    margin-bottom: 40px;
+    padding: 15px 10px;
+
+    h3 {
+      margin: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      text-align: center;
+    }
+    tbody {
+      a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+      }
+
+      img {
+        max-width: 55px;
+        max-height: 55px;
+      }
+    }
+
+    th:first-child {
+      margin-right: 60px;
+    }
+
+    th,
+    td {
+      height: 50px;
+      font-size: 1.6rem;
+      text-align: center;
+      min-width: 40px;
+      padding: 0;
+      width: calc((100% - -1200px) / 28);
+
+      a {
+        font-size: inherit;
+      }
+    }
+
+    thead {
+      tr {
+        height: 80px;
+        border-bottom: 1px solid var(--color-white);
+      }
+    }
+
+    tbody {
+      tr {
+        height: 80px;
+        border-top: 1px solid var(--color-white);
+        border-bottom: 1px solid var(--color-white);
+
+        &:last-child {
+          border-top: 0;
+          border-bottom: 0;
+        }
+      }
+    }
+
+    thead th {
+      cursor: pointer;
+    }
+
+    th[scope="row"],
+    td[scope="row"] {
+      min-width: 195px;
+      text-align: left;
+    }
+
+    th[scope="row"] {
+      text-align: center;
+    }
+
+    @media screen and (max-width: 1110px) {
+      overflow-x: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-white) var(--color-bg-primary);
+    }
+
+    .record {
+      min-width: 75px;
+
+      &.last {
+        min-width: 65px;
+      }
+    }
+
+    .positive {
+      color: green;
+    }
+
+    .negative {
+      color: red;
+    }
+
+    .clinch {
+      padding: 0;
+      min-width: 24px;
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+
+      &.no {
+        background-image: none;
+        border: 0;
+        outline: 0;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .swiper-wrapper{
+    box-sizing: inherit;
+  }
+}

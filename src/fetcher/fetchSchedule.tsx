@@ -2,16 +2,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import { INTSchedule } from "../interfaces/schedule";
 import SingleSchedule from "../components/schedule/single-schedule";
 
+const getLocalDate = (): string => {
+  const now = new Date();
+  const localOffset = now.getTimezoneOffset() * 60000;
+  const localTime = new Date(now.getTime() - localOffset);
+  return localTime.toISOString().split("T")[0];
+};
+
 const modifyDateByDays = (date: string, days: number): string => {
   const resultDate = new Date(date);
-  resultDate.setDate(resultDate.getDate() - days);
+  resultDate.setDate(resultDate.getDate() + days);
   return resultDate.toISOString().split("T")[0];
 };
 
 const Schedule: React.FC = () => {
-  const [currentDate, setCurrentDate] = useState<string>(
-    new Date().toISOString().split("T")[0]
-  );
+  const [currentDate, setCurrentDate] = useState<string>(getLocalDate());
   const [schedule, setSchedule] = useState<INTSchedule | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -19,6 +24,7 @@ const Schedule: React.FC = () => {
   const fetchSchedule = useCallback(async (date: string) => {
     setLoading(true);
     try {
+      console.log("Date envoyée à l'API:", date);
       const response = await fetch(`https://api-web.nhle.com/v1/score/${date}`);
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération du calendrier.");
@@ -46,7 +52,7 @@ const Schedule: React.FC = () => {
   };
 
   const handleDayChange = (newDate: string) => {
-    fetchSchedule(newDate);
+    fetchSchedule(modifyDateByDays(newDate, 0));
   };
 
   if (error) {

@@ -133,11 +133,27 @@
     justify-content: space-between;
     align-items: center;
     font-size: 1.6rem;
+    min-height: 65px;
 
     .broadcast {
       display: flex;
       align-items: center;
       gap: 10px;
+
+      .white{
+        filter: invert(1);
+      }
+
+      a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      img{
+        max-width: 40px;
+        max-width: 40px;
+      }
     }
 
     p {
@@ -196,6 +212,10 @@
         background-color: red;
         padding: 3px 3px;
         border-radius: 5px;
+
+        &.no{
+          opacity: 0;
+        }
       }
     }
 
@@ -240,6 +260,10 @@
     width: fit-content;
   }
 
+  .swiper-wrapper{
+    width: fit-content;
+  }
+
   .game-links {
     position: relative;
     width: 100%;
@@ -268,6 +292,7 @@
   }
 
   .content {
+    min-height: 177px;
     .swiper-pagination-bullet {
       height: 10px;
       width: 16px;

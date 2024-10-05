@@ -279,7 +279,11 @@ const DayWithGames: React.FC<{
       game.homeTeam.abbrev === teamAbr ? "homeTeam" : "awayTeam"
     }`}
   >
-    <p className="day-number">{new Date(game.gameDate).getDate() + 1 === 32 ? 1 : new Date(game.gameDate).getDate() + 1 }</p>
+    <p className="day-number">
+      {new Date(game.gameDate).getDate() + 1 === 32
+        ? 1
+        : new Date(game.gameDate).getDate() + 1}
+    </p>
     <div className="game-infos">
       <div className="opp-logo noMobile">
         <img
@@ -343,7 +347,7 @@ const DayWithGames: React.FC<{
                     {game.homeTeam.abbrev === teamAbr &&
                     game.homeTeam.score > game.awayTeam.score
                       ? "V " + game.homeTeam.score + "-" + game.awayTeam.score
-                      : "D " + game.awayTeam.score + "-" + game.homeTeam.score}
+                      : "D " + game.homeTeam.score + "-" + game.awayTeam.score}
                   </p>
                 )}
 

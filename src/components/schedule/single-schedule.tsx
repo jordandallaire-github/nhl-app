@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TVA from "../../assets/images/TVA.svg";
+import RDS from "../../assets/images/RDS.svg";
 import {
   INTSchedule,
   Game,
@@ -64,7 +66,6 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
 
   const { currentDate, games = [] } = schedule;
 
-
   const renderGameSituation = (game: Game) => {
     if (game.gameState === "LIVE") {
       return (
@@ -89,7 +90,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
     }
     return (
       <p className="result-game">
-        {game.gameState === "FINAL"
+        {game.gameState === "FINAL" || game.gameState === "OFF"
           ? `Final${
               game.periodDescriptor.periodType === "OT"
                 ? "/Pr."
@@ -115,7 +116,9 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
           />
           <div className="team-stats">
             <p>{team.name.default}</p>
-            {game.gameState === "LIVE" || game.gameState === "FINAL" ? (
+            {game.gameState === "LIVE" ||
+            game.gameState === "FINAL" ||
+            game.gameState === "OFF" ? (
               <p>
                 T: {team.sog}{" "}
                 {game.situation?.[isAway ? "awayTeam" : "homeTeam"]?.abbrev ===
@@ -133,9 +136,9 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
           </div>
         </div>
         <div className="score-games">
-          {(game.gameState === "LIVE" || game.gameState === "FINAL") && (
-            <p className="score">{team.score}</p>
-          )}
+          {(game.gameState === "LIVE" ||
+            game.gameState === "FINAL" ||
+            game.gameState === "OFF") && <p className="score">{team.score}</p>}
         </div>
       </Link>
     );
@@ -166,7 +169,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
         </div>
         <div
           className={`swiper-navigation ${
-            game.teamLeaders.length >= 6 ? "more" : ""
+            game.teamLeaders.length >= 5 ? "more" : ""
           }`}
         >
           <div className="prev">
@@ -254,7 +257,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
         </div>
         <div
           className={`swiper-navigation ${
-            game.goals.length >= 6 ? "more" : ""
+            game.goals.length >= 5 ? "more" : ""
           }`}
         >
           <div className="prev">
@@ -297,7 +300,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                     ? ` (${goal.goalsToDate})`
                     : ""
                 }`}</strong>
-                {(goal.strength !== "ev" || goal.goalModifier !== "none") && (
+                {goal.strength !== "ev" || goal.goalModifier !== "none" ? (
                   <span className="strength">
                     {goal.strength === "pp"
                       ? " BAN"
@@ -307,6 +310,8 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                       ? " FD"
                       : ""}
                   </span>
+                ) : (
+                  <span className="strength no"></span>
                 )}
               </p>
               <span className="assists">
@@ -412,11 +417,25 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                   <div className="glare-effect"></div>
                   <div className="situation">
                     {renderGameSituation(game)}
-                    {game.gameState !== "FINAL" && (
+                    {game.gameState !== "FINAL" && game.tvBroadcasts.length > 0 &&(
                       <div className="broadcast">
                         {game.tvBroadcasts.map((broadcast, index) => (
                           <p key={`${broadcast.id}-${index}`}>
-                            {broadcast.network}
+                            {broadcast.network === "RDS" ? (
+                              <Link to={`https://www.rds.ca/`}>
+                                <img src={RDS} alt="RDS logo" />
+                              </Link>
+                            ) : broadcast.network === "TVAS" ? (
+                              <Link to={`https://www.tvasports.ca/`}>
+                                <img
+                                  className="white"
+                                  src={TVA}
+                                  alt="TVA sports logo"
+                                />
+                              </Link>
+                            ) : (
+                              broadcast.network 
+                            )}
                           </p>
                         ))}
                       </div>
