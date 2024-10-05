@@ -1,23 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import TVA from "../../assets/images/TVA.svg";
-import RDS from "../../assets/images/RDS.svg";
+import TVA from "../assets/images/TVA.svg";
+import RDS from "../assets/images/RDS.svg";
 import {
   INTSchedule,
   Game,
   TeamLeader,
   Goal,
   Assist,
-} from "../../interfaces/schedule";
+} from "../interfaces/schedule";
 import {
   formatDateMonthDay,
   formatDateDay,
   getFrenchDayAbbr,
   formatJustDay,
-} from "../utils/formatDate";
-import { formatGameTime } from "../utils/formatGameTime";
-import Carousel from "../carousel";
-import { Svg } from "../utils/Icons";
+} from "../scripts/utils/formatDate";
+import { formatGameTime } from "../scripts/utils/formatGameTime";
+import Carousel from "./utils/carousel";
+import { Svg } from "../scripts/utils/Icons";
 
 interface SingleScheduleProps {
   schedule: INTSchedule | null;

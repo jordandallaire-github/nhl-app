@@ -84,3 +84,17 @@ export interface INTStanding {
     wins: number;
   }>;
 }
+
+export interface INTStandingOtherInfos {
+  data: Array<{
+    faceoffWinPct: number;
+    penaltyKillNetPct: number;
+    penaltyKillPct: number;
+    powerPlayNetPct: number;
+    powerPlayPct: number;
+    shotsAgainstPerGame: number;
+    shotsForPerGame: number;
+    teamFullName: string;
+    teamId: number;
+  }>;
+}

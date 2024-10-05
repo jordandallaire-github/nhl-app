@@ -6,8 +6,8 @@ import {
   Goalie,
 } from "../../../interfaces/team/teamPlayerStats";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
-import { FormatPosition } from "../../utils/formatPosition";
-import { generatePlayerSlug } from "../../utils/generatePlayerSlug";
+import { FormatPosition } from "../../../scripts/utils/formatPosition";
+import { generatePlayerSlug } from "../../../scripts/utils/generatePlayerSlug";
 
 interface PlayerStatsProps {
   playerStats: TeamPlayerStats | null;
@@ -324,7 +324,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
     return (
       <section className="stats-team-player">
         <div className="wrapper">
-          <h1>Meilleur de l'équipe :</h1>
+          <h1>Meneur de l'équipe :</h1>
           <div className="player-stats-container">
             {statCategories.map(({ category, title, format }) =>
               renderPlayerStat(category as PlayerCategory, title, format)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
-import { formatDate } from "../../utils/formatDate";
+import { formatDate } from "../../../scripts/utils/formatDate";
 import fetchTeamNames from "../../../fetcher/teamName";
 
 type Game = NonNullable<PlayerDetailsType["last5Games"]>[number];

@@ -1,7 +1,7 @@
 import React from 'react';
-import Carousel from "../../carousel";
+import Carousel from "../../utils/carousel";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
-import formatSeason from "../../utils/formatSeason";
+import formatSeason from "../../../scripts/utils/formatSeason";
 
 interface StatsTableProps {
   stats: any;

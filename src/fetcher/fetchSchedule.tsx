@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { INTSchedule } from "../interfaces/schedule";
-import SingleSchedule from "../components/schedule/single-schedule";
+import SingleSchedule from "../components/single-schedule";
 
 const getLocalDate = (): string => {
   const now = new Date();

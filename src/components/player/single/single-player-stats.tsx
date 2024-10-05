@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
-import Carousel from "../../carousel";
+import Carousel from "../../utils/carousel";
 import { PlayerDetailsType} from "../../../interfaces/player/playerDetails";
 import { SeasonTotals } from "../../../interfaces/player/seasonTotals";
 import { Link } from "react-router-dom";
-import formatSeason from "../../utils/formatSeason";
+import formatSeason from "../../../scripts/utils/formatSeason";
 
 type SortConfig = {
   key: keyof SeasonTotals;

@@ -1,5 +1,5 @@
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
-import { FormatPosition } from "../../utils/formatPosition";
+import { FormatPosition } from "../../../scripts/utils/formatPosition";
 
 const getDraftDetails = (player: PlayerDetailsType) => {
     if (

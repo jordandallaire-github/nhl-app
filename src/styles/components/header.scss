@@ -157,6 +157,10 @@ header {
     margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * -4);
   }
 
+  &.statistiques {
+    margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * -6);
+  }
+
   @media screen and (max-width: 620px) {
     display: none;
   }
@@ -184,6 +188,10 @@ header {
 
   &.classements {
     left: calc(var(--padding-pill) + var(--link-width) * 3);
+  }
+
+  &.statistiques{
+    left: calc(var(--padding-pill) + var(--link-width) * 4);
   }
 
   @media screen and (max-width: 620px) {

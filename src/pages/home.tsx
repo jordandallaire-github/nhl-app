@@ -1,6 +1,6 @@
-import Video from "../components/youtube";
+import Video from "../components/utils/youtube";
 import Thumbnail from "../assets/images/scale.png";
-import Scrolly from "../components/scrolly";
+import Scrolly from "../components/utils/scrolly";
 
 function Home() {
   Scrolly();

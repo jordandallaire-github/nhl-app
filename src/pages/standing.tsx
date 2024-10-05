@@ -1,4 +1,4 @@
-import Scrolly from "../components/scrolly";
+import Scrolly from "../components/utils/scrolly";
 import Standing from "../fetcher/fetchStanding";
 
 function MainStanding() {

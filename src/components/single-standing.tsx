@@ -1,25 +1,35 @@
 import React, { useMemo } from "react";
-import { INTStanding } from "../../interfaces/standing";
+import { INTStanding, INTStandingOtherInfos } from "../interfaces/standing";
 import { Link } from "react-router-dom";
-import Carousel from "../carousel";
+import Carousel from "./utils/carousel";
 
 interface SingleStandingProps {
   standing: INTStanding | null;
+  standingOther: INTStandingOtherInfos | null;
 }
 
 type TeamStanding = INTStanding["standings"][0];
 
 interface ConferenceStandings {
-  [division: string]: TeamStanding[];
+  [division: string]: {
+    team: TeamStanding;
+    otherInfo: INTStandingOtherInfos["data"][0] | null;
+  }[];
 }
 
 interface FilteredStandings {
   Est: ConferenceStandings;
   Ouest: ConferenceStandings;
-  Ligue: TeamStanding[];
+  Ligue: {
+    team: TeamStanding;
+    otherInfo: INTStandingOtherInfos["data"][0] | null;
+  }[];
 }
 
-const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
+const SingleStanding: React.FC<SingleStandingProps> = ({
+  standing,
+  standingOther,
+}) => {
   const filteredStandings = useMemo(() => {
     if (!standing || !standing.standings) return null;
 
@@ -54,33 +64,49 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
         team.divisionName
       ] as keyof ConferenceStandings;
 
+      const otherInfo =
+        standingOther?.data.find(
+          (info) => info.teamFullName === team.teamName.default
+        ) || null;
+
       if (conf in result && div in result[conf]) {
-        result[conf][div].push(team);
+        result[conf][div].push({ team, otherInfo });
       }
 
-      result.Ligue.push(team);
+      result.Ligue.push({ team, otherInfo });
     });
 
     conferences.forEach((conf) => {
       divisions[conf].forEach((div) => {
-        result[conf][div].sort((a, b) => b.points - a.points);
+        result[conf][div].sort((a, b) => b.team.points - a.team.points);
         const top3 = result[conf][div].slice(0, 3);
         const wildCards = result[conf][div].slice(3);
         result[conf][div] = top3;
         result[conf]["Quatrième as"].push(...wildCards);
       });
 
-      result[conf]["Quatrième as"].sort((a, b) => b.points - a.points);
+      result[conf]["Quatrième as"].sort(
+        (a, b) => b.team.points - a.team.points
+      );
     });
 
-    result.Ligue.sort((a, b) => b.points - a.points);
+    result.Ligue.sort((a, b) => b.team.points - a.team.points);
 
     return result;
-  }, [standing]);
+  }, [standing, standingOther]);
 
   if (!filteredStandings) return <p>Aucune donnée disponible.</p>;
 
-  const renderTeamRow = (team: TeamStanding, index: number) => (
+  const renderTeamRow = (
+    {
+      team,
+      otherInfo,
+    }: {
+      team: TeamStanding;
+      otherInfo: INTStandingOtherInfos["data"][0] | null;
+    },
+    index: number
+  ) => (
     <tr key={`${team.teamAbbrev.default}-${index}`}>
       <td>{`${index + 1}`}</td>
       <td scope="row">
@@ -96,9 +122,9 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
           )}
           <img
             src={`https://assets.nhle.com/logos/nhl/svg/${team.teamAbbrev.default}_dark.svg`}
-            alt={`${team.teamName.fr} logo`}
+            alt={`${team.teamName.fr || team.teamName.default} logo`}
           />
-          {`${team.teamName.fr}`}
+          {`${team.teamName.fr || team.teamName.default}`}
         </Link>
       </td>
       <td>{team.gamesPlayed}</td>
@@ -119,6 +145,16 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
       <td className={team.goalDifferential < 0 ? "negative" : "positive"}>
         {team.goalDifferential}
       </td>
+      <td>
+        {otherInfo?.powerPlayPct !== undefined
+          ? `${(otherInfo.powerPlayPct * 100).toFixed(1)}`
+          : "-"}
+      </td>
+      <td>
+        {otherInfo?.penaltyKillPct !== undefined
+          ? `${(otherInfo.penaltyKillPct * 100).toFixed(1)}`
+          : "-"}
+      </td>
       <td className="record">{`${team.homeWins}-${team.homeLosses}-${team.homeOtLosses}`}</td>
       <td className="record">{`${team.roadWins}-${team.roadLosses}-${team.roadOtLosses}`}</td>
       <td>{`${team.shootoutWins}-${team.shootoutLosses}`}</td>
@@ -130,7 +166,12 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
     </tr>
   );
 
-  const renderStandingsTable = (teams: TeamStanding[]) => (
+  const renderStandingsTable = (
+    teams: {
+      team: TeamStanding;
+      otherInfo: INTStandingOtherInfos["data"][0] | null;
+    }[]
+  ) => (
     <table>
       <thead>
         <tr>
@@ -147,6 +188,8 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
           <th>BP</th>
           <th>BC</th>
           <th>DIFF</th>
+          <th>%AN</th>
+          <th>%IN</th>
           <th className="record">DOM</th>
           <th className="record">ÉTR</th>
           <th>TB</th>
@@ -180,7 +223,10 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
               <h3>Ligue</h3>
             </div>
           </div>
-          <div data-is-swiper-slide className="standing-container swiper-no-swiping">
+          <div
+            data-is-swiper-slide
+            className="standing-container swiper-no-swiping"
+          >
             {(["Est", "Ouest"] as const).map((conference) => (
               <div key={conference}>
                 <h2>{conference}</h2>
@@ -199,7 +245,10 @@ const SingleStanding: React.FC<SingleStandingProps> = ({ standing }) => {
               </div>
             ))}
           </div>
-          <div data-is-swiper-slide className="standing-container swiper-no-swiping">
+          <div
+            data-is-swiper-slide
+            className="standing-container swiper-no-swiping"
+          >
             <h2>Classement de la ligue</h2>
             <div className="table-standing-container">
               {renderStandingsTable(filteredStandings.Ligue)}

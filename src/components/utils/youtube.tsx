@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ReactPlayer from "react-player/youtube";
-import { Svg } from "./utils/Icons";
+import { Svg } from "../../scripts/utils/Icons";
 
 interface YoutubeProps {
   videoId: string;

@@ -1,6 +1,6 @@
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { Award } from "../../../interfaces/player/awards";
-import formatSeason from "../../utils/formatSeason";
+import formatSeason from "../../../scripts/utils/formatSeason";
 import trophyDataJson from "../../../data/trophyPlayerData.json";
 
 interface Trophy {

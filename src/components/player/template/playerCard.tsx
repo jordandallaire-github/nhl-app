@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
-import { generatePlayerSlug } from "../../utils/generatePlayerSlug";
+import { generatePlayerSlug } from "../../../scripts/utils/generatePlayerSlug";
 
 interface PlayerCardProps {
   player: PlayerDetailsType;

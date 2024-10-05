@@ -3,9 +3,9 @@ import { INTeamSchedule } from "../../../interfaces/team/teamSchedule";
 import {
   formatDateMonthYear,
   formatDateMonthShortYear,
-} from "../../utils/formatDate";
-import { formatGameTime } from "../../utils/formatGameTime";
-import { Svg } from "../../utils/Icons";
+} from "../../../scripts/utils/formatDate";
+import { formatGameTime } from "../../../scripts/utils/formatGameTime";
+import { Svg } from "../../../scripts/utils/Icons";
 
 interface SingleTeamScheduleProps {
   teamColor: string | null;

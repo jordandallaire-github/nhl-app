@@ -4,9 +4,9 @@ import {
   GameData,
 } from "../../../interfaces/team/teamScoreboard";
 import { Link } from "react-router-dom";
-import Carousel from "../../carousel";
-import { formatGameTime } from "../../utils/formatGameTime";
-import { formatDateMonthDay } from "../../utils/formatDate";
+import Carousel from "../../utils/carousel";
+import { formatGameTime } from "../../../scripts/utils/formatGameTime";
+import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
 
 interface SingleTeamScoreboardProps {
   teamScoreboard: TeamScoreboard | null;

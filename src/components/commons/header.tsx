@@ -1,7 +1,7 @@
 import { Link, useMatch, useResolvedPath, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Svg } from "../utils/Icons";
-import HeaderComponent from "../../components/header";
+import { Svg } from "../../scripts/utils/Icons";
+import HeaderComponent from "../utils/header";
 
 export default function Header() {
   const [currentPath, setCurrentPath] = useState("");
@@ -45,6 +45,11 @@ export default function Header() {
                 <li>
                   <ActiveCustomLink to="/classements">
                     <div>classements</div>
+                  </ActiveCustomLink>
+                </li>
+                <li>
+                  <ActiveCustomLink to="/statistiques">
+                    <div>statistiques</div>
                   </ActiveCustomLink>
                 </li>
               </ul>
