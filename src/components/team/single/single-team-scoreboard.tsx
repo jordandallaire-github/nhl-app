@@ -98,7 +98,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                       <>
                         <p>
                           {`${
-                            game.gameState === "FINAL"
+                            game.gameState === "FINAL" || game.gameState === "OFF"
                               ? `Finale${
                                   game.periodDescriptor.periodType === "OT"
                                     ? "/Pr."

@@ -417,29 +417,30 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                   <div className="glare-effect"></div>
                   <div className="situation">
                     {renderGameSituation(game)}
-                    {game.gameState !== "FINAL" && game.tvBroadcasts.length > 0 &&(
-                      <div className="broadcast">
-                        {game.tvBroadcasts.map((broadcast, index) => (
-                          <p key={`${broadcast.id}-${index}`}>
-                            {broadcast.network === "RDS" ? (
-                              <Link to={`https://www.rds.ca/`}>
-                                <img src={RDS} alt="RDS logo" />
-                              </Link>
-                            ) : broadcast.network === "TVAS" ? (
-                              <Link to={`https://www.tvasports.ca/`}>
-                                <img
-                                  className="white"
-                                  src={TVA}
-                                  alt="TVA sports logo"
-                                />
-                              </Link>
-                            ) : (
-                              broadcast.network 
-                            )}
-                          </p>
-                        ))}
-                      </div>
-                    )}
+                    {game.gameState !== "FINAL" &&
+                      game.tvBroadcasts.length > 0 && game.gameState !== "OFF" &&(
+                        <div className="broadcast">
+                          {game.tvBroadcasts.map((broadcast, index) => (
+                            <p key={`${broadcast.id}-${index}`}>
+                              {broadcast.network === "RDS" ? (
+                                <Link to={`https://www.rds.ca/`}>
+                                  <img src={RDS} alt="RDS logo" />
+                                </Link>
+                              ) : broadcast.network === "TVAS" ? (
+                                <Link to={`https://www.tvasports.ca/`}>
+                                  <img
+                                    className="white"
+                                    src={TVA}
+                                    alt="TVA sports logo"
+                                  />
+                                </Link>
+                              ) : (
+                                broadcast.network
+                              )}
+                            </p>
+                          ))}
+                        </div>
+                      )}
                   </div>
                   <div className="team">
                     {renderTeamInfo(game, true)}
