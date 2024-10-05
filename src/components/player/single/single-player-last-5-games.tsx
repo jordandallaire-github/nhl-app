@@ -46,9 +46,9 @@ const PlayerSingleLast5Games: React.FC<{
     setSortConfig((prevConfig) => ({
       key,
       direction:
-        prevConfig?.key === key && prevConfig.direction === "descending"
-          ? "ascending"
-          : "descending",
+        prevConfig?.key === key && prevConfig.direction === "ascending"
+          ? "descending"
+          : "ascending",
     }));
   }, []);
 
@@ -91,7 +91,7 @@ const PlayerSingleLast5Games: React.FC<{
   const getSortArrow = useCallback(
     (key: SortableKeys) => {
       if (!sortConfig || sortConfig.key !== key) return null;
-      return sortConfig.direction === "ascending" ? "↓" : "↑";
+      return sortConfig.direction === "ascending" ? " ↑" : " ↓";
     },
     [sortConfig]
   );
