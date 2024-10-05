@@ -140,7 +140,7 @@ const SingleLeaderStats: React.FC<LeaderStatsProps> = ({ player, goalie }) => {
             titleStats={item.label}
           />
           <div className="stats">
-            <h2>{item.label}</h2>
+            <h2>{item.type}</h2>
             {item.stats.slice(0, 5).map((stat, index) => {
               const isSelected = selectedPlayers[item.type] === stat;
               const isBest = stat === bestPlayer;
