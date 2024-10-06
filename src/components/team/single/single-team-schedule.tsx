@@ -347,7 +347,16 @@ const DayWithGames: React.FC<{
                     {game.homeTeam.abbrev === teamAbr &&
                     game.homeTeam.score > game.awayTeam.score
                       ? "V " + game.homeTeam.score + "-" + game.awayTeam.score
-                      : "D " + game.homeTeam.score + "-" + game.awayTeam.score}
+                      : game.awayTeam.abbrev === teamAbr &&
+                        game.awayTeam.score > game.homeTeam.score
+                      ? "V " + game.awayTeam.score + "-" + game.homeTeam.score
+                      : game.homeTeam.abbrev === teamAbr &&
+                        game.homeTeam.score < game.awayTeam.score
+                      ? "D " + game.awayTeam.score + "-" + game.homeTeam.score
+                      : game.awayTeam.abbrev === teamAbr &&
+                        game.awayTeam.score < game.homeTeam.score
+                      ? "D " + game.homeTeam.score + "-" + game.awayTeam.score
+                      : ""}
                   </p>
                 )}
 
