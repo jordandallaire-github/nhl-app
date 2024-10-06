@@ -4,6 +4,7 @@ import {
   GameData,
 } from "../../../interfaces/team/teamScoreboard";
 import { Link } from "react-router-dom";
+import { GameLink } from "../../../scripts/utils/formatGameURL";
 import Carousel from "../../utils/carousel";
 import { formatGameTime } from "../../../scripts/utils/formatGameTime";
 import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
@@ -157,7 +158,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                 </div>
                 <div className="game-content">
                   <div className="game-links">
-                    <a href={`#`}>Détails de la partie</a>
+                    <GameLink game={game.gameCenterLink} />
                     {game.ticketsLink && game.gameState === "FUT" && (
                       <a href={game.ticketsLinkFr}>Acheter des billets</a>
                     )}

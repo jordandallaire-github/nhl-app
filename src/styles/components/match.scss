@@ -1,0 +1,79 @@
+.match {
+  font-size: 1.6rem;
+  text-align: left;
+
+  .team-matchup {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 125px;
+    background-image: none;
+
+    .special {
+      position: absolute;
+      top: -32px;
+      left: 50%;
+      transform: translateX(-57%);
+      max-width: 150px;
+      max-height: 150px;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+
+      h2 {
+        margin: 0;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      img {
+        min-width: 100px;
+      }
+
+      &.home {
+        flex-direction: row-reverse;
+        text-align: right;
+
+        .score-games {
+          margin: 0 80px 0 0;
+
+          .score.home-win {
+            opacity: 1;
+          }
+        }
+      }
+
+      &.away {
+        .score.away-win {
+          opacity: 1;
+        }
+      }
+
+      .score-games {
+        margin: 0 0 0 80px;
+        font-size: 3.5rem;
+        font-weight: bolder;
+
+        .score {
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .result-game {
+      color: var(--color-black);
+      padding: 4px 8px;
+      background-color: var(--color-white);
+      border-radius: 5px;
+      margin: 0;
+      font-size: 1.4rem;
+    }
+  }
+}

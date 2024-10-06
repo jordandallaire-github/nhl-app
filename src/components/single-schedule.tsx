@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import TVA from "../assets/images/TVA.svg";
 import RDS from "../assets/images/RDS.svg";
+import { formatSituation } from "../scripts/utils/formatSituation";
 import {
   INTSchedule,
   Game,
@@ -15,6 +16,7 @@ import {
   getFrenchDayAbbr,
   formatJustDay,
 } from "../scripts/utils/formatDate";
+import { GameLink } from "../scripts/utils/formatGameURL";
 import { formatGameTime } from "../scripts/utils/formatGameTime";
 import Carousel from "./utils/carousel";
 import { Svg } from "../scripts/utils/Icons";
@@ -30,35 +32,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
   onChangeWeek,
   onChangeDay,
 }) => {
-  const translateSituation = (situationCodes: string[] | string): string => {
-    if (Array.isArray(situationCodes)) {
-      return situationCodes
-        .map((code) => {
-          switch (code) {
-            case "PP":
-              return "AN";
-            case "EN":
-              return "FD";
-            case "PS":
-              return "TP";
-            default:
-              return code;
-          }
-        })
-        .join(", ");
-    } else {
-      switch (situationCodes) {
-        case "PP":
-          return "AN";
-        case "EN":
-          return "FD";
-        case "PS":
-          return "TP";
-        default:
-          return situationCodes;
-      }
-    }
-  };
+
 
   if (!schedule || !schedule.currentDate) {
     return <div>Aucun calendrier disponible.</div>;
@@ -125,7 +99,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                   team.abbrev &&
                   game.situation?.[isAway ? "awayTeam" : "homeTeam"]
                     ?.situationDescriptions &&
-                  `| ${translateSituation(
+                  `| ${formatSituation(
                     game.situation[isAway ? "awayTeam" : "homeTeam"]
                       .situationDescriptions
                   )} ${game.situation.timeRemaining}`}
@@ -468,9 +442,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                         <span className="mobile">Résumé du match</span>
                       </a>
                     )}
-                    <a href="#">
-                      <span className="mobile">Détails match</span>
-                    </a>
+                   <GameLink game={game.gameCenterLink} />
                     {(game.gameState === "FUT" || game.gameState === "PRE") && (
                       <a
                         target="_blank"

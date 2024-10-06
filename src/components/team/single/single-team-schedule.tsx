@@ -6,6 +6,7 @@ import {
 } from "../../../scripts/utils/formatDate";
 import { formatGameTime } from "../../../scripts/utils/formatGameTime";
 import { Svg } from "../../../scripts/utils/Icons";
+import { GameLink } from "../../../scripts/utils/formatGameURL";
 
 interface SingleTeamScheduleProps {
   teamColor: string | null;
@@ -200,11 +201,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
             >
               {selectedGame ? (
                 <>
-                  <a href={`#`}>
-                    <Svg name="game-stats" size="sm" />
-                    <span className="mobile">Détails match</span>
-                    <Svg className="mobile" name="right-arrow" size="sm" />
-                  </a>
+                  <GameLink game={selectedGame.gameCenterLink} withSvg />
                   {selectedGame.ticketsLink &&
                     selectedGame.gameState === "FUT" && (
                       <a target="_blank" href={selectedGame.ticketsLinkFr}>
@@ -361,11 +358,7 @@ const DayWithGames: React.FC<{
                 )}
 
               <div className="game-links noMobile">
-                <a href={`#`}>
-                  <Svg name="game-stats" size="sm" />
-                  <span className="mobile">Détails match</span>
-                  <Svg className="mobile" name="right-arrow" size="sm" />
-                </a>
+                <GameLink game={game.gameCenterLink} withSvg/>
                 {game.ticketsLink && game.gameState === "FUT" && (
                   <a target="_blank" href={game.ticketsLinkFr}>
                     <Svg name="ticket" size="sm" isStroke={true} />
