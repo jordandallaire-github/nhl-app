@@ -13,11 +13,13 @@ export interface INTMoreGameInfos {
       id: number;
       abbrev: string;
       logo: string;
+      score: string;
     };
     homeTeam: {
       id: number;
       abbrev: string;
       logo: string;
+      score: string;
     };
     gameCenterLink: string;
   }>;

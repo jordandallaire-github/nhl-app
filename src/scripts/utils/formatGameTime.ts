@@ -8,7 +8,6 @@ export function formatGameTime(startTimeUTC: string, offset: string) {
 
   const isSmallScreen = window.innerWidth < 1050;
 
-  // Format de base de l'heure
   let formattedTime = new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
