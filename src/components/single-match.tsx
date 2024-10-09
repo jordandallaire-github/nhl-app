@@ -10,6 +10,7 @@ import formatSeason from "../scripts/utils/formatSeason";
 import TVA from "../assets/images/TVA.svg";
 import RDS from "../assets/images/RDS.svg";
 import { Svg } from "../scripts/utils/Icons";
+import { stat } from "fs";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -19,6 +20,11 @@ interface MatchProps {
     away: string;
   } | null;
 }
+
+type TeamSeasonStatsKeys =
+  keyof INTMoreGameInfos["teamSeasonStats"]["awayTeam"];
+
+type TeamGameStatsKeys = keyof INTMoreGameInfos["teamGameStats"];
 
 const SingleMatch: React.FC<MatchProps> = ({
   gameInfos,
@@ -99,7 +105,11 @@ const SingleMatch: React.FC<MatchProps> = ({
         <>
           <p>
             <strong className="period">
-              {`${game.period === 1 ? game.period + "re" : game.period + "e"}`}{" "}
+              {`${
+                game.periodDescriptor.number === 1
+                  ? game.periodDescriptor.number + "re"
+                  : game.periodDescriptor.number + "e"
+              }`}{" "}
             </strong>
             {game.clock.inIntermission ? "ENT" : ""} {game.clock.timeRemaining}
           </p>
@@ -487,7 +497,7 @@ const SingleMatch: React.FC<MatchProps> = ({
     );
   };
 
-  const renderRightPanelInfos = (
+  const renderRightPanelSeriesInfos = (
     other: INTMoreGameInfos,
     game: INTMainGameInfos
   ) => {
@@ -524,10 +534,16 @@ const SingleMatch: React.FC<MatchProps> = ({
               <Link
                 to={`${generateMatchPath(serie.gameCenterLink)}`}
                 key={`${serie.id}-${index}`}
-                className={`serie window-effect ${serie.id === game.id ? "active" : ""}`}
+                className={`serie window-effect ${
+                  serie.id === game.id ? "active" : ""
+                }`}
               >
                 <div className="team">
-                  <div className={`away ${serie.homeTeam.score > serie.awayTeam.score ? "lost" : ""}`}>
+                  <div
+                    className={`away ${
+                      serie.homeTeam.score > serie.awayTeam.score ? "lost" : ""
+                    }`}
+                  >
                     <div className="media">
                       <img
                         src={`https://assets.nhle.com/logos/nhl/svg/${serie?.awayTeam.abbrev}_dark.svg`}
@@ -543,7 +559,11 @@ const SingleMatch: React.FC<MatchProps> = ({
                       <p className="score">{serie.awayTeam.score}</p>
                     )}
                   </div>
-                  <div className={`home ${serie.awayTeam.score > serie.homeTeam.score ? "lost" : ""}`}>
+                  <div
+                    className={`home ${
+                      serie.awayTeam.score > serie.homeTeam.score ? "lost" : ""
+                    }`}
+                  >
                     <div className="media">
                       <img
                         src={`https://assets.nhle.com/logos/nhl/svg/${serie?.homeTeam.abbrev}_dark.svg`}
@@ -573,6 +593,339 @@ const SingleMatch: React.FC<MatchProps> = ({
         </div>
       </>
     );
+  };
+
+  const renderRightPanelTeamStatsInfos = (
+    other: INTMoreGameInfos,
+    game: INTMainGameInfos
+  ) => {
+    const scaleFactor = 2;
+    const statsToCompareGame = [
+      {
+        key: "sog" as TeamGameStatsKeys,
+        label: "Tirs",
+        multiplier: 1,
+        decimals: 0,
+        isPercentage: false,
+      },
+      {
+        key: "faceoffWinningPctg" as TeamGameStatsKeys,
+        label: "% mise en jeu",
+        multiplier: 100,
+        decimals: 1,
+        isPercentage: true,
+      },
+      {
+        key: "powerPlayPctg" as TeamGameStatsKeys,
+        label: "% avantage numérique",
+        multiplier: 100,
+        decimals: 1,
+        isPercentage: true,
+      },
+      {
+        key: "pim" as TeamGameStatsKeys,
+        label: "Minutes de pénalité",
+        multiplier: 1,
+        decimals: 0,
+        isPercentage: false,
+      },
+      {
+        key: "blockedShots" as TeamGameStatsKeys,
+        label: "Tirs bloqués",
+        multiplier: 1,
+        decimals: 0,
+        isPercentage: false,
+      },
+      {
+        key: "giveaways" as TeamGameStatsKeys,
+        label: "Revirement",
+        multiplier: 1,
+        decimals: 0,
+        isPercentage: false,
+      },
+      {
+        key: "takeaways" as TeamGameStatsKeys,
+        label: "Revirements provoqués",
+        multiplier: 1,
+        decimals: 0,
+        isPercentage: false,
+      },
+    ] as const;
+
+    const statsToCompareTeam = [
+      {
+        key: "ppPctg" as TeamSeasonStatsKeys,
+        label: "% avantage numérique",
+        multiplier: 100,
+        decimals: 1,
+        isPercentage: false,
+      },
+      {
+        key: "pkPctg" as TeamSeasonStatsKeys,
+        label: "% infériorité numérique",
+        multiplier: 100,
+        decimals: 1,
+        isPercentage: false,
+      },
+      {
+        key: "faceoffWinningPctg" as TeamSeasonStatsKeys,
+        label: "% mise en jeu",
+        multiplier: 100,
+        decimals: 1,
+        isPercentage: true,
+      },
+      {
+        key: "goalsForPerGamePlayed" as TeamSeasonStatsKeys,
+        label: "BP/PJ",
+        multiplier: 1,
+        decimals: 2,
+        isPercentage: false,
+      },
+      {
+        key: "goalsAgainstPerGamePlayed" as TeamSeasonStatsKeys,
+        label: "BC/PJ",
+        multiplier: 1,
+        decimals: 2,
+        isPercentage: false,
+      },
+    ] as const;
+
+    const renderTeamStatComparison = (
+      stat: (typeof statsToCompareTeam)[number]
+    ) => {
+      const awayValue = (
+        other.teamSeasonStats.awayTeam[stat.key] * stat.multiplier
+      ).toFixed(stat.decimals);
+      const homeValue = (
+        other.teamSeasonStats.homeTeam[stat.key] * stat.multiplier
+      ).toFixed(stat.decimals);
+
+      const awayFlex = Math.pow(parseFloat(awayValue), scaleFactor);
+      const homeFlex = Math.pow(parseFloat(homeValue), scaleFactor);
+      const totalFlex = awayFlex + homeFlex;
+      const normalizedAwayFlex = awayFlex / totalFlex;
+      const normalizedHomeFlex = homeFlex / totalFlex;
+
+      const awayRank =
+        other.teamSeasonStats.awayTeam[
+          `${stat.key}Rank` as TeamSeasonStatsKeys
+        ];
+      const homeRank =
+        other.teamSeasonStats.homeTeam[
+          `${stat.key}Rank` as TeamSeasonStatsKeys
+        ];
+
+      const formatValue = (value: string) =>
+        stat.isPercentage ? `${value}%` : value;
+
+      return (
+        <div className="stat" key={stat.key as string}>
+          <div className="pcStat">
+            <p>
+              <strong>{formatValue(awayValue ?? 0)}</strong>
+            </p>
+            <p>{stat.label}</p>
+            <p>
+              <strong>{formatValue(homeValue ?? 0)}</strong>
+            </p>
+          </div>
+          <div className="indication-color">
+            <div className="team" style={{ flex: `${normalizedAwayFlex}` }}>
+              <div
+                className={`color away`}
+                style={{ borderTop: `8px solid ${teamColors?.away}` }}
+              />
+            </div>
+            <div className="team" style={{ flex: `${normalizedHomeFlex}` }}>
+              <div
+                className={`color home`}
+                style={{ borderBottom: `8px solid ${teamColors?.home}` }}
+              />
+            </div>
+          </div>
+          {awayRank && homeRank && (
+            <div className="standing-stat">
+              <p>{`${awayRank === 1 ? 1 + "re" : awayRank + "e"}`}</p>
+              <p>{`${homeRank === 1 ? 1 + "re" : homeRank + "e"}`}</p>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    const renderGameStatComparison = (
+      stat: (typeof statsToCompareGame)[number]
+    ) => {
+      const statObject = other.teamGameStats.find(
+        (s) => s.category === stat.key
+      );
+      if (!statObject) return null;
+
+      const awayValue = (
+        parseFloat(statObject.awayValue as string) * stat.multiplier
+      ).toFixed(stat.decimals);
+      const homeValue = (
+        parseFloat(statObject.homeValue as string) * stat.multiplier
+      ).toFixed(stat.decimals);
+
+      const awayFlex = Math.pow(parseFloat(awayValue), scaleFactor);
+      const homeFlex = Math.pow(parseFloat(homeValue), scaleFactor);
+      const totalFlex = awayFlex + homeFlex;
+      const normalizedAwayFlex = awayFlex / totalFlex;
+      const normalizedHomeFlex = homeFlex / totalFlex;
+
+      const formatValue = (value: string) =>
+        stat.isPercentage ? `${value}%` : value;
+
+      return (
+        <div className="stat" key={stat.key as string}>
+          <div className="pcStat">
+            <p>
+              <strong>{formatValue(awayValue ?? 0)}</strong>
+            </p>
+            <p>{stat.label}</p>
+            <p>
+              <strong>{formatValue(homeValue ?? 0)}</strong>
+            </p>
+          </div>
+          <div className="indication-color">
+            <div className="team" style={{ flex: `${normalizedAwayFlex}` }}>
+              <div
+                className={`color away`}
+                style={{ borderTop: `8px solid ${teamColors?.away}` }}
+              />
+            </div>
+            <div className="team" style={{ flex: `${normalizedHomeFlex}` }}>
+              <div
+                className={`color home`}
+                style={{ borderBottom: `8px solid ${teamColors?.home}` }}
+              />
+            </div>
+          </div>
+          {stat.key === ("powerPlayPctg" as TeamGameStatsKeys) && (
+            <>
+              {other.teamGameStats.some((s) => s.category === "powerPlay") && (
+                <>
+                  {statObject.awayValue !==
+                    other.teamGameStats.find((s) => s.category === "powerPlay")
+                      ?.awayValue &&
+                    statObject.homeValue !==
+                      other.teamGameStats.find(
+                        (s) => s.category === "powerPlay"
+                      )?.homeValue && (
+                      <div className="standing-stat">
+                        <p>
+                          {
+                            other.teamGameStats.find(
+                              (s) => s.category === "powerPlay"
+                            )?.awayValue
+                          }
+                        </p>
+                        <p>
+                          {
+                            other.teamGameStats.find(
+                              (s) => s.category === "powerPlay"
+                            )?.homeValue
+                          }
+                        </p>
+                      </div>
+                    )}
+                </>
+              )}
+            </>
+          )}
+          {statObject.category === "powerPlay" && (
+            <div className="standing-stat">
+              <p>{statObject.awayValue}</p>
+              <p>{statObject.homeValue}</p>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    if (game.gameState === "FUT") {
+      return (
+        <>
+          {gameMoreInfos?.teamSeasonStats?.awayTeam !== undefined &&
+            gameMoreInfos?.teamSeasonStats?.homeTeam !== undefined && (
+              <div className="team-stats window-effect">
+                <div className="glare-effect"></div>
+                <div className="teams-infos">
+                  <div className="teams-logo">
+                    <Link
+                      to={`/equipes/${game.awayTeam.name.default
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                    >
+                      <img
+                        src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
+                        alt={`${game.awayTeam.name.default} logo`}
+                      />
+                    </Link>
+                    <h4>Statistiques d'équipe</h4>
+                    <Link
+                      to={`/equipes/${game.homeTeam.name.default
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                    >
+                      <img
+                        src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
+                        alt={`${game.homeTeam.name.default} logo`}
+                      />
+                    </Link>
+                  </div>
+                  <div className="team-abbrev">
+                    <p>{game.awayTeam.abbrev}</p>
+                    <p>{game.homeTeam.abbrev}</p>
+                  </div>
+                  <div className="stats-container">
+                    {statsToCompareTeam.map(renderTeamStatComparison)}
+                  </div>
+                </div>
+              </div>
+            )}
+        </>
+      );
+    } else {
+      return (
+        <div className="team-stats window-effect">
+          <div className="glare-effect"></div>
+          <div className="teams-infos">
+            <div className="teams-logo">
+              <Link
+                to={`/equipes/${game.awayTeam.name.default
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+              >
+                <img
+                  src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
+                  alt={`${game.awayTeam.name.default} logo`}
+                />
+              </Link>
+              <h4>Statistiques du match</h4>
+              <Link
+                to={`/equipes/${game.homeTeam.name.default
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+              >
+                <img
+                  src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
+                  alt={`${game.homeTeam.name.default} logo`}
+                />
+              </Link>
+            </div>
+            <div className="team-abbrev">
+              <p>{game.awayTeam.abbrev}</p>
+              <p>{game.homeTeam.abbrev}</p>
+            </div>
+            <div className="stats-container">
+              {statsToCompareGame.map(renderGameStatComparison)}
+            </div>
+          </div>
+        </div>
+      );
+    }
   };
 
   return (
@@ -663,9 +1016,12 @@ const SingleMatch: React.FC<MatchProps> = ({
             )}
           </div>
           <div className="other-game-infos">
-            {gameMoreInfos &&
-              gameInfos &&
-              renderRightPanelInfos(gameMoreInfos, gameInfos)}
+            {gameMoreInfos && gameInfos && (
+              <>
+                {renderRightPanelSeriesInfos(gameMoreInfos, gameInfos)}
+                {renderRightPanelTeamStatsInfos(gameMoreInfos, gameInfos)}
+              </>
+            )}
           </div>
         </div>
       </section>

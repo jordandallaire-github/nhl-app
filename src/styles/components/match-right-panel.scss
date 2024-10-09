@@ -1,4 +1,7 @@
 .other-game-infos {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   .season-series-card {
     background-image: none;
     padding: 15px 20px;
@@ -24,8 +27,8 @@
         align-items: flex-start;
         gap: 10px;
 
-        &.active{
-            outline: 2px solid var(--color-white);
+        &.active {
+          outline: 2px solid var(--color-white);
         }
       }
 
@@ -46,6 +49,9 @@
             gap: 5px;
             img {
               min-width: 50px;
+              min-height: 50px;
+              max-height: 50px;
+              max-width: 50px;
             }
           }
 
@@ -72,6 +78,88 @@
 
         p {
           margin: 0;
+        }
+      }
+    }
+  }
+
+  .team-stats {
+    background-image: none;
+    padding: 15px 20px;
+
+    .teams-infos {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      h4 {
+        margin: 0;
+      }
+    }
+
+    .team-abbrev,
+    .stats-container {
+      padding: 0 15px;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .teams-logo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      img {
+        min-width: 65px;
+        max-width: 65px;
+      }
+    }
+
+    .stats-container{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .team-abbrev {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stat{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      .pcStat,
+      .indication-color,
+      .standing-stat{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .indication-color{
+        gap: 8px;
+
+        .team,
+        .team{
+          display: flex;
+        }
+
+        .color{
+          display: block;
+          height: 8px;
+          width: 100%;
+
+          &.away{
+            border-right: 8px solid transparent;
+          }
+          &.home{
+            border-left: 8px solid transparent;
+          }
         }
       }
     }
