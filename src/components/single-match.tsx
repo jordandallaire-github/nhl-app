@@ -10,7 +10,6 @@ import formatSeason from "../scripts/utils/formatSeason";
 import TVA from "../assets/images/TVA.svg";
 import RDS from "../assets/images/RDS.svg";
 import { Svg } from "../scripts/utils/Icons";
-import { stat } from "fs";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
