@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { INTMainGameInfos } from "../interfaces/main-match";
 import { INTMoreGameInfos } from "../interfaces/more-detail-match";
-import SingleMatch from "../components/single-match";
+import SingleMatch from "../components/match/single-match";
 
 type TeamColors = {
   [key: string]: {

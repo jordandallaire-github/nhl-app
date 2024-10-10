@@ -77,6 +77,14 @@ export interface INTMoreGameInfos {
       away: number;
       home: number;
     }>;
+    shootout: {
+      awayDecidingGoal: number,
+      awayConversions: number,
+      awayAttempts: number,
+      homeDecidingGoal: number,
+      homeConversions: number,
+      homeAttempts: number
+    },
     totals: {
       away: number;
       home: number;

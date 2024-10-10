@@ -25,10 +25,17 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        transition: all 0.2s ease-in-out;
         gap: 10px;
 
         &.active {
-          outline: 2px solid var(--color-white);
+          outline: 1.8px solid var(--color-white);
+          cursor: initial;
+          pointer-events: none;
+        }
+
+        &:hover{
+          outline: 3px solid var(--color-white);
         }
       }
 
@@ -82,7 +89,6 @@
       }
     }
   }
-
   .team-stats {
     background-image: none;
     padding: 15px 20px;
@@ -99,25 +105,16 @@
 
     .team-abbrev,
     .stats-container {
-      padding: 0 15px;
-
       p {
         margin: 0;
       }
     }
 
-    .teams-logo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      img {
-        min-width: 65px;
-        max-width: 65px;
-      }
+    .team-abbrev {
+      padding: 0 15px;
     }
 
-    .stats-container{
+    .stats-container {
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -128,40 +125,63 @@
       align-items: center;
       justify-content: space-between;
     }
+  }
 
-    .stat{
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      .pcStat,
-      .indication-color,
-      .standing-stat{
+  .scoreboard-card {
+    background-image: none;
+    padding: 15px 20px;
+
+    table{
+      width: 100%;
+      text-align: center;
+      border-collapse: collapse;
+
+      td[scope="row"]{
         display: flex;
-        justify-content: space-between;
         align-items: center;
-      }
-
-      .indication-color{
-        gap: 8px;
-
-        .team,
-        .team{
-          display: flex;
-        }
-
-        .color{
-          display: block;
-          height: 8px;
-          width: 100%;
-
-          &.away{
-            border-right: 8px solid transparent;
-          }
-          &.home{
-            border-left: 8px solid transparent;
-          }
+        justify-content: flex-start;
+        gap: 10px;
+        img{
+          min-width: 50px;
+          min-height: 50px;
+          max-height: 50px;
+          max-width: 50px;
         }
       }
+      
+
+      td{
+        width: fit-content;
+      }
+
+      th,
+      td{
+        width: calc((100vw - 50px) / 9);
+      }
+
+      th:first-child,
+      td:first-child{
+        min-width: 100px;
+      }
+
+      thead{
+        tr {
+          border-bottom: 1px solid var(--color-white);
+        }
+      }
+    
+      tbody{
+        tr {
+          border-top: 1px solid var(--color-white);
+          border-bottom: 1px solid var(--color-white);
+      
+          &:last-child {
+            border-top: 0;
+            border-bottom: 0;
+          }
+        }
+      }
+      
     }
   }
 }

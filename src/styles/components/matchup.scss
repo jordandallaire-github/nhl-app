@@ -1,0 +1,46 @@
+.stat.matchup{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 15px;
+    .pcStat,
+    .indication-color,
+    .standing-stat{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .indication-color{
+      gap: 8px;
+
+      .team,
+      .team{
+        display: flex;
+      }
+
+      .color{
+        display: block;
+        height: 8px;
+        width: 100%;
+
+        &.away{
+          border-right: 8px solid transparent;
+        }
+        &.home{
+          border-left: 8px solid transparent;
+        }
+      }
+    }
+  }
+
+  .teams-logo.matchup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      min-width: 65px;
+      max-width: 65px;
+    }
+  }
