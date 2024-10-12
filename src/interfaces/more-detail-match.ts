@@ -114,6 +114,7 @@ export interface INTMoreGameInfos {
     shotSummary: string;
     toiAway: string;
     toiHome: string;
+    shiftChart: string,
   };
   teamSeasonStats: {
     awayTeam: {

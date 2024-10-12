@@ -34,7 +34,7 @@
           pointer-events: none;
         }
 
-        &:hover{
+        &:hover {
           outline: 3px solid var(--color-white);
         }
       }
@@ -131,57 +131,116 @@
     background-image: none;
     padding: 15px 20px;
 
-    table{
+    table {
       width: 100%;
       text-align: center;
       border-collapse: collapse;
 
-      td[scope="row"]{
+      td[scope="row"] {
         display: flex;
         align-items: center;
         justify-content: flex-start;
         gap: 10px;
-        img{
+        img {
           min-width: 50px;
           min-height: 50px;
           max-height: 50px;
           max-width: 50px;
         }
       }
-      
 
-      td{
+      td {
         width: fit-content;
       }
 
       th,
-      td{
+      td {
         width: calc((100vw - 50px) / 9);
       }
 
       th:first-child,
-      td:first-child{
+      td:first-child {
         min-width: 100px;
       }
 
-      thead{
+      thead {
         tr {
           border-bottom: 1px solid var(--color-white);
         }
       }
-    
-      tbody{
+
+      tbody {
         tr {
           border-top: 1px solid var(--color-white);
           border-bottom: 1px solid var(--color-white);
-      
+
           &:last-child {
             border-top: 0;
             border-bottom: 0;
           }
         }
       }
-      
+    }
+  }
+  .game-infos-card {
+    padding: 60px 8px 8px 8px;
+    background-image: none;
+    width: 100%;
+    font-size: 1.6rem;
+
+    a {
+      font-size: inherit;
+      padding: 14px 0;
+    }
+
+    .swiper {
+      overflow-y: visible;
+      overflow-x: clip;
+    }
+
+    .swiper-slide {
+      width: 100%;
+    }
+
+    .swiper-wrapper {
+      box-sizing: inherit;
+    }
+    .game-infos-container {
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 20px 20px;
+
+      ul {
+        padding-left: 0;
+        list-style: 0;
+
+        li {
+          border-top: 1px solid var(--color-white);
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          &:last-child {
+            border-bottom: 1px solid var(--color-white);
+          }
+        }
+      }
+
+      .info {
+        display: flex;
+        justify-content: space-between;
+        &.referee,
+        &.scratche {
+          p:last-child {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+        span{
+          font-size: 1.4rem;
+          text-align: right;
+        }
+      }
     }
   }
 }

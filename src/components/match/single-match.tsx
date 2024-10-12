@@ -12,6 +12,8 @@ import { renderTeamInfo } from "./components/teamInfos";
 import { renderGameSituation } from "./components/gameSituation";
 import { renderShotOnNet } from "./components/shots";
 import { renderScoreboard } from "./components/scoreboard";
+import { renderGameInfos } from "./components/gameInfos";
+import { renderGoalInfos } from "./components/goals";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -119,24 +121,25 @@ const SingleMatch: React.FC<MatchProps> = ({
                 )}
               </>
             ) : (
-              "Buts"
+              renderGoalInfos(gameInfos, teamColors ?? { home: "", away: "" })
             )}
           </div>
           <div className="other-game-infos">
             {gameMoreInfos && gameInfos && (
               <>
+                {renderScoreboard(gameMoreInfos, gameInfos)}
                 {renderShotOnNet(
                   gameInfos,
                   gameMoreInfos,
                   teamColors ?? { home: "", away: "" }
                 )}
-                {renderRightPanelSeriesInfos(gameMoreInfos, gameInfos)}
                 {renderRightPanelTeamStatsInfos(
                   gameMoreInfos,
                   gameInfos,
                   teamColors ?? { home: "", away: "" }
                 )}
-                {renderScoreboard(gameMoreInfos, gameInfos)}
+                {renderRightPanelSeriesInfos(gameMoreInfos, gameInfos)}
+                {renderGameInfos(gameMoreInfos, gameInfos)}
               </>
             )}
           </div>

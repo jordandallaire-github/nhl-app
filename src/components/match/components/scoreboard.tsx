@@ -12,22 +12,25 @@ export const renderScoreboard = (
         game.gameState === "OFF" ||
         game.gameState === "FINAL") && (
         <div className="scoreboard-card window-effect">
+          <div className="glare-effect"></div>
           <h4>Pointage</h4>
           <div className="scoreboard-table-container">
             <table>
               <thead>
                 <tr>
                   <th>Équipe</th>
-                  <th>1re</th>
-                  <th>2e</th>
-                  <th>3e</th>
-                  {game.periodDescriptor.periodType === "OT" ? (
-                    <th>Pr.</th>
-                  ) : game.periodDescriptor.periodType === "SO" ? (
-                    <th>TB</th>
-                  ) : (
-                    ""
-                  )}
+                  {other.linescore.byPeriod.map((period) => (
+                    <th key={period.periodDescriptor.number}>
+                      {period.periodDescriptor.number === 1
+                        ? 1 + "re"
+                        : (period.periodDescriptor.number === 2 ||
+                          period.periodDescriptor.number === 3)
+                        ? period.periodDescriptor.number + "e"
+                        : period.periodDescriptor.periodType === "OT"
+                        ? "Pr."
+                        : ""}
+                    </th>
+                  ))}
                   <th>T</th>
                 </tr>
               </thead>
@@ -56,13 +59,15 @@ export const renderScoreboard = (
                           </td>
                         ) : (
                           <td key={period.periodDescriptor.number}>
-                            {period.away}
+                            {period?.away}
                           </td>
                         )}
                       </>
                     );
                   })}
-                  <td>{other.linescore.totals.away}</td>
+                  <td>
+                    {other.linescore.totals.away}
+                  </td>
                 </tr>
                 <tr>
                   <td scope="row">
@@ -94,7 +99,9 @@ export const renderScoreboard = (
                       </>
                     );
                   })}
-                  <td>{other.linescore.totals.home}</td>
+                  <td>
+                    {other.linescore.totals.home}
+                  </td>
                 </tr>
               </tbody>
             </table>

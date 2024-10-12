@@ -1,0 +1,48 @@
+.goal-infos-card {
+    
+  .players-goal {
+    background-image: none;
+    padding: 8px 20px;
+  }
+
+  p{
+    margin: 0;
+    font-size: 1.4rem;
+  }
+
+  .goals-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .goal-container{
+    margin-top: 40px;
+  }
+
+
+    .media {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+      img {
+        min-width: 80px;
+        min-height: 80px;
+        max-width: 80px;
+        max-height: 80px;
+      }
+    }
+  
+  .goal-infos-stats{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+
+    .stat{
+        min-width: 85px;
+    }
+  }
+}

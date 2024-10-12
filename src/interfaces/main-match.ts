@@ -209,7 +209,7 @@ interface INTTeam {
 
 }
 
-interface INTGoal {
+ export interface INTGoal {
   situationCode: string;
   strength: string;
   playerId: number;
@@ -252,6 +252,7 @@ interface INTGoal {
     assistsToDate: number;
   }>;
   homeTeamDefendingSide: string;
+  pptReplayUrl: string,
 }
 
 interface INTStar {

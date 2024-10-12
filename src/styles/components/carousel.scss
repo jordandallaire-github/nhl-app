@@ -2,7 +2,7 @@
    carousel / component
    ========================================================================== */
 .swiper-slide {
-  height: inherit;
+  height: fit-content;
   color: inherit;
   background-color: inherit;
 }
@@ -29,6 +29,7 @@
 }
 
 .nav {
+  --gap: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,6 +63,29 @@
         --width-line: 130px !important;
         top: 30px;
       }
+  }
+
+  &.game-infos{
+    --gap: 20px;
+    gap: var(--gap);
+
+    &::after{
+      --width-line: 148px;
+      top: 0;
+    }
+
+    h5{
+      min-width: 148px;
+      margin: 0;
+    }
+
+    &.no-report{
+      top: -40px;
+
+      &::after{
+        display: none;
+      }
+    }
   }
 
   .swiper-button-next::after,
@@ -106,10 +130,10 @@
   }
 
   &:has(.swiper-button-next.swiper-button-disabled)::after {
-    left: calc(50%);
+    left: calc(50% + (var(--gap)/2));
   }
   &:has(.swiper-button-prev.swiper-button-disabled)::after {
-    left: calc(50% - var(--width-line));
+    left: calc(50% - var(--width-line) - (var(--gap)/2));
   }
 
   @media screen and (max-width: 868px) {
