@@ -21,6 +21,7 @@ export const SimulationGoal: React.FC<{
 }> = ({ game, goal, teamColors, goalSimulation }) => {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const replayData = goalSimulation[goal.pptReplayUrl];
 
   const slowFactor = 0.5;
@@ -41,15 +42,20 @@ export const SimulationGoal: React.FC<{
       accumulatedTimeRef.current += deltaTime * slowFactor;
 
       while (accumulatedTimeRef.current >= targetFrameDuration) {
-        setCurrentFrame(
-          (prev) => (prev + 1) % memoizedReplayData.length
-        );
+        const nextFrame = (currentFrame + 1) % memoizedReplayData.length;
+        setCurrentFrame(nextFrame);
         accumulatedTimeRef.current -= targetFrameDuration;
+
+        if (nextFrame === memoizedReplayData.length - 1) {
+          setIsPlaying(false);
+          setIsFinished(true);
+          return;
+        }
       }
 
       animationRef.current = requestAnimationFrame(animate);
     },
-    [memoizedReplayData]
+    [currentFrame, memoizedReplayData]
   );
 
   useEffect(() => {
@@ -76,10 +82,13 @@ export const SimulationGoal: React.FC<{
   const startReplay = useCallback(() => {
     setCurrentFrame(0);
     setIsPlaying(true);
+    setIsFinished(false);
   }, []);
 
   const restartReplay = useCallback(() => {
     setCurrentFrame(0);
+    setIsFinished(false);
+    setIsPlaying(true);
   }, []);
 
   const pauseReplay = useCallback(() => {
@@ -147,12 +156,28 @@ export const SimulationGoal: React.FC<{
     <>
       <Accordion notClosing={false}>
         <div className="accordion__container">
-          <h5 onClick={startReplay} className="accordion__header js-header window-effect">Simulation du but <Svg name="right-arrow" size="sm"></Svg></h5>
-          <div className="accordion__content">
-            <button onClick={restartReplay}>
-              Recommencer
-            </button>
-            <button onClick={toggleReplay}></button>
+          <h5
+            onClick={startReplay}
+            className="accordion__header js-header window-effect"
+          >
+            Simulation du but <Svg name="right-arrow" size="sm"></Svg>
+          </h5>
+          <div className={`accordion__content ${isFinished ? "finish" : ""}`}>
+            <div className={`button-container ${isFinished ? "finish" : ""}`}>
+              <button className="window-effect" onClick={restartReplay}>
+                <Svg name="restart" size="xs"></Svg>
+              </button>
+              {!isFinished && (
+                <button className="window-effect" onClick={toggleReplay}>
+                  {isPlaying ? (
+                    <Svg name="pause" size="xs"></Svg>
+                  ) : (
+                    <Svg name="play" size="xs"></Svg>
+                  )}
+                </button>
+              )}
+            </div>
+
             <svg
               className="goal-simulation"
               xmlns="http://www.w3.org/2000/svg"

@@ -1,0 +1,17 @@
+.strength {
+    display: block;
+    background-color: red;
+    padding: 2px 2px;
+    border-radius: 5px;
+    width: fit-content;
+
+    &.no{
+      opacity: 0;
+    }
+  }
+
+  .goal-situation{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }

@@ -1,4 +1,4 @@
-.goal-simulation {
+ .goal-simulation {
   text {
     font-size: 6rem;
     font-weight: 900;
@@ -8,6 +8,49 @@
     text {
       font-size: 4.8rem;
       text-anchor: middle;
+    }
+  }
+}
+
+.simulation {
+  .accordion__content {
+    .button-container {
+      position: absolute;
+      bottom: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+
+      button{
+        background: inherit;
+        background-color: rgb(31, 31, 31);
+        border-radius: 8px;
+        border: 0;
+        color: var(--color-white);
+        cursor: pointer;
+      }
+
+
+    }
+
+    &.finish{
+     
+
+      .button-container{
+        display: block;
+        inset: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+
+        button{
+        background-color: var(--color-black);
+        height: fit-content;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        }
+      }
     }
   }
 }

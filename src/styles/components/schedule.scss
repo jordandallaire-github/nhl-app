@@ -202,25 +202,6 @@
       align-items: flex-start;
       gap: 5px;
       width: 100%;
-
-      p:first-child {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        gap: 25px;
-        min-width: 190px;
-        max-width: 215px;
-      }
-
-      .strength {
-        background-color: red;
-        padding: 3px 3px;
-        border-radius: 5px;
-
-        &.no{
-          opacity: 0;
-        }
-      }
     }
 
     p {

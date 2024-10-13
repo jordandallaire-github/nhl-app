@@ -81,11 +81,13 @@ export const renderGameInfos = (
                     Rapport des tirs
                   </a>
                 </li>
-                <li>
-                  <a target="_blank" href={infos.gameReports.shiftChart}>
-                    Graphique des présences
-                  </a>
-                </li>
+                {infos.gameReports.shiftChart && (
+                  <li>
+                    <a target="_blank" href={infos.gameReports.shiftChart}>
+                      Graphique des présences
+                    </a>
+                  </li>
+                )}
                 <li>
                   <a target="_blank" href={infos.gameReports.rosters}>
                     Formations
@@ -105,7 +107,10 @@ export const renderGameInfos = (
                 {team.tvBroadcasts.map((broadcast, index) => (
                   <>
                     {index > 0 && <span>, </span>}
-                    <span key={`${broadcast.network}`}> {broadcast.network}</span>
+                    <span key={`${broadcast.network}`}>
+                      {" "}
+                      {broadcast.network}
+                    </span>
                   </>
                 ))}
               </p>

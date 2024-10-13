@@ -267,7 +267,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
               </Link>
             </div>
             <div className="goal-infos">
-              <p>
+              <p className="goal-situation">
                 <strong>{`${goal.firstName.default} ${goal.lastName.default}${
                   goal.periodDescriptor.periodType !== "SO"
                     ? ` (${goal.goalsToDate})`
