@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Svg } from "../../../scripts/utils/Icons";
 import { SimulationGoal } from "./simulationGoal";
 import React from "react";
+import { IReplayFrame } from "../../../interfaces/goal-simulation";
 
 interface Colors {
   home: string | null;
@@ -11,7 +12,8 @@ interface Colors {
 
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
-  teamColors: Colors
+  teamColors: Colors,
+  goalSimulation: Record<string, IReplayFrame[]>
 ) => {
   const formatShotType = (shot: string) => {
     switch (shot) {
@@ -35,14 +37,25 @@ export const renderGoalInfos = (
     <>
       <div className="goal-infos-card">
         <h3>Résumé des buts</h3>
-        {game?.summary.scoring.map((scoring) => (
+        {game?.summary?.scoring?.map((scoring) => (
           <div
             key={scoring.periodDescriptor.number}
             className="period-container"
           >
-            <h4>{`${scoring.periodDescriptor.number}${
-              scoring.periodDescriptor.number > 1 ? "e" : "re"
-            } Période`}</h4>
+            {scoring.goals.length !== 0 &&
+              scoring.periodDescriptor.periodType === "OT" && (
+                <h4>Prolongation</h4>
+              )}
+            {scoring.goals.length !== 0 &&
+              scoring.periodDescriptor.periodType === "SO" && (
+                <h4>Tirs de barrage</h4>
+              )}
+            {scoring.goals.length !== 0 &&
+              scoring.periodDescriptor.number <= 3 && (
+                <h4>{`${scoring.periodDescriptor.number}${
+                  scoring.periodDescriptor.number > 1 ? "e" : "re"
+                } Période`}</h4>
+              )}
             {scoring.goals.map((goal, index) => (
               <>
                 <div
@@ -165,14 +178,17 @@ export const renderGoalInfos = (
                         )}
                       </div>
                     </div>
+                    <div className="simulation">
+                      {goal.pptReplayUrl !== undefined && (
+                        <SimulationGoal
+                          game={game}
+                          goal={goal}
+                          teamColors={teamColors}
+                          goalSimulation={goalSimulation}
+                        ></SimulationGoal>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="simulation">
-                  <SimulationGoal
-                    game={game}
-                    goal={goal}
-                    teamColors={teamColors}
-                  ></SimulationGoal>
                 </div>
               </>
             ))}

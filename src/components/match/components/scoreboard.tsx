@@ -10,7 +10,7 @@ export const renderScoreboard = (
     <>
       {(game.gameState === "LIVE" ||
         game.gameState === "OFF" ||
-        game.gameState === "FINAL") && (
+        game.gameState === "FINAL" || game.gameState === "CRIT") && (
         <div className="scoreboard-card window-effect">
           <div className="glare-effect"></div>
           <h4>Pointage</h4>
@@ -19,18 +19,31 @@ export const renderScoreboard = (
               <thead>
                 <tr>
                   <th>Équipe</th>
-                  {other.linescore.byPeriod.map((period) => (
-                    <th key={period.periodDescriptor.number}>
-                      {period.periodDescriptor.number === 1
-                        ? 1 + "re"
-                        : (period.periodDescriptor.number === 2 ||
-                          period.periodDescriptor.number === 3)
-                        ? period.periodDescriptor.number + "e"
-                        : period.periodDescriptor.periodType === "OT"
-                        ? "Pr."
-                        : ""}
-                    </th>
-                  ))}
+                  {other.linescore.byPeriod.map((period) => {
+                    const shootoutExists = other.linescore.byPeriod.some(
+                      (p) => p.periodDescriptor.periodType === "SO"
+                    );
+                    return (
+                      <>
+                        {period.periodDescriptor.periodType === "OT" &&
+                        shootoutExists ? null : period.periodDescriptor
+                            .periodType === "SO" ? (
+                          <th key={period.periodDescriptor.number}>TB</th>
+                        ) : (
+                          <th key={period.periodDescriptor.number}>
+                            {period?.periodDescriptor.number === 1
+                              ? 1 + "re"
+                              : period?.periodDescriptor.number === 2 ||
+                                period?.periodDescriptor.number === 3
+                              ? period?.periodDescriptor.number + "e"
+                              : period?.periodDescriptor.periodType === "OT"
+                              ? "Pr."
+                              : ""}
+                          </th>
+                        )}
+                      </>
+                    );
+                  })}
                   <th>T</th>
                 </tr>
               </thead>
@@ -65,9 +78,7 @@ export const renderScoreboard = (
                       </>
                     );
                   })}
-                  <td>
-                    {other.linescore.totals.away}
-                  </td>
+                  <td>{other.linescore.totals.away}</td>
                 </tr>
                 <tr>
                   <td scope="row">
@@ -99,9 +110,7 @@ export const renderScoreboard = (
                       </>
                     );
                   })}
-                  <td>
-                    {other.linescore.totals.home}
-                  </td>
+                  <td>{other.linescore.totals.home}</td>
                 </tr>
               </tbody>
             </table>

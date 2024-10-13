@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { INTMainGameInfos } from "../interfaces/main-match";
+import { INTMainGameInfos, INTGoal } from "../interfaces/main-match";
 import { INTMoreGameInfos } from "../interfaces/more-detail-match";
 import SingleMatch from "../components/match/single-match";
+import { IReplayFrame } from "../interfaces/goal-simulation";
 
 type TeamColors = {
   [key: string]: {
@@ -25,6 +26,10 @@ const Match: React.FC = () => {
     away: string;
   } | null>(null);
 
+  const [replayData, setReplayData] = useState<{
+    [goalId: string]: IReplayFrame[];
+  }>({});
+
   const fetchTeamColors = useCallback(async () => {
     try {
       const response = await fetch("/teamColor.json");
@@ -38,6 +43,25 @@ const Match: React.FC = () => {
     } catch (err) {
       console.error("Erreur lors du chargement des couleurs des équipes:", err);
       return null;
+    }
+  }, []);
+
+  const fetchReplayData = useCallback(async (goal: INTGoal) => {
+    if (!goal.pptReplayUrl) return;
+
+    try {
+      const response = await fetch(goal.pptReplayUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch replay data for goal`);
+      }
+
+      const data: IReplayFrame[] = await response.json();
+      setReplayData((prevData) => ({
+        ...prevData,
+        [goal.pptReplayUrl]: data,
+      }));
+    } catch (err) {
+      console.error(`Error fetching replay data for goal:`, err);
     }
   }, []);
 
@@ -69,6 +93,13 @@ const Match: React.FC = () => {
       setMainGameInfos(dataMainGameInfos);
       setMoreGameInfos(dataMoreGameInfos);
 
+      if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
+        const replayPromises = dataMainGameInfos.summary.scoring.flatMap(
+          (period) => period.goals.map((goal) => fetchReplayData(goal))
+        );
+        await Promise.all(replayPromises);
+      }
+
       if (teamColorsData) {
         const homeTeamAbbrev = dataMainGameInfos.homeTeam.abbrev;
         const awayTeamAbbrev = dataMainGameInfos.awayTeam.abbrev;
@@ -82,7 +113,7 @@ const Match: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [matchId, fetchTeamColors]);
+  }, [matchId, fetchTeamColors, fetchReplayData]);
 
   useEffect(() => {
     fetchStanding();
@@ -102,6 +133,7 @@ const Match: React.FC = () => {
         gameInfos={mainGameInfos}
         gameMoreInfos={moreGameInfos}
         teamColors={teamColors}
+        goalSimulation={replayData}
       />
     </>
   );

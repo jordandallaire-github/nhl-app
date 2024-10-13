@@ -32,8 +32,6 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
   onChangeWeek,
   onChangeDay,
 }) => {
-
-
   if (!schedule || !schedule.currentDate) {
     return <div>Aucun calendrier disponible.</div>;
   }
@@ -41,7 +39,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
   const { currentDate, games = [] } = schedule;
 
   const renderGameSituation = (game: Game) => {
-    if (game.gameState === "LIVE") {
+    if (game.gameState === "LIVE" || game.gameState === "CRIT") {
       return (
         <>
           <p>
@@ -92,7 +90,8 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
             <p>{team.name.default}</p>
             {game.gameState === "LIVE" ||
             game.gameState === "FINAL" ||
-            game.gameState === "OFF" ? (
+            game.gameState === "OFF" ||
+            game.gameState === "CRIT" ? (
               <p>
                 T: {team.sog}{" "}
                 {game.situation?.[isAway ? "awayTeam" : "homeTeam"]?.abbrev ===
@@ -112,7 +111,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
         <div className="score-games">
           {(game.gameState === "LIVE" ||
             game.gameState === "FINAL" ||
-            game.gameState === "OFF") && <p className="score">{team.score}</p>}
+            game.gameState === "OFF" || game.gameState === "CRIT") && <p className="score">{team.score}</p>}
         </div>
       </Link>
     );
@@ -392,7 +391,8 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                   <div className="situation">
                     {renderGameSituation(game)}
                     {game.gameState !== "FINAL" &&
-                      game.tvBroadcasts.length > 0 && game.gameState !== "OFF" &&(
+                      game.tvBroadcasts.length > 0 &&
+                      game.gameState !== "OFF" && (
                         <div className="broadcast">
                           {game.tvBroadcasts.map((broadcast, index) => (
                             <p key={`${broadcast.id}-${index}`}>
@@ -442,7 +442,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                         <span className="mobile">Résumé du match</span>
                       </a>
                     )}
-                   <GameLink game={game.gameCenterLink} />
+                    <GameLink game={game.gameCenterLink} />
                     {(game.gameState === "FUT" || game.gameState === "PRE") && (
                       <a
                         target="_blank"

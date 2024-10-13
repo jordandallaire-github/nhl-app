@@ -14,6 +14,7 @@ import { renderShotOnNet } from "./components/shots";
 import { renderScoreboard } from "./components/scoreboard";
 import { renderGameInfos } from "./components/gameInfos";
 import { renderGoalInfos } from "./components/goals";
+import { IReplayFrame } from "../../interfaces/goal-simulation";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -22,12 +23,14 @@ interface MatchProps {
     home: string;
     away: string;
   } | null;
+  goalSimulation: Record<string, IReplayFrame[]>;
 }
 
 const SingleMatch: React.FC<MatchProps> = ({
   gameInfos,
   gameMoreInfos,
   teamColors,
+  goalSimulation,
 }) => {
   return (
     <>
@@ -111,8 +114,7 @@ const SingleMatch: React.FC<MatchProps> = ({
       <section className="game-infos-section">
         <div className="wrapper">
           <div className="main-game-infos">
-            {gameInfos?.matchup?.teamLeaders?.leaders &&
-            gameInfos?.matchup?.teamLeaders?.leaders.length > 0 ? (
+            {gameInfos?.matchup?.teamLeaders?.leaders ? (
               <>
                 {renderTeamLeaders(gameInfos)}
                 {renderGoalieTeam(
@@ -121,7 +123,9 @@ const SingleMatch: React.FC<MatchProps> = ({
                 )}
               </>
             ) : (
-              renderGoalInfos(gameInfos, teamColors ?? { home: "", away: "" })
+              <>
+              {renderGoalInfos(gameInfos, teamColors ?? { home: "", away: "" }, goalSimulation)}              
+              </>
             )}
           </div>
           <div className="other-game-infos">

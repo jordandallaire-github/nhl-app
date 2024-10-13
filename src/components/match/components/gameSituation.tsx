@@ -3,7 +3,7 @@ import { formatDate } from "../../../scripts/utils/formatDate";
 import { formatGameTime } from "../../../scripts/utils/formatGameTime";
 
 export const renderGameSituation = (game: INTMainGameInfos | null) => {
-  if (game?.gameState === "LIVE") {
+  if (game?.gameState === "LIVE" || game?.gameState === "CRIT") {
     return (
       <>
         <p>

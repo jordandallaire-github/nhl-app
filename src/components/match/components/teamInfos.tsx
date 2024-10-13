@@ -44,7 +44,7 @@ export const renderTeamInfo = (
         </div>
         {game?.gameState === "LIVE" ||
         game?.gameState === "FINAL" ||
-        game?.gameState === "OFF" ? (
+        game?.gameState === "OFF" || game?.gameState === "CRIT" ? (
           <p>
             T: {team?.sog}{" "}
             {game.situation?.[isAway ? "awayTeam" : "homeTeam"]?.abbrev ===
@@ -63,7 +63,7 @@ export const renderTeamInfo = (
       <div className="score-games">
         {(game?.gameState === "LIVE" ||
           game?.gameState === "FINAL" ||
-          game?.gameState === "OFF") && (
+          game?.gameState === "OFF" || game?.gameState === "CRIT") && (
           <p
             className={`score ${
               game.awayTeam.score > game.homeTeam.score
