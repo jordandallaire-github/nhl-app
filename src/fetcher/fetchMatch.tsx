@@ -4,6 +4,7 @@ import { INTMainGameInfos, INTGoal } from "../interfaces/main-match";
 import { INTMoreGameInfos } from "../interfaces/more-detail-match";
 import SingleMatch from "../components/match/single-match";
 import { IReplayFrame } from "../interfaces/goal-simulation";
+import { INTGameVideo } from "../interfaces/game-video";
 
 type TeamColors = {
   [key: string]: {
@@ -17,6 +18,9 @@ const Match: React.FC = () => {
     null
   );
   const [moreGameInfos, setMoreGameInfos] = useState<INTMoreGameInfos | null>(
+    null
+  );
+  const [gameVideo, setGameVideo] = useState<INTGameVideo | null>(
     null
   );
   const [error, setError] = useState<string | null>(null);
@@ -74,14 +78,15 @@ const Match: React.FC = () => {
 
     setLoading(true);
     try {
-      const [mainGameInfosResponse, moreGameInfosResponse, teamColorsData] =
+      const [mainGameInfosResponse, moreGameInfosResponse, gameVideoResponse ,teamColorsData] =
         await Promise.all([
           fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/landing`),
           fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/right-rail`),
+          fetch(`https://forge-dapi.d3.nhle.com/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
           fetchTeamColors(),
         ]);
 
-      if (!mainGameInfosResponse.ok || !moreGameInfosResponse.ok) {
+      if (!mainGameInfosResponse.ok || !moreGameInfosResponse.ok || !gameVideoResponse) {
         throw new Error("Erreur lors de la récupération des données du match");
       }
 
@@ -89,9 +94,12 @@ const Match: React.FC = () => {
         await mainGameInfosResponse.json();
       const dataMoreGameInfos: INTMoreGameInfos =
         await moreGameInfosResponse.json();
+        const dataGameVideo: INTGameVideo =
+        await gameVideoResponse.json();
 
       setMainGameInfos(dataMainGameInfos);
       setMoreGameInfos(dataMoreGameInfos);
+      setGameVideo(dataGameVideo);
 
       if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
         const replayPromises = dataMainGameInfos.summary.scoring.flatMap(
@@ -134,6 +142,7 @@ const Match: React.FC = () => {
         gameMoreInfos={moreGameInfos}
         teamColors={teamColors}
         goalSimulation={replayData}
+        gameVideo={gameVideo}
       />
     </>
   );

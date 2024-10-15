@@ -1,0 +1,50 @@
+.highlight {
+  .videos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      aspect-ratio: 16 / 9;
+      min-height: 150px;
+      display: block;
+      filter: brightness(0.75);
+    }
+
+    .media {
+      position: relative;
+      svg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      span {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        display: block;
+        padding: 5px;
+        margin: 10px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    h4 {
+      margin: 10px 0;
+    }
+  }
+
+  .more {
+    margin-top: 30px;
+    display: block;
+    width: fit-content;
+    background-image: none;
+    padding: 15px 20px;
+    margin: 10px auto;
+  }
+}

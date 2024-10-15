@@ -1,0 +1,65 @@
+.penalties {
+  .penalty-table {
+    width: 100%;
+    padding: 0;
+    background-image: none;
+    padding: 15px 15px 0 15px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+
+    img {
+      max-width: 55px;
+      max-height: 55px;
+    }
+
+    th,
+    td {
+        min-width: 550px;
+      font-size: 1.6rem;
+      text-align: left;
+      padding: 0;
+
+      a {
+        font-size: inherit;
+      }
+    }
+
+    th[scope="row"],
+    td[scope="row"] {
+      min-width: 80px;
+      max-width: 80px;
+      text-align: left;
+    }
+
+    td:last-child {
+      border-left: 1px solid var(--color-white);
+      padding-left: 10px;
+    }
+
+    th:last-child {
+      padding-left: 10px;
+    }
+
+    thead {
+      tr {
+        height: 40px;
+        border-bottom: 1px solid var(--color-white);
+      }
+    }
+
+    tbody {
+      tr {
+        height: 80px;
+        border-top: 1px solid var(--color-white);
+        border-bottom: 1px solid var(--color-white);
+
+        &:last-child {
+          border-top: 0;
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}

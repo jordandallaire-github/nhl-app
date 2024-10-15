@@ -7,6 +7,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { INTGoal } from "../../../interfaces/main-match";
 import Accordion from "../../utils/accordion";
 import { Svg } from "../../../scripts/utils/Icons";
+import { INTGameVideo } from "../../../interfaces/game-video";
 
 interface Colors {
   home: string | null;
@@ -18,7 +19,8 @@ export const SimulationGoal: React.FC<{
   goal: INTGoal;
   teamColors: Colors;
   goalSimulation: Record<string, IReplayFrame[]>;
-}> = ({ game, goal, teamColors, goalSimulation }) => {
+  goalVideo: INTGameVideo | null,
+}> = ({ game, goal, teamColors, goalSimulation, goalVideo }) => {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFinished, setIsFinished] = useState(false);

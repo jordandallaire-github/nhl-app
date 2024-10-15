@@ -15,6 +15,9 @@ import { renderScoreboard } from "./components/scoreboard";
 import { renderGameInfos } from "./components/gameInfos";
 import { renderGoalInfos } from "./components/goals";
 import { IReplayFrame } from "../../interfaces/goal-simulation";
+import { INTGameVideo } from "../../interfaces/game-video";
+import { renderGameVideo } from "./components/gameVideos";
+import { renderPenalties } from "./components/gamePenalty";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -24,6 +27,7 @@ interface MatchProps {
     away: string;
   } | null;
   goalSimulation: Record<string, IReplayFrame[]>;
+  gameVideo: INTGameVideo | null;
 }
 
 const SingleMatch: React.FC<MatchProps> = ({
@@ -31,6 +35,7 @@ const SingleMatch: React.FC<MatchProps> = ({
   gameMoreInfos,
   teamColors,
   goalSimulation,
+  gameVideo,
 }) => {
   return (
     <>
@@ -70,7 +75,7 @@ const SingleMatch: React.FC<MatchProps> = ({
               {gameInfos?.ticketsLink !== undefined ||
               gameInfos?.ticketsLinkFr !== undefined ? (
                 <a
-                  className="window-effect ticket"
+                  className="window-effect button ticket"
                   href={gameInfos.ticketsLinkFr ?? gameInfos.ticketsLink}
                   target="_blank"
                 >
@@ -124,7 +129,14 @@ const SingleMatch: React.FC<MatchProps> = ({
               </>
             ) : (
               <>
-              {renderGoalInfos(gameInfos, teamColors ?? { home: "", away: "" }, goalSimulation)}              
+                {renderGoalInfos(
+                  gameInfos,
+                  teamColors ?? { home: "", away: "" },
+                  goalSimulation,
+                  gameVideo
+                )}
+                {renderGameVideo(gameInfos, gameVideo)}
+                {renderPenalties(gameInfos)}
               </>
             )}
           </div>

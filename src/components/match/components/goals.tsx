@@ -5,6 +5,7 @@ import { SimulationGoal } from "./simulationGoal";
 import React from "react";
 import { IReplayFrame } from "../../../interfaces/goal-simulation";
 import { TeamsLogoLinks } from "./teamLogoLink";
+import { INTGameVideo } from "../../../interfaces/game-video";
 
 interface Colors {
   home: string | null;
@@ -14,7 +15,8 @@ interface Colors {
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
   teamColors: Colors,
-  goalSimulation: Record<string, IReplayFrame[]>
+  goalSimulation: Record<string, IReplayFrame[]>,
+  goalVideo: INTGameVideo | null,
 ) => {
   const formatShotType = (shot: string) => {
     switch (shot) {
@@ -203,6 +205,7 @@ export const renderGoalInfos = (
                               goal={goal}
                               teamColors={teamColors}
                               goalSimulation={goalSimulation}
+                              goalVideo={goalVideo}
                             ></SimulationGoal>
                           )}
                         </div>
