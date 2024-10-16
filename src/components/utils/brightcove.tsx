@@ -3,8 +3,8 @@ import brightcovePlayerLoader from "@brightcove/player-loader";
 
 const VideoPlayer: React.FC<{ videoId: string }> = ({ videoId }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<HTMLDivElement>(null); // Ref pour le player vidéo
   const [playerId, setPlayerId] = useState<string>(`player-${Date.now()}`);
+  const videoJS = document.getElementsByName("video-js");
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -18,7 +18,6 @@ const VideoPlayer: React.FC<{ videoId: string }> = ({ videoId }) => {
       const playerElement = document.createElement("div");
       playerElement.id = playerId;
       playerElement.classList.add("highlight-goal");
-      playerRef.current = playerElement; // Assigner le player à playerRef
       const mainElement = document.querySelector("main");
       if (mainElement) {
         mainElement.appendChild(playerElement);
@@ -53,24 +52,6 @@ const VideoPlayer: React.FC<{ videoId: string }> = ({ videoId }) => {
       }
     };
   }, [videoId, playerId]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (playerRef.current && !playerRef.current.contains(event.target as Node)) {
-        // Si on clique à l'extérieur du player, enlever la vidéo
-        const playerToRemove = document.getElementById(playerId);
-        if (playerToRemove) {
-          playerToRemove.remove();
-        }
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [playerId]);
 
   useEffect(() => {
     setPlayerId(`player-${Date.now()}`);
