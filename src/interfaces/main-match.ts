@@ -227,6 +227,7 @@ interface INTTeam {
   };
   headshot: string;
   highlightClipSharingUrl?: string;
+  highlightClipSharingUrlFr?: string;
   highlightClip?: number;
   discreteClip?: number;
   goalsToDate: number;

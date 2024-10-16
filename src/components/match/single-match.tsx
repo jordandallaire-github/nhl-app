@@ -133,7 +133,6 @@ const SingleMatch: React.FC<MatchProps> = ({
                   gameInfos,
                   teamColors ?? { home: "", away: "" },
                   goalSimulation,
-                  gameVideo
                 )}
                 {renderGameVideo(gameInfos, gameVideo)}
                 {renderPenalties(gameInfos)}

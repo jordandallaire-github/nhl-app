@@ -1,11 +1,10 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { Link } from "react-router-dom";
-import { Svg } from "../../../scripts/utils/Icons";
 import { SimulationGoal } from "./simulationGoal";
 import React from "react";
 import { IReplayFrame } from "../../../interfaces/goal-simulation";
 import { TeamsLogoLinks } from "./teamLogoLink";
-import { INTGameVideo } from "../../../interfaces/game-video";
+import GoalClip from "./goalClip";
 
 interface Colors {
   home: string | null;
@@ -15,8 +14,7 @@ interface Colors {
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
   teamColors: Colors,
-  goalSimulation: Record<string, IReplayFrame[]>,
-  goalVideo: INTGameVideo | null,
+  goalSimulation: Record<string, IReplayFrame[]>
 ) => {
   const formatShotType = (shot: string) => {
     switch (shot) {
@@ -36,6 +34,7 @@ export const renderGoalInfos = (
         return "Du Revers";
     }
   };
+
   return (
     <>
       <div className="goal-infos-card">
@@ -63,8 +62,8 @@ export const renderGoalInfos = (
                 )}
               {scoring.goals
                 .filter((situation) => situation.situationCode !== "0101")
-                .map((goal, index) => (
-                  <>
+                .map((goal, index) => {
+                  return (
                     <div
                       key={`${goal.firstName}-${index}`}
                       className="goal-container"
@@ -186,16 +185,7 @@ export const renderGoalInfos = (
                               </p>
                               <p>Tir</p>
                             </div>
-                            {goal.highlightClipSharingUrl && (
-                              <div className="clip">
-                                <Link
-                                  to={goal.highlightClipSharingUrl}
-                                  target="_blank"
-                                >
-                                  <Svg name="recap-play-video" size="sm" />
-                                </Link>
-                              </div>
-                            )}
+                                <GoalClip fr={goal.highlightClipSharingUrlFr ?? ""} en={goal.highlightClipSharingUrl ?? ""}></GoalClip>
                           </div>
                         </div>
                         <div className="simulation">
@@ -205,14 +195,13 @@ export const renderGoalInfos = (
                               goal={goal}
                               teamColors={teamColors}
                               goalSimulation={goalSimulation}
-                              goalVideo={goalVideo}
                             ></SimulationGoal>
                           )}
                         </div>
                       </div>
                     </div>
-                  </>
-                ))}
+                  );
+                })}
             </div>
           ))}
         {game?.summary.shootout.map((so) => (
