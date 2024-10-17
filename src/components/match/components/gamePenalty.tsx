@@ -54,67 +54,74 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
     <>
       <div className="penalties">
         <h3>Pénalités</h3>
-        {game?.summary?.penalties
-          ?.filter((penalties) => penalties.penalties.length > 0)
-          .map((penaltie) => (
-            <div
-              key={penaltie.periodDescriptor.number}
-              className="penalties-container"
-            >
-              {penaltie.penalties.length !== 0 &&
-                penaltie.periodDescriptor.periodType === "OT" && (
-                  <h4>Prolongation</h4>
-                )}
-              {penaltie.penalties.length !== 0 &&
-                penaltie.periodDescriptor.periodType === "SO" && (
-                  <h4>Tirs de barrage</h4>
-                )}
-              {penaltie.penalties.length !== 0 &&
-                penaltie.periodDescriptor.number <= 3 && (
-                  <h4>{`${penaltie.periodDescriptor.number}${
-                    penaltie.periodDescriptor.number > 1 ? "e" : "re"
-                  } Période`}</h4>
-                )}
-              <div className="penalty-table window-effect">
-                <table>
-                  <thead>
-                    <tr>
-                      <th scope="row">Équipes</th>
-                      <th scope="row">Temps</th>
-                      <th scope="row">Durée</th>
-                      <th>Pénalité</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {penaltie.penalties.map((pen) => (
-                      <tr key={pen.timeInPeriod}>
-                        <td scope="row">
-                          <TeamsLogoLinks
-                            team={
-                              pen.teamAbbrev.default === game.homeTeam.abbrev
-                                ? game.homeTeam
-                                : game.awayTeam
-                            }
-                          ></TeamsLogoLinks>
-                        </td>
-                        <td scope="row">{pen.timeInPeriod}</td>
-                        <td scope="row">
-                          {pen.descKey === "game-misconduct"
-                            ? 60
-                            : pen.duration}{" "}
-                          min
-                        </td>
-                        <td>
-                          {pen.committedByPlayer} {formatPenalty(pen.descKey)}{" "}
-                          {pen.drawnBy ?? ""}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ))}
+        {game?.summary.penalties && game.summary.penalties.length > 0 ? (
+          <>
+            {game?.summary?.penalties
+              ?.filter((penalties) => penalties.penalties.length > 0)
+              .map((penaltie) => (
+                <div
+                  key={penaltie.periodDescriptor.number}
+                  className="penalties-container"
+                >
+                  {penaltie.penalties.length !== 0 &&
+                    penaltie.periodDescriptor.periodType === "OT" && (
+                      <h4>Prolongation</h4>
+                    )}
+                  {penaltie.penalties.length !== 0 &&
+                    penaltie.periodDescriptor.periodType === "SO" && (
+                      <h4>Tirs de barrage</h4>
+                    )}
+                  {penaltie.penalties.length !== 0 &&
+                    penaltie.periodDescriptor.number <= 3 && (
+                      <h4>{`${penaltie.periodDescriptor.number}${
+                        penaltie.periodDescriptor.number > 1 ? "e" : "re"
+                      } Période`}</h4>
+                    )}
+                  <div className="penalty-table window-effect">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th scope="row">Équipes</th>
+                          <th scope="row">Temps</th>
+                          <th scope="row">Durée</th>
+                          <th>Pénalité</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {penaltie.penalties.map((pen) => (
+                          <tr key={pen.timeInPeriod}>
+                            <td scope="row">
+                              <TeamsLogoLinks
+                                team={
+                                  pen.teamAbbrev.default ===
+                                  game.homeTeam.abbrev
+                                    ? game.homeTeam
+                                    : game.awayTeam
+                                }
+                              ></TeamsLogoLinks>
+                            </td>
+                            <td scope="row">{pen.timeInPeriod}</td>
+                            <td scope="row">
+                              {pen.descKey === "game-misconduct"
+                                ? 60
+                                : pen.duration}{" "}
+                              min
+                            </td>
+                            <td>
+                              {pen.committedByPlayer}{" "}
+                              {formatPenalty(pen.descKey)} {pen.drawnBy ?? ""}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ))}
+          </>
+        ) : (
+          <p>Aucune pénalité</p>
+        )}
       </div>
     </>
   );

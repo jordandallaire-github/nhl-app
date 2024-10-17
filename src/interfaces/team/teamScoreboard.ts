@@ -43,23 +43,25 @@ export interface GameData {
     };
     ticketsLink: string;
     ticketsLinkFr?: string;
-    period: number,
+    period: number;
     periodDescriptor: {
-      number: number,
-      periodType: string,
-      maxRegulationPeriods: number
-    },
+      number: number;
+      periodType: string;
+      maxRegulationPeriods: number;
+    };
     clock: {
-      timeRemaining: string,
-      secondsRemaining: number,
-      running: string,
-      inIntermission: boolean
-    }
+      timeRemaining: string;
+      secondsRemaining: number;
+      running: string;
+      inIntermission: boolean;
+    };
     situation: {
-        teamAbbrev: string,
-        situationCode: string
-        timeRemaining: string,
-      }
+      teamAbbrev: string;
+      situationCode: string;
+      timeRemaining: string;
+    };
+    threeMinRecap: string;
+    threeMinRecapFr: string;
   }>;
 }
 

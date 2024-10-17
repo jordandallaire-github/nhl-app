@@ -177,7 +177,8 @@
       background-color: var(--color-white);
       color: var(--color-black);
 
-      a{
+      a,
+      div{
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -187,11 +188,13 @@
         &:last-child{
           border-top: 1px solid var(--color-black);
         }
+
+        svg:last-child{
+          display: block;
+        }
       }
 
-      svg:last-child{
-        display: block;
-      }
+
 
       &.active{
         opacity: 1;

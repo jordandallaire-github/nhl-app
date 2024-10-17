@@ -141,6 +141,7 @@ export interface Goal {
   homeScore: number;
   strength: string;
   highlightClipSharingUrl: string;
+  highlightClipSharingUrlFr: string;
   highlightClip: number;
   discreteClip: number;
 }

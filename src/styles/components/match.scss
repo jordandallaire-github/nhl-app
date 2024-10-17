@@ -257,10 +257,11 @@
 
       &.right,
       &.left {
+        width: 100%;
         &:first-child::after {
           display: none;
         }
-        width: 100%;
+
       }
     }
 

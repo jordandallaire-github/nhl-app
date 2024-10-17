@@ -20,6 +20,7 @@ import { GameLink } from "../scripts/utils/formatGameURL";
 import { formatGameTime } from "../scripts/utils/formatGameTime";
 import Carousel from "./utils/carousel";
 import { Svg } from "../scripts/utils/Icons";
+import GoalClip from "./match/components/goalClip";
 
 interface SingleScheduleProps {
   schedule: INTSchedule | null;
@@ -111,7 +112,8 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
         <div className="score-games">
           {(game.gameState === "LIVE" ||
             game.gameState === "FINAL" ||
-            game.gameState === "OFF" || game.gameState === "CRIT") && <p className="score">{team.score}</p>}
+            game.gameState === "OFF" ||
+            game.gameState === "CRIT") && <p className="score">{team.score}</p>}
         </div>
       </Link>
     );
@@ -330,12 +332,15 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                     })`}
               </p>
             </div>
-            {goal.highlightClipSharingUrl && (
-              <div className="clip">
-                <Link to={goal.highlightClipSharingUrl} target="_blank">
-                  <Svg name="recap-play-video" size="xs" />
-                </Link>
-              </div>
+            {(goal.highlightClipSharingUrlFr ||
+              goal.highlightClipSharingUrl) && (
+              <GoalClip
+                fr={
+                  goal.highlightClipSharingUrlFr ?? goal.highlightClipSharingUrl
+                }
+              >
+                <Svg name="recap-play-video" size="xs" />
+              </GoalClip>
             )}
           </div>
         ))}
@@ -430,17 +435,16 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                       game?.threeMinRecap ||
                       game?.condensedGame ||
                       game?.condensedGameFr) && (
-                      <a
-                        target="_blank"
-                        href={`https://www.nhl.com${
+                      <GoalClip
+                        fr={`https://www.nhl.com${
                           game?.threeMinRecapFr ??
-                          game?.threeMinRecap ??
                           game?.condensedGameFr ??
+                          game?.threeMinRecap ??
                           game.condensedGame
                         }`}
                       >
                         <span className="mobile">Résumé du match</span>
-                      </a>
+                      </GoalClip>
                     )}
                     <GameLink game={game.gameCenterLink} />
                     {(game.gameState === "FUT" || game.gameState === "PRE") && (

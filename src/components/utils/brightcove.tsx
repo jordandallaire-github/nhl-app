@@ -1,27 +1,81 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import brightcovePlayerLoader from "@brightcove/player-loader";
 
-const VideoPlayer: React.FC<{ videoId: string }> = ({ videoId }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [playerId, setPlayerId] = useState<string>(`player-${Date.now()}`);
-  const videoJS = document.getElementsByName("video-js");
+interface VideoPlayerProps {
+  videoId: string;
+  title?: string;
+  description?: string;
+  date?: string;
+  onClose: () => void;
+}
+
+const VideoPlayer: React.FC<VideoPlayerProps> = ({
+  videoId,
+  title,
+  description,
+  date,
+  onClose,
+}) => {
+  const [playerId, setPlayerId] = useState<string>(`player-${videoId}`);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current
+          .querySelector(".window-effect")
+          ?.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
     const loadPlayer = async () => {
-      const oldPlayer = document.getElementById(playerId);
-      if (oldPlayer) {
-        oldPlayer.remove();
+      const mainElement = document.querySelector("main");
+      if (!mainElement) return;
+
+      const oldContainers = mainElement.querySelectorAll(
+        ".highlight-goal:empty"
+      );
+      oldContainers.forEach((container) => container.remove());
+
+      let containerVideo = mainElement
+        .querySelector(`.highlight-goal #${playerId}`)
+        ?.closest(".highlight-goal") as HTMLDivElement;
+      const card = document.createElement("div");
+      card.classList.add("video", "window-effect");
+
+      if (!containerVideo) {
+        containerVideo = document.createElement("div");
+        containerVideo.classList.add("highlight-goal");
+        mainElement.appendChild(containerVideo);
+        containerVideo.appendChild(card);
+      } else {
+        containerVideo.innerHTML = "";
       }
+
+      containerRef.current = containerVideo;
 
       const playerElement = document.createElement("div");
       playerElement.id = playerId;
-      playerElement.classList.add("highlight-goal");
-      const mainElement = document.querySelector("main");
-      if (mainElement) {
-        mainElement.appendChild(playerElement);
+
+      if (title || description || date) {
+        const infoElement = document.createElement("div");
+        infoElement.className = "goal-info";
+        infoElement.innerHTML = `
+          <h4>${title || ""}</h4>
+          <p>${description || ""}</p>
+          <span class="date">${date || ""}</span>
+        `;
+
+        card.appendChild(infoElement);
       }
+
+      card.appendChild(playerElement);
 
       try {
         const success = await brightcovePlayerLoader({
@@ -44,20 +98,25 @@ const VideoPlayer: React.FC<{ videoId: string }> = ({ videoId }) => {
     };
 
     loadPlayer();
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      const playerToRemove = document.getElementById(playerId);
-      if (playerToRemove) {
-        playerToRemove.remove();
+      document.removeEventListener("mousedown", handleClickOutside);
+      const mainElement = document.querySelector("main");
+      const containerToRemove = mainElement
+        ?.querySelector(`.highlight-goal #${playerId}`)
+        ?.closest(".highlight-goal") as HTMLElement;
+      if (containerToRemove) {
+        containerToRemove.remove();
       }
     };
-  }, [videoId, playerId]);
+  }, [videoId, playerId, title, description, date, handleClickOutside]);
 
   useEffect(() => {
-    setPlayerId(`player-${Date.now()}`);
+    setPlayerId(`player-${videoId}`);
   }, [videoId]);
 
-  return <div ref={containerRef}></div>;
+  return null;
 };
 
 export default VideoPlayer;

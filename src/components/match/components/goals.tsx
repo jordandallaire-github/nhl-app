@@ -5,6 +5,8 @@ import React from "react";
 import { IReplayFrame } from "../../../interfaces/goal-simulation";
 import { TeamsLogoLinks } from "./teamLogoLink";
 import GoalClip from "./goalClip";
+import { INTGameVideo } from "../../../interfaces/game-video";
+import { formatPublicationDate } from "../../../scripts/utils/formatDate";
 
 interface Colors {
   home: string | null;
@@ -14,7 +16,8 @@ interface Colors {
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
   teamColors: Colors,
-  goalSimulation: Record<string, IReplayFrame[]>
+  goalSimulation: Record<string, IReplayFrame[]>,
+  goalVideo: INTGameVideo | null
 ) => {
   const formatShotType = (shot: string) => {
     switch (shot) {
@@ -33,6 +36,15 @@ export const renderGoalInfos = (
       case "backhand":
         return "Du Revers";
     }
+  };
+
+  const filteredGoalVideos =
+    goalVideo?.items.filter((video) =>
+      video.tags.some((tag) => tag.slug.includes("goal"))
+    ) || [];
+
+  const getVideoId = (url: string) => {
+    return url.split("-").pop();
   };
 
   return (
@@ -63,6 +75,16 @@ export const renderGoalInfos = (
               {scoring.goals
                 .filter((situation) => situation.situationCode !== "0101")
                 .map((goal, index) => {
+                  const frVideoId = goal.highlightClipSharingUrlFr ? getVideoId(goal.highlightClipSharingUrlFr) : null;
+                  const enVideoId = goal.highlightClipSharingUrl ? getVideoId(goal.highlightClipSharingUrl) : null;
+                  
+                  let matchingVideo = null;
+                  if (frVideoId) {
+                    matchingVideo = filteredGoalVideos.find(video => getVideoId(video.selfUrl) === frVideoId);
+                  } else if (enVideoId) {
+                    matchingVideo = filteredGoalVideos.find(video => getVideoId(video.selfUrl) === enVideoId);
+                  }
+
                   return (
                     <div
                       key={`${goal.firstName}-${index}`}
@@ -185,7 +207,17 @@ export const renderGoalInfos = (
                               </p>
                               <p>Tir</p>
                             </div>
-                                <GoalClip fr={goal.highlightClipSharingUrlFr ?? ""} en={goal.highlightClipSharingUrl ?? ""}></GoalClip>
+                            <GoalClip
+                              isSvg
+                              fr={goal.highlightClipSharingUrlFr ?? goal.highlightClipSharingUrl ?? ""}
+                              title={matchingVideo?.title}
+                              description={
+                                matchingVideo?.fields.longDescription
+                              }
+                              date={formatPublicationDate(
+                                matchingVideo?.contentDate ?? ""
+                              )}
+                            ></GoalClip>
                           </div>
                         </div>
                         <div className="simulation">

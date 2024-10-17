@@ -8,6 +8,7 @@ import { GameLink } from "../../../scripts/utils/formatGameURL";
 import Carousel from "../../utils/carousel";
 import { formatGameTime } from "../../../scripts/utils/formatGameTime";
 import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
+import GoalClip from "../../match/components/goalClip";
 
 interface SingleTeamScoreboardProps {
   teamScoreboard: TeamScoreboard | null;
@@ -99,7 +100,8 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                       <>
                         <p>
                           {`${
-                            game.gameState === "FINAL" || game.gameState === "OFF"
+                            game.gameState === "FINAL" ||
+                            game.gameState === "OFF"
                               ? `Finale${
                                   game.periodDescriptor.periodType === "OT"
                                     ? "/Pr."
@@ -161,6 +163,16 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                     <GameLink game={game.gameCenterLink} />
                     {game.ticketsLink && game.gameState === "FUT" && (
                       <a href={game.ticketsLinkFr}>Acheter des billets</a>
+                    )}
+                    {(game?.threeMinRecap !== undefined ||
+                      game?.threeMinRecapFr !== undefined) && (
+                      <GoalClip
+                        fr={`https://www.nhl.com${
+                          game?.threeMinRecapFr ?? game?.threeMinRecap
+                        }`}
+                      >
+                        <span className="mobile">Résumé du match</span>
+                      </GoalClip>
                     )}
                   </div>
                 </div>

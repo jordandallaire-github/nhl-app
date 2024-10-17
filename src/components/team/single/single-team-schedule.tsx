@@ -7,6 +7,7 @@ import {
 import { formatGameTime } from "../../../scripts/utils/formatGameTime";
 import { Svg } from "../../../scripts/utils/Icons";
 import { GameLink } from "../../../scripts/utils/formatGameURL";
+import GoalClip from "../../match/components/goalClip";
 
 interface SingleTeamScheduleProps {
   teamColor: string | null;
@@ -30,6 +31,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(
     initialSchedule
   );
+
 
   const totalDays = 35;
   const nextMonthDate = new Date(schedule?.nextMonth ?? "");
@@ -131,6 +133,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
     }
   }, [isActive]);
 
+
   return (
     <section className="schedule">
       <div className="wrapper">
@@ -212,18 +215,15 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
                     )}
                   {(selectedGame?.threeMinRecap !== undefined ||
                     selectedGame?.threeMinRecapFr !== undefined) && (
-                    <a
-                      target="_blank"
-                      href={`https://www.nhl.com${
-                        selectedGame?.threeMinRecap
-                          ? selectedGame?.threeMinRecap
-                          : selectedGame?.threeMinRecapFr
-                      }`}
+                    <GoalClip
+                      fr={`https://www.nhl.com${
+                        selectedGame?.threeMinRecapFr ??
+                        selectedGame?.threeMinRecap}`}
                     >
                       <Svg name="recap-play-video" size="sm" />
                       <span className="mobile">Résumé</span>
                       <Svg className="mobile" name="right-arrow" size="sm" />
-                    </a>
+                    </GoalClip>
                   )}
                 </>
               ) : (
@@ -358,7 +358,7 @@ const DayWithGames: React.FC<{
                 )}
 
               <div className="game-links noMobile">
-                <GameLink game={game.gameCenterLink} withSvg/>
+                <GameLink game={game.gameCenterLink} withSvg />
                 {game.ticketsLink && game.gameState === "FUT" && (
                   <a target="_blank" href={game.ticketsLinkFr}>
                     <Svg name="ticket" size="sm" isStroke={true} />
@@ -368,18 +368,15 @@ const DayWithGames: React.FC<{
                 )}
                 {(game?.threeMinRecap !== undefined ||
                   game?.threeMinRecapFr !== undefined) && (
-                  <a
-                    target="_blank"
-                    href={`https://www.nhl.com${
-                      game?.threeMinRecap
-                        ? game?.threeMinRecap
-                        : game?.threeMinRecapFr
-                    }`}
-                  >
-                    <Svg name="recap-play-video" size="sm" />
-                    <span className="mobile">Résumé</span>
-                    <Svg className="mobile" name="right-arrow" size="sm" />
-                  </a>
+                    <GoalClip
+                      fr={`https://www.nhl.com${
+                        game?.threeMinRecapFr ??
+                        game?.threeMinRecap}`}
+                    >
+                      <Svg name="recap-play-video" size="xs" />
+                      <span className="mobile">Résumé</span>
+                      <Svg className="mobile" name="right-arrow" size="sm" />
+                    </GoalClip>
                 )}
               </div>
             </>

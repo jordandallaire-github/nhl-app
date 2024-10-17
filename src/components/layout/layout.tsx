@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { TeamDetail } from '../../interfaces/team/teamDetails';
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { TeamDetail } from "../../interfaces/team/teamDetails";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import Footer from "../commons/footer";
 import Header from "../commons/header";
 
@@ -26,7 +26,8 @@ function Layout() {
             const teamAbbrev = team.teamAbbrev.default;
             const colorRes = await fetch("/teamColor.json");
             if (!colorRes.ok) throw new Error("Failed to fetch team colors");
-            const colorData: Record<string, { color: string }> = await colorRes.json();
+            const colorData: Record<string, { color: string }> =
+              await colorRes.json();
             const teamInfo = colorData[teamAbbrev as keyof typeof colorData];
             if (teamInfo) {
               setTeamColor(teamInfo.color);
@@ -48,7 +49,11 @@ function Layout() {
     const navPill = document.querySelector(".indicator-page-top");
 
     const applyBackground = () => {
-      if (location.pathname.startsWith(`/equipes/${teamCommonName}`) && teamColor && mainElement) {
+      if (
+        location.pathname.startsWith(`/equipes/${teamCommonName}`) &&
+        teamColor &&
+        mainElement
+      ) {
         const rgb = parseInt(teamColor.slice(1), 16);
         const r = (rgb >> 16) & 255;
         const g = (rgb >> 8) & 255;
@@ -56,7 +61,9 @@ function Layout() {
 
         if (navPill) {
           (navPill as HTMLDivElement).style.backgroundColor = `${teamColor}`;
-          (navPill as HTMLDivElement).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
+          (
+            navPill as HTMLDivElement
+          ).style.boxShadow = `0 2px 25px 2px ${teamColor}`;
         }
 
         const calculateBackgroundPercentage = () => {
@@ -87,6 +94,11 @@ function Layout() {
       window.removeEventListener("resize", applyBackground);
     };
   }, [location.pathname, teamColor, teamCommonName]);
+
+  useEffect(() => {
+    if (document.documentElement.style.overflow === "hidden")
+      document.documentElement.style.overflow = "auto";
+  }, [location]);
 
   return (
     <>

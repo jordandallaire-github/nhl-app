@@ -1,34 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Svg } from "../../../scripts/utils/Icons";
 import VideoPlayer from "../../utils/brightcove";
 
 interface GoalProps {
   fr: string;
-  en: string;
+  title?: string;
+  description?: string;
+  date?: string;
+  isSvg?: boolean;
+  children?: React.ReactNode;
 }
 
 const GoalClip: React.FC<GoalProps> = ({
   fr,
-  en,
+  title,
+  description,
+  date,
+  isSvg,
+  children
 }) => {
   const [showVideo, setShowVideo] = useState(false);
-  const videoId = fr?.toString().split('-').pop() || (en?.toString().split('-').pop());
+  const videoId =
+    fr?.toString().split("-").pop();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setShowVideo(true);
-  };
+    document.documentElement.style.overflow = "hidden";
+  }, []);
+
+  const handleVideoClose = useCallback(() => {
+    setShowVideo(false);
+    document.documentElement.style.overflow = "auto";
+  }, []);
 
   return (
-    <div className="video-player">
-      {(fr || en) && !showVideo ? (
+    <>
+      {isSvg && (
         <div className="clip" onClick={handleClick}>
           <Svg name="recap-play-video" size="sm" />
         </div>
-      ) : (
-        ""
       )}
-      {showVideo && videoId && <VideoPlayer videoId={videoId} />}
-    </div>
+
+      {showVideo && videoId && (
+        <VideoPlayer
+          videoId={videoId}
+          title={title}
+          description={description}
+          date={date}
+          onClose={handleVideoClose}
+        />
+      )}
+
+      {children && <div className="video" onClick={handleClick}>{children}</div>}
+    </>
   );
 };
 
