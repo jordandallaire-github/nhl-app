@@ -63,7 +63,7 @@ export const renderGameVideo = (
               </a>
             </>
           ) : (
-            <p>Aucun faits saillants</p>
+            <p>Aucun faits saillants.</p>
           )}
         </div>
       </>

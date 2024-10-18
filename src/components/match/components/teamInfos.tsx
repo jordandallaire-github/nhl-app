@@ -39,8 +39,9 @@ export const renderTeamInfo = (
       </div>
       <div className="team-infos">
         <div className="team-name">
-          <h2>{team?.name.default}</h2>
-          <p>{team?.placeNameWithPreposition.fr}</p>
+          <h2 className="no-mobile">{team?.name.default}</h2>
+          <p className="no-mobile">{team?.placeNameWithPreposition.fr}</p>
+          <h2 className="mobile">{team?.abbrev}</h2>
         </div>
         {game?.gameState === "LIVE" ||
         game?.gameState === "FINAL" ||

@@ -50,11 +50,13 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
         return penalty;
     }
   };
+  const noPenalty =
+    game?.summary.penalties.filter((pen) => pen.penalties.length > 0) || [];
   return (
     <>
       <div className="penalties">
         <h3>Pénalités</h3>
-        {game?.summary.penalties && game.summary.penalties.length > 0 ? (
+        {noPenalty.length > 0 ? (
           <>
             {game?.summary?.penalties
               ?.filter((penalties) => penalties.penalties.length > 0)
@@ -120,7 +122,7 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
               ))}
           </>
         ) : (
-          <p>Aucune pénalité</p>
+          <p>Aucune pénalité.</p>
         )}
       </div>
     </>

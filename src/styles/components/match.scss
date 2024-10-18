@@ -42,6 +42,11 @@
       img {
         min-width: 100px;
         max-width: 100px;
+
+        @media screen and (max-width: 720px) {
+          min-width: 75px;
+          max-width: 75px;
+        }
       }
 
       &.home {
@@ -59,6 +64,21 @@
           left: calc(0px + 8px);
           border-radius: 0 24px 24px 0;
         }
+
+        @media screen and (max-width: 1270px) {
+          padding-right: 0;
+          gap: 20px;
+        }
+        @media screen and (max-width: 720px) {
+          text-align: center;
+          gap: 0;
+          .score-games {
+            grid-column: 1;
+          }
+          .team-infos {
+            grid-column: 2;
+          }
+        }
       }
 
       &.away {
@@ -71,6 +91,17 @@
           left: calc(0px - 8px);
           border-radius: 24px 0 0 24px;
         }
+        @media screen and (max-width: 1270px) {
+          padding-left: 0;
+          gap: 20px;
+        }
+        @media screen and (max-width: 720px) {
+          text-align: center;
+          gap: 0;
+          .score-games {
+            grid-column: 2;
+          }
+        }
       }
 
       .score-games {
@@ -81,10 +112,19 @@
           opacity: 0.6;
         }
       }
+
+      @media screen and (max-width: 720px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        .score-games {
+          grid-row: 1;
+          transform: translateY(50%);
+        }
+      }
     }
 
     .team-infos {
-      min-width: 150px;
+      min-width: fit-content;
     }
 
     .team-color {
@@ -94,6 +134,10 @@
       left: 0;
       z-index: -10;
       filter: saturate(1.5);
+
+      @media screen and (max-width: 720px) {
+        height: calc(100% + 16px);
+      }
     }
 
     .result-game {
@@ -145,6 +189,19 @@
       font-size: 2.4rem;
     }
   }
+
+  .no-mobile {
+    display: block;
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+  .mobile {
+    display: none;
+    @media screen and (max-width: 900px) {
+      display: block;
+    }
+  }
 }
 
 .game-infos-section {
@@ -153,8 +210,12 @@
 
   .wrapper {
     display: grid;
-    grid-template-columns: 60% 1fr;
+    grid-template-columns: 65% 1fr;
     gap: 30px;
+
+    @media screen and (max-width: 1170px) {
+      grid-template-columns: 1fr;
+    }
   }
   .matchup-card {
     background-image: none;
@@ -261,7 +322,6 @@
         &:first-child::after {
           display: none;
         }
-
       }
     }
 

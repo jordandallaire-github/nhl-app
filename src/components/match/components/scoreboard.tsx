@@ -11,7 +11,7 @@ export const renderScoreboard = (
       {(game.gameState === "LIVE" ||
         game.gameState === "OFF" ||
         game.gameState === "FINAL" || game.gameState === "CRIT") && (
-        <div className="scoreboard-card window-effect">
+        <div className="scoreboard-card scores window-effect">
           <div className="glare-effect"></div>
           <h4>Pointage</h4>
           <div className="scoreboard-table-container">

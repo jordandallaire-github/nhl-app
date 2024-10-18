@@ -7,6 +7,15 @@
   background-color: inherit;
 }
 
+.swiper{
+  overflow-y: visible;
+  overflow-x: clip;
+}
+
+.swiper-wrapper{
+  box-sizing: inherit;
+}
+
 .swiper-pagination-bullets {
   display: flex;
   justify-content: center;
@@ -84,6 +93,14 @@
 
       &::after{
         display: none;
+      }
+    }
+
+    @media screen and (max-width: 868px) {
+      top: 0;
+  
+      &::after {
+        bottom: 35px;
       }
     }
   }

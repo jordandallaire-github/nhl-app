@@ -18,6 +18,7 @@ import { IReplayFrame } from "../../interfaces/goal-simulation";
 import { INTGameVideo } from "../../interfaces/game-video";
 import { renderGameVideo } from "./components/gameVideos";
 import { renderPenalties } from "./components/gamePenalty";
+import { ThreeStars } from "./components/threeStars";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -137,6 +138,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                 )}
                 {renderGameVideo(gameInfos, gameVideo)}
                 {renderPenalties(gameInfos)}
+                { gameInfos?.summary && gameInfos?.summary.threeStars.length > 0 && <ThreeStars teamColors={teamColors ?? { home: "", away: "" }} game={gameInfos} />}
               </>
             )}
           </div>

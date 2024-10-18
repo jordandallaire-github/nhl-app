@@ -47,6 +47,11 @@ export const renderGoalInfos = (
     return url.split("-").pop();
   };
 
+  const noGoal =
+    game?.summary.scoring.filter((score) =>
+      score.goals.length > 0
+    ) || [];
+
   return (
     <>
       <div className="goal-infos-card">
@@ -73,16 +78,24 @@ export const renderGoalInfos = (
                   } Période`}</h4>
                 )}
               {scoring.goals
-                .filter((situation) => situation.situationCode !== "0101")
+                .filter((situation) => situation.situationCode !== "1010")
                 .map((goal, index) => {
-                  const frVideoId = goal.highlightClipSharingUrlFr ? getVideoId(goal.highlightClipSharingUrlFr) : null;
-                  const enVideoId = goal.highlightClipSharingUrl ? getVideoId(goal.highlightClipSharingUrl) : null;
-                  
+                  const frVideoId = goal.highlightClipSharingUrlFr
+                    ? getVideoId(goal.highlightClipSharingUrlFr)
+                    : null;
+                  const enVideoId = goal.highlightClipSharingUrl
+                    ? getVideoId(goal.highlightClipSharingUrl)
+                    : null;
+
                   let matchingVideo = null;
                   if (frVideoId) {
-                    matchingVideo = filteredGoalVideos.find(video => getVideoId(video.selfUrl) === frVideoId);
+                    matchingVideo = filteredGoalVideos.find(
+                      (video) => getVideoId(video.selfUrl) === frVideoId
+                    );
                   } else if (enVideoId) {
-                    matchingVideo = filteredGoalVideos.find(video => getVideoId(video.selfUrl) === enVideoId);
+                    matchingVideo = filteredGoalVideos.find(
+                      (video) => getVideoId(video.selfUrl) === enVideoId
+                    );
                   }
 
                   return (
@@ -120,8 +133,8 @@ export const renderGoalInfos = (
                                     <strong>{`${goal.firstName.default} ${
                                       goal.lastName.default
                                     }${` (${goal.goalsToDate})`}`}</strong>
-                                    {goal.strength !== "ev" ||
-                                    goal.goalModifier !== "none" ? (
+                                    {(goal.strength !== "ev" ||
+                                      goal.goalModifier !== "none") && (
                                       <span className="strength">
                                         {goal.strength === "pp"
                                           ? " BAN"
@@ -131,8 +144,6 @@ export const renderGoalInfos = (
                                           ? " FD"
                                           : ""}
                                       </span>
-                                    ) : (
-                                      <span className="strength no"></span>
                                     )}
                                   </p>
                                 </div>
@@ -209,7 +220,11 @@ export const renderGoalInfos = (
                             </div>
                             <GoalClip
                               isSvg
-                              fr={goal.highlightClipSharingUrlFr ?? goal.highlightClipSharingUrl ?? ""}
+                              fr={
+                                goal.highlightClipSharingUrlFr ??
+                                goal.highlightClipSharingUrl ??
+                                ""
+                              }
                               title={matchingVideo?.title}
                               description={
                                 matchingVideo?.fields.longDescription
@@ -291,6 +306,7 @@ export const renderGoalInfos = (
             </div>
           </div>
         ))}
+        {noGoal.length === 0 && <p>Aucun but inscrit.</p>}
       </div>
     </>
   );

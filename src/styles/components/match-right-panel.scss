@@ -6,6 +6,14 @@
     background-image: none;
     padding: 15px 20px;
 
+    h4 {
+      margin-top: 0;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
     .series-infos {
       display: flex;
       justify-content: space-between;
@@ -131,6 +139,11 @@
     background-image: none;
     padding: 15px 20px;
 
+    h4 {
+      margin: 0;
+    }
+
+
     table {
       width: 100%;
       text-align: center;
@@ -179,6 +192,12 @@
             border-bottom: 0;
           }
         }
+      }
+    }
+
+    &.scores{
+      h4{
+        margin-bottom: 33.25px;
       }
     }
   }
@@ -236,7 +255,7 @@
             flex-direction: column;
           }
         }
-        span{
+        span {
           font-size: 1.4rem;
           text-align: right;
         }
