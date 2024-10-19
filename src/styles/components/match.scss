@@ -206,15 +206,16 @@
 
 .game-infos-section {
   font-size: 1.6rem;
-  margin-top: 60px;
+  margin-top: 30px;
 
-  .wrapper {
+  .games-infos-container {
     display: grid;
     grid-template-columns: 65% 1fr;
     gap: 30px;
 
     @media screen and (max-width: 1170px) {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
     }
   }
   .matchup-card {
@@ -376,5 +377,81 @@
     &:hover .color {
       clip-path: circle(100% at 50% 50%);
     }
+  }
+}
+
+.nav-match{
+  display: grid;
+  grid-template-columns: 65% 1fr;
+  gap: 30px;
+  align-items: center;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+
+  .main-nav{
+    --width-line: 110px;
+
+    position: relative;
+    display: flex;
+    gap: 20px;
+    font-weight: 800;
+    width: 100%;
+    border-bottom: 1px solid var(--color-white);
+
+    p{
+      cursor: pointer;
+      width: var(--width-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.5;
+      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+      &.active{
+        opacity: 1;
+      }
+    }
+    
+    &::after{
+      content: '';
+      position: absolute;
+      width: var(--width-line);
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      box-shadow: 0 2px 25px 2px var(--color-white);
+      background-color: var(--color-white);
+      transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    &.summary::after{
+      left: calc((var(--width-line) * 2 + 40px)/2);
+    }
+
+    &.description::after{
+      left: calc((var(--width-line) * 2 + 40px));
+    }
+  }
+
+  .game-recap{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    .video{
+      background-image: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+
+      p{
+        margin: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1170px) {
+    display: flex;
+    flex-direction: column-reverse;
   }
 }

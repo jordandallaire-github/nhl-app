@@ -36,6 +36,9 @@
     p {
       opacity: 0.35;
       width: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
 
       &.active {

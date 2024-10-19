@@ -1,8 +1,8 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { Link } from "react-router-dom";
-import { SimulationGoal } from "./simulationGoal";
+/* import { SimulationGoal } from "./simulationGoal"; */
 import React from "react";
-import { IReplayFrame } from "../../../interfaces/goal-simulation";
+/* import { IReplayFrame } from "../../../interfaces/goal-simulation"; */
 import { TeamsLogoLinks } from "./teamLogoLink";
 import GoalClip from "./goalClip";
 import { INTGameVideo } from "../../../interfaces/game-video";
@@ -16,7 +16,7 @@ interface Colors {
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
   teamColors: Colors,
-  goalSimulation: Record<string, IReplayFrame[]>,
+  /* goalSimulation: Record<string, IReplayFrame[]>, */
   goalVideo: INTGameVideo | null
 ) => {
   const formatShotType = (shot: string) => {
@@ -48,9 +48,7 @@ export const renderGoalInfos = (
   };
 
   const noGoal =
-    game?.summary.scoring.filter((score) =>
-      score.goals.length > 0
-    ) || [];
+    game?.summary.scoring.filter((score) => score.goals.length > 0) || [];
 
   return (
     <>
@@ -218,24 +216,27 @@ export const renderGoalInfos = (
                               </p>
                               <p>Tir</p>
                             </div>
-                            <GoalClip
-                              isSvg
-                              fr={
-                                goal.highlightClipSharingUrlFr ??
-                                goal.highlightClipSharingUrl ??
-                                ""
-                              }
-                              title={matchingVideo?.title}
-                              description={
-                                matchingVideo?.fields.longDescription
-                              }
-                              date={formatPublicationDate(
-                                matchingVideo?.contentDate ?? ""
-                              )}
-                            ></GoalClip>
+                            {(goal.highlightClipSharingUrl !== undefined ||
+                              goal.highlightClipSharingUrlFr !== undefined) && (
+                              <GoalClip
+                                isSvg
+                                fr={
+                                  goal.highlightClipSharingUrlFr ??
+                                  goal.highlightClipSharingUrl ??
+                                  ""
+                                }
+                                title={matchingVideo?.title}
+                                description={
+                                  matchingVideo?.fields.longDescription
+                                }
+                                date={formatPublicationDate(
+                                  matchingVideo?.contentDate ?? ""
+                                )}
+                              ></GoalClip>
+                            )}
                           </div>
                         </div>
-                        <div className="simulation">
+                        {/*                         <div className="simulation">
                           {goal.pptReplayUrl !== undefined && (
                             <SimulationGoal
                               game={game}
@@ -244,7 +245,7 @@ export const renderGoalInfos = (
                               goalSimulation={goalSimulation}
                             ></SimulationGoal>
                           )}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   );

@@ -7,17 +7,18 @@
     padding: 15px 20px;
 
     h4 {
-      margin-top: 0;
+      margin: 0;
     }
 
     p {
-      margin-top: 0;
+      margin: 0;
     }
 
     .series-infos {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 33.25px;
     }
 
     .series-container {
@@ -62,6 +63,7 @@
           .media {
             display: flex;
             gap: 5px;
+            align-items: center;
             img {
               min-width: 50px;
               min-height: 50px;

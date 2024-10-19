@@ -18,7 +18,9 @@ export const ThreeStars: React.FC<{
     <div className="cards-container three-star">
       <Carousel
           breakpoint={{
-            1300: { slidesPerView: "auto", spaceBetween: 10 },
+            700: { slidesPerView: 3, spaceBetween: 10 },
+            525: { slidesPerView: 2.2, spaceBetween: 10 },
+            320: { slidesPerView: 1.5, spaceBetween: 10 },
           }}
           freeMode={true}
       >

@@ -67,6 +67,12 @@ export interface INTMoreGameInfos {
       }>;
     };
   };
+  gameVideo: {
+    threeMinRecap: string;
+    threeMinRecapFr: string;
+    condensedGame: string;
+    condensedGameFr: string;
+  };
   linescore: {
     byPeriod: Array<{
       periodDescriptor: {
@@ -78,13 +84,13 @@ export interface INTMoreGameInfos {
       home: number;
     }>;
     shootout: {
-      awayDecidingGoal: number,
-      awayConversions: number,
-      awayAttempts: number,
-      homeDecidingGoal: number,
-      homeConversions: number,
-      homeAttempts: number
-    },
+      awayDecidingGoal: number;
+      awayConversions: number;
+      awayAttempts: number;
+      homeDecidingGoal: number;
+      homeConversions: number;
+      homeAttempts: number;
+    };
     totals: {
       away: number;
       home: number;
@@ -114,7 +120,7 @@ export interface INTMoreGameInfos {
     shotSummary: string;
     toiAway: string;
     toiHome: string;
-    shiftChart: string,
+    shiftChart: string;
   };
   teamSeasonStats: {
     awayTeam: {

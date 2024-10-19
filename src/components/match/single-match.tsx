@@ -14,11 +14,14 @@ import { renderShotOnNet } from "./components/shots";
 import { renderScoreboard } from "./components/scoreboard";
 import { renderGameInfos } from "./components/gameInfos";
 import { renderGoalInfos } from "./components/goals";
-import { IReplayFrame } from "../../interfaces/goal-simulation";
+/* import { IReplayFrame } from "../../interfaces/goal-simulation"; */
 import { INTGameVideo } from "../../interfaces/game-video";
 import { renderGameVideo } from "./components/gameVideos";
 import { renderPenalties } from "./components/gamePenalty";
 import { ThreeStars } from "./components/threeStars";
+import GoalClip from "./components/goalClip";
+import { formatPublicationDate } from "../../scripts/utils/formatDate";
+import { useState } from "react";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -27,7 +30,7 @@ interface MatchProps {
     home: string;
     away: string;
   } | null;
-  goalSimulation: Record<string, IReplayFrame[]>;
+  /* goalSimulation: Record<string, IReplayFrame[]>; */
   gameVideo: INTGameVideo | null;
 }
 
@@ -35,9 +38,36 @@ const SingleMatch: React.FC<MatchProps> = ({
   gameInfos,
   gameMoreInfos,
   teamColors,
-  goalSimulation,
+  /* goalSimulation, */
   gameVideo,
 }) => {
+  const [showSummary, setSummary] = useState<boolean>(false);
+  const [showDescription, setDescription] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("detail-match");
+
+  const recapVideo = gameVideo?.items.find((video) =>
+    video.tags.some((tag) => tag.slug === "game-recap")
+  );
+
+  const handleNavClick = (type: string) => {
+    if (type === "summary") {
+      setSummary(true);
+    } else {
+      setSummary(false);
+    }
+    if (type === "description") {
+      setDescription(true);
+    } else {
+      setDescription(false);
+    }
+
+    const navContainer = document.querySelector(".main-nav");
+    if (navContainer) {
+      navContainer.className = `main-nav ${type}`;
+      setActiveTab(type);
+    }
+  };
+
   return (
     <>
       <section className="match hero">
@@ -119,47 +149,138 @@ const SingleMatch: React.FC<MatchProps> = ({
       </section>
       <section className="game-infos-section">
         <div className="wrapper">
-          <div className="main-game-infos">
-            {gameInfos?.matchup?.teamLeaders?.leaders ? (
-              <>
-                {renderTeamLeaders(gameInfos)}
-                {renderGoalieTeam(
-                  gameInfos,
-                  teamColors ?? { home: "", away: "" }
+          {(gameInfos?.gameState === "FINAL" ||
+            gameInfos?.gameState === "OFF" ||
+            gameInfos?.gameState === "LIVE" ||
+            gameInfos?.gameState === "CRIT") && (
+            <div className="nav-match">
+              <div className="main-nav">
+                <p
+                  className={activeTab === "detail-match" ? "active" : ""}
+                  onClick={() => handleNavClick("detail-match")}
+                >
+                  Résumé
+                </p>
+                <p
+                  className={activeTab === "summary" ? "active" : ""}
+                  onClick={() => handleNavClick("summary")}
+                >
+                  Sommaire
+                </p>
+                <p
+                  className={activeTab === "description" ? "active" : ""}
+                  onClick={() => handleNavClick("description")}
+                >
+                  Description
+                </p>
+              </div>
+              {gameMoreInfos?.gameVideo &&
+                (gameMoreInfos.gameVideo.threeMinRecapFr ||
+                  gameMoreInfos?.gameVideo.condensedGameFr ||
+                  gameMoreInfos?.gameVideo.threeMinRecap ||
+                  gameMoreInfos?.gameVideo.condensedGame) && (
+                  <div className="game-recap">
+                    <GoalClip
+                      isWindowEffect
+                      fr={`${
+                        gameMoreInfos.gameVideo.threeMinRecapFr ??
+                        gameMoreInfos.gameVideo.threeMinRecap
+                      }`}
+                      title={recapVideo?.title}
+                      description={recapVideo?.fields.longDescription}
+                      date={formatPublicationDate(
+                        recapVideo?.contentDate ?? ""
+                      )}
+                    >
+                      <Svg name="recap-play-video" size="xs"></Svg>
+                      <p>Résumé</p>
+                    </GoalClip>
+                    <GoalClip
+                      isWindowEffect
+                      fr={`${
+                        gameMoreInfos.gameVideo.condensedGameFr ??
+                        gameMoreInfos.gameVideo.condensedGame
+                      }`}
+                      title={recapVideo?.title.replace("Résumé", "Condensé")}
+                      description={
+                        recapVideo?.fields.longDescription?.replace(".", "") +
+                        " en 10 minutes."
+                      }
+                      date={formatPublicationDate(
+                        recapVideo?.contentDate ?? ""
+                      )}
+                    >
+                      <Svg name="recap-play-video" size="xs"></Svg>
+                      <p>Condensé</p>
+                    </GoalClip>
+                  </div>
                 )}
-              </>
-            ) : (
-              <>
-                {renderGoalInfos(
-                  gameInfos,
-                  teamColors ?? { home: "", away: "" },
-                  goalSimulation,
-                  gameVideo
-                )}
-                {renderGameVideo(gameInfos, gameVideo)}
-                {renderPenalties(gameInfos)}
-                { gameInfos?.summary && gameInfos?.summary.threeStars.length > 0 && <ThreeStars teamColors={teamColors ?? { home: "", away: "" }} game={gameInfos} />}
-              </>
-            )}
-          </div>
-          <div className="other-game-infos">
-            {gameMoreInfos && gameInfos && (
-              <>
-                {renderScoreboard(gameMoreInfos, gameInfos)}
-                {renderShotOnNet(
-                  gameInfos,
-                  gameMoreInfos,
-                  teamColors ?? { home: "", away: "" }
-                )}
-                {renderRightPanelTeamStatsInfos(
-                  gameMoreInfos,
-                  gameInfos,
-                  teamColors ?? { home: "", away: "" }
-                )}
-                {renderRightPanelSeriesInfos(gameMoreInfos, gameInfos)}
-                {renderGameInfos(gameMoreInfos, gameInfos)}
-              </>
-            )}
+            </div>
+          )}
+
+          <div className="games-infos-container">
+            <div className="main-game-infos">
+              {!showDescription && !showSummary && (
+                <>
+                  {gameInfos?.matchup?.teamLeaders?.leaders ? (
+                    <>
+                      {renderTeamLeaders(gameInfos)}
+                      {renderGoalieTeam(
+                        gameInfos,
+                        teamColors ?? { home: "", away: "" }
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {renderGoalInfos(
+                        gameInfos,
+                        teamColors ?? { home: "", away: "" },
+                        /* goalSimulation, */
+                        gameVideo
+                      )}
+                      {renderGameVideo(gameInfos, gameVideo)}
+                      {renderPenalties(gameInfos)}
+                      {gameInfos?.summary &&
+                        gameInfos?.summary.threeStars.length > 0 && (
+                          <ThreeStars
+                            teamColors={teamColors ?? { home: "", away: "" }}
+                            game={gameInfos}
+                          />
+                        )}
+                    </>
+                  )}
+                </>
+              )}
+              {showDescription && !showSummary && (
+                <>
+                  <h3>Description</h3>
+                </>
+              )}
+              {!showDescription && showSummary && (
+                <>
+                  <h3>Sommaire</h3>
+                </>
+              )}
+            </div>
+            <div className="other-game-infos">
+              {gameMoreInfos && gameInfos && (
+                <>
+                  {renderScoreboard(gameMoreInfos, gameInfos)}
+                  {renderShotOnNet(
+                    gameInfos,
+                    gameMoreInfos,
+                    teamColors ?? { home: "", away: "" }
+                  )}
+                  {renderRightPanelTeamStatsInfos(
+                    gameMoreInfos,
+                    gameInfos,
+                    teamColors ?? { home: "", away: "" }
+                  )}
+                  {renderRightPanelSeriesInfos(gameMoreInfos, gameInfos)}
+                  {renderGameInfos(gameMoreInfos, gameInfos)}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </section>

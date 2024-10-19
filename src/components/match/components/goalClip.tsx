@@ -9,6 +9,7 @@ interface GoalProps {
   date?: string;
   isSvg?: boolean;
   children?: React.ReactNode;
+  isWindowEffect?: boolean;
 }
 
 const GoalClip: React.FC<GoalProps> = ({
@@ -17,7 +18,8 @@ const GoalClip: React.FC<GoalProps> = ({
   description,
   date,
   isSvg,
-  children
+  children,
+  isWindowEffect
 }) => {
   const [showVideo, setShowVideo] = useState(false);
   const videoId =
@@ -51,7 +53,7 @@ const GoalClip: React.FC<GoalProps> = ({
         />
       )}
 
-      {children && <div className="video" onClick={handleClick}>{children}</div>}
+      {children && <div className={`video ${isWindowEffect ? "window-effect" : ""}`} onClick={handleClick}>{children}</div>}
     </>
   );
 };

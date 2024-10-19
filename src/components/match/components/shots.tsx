@@ -34,6 +34,9 @@ export const renderShotOnNet = (
         homeFlex = Math.pow(awayValue, scaleFactor);
       }
     } else {
+      if (awayValue === 0 && homeValue === 0) {
+        awayFlex = homeFlex = 1;
+      }
       awayFlex = Math.pow(awayValue, scaleFactor);
       homeFlex = Math.pow(homeValue, scaleFactor);
     }

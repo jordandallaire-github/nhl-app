@@ -7,12 +7,12 @@
   background-color: inherit;
 }
 
-.swiper{
+.swiper {
   overflow-y: visible;
   overflow-x: clip;
 }
 
-.swiper-wrapper{
+.swiper-wrapper {
   box-sizing: inherit;
 }
 
@@ -38,71 +38,72 @@
 }
 
 .nav {
+  height: fit-content;
   --gap: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: -15px;
+  bottom: calc(100% + 10px);
   width: 100%;
+  margin-bottom: 20px;
 
   &.stats {
-    top: -30px;
-
     h3 {
-      min-width: 100px;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-transform: capitalize;
+      margin: 0;
     }
 
     &::after {
       --width-line: 100px;
-      top: 0;
     }
   }
 
   &.standing {
-    top: 15px;
-
+    bottom: calc(100% - 55px);
     h3 {
       font-size: 1.8rem;
-      min-width: 130px;
-    }
-
-    &::after {
-        --width-line: 130px !important;
-        top: 30px;
-      }
-  }
-
-  &.game-infos{
-    --gap: 20px;
-    gap: var(--gap);
-
-    &::after{
-      --width-line: 148px;
-      top: 0;
-    }
-
-    h5{
-      min-width: 148px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 135px;
       margin: 0;
     }
 
-    &.no-report{
+    &::after {
+      --width-line: 135px;
+    }
+  }
+
+  &.game-infos {
+    --gap: 20px;
+    gap: var(--gap);
+    bottom: 100%;
+
+    &::after {
+      --width-line: 148px;
+    }
+
+    h5 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 148px;
+      margin: 0;
+    }
+
+    &.no-report {
       top: -40px;
 
-      &::after{
+      &::after {
         display: none;
       }
     }
 
-    @media screen and (max-width: 868px) {
-      top: 0;
-  
-      &::after {
-        bottom: 35px;
-      }
-    }
   }
 
   .swiper-button-next::after,
@@ -114,7 +115,8 @@
   .swiper-button-prev {
     position: relative;
     top: inherit;
-    width: initial;
+    height: fit-content;
+    width: fit-content;
     right: inherit;
     text-align: center;
     left: inherit;
@@ -123,8 +125,12 @@
     transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     h2 {
-      min-width: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 130px;
       text-transform: capitalize;
+      margin: 0;
     }
 
     &.swiper-button-disabled {
@@ -142,23 +148,16 @@
     border-radius: 2px;
     width: var(--width-line);
     height: 4px;
+    bottom: -10px;
     box-shadow: 0 2px 25px 2px var(--color-white);
     transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
   &:has(.swiper-button-next.swiper-button-disabled)::after {
-    left: calc(50% + (var(--gap)/2));
+    left: calc(50% + (var(--gap) / 2));
   }
   &:has(.swiper-button-prev.swiper-button-disabled)::after {
-    left: calc(50% - var(--width-line) - (var(--gap)/2));
+    left: calc(50% - var(--width-line) - (var(--gap) / 2));
   }
 
-  @media screen and (max-width: 868px) {
-    top: -30px;
-
-    &::after {
-      bottom: 35px;
-    }
-  }
 }
-

@@ -85,7 +85,7 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
                         <tr>
                           <th scope="row">Équipes</th>
                           <th scope="row">Temps</th>
-                          <th scope="row">Durée</th>
+                          <th scope="row" className="no-mobile">Durée</th>
                           <th>Pénalité</th>
                         </tr>
                       </thead>
@@ -103,7 +103,7 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
                               ></TeamsLogoLinks>
                             </td>
                             <td scope="row">{pen.timeInPeriod}</td>
-                            <td scope="row">
+                            <td scope="row" className="no-mobile">
                               {pen.descKey === "game-misconduct"
                                 ? 60
                                 : pen.duration}{" "}

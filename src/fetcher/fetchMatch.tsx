@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { INTMainGameInfos, INTGoal } from "../interfaces/main-match";
+import { INTMainGameInfos, /* INTGoal */ } from "../interfaces/main-match";
 import { INTMoreGameInfos } from "../interfaces/more-detail-match";
 import SingleMatch from "../components/match/single-match";
-import { IReplayFrame } from "../interfaces/goal-simulation";
+/* import { IReplayFrame } from "../interfaces/goal-simulation"; */
 import { INTGameVideo } from "../interfaces/game-video";
 
 type TeamColors = {
@@ -30,9 +30,9 @@ const Match: React.FC = () => {
     away: string;
   } | null>(null);
 
-  const [replayData, setReplayData] = useState<{
+/*   const [replayData, setReplayData] = useState<{
     [goalId: string]: IReplayFrame[];
-  }>({});
+  }>({}); */
 
   const fetchTeamColors = useCallback(async () => {
     try {
@@ -50,7 +50,7 @@ const Match: React.FC = () => {
     }
   }, []);
 
-  const fetchReplayData = useCallback(async (goal: INTGoal) => {
+/*   const fetchReplayData = useCallback(async (goal: INTGoal) => {
     if (!goal.pptReplayUrl) return;
 
     try {
@@ -67,7 +67,7 @@ const Match: React.FC = () => {
     } catch (err) {
       console.error(`Error fetching replay data for goal:`, err);
     }
-  }, []);
+  }, []); */
 
   const fetchStanding = useCallback(async () => {
     if (!matchId) {
@@ -101,12 +101,12 @@ const Match: React.FC = () => {
       setMoreGameInfos(dataMoreGameInfos);
       setGameVideo(dataGameVideo);
 
-      if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
+/*       if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
         const replayPromises = dataMainGameInfos.summary.scoring.flatMap(
           (period) => period.goals.map((goal) => fetchReplayData(goal))
         );
         await Promise.all(replayPromises);
-      }
+      } */
 
       if (teamColorsData) {
         const homeTeamAbbrev = dataMainGameInfos.homeTeam.abbrev;
@@ -121,7 +121,7 @@ const Match: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [matchId, fetchTeamColors, fetchReplayData]);
+  }, [matchId, fetchTeamColors, /* fetchReplayData */]);
 
   useEffect(() => {
     fetchStanding();
@@ -141,7 +141,7 @@ const Match: React.FC = () => {
         gameInfos={mainGameInfos}
         gameMoreInfos={moreGameInfos}
         teamColors={teamColors}
-        goalSimulation={replayData}
+        /* goalSimulation={replayData} */
         gameVideo={gameVideo}
       />
     </>
