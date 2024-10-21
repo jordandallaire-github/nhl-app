@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { INTMainGameInfos, /* INTGoal */ } from "../interfaces/main-match";
+import { INTMainGameInfos /* INTGoal */ } from "../interfaces/main-match";
 import { INTMoreGameInfos } from "../interfaces/more-detail-match";
 import SingleMatch from "../components/match/single-match";
 /* import { IReplayFrame } from "../interfaces/goal-simulation"; */
 import { INTGameVideo } from "../interfaces/game-video";
+import { INTBoxscore } from "../interfaces/boxscores";
 
 type TeamColors = {
   [key: string]: {
@@ -20,9 +21,8 @@ const Match: React.FC = () => {
   const [moreGameInfos, setMoreGameInfos] = useState<INTMoreGameInfos | null>(
     null
   );
-  const [gameVideo, setGameVideo] = useState<INTGameVideo | null>(
-    null
-  );
+  const [gameVideo, setGameVideo] = useState<INTGameVideo | null>(null);
+  const [boxscore, setBoxscore] = useState<INTBoxscore | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [teamColors, setTeamColors] = useState<{
@@ -30,7 +30,7 @@ const Match: React.FC = () => {
     away: string;
   } | null>(null);
 
-/*   const [replayData, setReplayData] = useState<{
+  /*   const [replayData, setReplayData] = useState<{
     [goalId: string]: IReplayFrame[];
   }>({}); */
 
@@ -50,7 +50,7 @@ const Match: React.FC = () => {
     }
   }, []);
 
-/*   const fetchReplayData = useCallback(async (goal: INTGoal) => {
+  /*   const fetchReplayData = useCallback(async (goal: INTGoal) => {
     if (!goal.pptReplayUrl) return;
 
     try {
@@ -78,15 +78,28 @@ const Match: React.FC = () => {
 
     setLoading(true);
     try {
-      const [mainGameInfosResponse, moreGameInfosResponse, gameVideoResponse ,teamColorsData] =
-        await Promise.all([
-          fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/landing`),
-          fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/right-rail`),
-          fetch(`https://forge-dapi.d3.nhle.com/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
-          fetchTeamColors(),
-        ]);
+      const [
+        mainGameInfosResponse,
+        moreGameInfosResponse,
+        boxscoreResponse,
+        gameVideoResponse,
+        teamColorsData,
+      ] = await Promise.all([
+        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/landing`),
+        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/right-rail`),
+        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/boxscore`),
+        fetch(
+          `https://forge-dapi.d3.nhle.com/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`
+        ),
+        fetchTeamColors(),
+      ]);
 
-      if (!mainGameInfosResponse.ok || !moreGameInfosResponse.ok || !gameVideoResponse) {
+      if (
+        !mainGameInfosResponse.ok ||
+        !moreGameInfosResponse.ok ||
+        !gameVideoResponse ||
+        !boxscoreResponse
+      ) {
         throw new Error("Erreur lors de la récupération des données du match");
       }
 
@@ -94,14 +107,16 @@ const Match: React.FC = () => {
         await mainGameInfosResponse.json();
       const dataMoreGameInfos: INTMoreGameInfos =
         await moreGameInfosResponse.json();
-        const dataGameVideo: INTGameVideo =
-        await gameVideoResponse.json();
+      const dataBoxscore: INTBoxscore =
+        await boxscoreResponse.json();
+      const dataGameVideo: INTGameVideo = await gameVideoResponse.json();
 
       setMainGameInfos(dataMainGameInfos);
       setMoreGameInfos(dataMoreGameInfos);
       setGameVideo(dataGameVideo);
+      setBoxscore(dataBoxscore);
 
-/*       if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
+      /*       if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
         const replayPromises = dataMainGameInfos.summary.scoring.flatMap(
           (period) => period.goals.map((goal) => fetchReplayData(goal))
         );
@@ -121,7 +136,7 @@ const Match: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [matchId, fetchTeamColors, /* fetchReplayData */]);
+  }, [matchId, fetchTeamColors /* fetchReplayData */]);
 
   useEffect(() => {
     fetchStanding();
@@ -143,6 +158,7 @@ const Match: React.FC = () => {
         teamColors={teamColors}
         /* goalSimulation={replayData} */
         gameVideo={gameVideo}
+        boxscore={boxscore}
       />
     </>
   );

@@ -22,10 +22,14 @@ import { ThreeStars } from "./components/threeStars";
 import GoalClip from "./components/goalClip";
 import { formatPublicationDate } from "../../scripts/utils/formatDate";
 import { useState } from "react";
+import { renderRosterMatch } from "./components/roster";
+import { INTBoxscore } from "../../interfaces/boxscores";
+import { renderBoxscore } from "./components/statsSheet";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
   gameMoreInfos: INTMoreGameInfos | null;
+  boxscore: INTBoxscore | null;
   teamColors?: {
     home: string;
     away: string;
@@ -40,6 +44,7 @@ const SingleMatch: React.FC<MatchProps> = ({
   teamColors,
   /* goalSimulation, */
   gameVideo,
+  boxscore
 }) => {
   const [showSummary, setSummary] = useState<boolean>(false);
   const [showDescription, setDescription] = useState<boolean>(false);
@@ -229,6 +234,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                         gameInfos,
                         teamColors ?? { home: "", away: "" }
                       )}
+                      {renderRosterMatch(gameInfos)}
                     </>
                   ) : (
                     <>
@@ -257,9 +263,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                 </>
               )}
               {!showDescription && showSummary && (
-                <>
-                  <h3>Sommaire</h3>
-                </>
+                <>{gameInfos && boxscore && renderBoxscore(gameInfos, boxscore)}</>
               )}
             </div>
             <div className="other-game-infos">

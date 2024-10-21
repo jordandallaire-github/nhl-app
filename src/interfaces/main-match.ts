@@ -170,6 +170,23 @@ export interface INTMainGameInfos {
       blockedShots: number;
       hits: number;
     }>;
+    goalieSeasonStats: Array<{
+      playerId: number;
+      teamId: number;
+      sweaterNumber: number;
+      name: { default: string };
+      gamesPlayed: number;
+      wins: number;
+      losses: number;
+      otLosses: number;
+      shotsAgainst: string;
+      goalsAgainst: number;
+      goalsAgainstAvg: number;
+      savePctg: number;
+      shutouts: number;
+      saves: number;
+      toi: number;
+    }>;
   };
   situation: {
     homeTeam: {
@@ -193,6 +210,7 @@ interface INTTeam {
   id: number;
   name: {
     default: string;
+    fr: string;
   };
   abbrev: string;
   placeName: {
