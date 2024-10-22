@@ -99,7 +99,7 @@ export interface INTMainGameInfos {
           headshot: string;
           totalSOI: number;
         }>;
-        penaltyBox: any[]; // Type à définir selon les données reçues
+        penaltyBox: any[];
       };
       homeTeam: {
         forwards: Array<{
@@ -139,7 +139,7 @@ export interface INTMainGameInfos {
           headshot: string;
           totalSOI: number;
         }>;
-        penaltyBox: any[]; // Type à définir selon les données reçues
+        penaltyBox: any[];
       };
     };
   };
