@@ -103,6 +103,20 @@ export interface INTPlayByPlay {
       goalieInNetId: number;
       awaySOG: number;
       homeSOG: number;
+      scoringPlayerId: string,
+      scoringPlayerTotal: string,
+      assist1PlayerId: string,
+      assist1PlayerTotal: string,
+      assist2PlayerId: string,
+      assist2PlayerTotal: string,
+      awayScore: number,
+      homeScore: number,
+      highlightClipSharingUrl: string,
+      highlightClipSharingUrlFr: string,
+      highlightClip: number,
+      highlightClipFr: number,
+      discreteClip: number,
+      discreteClipFr: number
     };
   }>;
 }

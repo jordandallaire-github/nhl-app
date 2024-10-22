@@ -28,6 +28,7 @@ import { renderBoxscore } from "./components/statsSheet";
 import { INTPlayByPlay } from "../../interfaces/playByPlay";
 import { renderPlayByPlay } from "./components/playByPlay";
 import { renderLivePlayer } from "./components/livePlayer";
+import { PlayerDetailsType } from "../../interfaces/player/playerDetails";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -40,6 +41,8 @@ interface MatchProps {
   /* goalSimulation: Record<string, IReplayFrame[]>; */
   gameVideo: INTGameVideo | null;
   plays: INTPlayByPlay | null;
+  homeRoster: PlayerDetailsType[] | null;
+  awayRoster: PlayerDetailsType[] | null;
 }
 
 const SingleMatch: React.FC<MatchProps> = ({
@@ -50,6 +53,8 @@ const SingleMatch: React.FC<MatchProps> = ({
   gameVideo,
   boxscore,
   plays,
+  homeRoster,
+  awayRoster
 }) => {
   const [showSummary, setSummary] = useState<boolean>(false);
   const [showDescription, setDescription] = useState<boolean>(false);
@@ -279,7 +284,9 @@ const SingleMatch: React.FC<MatchProps> = ({
                     renderPlayByPlay(
                       gameInfos,
                       teamColors ?? { home: "", away: "" },
-                      plays
+                      plays,
+                      homeRoster,
+                      awayRoster
                     )}
                 </>
               )}
