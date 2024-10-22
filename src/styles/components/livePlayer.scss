@@ -1,0 +1,131 @@
+.live-match {
+  position: relative;
+  padding: 10px 0;
+
+  .players-live {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 0;
+    display: grid;
+    grid-template-rows: 32px 1fr 36px;
+    grid-template-columns: 1fr 3fr 2fr 2fr 2fr 2fr 2fr 2fr 3fr 1fr;
+    grid-template-areas:
+      "bench bench bench bench bench bench bench bench bench bench"
+      ". awayGoalie awayDefense awayForwards . . homeForwards homeDefense homeGoalie ."
+      ". . awayPenaltyBox awayPenaltyBox awayPenaltyBox homePenaltyBox homePenaltyBox homePenaltyBox . .";
+    align-items: center;
+    justify-items: center;
+
+    .forward.away {
+      grid-area: awayForwards;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: center;
+      padding: 0 10px;
+
+      .player.away {
+        position: relative;
+        margin: 0 2px;
+      }
+    }
+    .defensement.away {
+      grid-area: awayDefense;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: center;
+      padding: 0 10px;
+
+      .player.away {
+      }
+    }
+    .goalie.away {
+      grid-area: awayGoalie;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: center;
+      padding: 0 10px;
+
+      .player.away {
+      }
+    }
+    .penalty-box.away {
+      grid-area: awayPenaltyBox;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: end;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+
+      .player.away {
+      }
+    }
+    .forward.home {
+      grid-area: homeForwards;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: center;
+      padding: 0 10px;
+
+      .player.home {
+        position: relative;
+        margin: 0 2px;
+      }
+    }
+    .defensement.home {
+      grid-area: homeDefense;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: center;
+      padding: 0 10px;
+
+      .player.home {
+      }
+    }
+    .goalie.home {
+      grid-area: homeGoalie;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: center;
+      padding: 0 10px;
+
+      .player.home {
+      }
+    }
+    .penalty-box.home {
+      grid-area: homePenaltyBox;
+      height: 100%;
+      display: grid;
+      align-content: space-evenly;
+      justify-self: end;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+
+      .player.home {
+      }
+    }
+    .number {
+      font-size: 1.6rem;
+      line-height: 12px;
+      font-weight: 500;
+      letter-spacing: 0px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      text-align: center;
+      display: grid;
+      align-content: center;
+    }
+  }
+}

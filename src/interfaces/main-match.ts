@@ -60,6 +60,88 @@ export interface INTMainGameInfos {
       };
       penalties: Array<INTPenalty>;
     }>;
+    iceSurface: {
+      awayTeam: {
+        forwards: Array<{
+          playerId: number;
+          name: {
+            default: string;
+            cs?: string;
+            fi?: string;
+            sk?: string;
+          };
+          sweaterNumber: number;
+          positionCode: string;
+          headshot: string;
+        }>;
+        defensemen: Array<{
+          playerId: number;
+          name: {
+            default: string;
+            cs?: string;
+            fi?: string;
+            sk?: string;
+          };
+          sweaterNumber: number;
+          positionCode: string;
+          headshot: string;
+        }>;
+        goalies: Array<{
+          playerId: number;
+          name: {
+            default: string;
+            cs?: string;
+            fi?: string;
+            sk?: string;
+          };
+          sweaterNumber: number;
+          positionCode: string;
+          headshot: string;
+          totalSOI: number;
+        }>;
+        penaltyBox: any[]; // Type à définir selon les données reçues
+      };
+      homeTeam: {
+        forwards: Array<{
+          playerId: number;
+          name: {
+            default: string;
+            cs?: string;
+            fi?: string;
+            sk?: string;
+          };
+          sweaterNumber: number;
+          positionCode: string;
+          headshot: string;
+        }>;
+        defensemen: Array<{
+          playerId: number;
+          name: {
+            default: string;
+            cs?: string;
+            fi?: string;
+            sk?: string;
+          };
+          sweaterNumber: number;
+          positionCode: string;
+          headshot: string;
+        }>;
+        goalies: Array<{
+          playerId: number;
+          name: {
+            default: string;
+            cs?: string;
+            fi?: string;
+            sk?: string;
+          };
+          sweaterNumber: number;
+          positionCode: string;
+          headshot: string;
+          totalSOI: number;
+        }>;
+        penaltyBox: any[]; // Type à définir selon les données reçues
+      };
+    };
   };
   clock: {
     timeRemaining: string;
@@ -224,10 +306,9 @@ interface INTTeam {
   sog: number;
   logo: string;
   record: string;
-
 }
 
- export interface INTGoal {
+export interface INTGoal {
   situationCode: string;
   strength: string;
   playerId: number;
@@ -271,7 +352,7 @@ interface INTTeam {
     assistsToDate: number;
   }>;
   homeTeamDefendingSide: string;
-  pptReplayUrl: string,
+  pptReplayUrl: string;
 }
 
 interface INTStar {

@@ -6,6 +6,7 @@ import SingleMatch from "../components/match/single-match";
 /* import { IReplayFrame } from "../interfaces/goal-simulation"; */
 import { INTGameVideo } from "../interfaces/game-video";
 import { INTBoxscore } from "../interfaces/boxscores";
+import { INTPlayByPlay } from "../interfaces/playByPlay";
 
 type TeamColors = {
   [key: string]: {
@@ -23,6 +24,7 @@ const Match: React.FC = () => {
   );
   const [gameVideo, setGameVideo] = useState<INTGameVideo | null>(null);
   const [boxscore, setBoxscore] = useState<INTBoxscore | null>(null);
+  const [plays, setPlayByPlay] = useState<INTPlayByPlay | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [teamColors, setTeamColors] = useState<{
@@ -82,12 +84,14 @@ const Match: React.FC = () => {
         mainGameInfosResponse,
         moreGameInfosResponse,
         boxscoreResponse,
+        playsResponse,
         gameVideoResponse,
         teamColorsData,
       ] = await Promise.all([
         fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/landing`),
         fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/right-rail`),
         fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/boxscore`),
+        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/play-by-play`),
         fetch(
           `https://forge-dapi.d3.nhle.com/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`
         ),
@@ -98,7 +102,8 @@ const Match: React.FC = () => {
         !mainGameInfosResponse.ok ||
         !moreGameInfosResponse.ok ||
         !gameVideoResponse ||
-        !boxscoreResponse
+        !boxscoreResponse ||
+        !playsResponse
       ) {
         throw new Error("Erreur lors de la récupération des données du match");
       }
@@ -107,14 +112,15 @@ const Match: React.FC = () => {
         await mainGameInfosResponse.json();
       const dataMoreGameInfos: INTMoreGameInfos =
         await moreGameInfosResponse.json();
-      const dataBoxscore: INTBoxscore =
-        await boxscoreResponse.json();
+      const dataBoxscore: INTBoxscore = await boxscoreResponse.json();
+      const dataPlays: INTPlayByPlay = await playsResponse.json();
       const dataGameVideo: INTGameVideo = await gameVideoResponse.json();
 
       setMainGameInfos(dataMainGameInfos);
       setMoreGameInfos(dataMoreGameInfos);
       setGameVideo(dataGameVideo);
       setBoxscore(dataBoxscore);
+      setPlayByPlay(dataPlays);
 
       /*       if (dataMainGameInfos.summary && dataMainGameInfos.summary.scoring) {
         const replayPromises = dataMainGameInfos.summary.scoring.flatMap(
@@ -159,6 +165,7 @@ const Match: React.FC = () => {
         /* goalSimulation={replayData} */
         gameVideo={gameVideo}
         boxscore={boxscore}
+        plays={plays}
       />
     </>
   );

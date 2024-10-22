@@ -1,6 +1,8 @@
+import React from "react";
 import { INTBoxscore } from "../../../interfaces/boxscores";
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { FormatPosition } from "../../../scripts/utils/formatPosition";
+import SortableTable from "../components/sortableHeader";
 
 export const playerStats = (
   game: INTMainGameInfos,
@@ -9,169 +11,94 @@ export const playerStats = (
   home: boolean
 ) => {
   const isHome = home ? "homeTeam" : ("awayTeam" as const);
+
+  const headers = [
+    { key: "sweaterNumber", label: "#" },
+    { key: "name", label: isForward ? "Attaquants" : "Défenseurs" },
+    { key: "position", label: "POS" },
+    ...(boxscore
+      ? [
+          { key: "goals", label: "B" },
+          { key: "assists", label: "A" },
+          { key: "points", label: "PTS" },
+          { key: "plusMinus", label: "+/-" },
+          { key: "pim", label: "PUN" },
+          { key: "powerPlayGoals", label: "BAN" },
+          { key: "shifts", label: "PRÉS" },
+          { key: "toi", label: "TG" },
+          { key: "sog", label: "T" },
+          { key: "blockedShots", label: "TB" },
+          { key: "hits", label: "MÉ" },
+          { key: "giveaways", label: "REV" },
+          { key: "takeaways", label: "REV P." },
+          ...(isForward ? [{ key: "faceoffWinningPctg", label: "%MAJ" }] : []),
+        ]
+      : [
+          { key: "gamesPlayed", label: "PJ" },
+          { key: "goals", label: "B" },
+          { key: "assists", label: "A" },
+          { key: "points", label: "PTS" },
+          { key: "plusMinus", label: "+/-" },
+          { key: "pim", label: "PUN" },
+          { key: "powerPlayGoals", label: "BAN" },
+          { key: "gameWinningGoals", label: "BG" },
+          { key: "shots", label: "T" },
+          { key: "blockedShots", label: "TB" },
+          { key: "hits", label: "MÉ" },
+          { key: "avgTimeOnIce", label: "TG/PJ" },
+          ...(isForward ? [{ key: "faceoffWinningPctg", label: "%MAJ" }] : []),
+        ]),
+  ];
+
+  const data = boxscore
+    ? isForward
+      ? boxscore.playerByGameStats[isHome]?.forwards
+      : boxscore.playerByGameStats[isHome]?.defense
+    : game.matchup?.skaterSeasonStats.filter(
+        (player) =>
+          player.teamId === (home ? game.homeTeam.id : game.awayTeam.id) &&
+          (isForward
+            ? ["C", "L", "R"].includes(player.position)
+            : player.position === "D")
+      );
+
+  const formattedData = data?.map((player) => ({
+    ...player,
+    name: player.name.default || '--',
+    position: FormatPosition(player.position) || '--',
+    goals: player.goals ?? '--',
+    assists: player.assists ?? '--',
+    points: player.points ?? '--',
+    plusMinus: player.plusMinus ?? '--',
+    pim: player.pim ?? '--',
+    powerPlayGoals: player.powerPlayGoals ?? '--',
+    shifts: 'shifts' in player ? player.shifts ?? '--' : '--',
+    gamesPlayed: 'gamesPlayed' in player ? player.gamesPlayed ?? '--' : '--',
+    gameWinningGoals: 'gameWinningGoals' in player ? player.gameWinningGoals ?? '--' : '--',
+    shots: 'shots' in player ? player.shots ?? '--' : '--',
+    avgTimeOnIce: 'avgTimeOnIce' in player ? player.avgTimeOnIce ?? '--' : '--',
+    toi: 'toi' in player? player.toi || '--' : '--',
+    sog: 'sog' in player ? player.sog ?? '--' : '--',
+    blockedShots: 'blockedShots' in player ? player.blockedShots ?? '--' : '--',
+    hits: player.hits ?? '--',
+    giveaways: 'giveaways' in player ? player.giveaways ?? '--' : '--',
+    takeaways: 'takeaways' in player ? player.takeaways ?? '--' : '--',
+    faceoffWinningPctg: typeof player.faceoffWinningPctg === 'number'
+      ? (player.faceoffWinningPctg * 100).toFixed(2)
+      : '--',
+  }));
+
   return (
-    <>
-      <div className="roster-table-container window-effect">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th scope="row">{isForward ? "Attaquants" : "Défenseurs"}</th>
-              <th>POS</th>
-              {!boxscore && <th>PJ</th>}
-              <th>B</th>
-              <th>A</th>
-              <th>PTS</th>
-              <th>+/-</th>
-              <th>PUN</th>
-              <th>BAN</th>
-              {boxscore && <th>PRÉS</th>}
-              {!boxscore && <th>BG</th>}
-              {boxscore && <th>TG</th>}
-              <th>T</th>
-              <th>TB</th>
-              <th>MÉ</th>
-              {!boxscore && <th>TG/PJ</th>}
-              {boxscore && <th>REV</th>}
-              {boxscore && <th>REV P.</th>}
-              {isForward && <th>%MAJ</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {boxscore ? (
-              <>
-                {isForward ? (
-                  <>
-                    {boxscore.playerByGameStats[isHome]?.forwards.map(
-                      (forward) => (
-                        <tr key={forward.playerId}>
-                          <td>{forward.sweaterNumber}</td>
-                          <td scope="row">{forward.name.default}</td>
-                          <td>{FormatPosition(forward.position)}</td>
-                          <td>{forward.goals ?? "--"}</td>
-                          <td>{forward.assists ?? "--"}</td>
-                          <td>{forward.points ?? "--"}</td>
-                          <td>{forward.plusMinus ?? "--"}</td>
-                          <td>{forward.pim ?? "--"}</td>
-                          <td>{forward.powerPlayGoals ?? "--"}</td>
-                          <td>{forward.shifts ?? "--"}</td>
-                          <td>{forward.toi ?? "--"}</td>
-                          <td>{forward.sog}</td>
-                          <td>{forward.blockedShots ?? "--"}</td>
-                          <td>{forward.hits ?? "--"}</td>
-                          <td>{forward.giveaways ?? "--"}</td>
-                          <td>{forward.takeaways ?? "--"}</td>
-                          <td>
-                            {typeof forward.faceoffWinningPctg === "number"
-                              ? (forward.faceoffWinningPctg * 100).toFixed(2)
-                              : "--"}
-                          </td>
-                        </tr>
-                      )
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {boxscore.playerByGameStats[isHome]?.defense.map(
-                      (defensemen) => (
-                        <tr key={defensemen.playerId}>
-                          <td>{defensemen.sweaterNumber}</td>
-                          <td scope="row">{defensemen.name.default}</td>
-                          <td>{FormatPosition(defensemen.position)}</td>
-                          <td>{defensemen.goals ?? "--"}</td>
-                          <td>{defensemen.assists ?? "--"}</td>
-                          <td>{defensemen.points ?? "--"}</td>
-                          <td>{defensemen.plusMinus ?? "--"}</td>
-                          <td>{defensemen.pim ?? "--"}</td>
-                          <td>{defensemen.powerPlayGoals ?? "--"}</td>
-                          <td>{defensemen.shifts ?? "--"}</td>
-                          <td>{defensemen.toi ?? "--"}</td>
-                          <td>{defensemen.sog}</td>
-                          <td>{defensemen.blockedShots ?? "--"}</td>
-                          <td>{defensemen.hits ?? "--"}</td>
-                          <td>{defensemen.giveaways ?? "--"}</td>
-                          <td>{defensemen.takeaways ?? "--"}</td>
-                        </tr>
-                      )
-                    )}
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                {isForward ? (
-                  <>
-                    {game.matchup?.skaterSeasonStats
-                      .filter(
-                        (away) =>
-                          away.teamId ===
-                            (home ? game.homeTeam.id : game.awayTeam.id) &&
-                          (away.position === "C" ||
-                            away.position === "L" ||
-                            away.position === "R")
-                      )
-                      .map((forward) => (
-                        <tr key={forward.playerId}>
-                          <td>{forward.sweaterNumber}</td>
-                          <td scope="row">{forward.name.default}</td>
-                          <td>{FormatPosition(forward.position)}</td>
-                          <td>{forward.gamesPlayed ?? "--"}</td>
-                          <td>{forward.goals ?? "--"}</td>
-                          <td>{forward.assists ?? "--"}</td>
-                          <td>{forward.points ?? "--"}</td>
-                          <td>{forward.plusMinus ?? "--"}</td>
-                          <td>{forward.pim ?? "--"}</td>
-                          <td>{forward.powerPlayGoals ?? "--"}</td>
-                          <td>{forward.gameWinningGoals ?? "--"}</td>
-                          <td>{forward.shots ?? "--"}</td>
-                          <td>{forward.blockedShots ?? "--"}</td>
-                          <td>{forward.hits ?? "--"}</td>
-                          <td>{forward.avgTimeOnIce ?? "--"}</td>
-                          <td>
-                            {typeof forward.faceoffWinningPctg === "number"
-                              ? (forward.faceoffWinningPctg * 100).toFixed(2)
-                              : "--"}
-                          </td>
-                        </tr>
-                      ))}
-                  </>
-                ) : (
-                  <>
-                    {game.matchup?.skaterSeasonStats
-                      .filter(
-                        (away) =>
-                          away.teamId ===
-                            (home ? game.homeTeam.id : game.awayTeam.id) &&
-                          away.position === "D"
-                      )
-                      .map((defensemen) => (
-                        <tr key={defensemen.playerId}>
-                          <td>{defensemen.sweaterNumber}</td>
-                          <td scope="row">{defensemen.name.default}</td>
-                          <td>{defensemen.gamesPlayed ?? "--"}</td>
-                          <td>{defensemen.goals ?? "--"}</td>
-                          <td>{defensemen.assists ?? "--"}</td>
-                          <td>{defensemen.points ?? "--"}</td>
-                          <td>{defensemen.plusMinus ?? "--"}</td>
-                          <td>{defensemen.pim ?? "--"}</td>
-                          <td>{defensemen.powerPlayGoals ?? "--"}</td>
-                          <td>{defensemen.gameWinningGoals ?? "--"}</td>
-                          <td>{defensemen.shots ?? "--"}</td>
-                          <td>{defensemen.blockedShots ?? "--"}</td>
-                          <td>{defensemen.hits ?? "--"}</td>
-                          <td>{defensemen.avgTimeOnIce ?? "--"}</td>
-                        </tr>
-                      ))}
-                  </>
-                )}
-              </>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </>
+    <div className="roster-table-container window-effect">
+      <SortableTable
+        headers={headers}
+        data={formattedData}
+        initialSortColumn="name"
+      />
+    </div>
   );
 };
+
 export const goalieStats = (
   game: INTMainGameInfos,
   boxscore: INTBoxscore | null,
@@ -179,81 +106,76 @@ export const goalieStats = (
 ) => {
   const isHome = home ? "homeTeam" : ("awayTeam" as const);
 
+  const headers = boxscore
+    ? [
+        { key: "sweaterNumber", label: "#" },
+        { key: "name", label: "Gardiens" },
+        { key: "shotsAgainst", label: "TC" },
+        { key: "saves", label: "Arr." },
+        { key: "savePctg", label: "%Arr." },
+        { key: "goalsAgainst", label: "BC" },
+        { key: "evenStrengthGoalsAgainst", label: "BA EN" },
+        { key: "powerPlayGoalsAgainst", label: "BA AN" },
+        { key: "shorthandedGoalsAgainst", label: "BA IN" },
+        { key: "toi", label: "TG" },
+      ]
+    : [
+        { key: "sweaterNumber", label: "#" },
+        { key: "name", label: "Gardiens" },
+        { key: "gamesPlayed", label: "PJ" },
+        { key: "wins", label: "V" },
+        { key: "losses", label: "D" },
+        { key: "otLosses", label: "DP" },
+        { key: "shotsAgainst", label: "TC" },
+        { key: "saves", label: "Arr." },
+        { key: "savePctg", label: "%Arr." },
+        { key: "goalsAgainst", label: "BC" },
+        { key: "goalsAgainstAvg", label: "Moy.", isReversed: true },
+        { key: "toi", label: "TG" },
+      ];
+
+  const data = boxscore
+    ? boxscore.playerByGameStats[isHome].goalies
+    : game.matchup?.goalieSeasonStats.filter(
+        (goalie) =>
+          goalie.teamId === (home ? game.homeTeam.id : game.awayTeam.id)
+      );
+
+  const formattedData = data?.map((goalie) => ({
+    ...goalie,
+    name: goalie.name.default || '--',
+    shotsAgainst: 'shotsAgainst' in goalie ? goalie.shotsAgainst ?? '--' : '--',
+    saves: 'saves' in goalie ? goalie.saves ?? '--' : '--',
+    wins: 'wins' in goalie ? goalie.wins ?? '--' : '--',
+    losses: 'losses' in goalie ? goalie.losses ?? '--' : '--',
+    gamesPlayed: 'gamesPlayed' in goalie ? goalie.gamesPlayed ?? '--' : '--',
+    otLosses: 'otLosses' in goalie ? goalie.otLosses ?? '--' : '--',
+    savePctg: typeof goalie.savePctg === 'number'
+      ? (goalie.savePctg * 10).toFixed(2)
+      : '--',
+    goalsAgainst: 'goalsAgainst' in goalie ? goalie.goalsAgainst ?? '--' : '--',
+    evenStrengthGoalsAgainst: 'evenStrengthGoalsAgainst' in goalie
+      ? goalie.evenStrengthGoalsAgainst ?? '--'
+      : '--',
+    powerPlayGoalsAgainst: 'powerPlayGoalsAgainst' in goalie
+      ? goalie.powerPlayGoalsAgainst ?? '--'
+      : '--',
+    shorthandedGoalsAgainst: 'shorthandedGoalsAgainst' in goalie
+      ? goalie.shorthandedGoalsAgainst ?? '--'
+      : '--',
+    toi: goalie.toi || '--',
+    goalsAgainstAvg: 'goalsAgainstAvg' in goalie
+      ? goalie.goalsAgainstAvg?.toFixed(2) ?? '--'
+      : '--',
+  }));
+
   return (
     <div className="roster-table-container window-effect">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th scope="row">Gardiens</th>
-            {!boxscore && <th>PJ</th>}
-            {!boxscore && <th>V</th>}
-            {!boxscore && <th>D</th>}
-            {!boxscore && <th>DP</th>}
-            <th>TC</th>
-            <th>Arr.</th>
-            <th>%Arr.</th>
-            <th>BC</th>
-            {boxscore && <th>BA EN</th>}
-            {boxscore && <th>BA AN</th>}
-            {boxscore && <th>BA IN</th>}
-            {!boxscore && <th>Moy.</th>}
-            <th>TG</th>
-          </tr>
-        </thead>
-        <tbody>
-          {boxscore ? (
-            <>
-              {boxscore.playerByGameStats[isHome].goalies.map((goalie) => (
-                <tr key={goalie.playerId}>
-                  <td>{goalie.sweaterNumber}</td>
-                  <td scope="row">{goalie.name.default}</td>
-                  <td>{goalie.shotsAgainst ?? "--"}</td>
-                  <td>{goalie.saves ?? "--"}</td>
-                  <td>
-                    {typeof goalie.savePctg === "number"
-                      ? (goalie.savePctg * 10).toFixed(2)
-                      : "--"}
-                  </td>
-                  <td>{goalie.goalsAgainst ?? "--"}</td>
-                  <td>{goalie.evenStrengthGoalsAgainst}</td>
-                  <td>{goalie.powerPlayGoalsAgainst}</td>
-                  <td>{goalie.shorthandedGoalsAgainst}</td>
-                  <td>{goalie.toi}</td>
-                </tr>
-              ))}
-            </>
-          ) : (
-            <>
-              {game.matchup?.goalieSeasonStats
-                .filter(
-                  (away) =>
-                    away.teamId === (home ? game.homeTeam.id : game.awayTeam.id)
-                )
-                .map((goalie) => (
-                  <tr key={goalie.playerId}>
-                    <td>{goalie.sweaterNumber}</td>
-                    <td scope="row">{goalie.name.default}</td>
-                    <td>{goalie.gamesPlayed ?? "--"}</td>
-                    <td>{goalie.wins ?? "--"}</td>
-                    <td>{goalie.losses ?? "--"}</td>
-                    <td>{goalie.otLosses ?? "--"}</td>
-                    <td>{goalie.shotsAgainst ?? "--"}</td>
-                    <td>{goalie.saves ?? "--"}</td>
-                    <td>
-                      {typeof goalie.savePctg === "number"
-                        ? (goalie.savePctg * 10).toFixed(2)
-                        : "--"}
-                    </td>
-                    <td>{goalie.goalsAgainst ?? "--"}</td>
-                    <td>{goalie.goalsAgainstAvg?.toFixed(2) ?? "--"}</td>
-                    <td>{goalie.toi ?? "--"}</td>
-                  </tr>
-                ))}
-            </>
-          )}
-        </tbody>
-      </table>
+      <SortableTable
+        headers={headers}
+        data={formattedData}
+        initialSortColumn="name"
+      />
     </div>
   );
 };

@@ -25,6 +25,9 @@ import { useState } from "react";
 import { renderRosterMatch } from "./components/roster";
 import { INTBoxscore } from "../../interfaces/boxscores";
 import { renderBoxscore } from "./components/statsSheet";
+import { INTPlayByPlay } from "../../interfaces/playByPlay";
+import { renderPlayByPlay } from "./components/playByPlay";
+import { renderLivePlayer } from "./components/livePlayer";
 
 interface MatchProps {
   gameInfos: INTMainGameInfos | null;
@@ -36,6 +39,7 @@ interface MatchProps {
   } | null;
   /* goalSimulation: Record<string, IReplayFrame[]>; */
   gameVideo: INTGameVideo | null;
+  plays: INTPlayByPlay | null;
 }
 
 const SingleMatch: React.FC<MatchProps> = ({
@@ -44,7 +48,8 @@ const SingleMatch: React.FC<MatchProps> = ({
   teamColors,
   /* goalSimulation, */
   gameVideo,
-  boxscore
+  boxscore,
+  plays,
 }) => {
   const [showSummary, setSummary] = useState<boolean>(false);
   const [showDescription, setDescription] = useState<boolean>(false);
@@ -234,10 +239,20 @@ const SingleMatch: React.FC<MatchProps> = ({
                         gameInfos,
                         teamColors ?? { home: "", away: "" }
                       )}
-                      {renderRosterMatch(gameInfos)}
+                      {renderRosterMatch(
+                        gameInfos,
+                        teamColors ?? { home: "", away: "" }
+                      )}
                     </>
                   ) : (
                     <>
+                      {gameInfos &&
+                        gameInfos.gameState === "LIVE" &&
+                        renderLivePlayer(
+                          gameInfos,
+                          teamColors ?? { home: "", away: "" }
+                        )}
+
                       {renderGoalInfos(
                         gameInfos,
                         teamColors ?? { home: "", away: "" },
@@ -259,11 +274,25 @@ const SingleMatch: React.FC<MatchProps> = ({
               )}
               {showDescription && !showSummary && (
                 <>
-                  <h3>Description</h3>
+                  {gameInfos &&
+                    plays &&
+                    renderPlayByPlay(
+                      gameInfos,
+                      teamColors ?? { home: "", away: "" },
+                      plays
+                    )}
                 </>
               )}
               {!showDescription && showSummary && (
-                <>{gameInfos && boxscore && renderBoxscore(gameInfos, boxscore)}</>
+                <>
+                  {gameInfos &&
+                    boxscore &&
+                    renderBoxscore(
+                      gameInfos,
+                      boxscore,
+                      teamColors ?? { home: "", away: "" }
+                    )}
+                </>
               )}
             </div>
             <div className="other-game-infos">

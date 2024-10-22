@@ -1,0 +1,12 @@
+.playByPlay {
+  .stop-play.whistle {
+    svg {
+      color: var(--color-white);
+      stroke: var(--color-white);
+
+      path:last-child {
+        stroke: var(--color-black);
+      }
+    }
+  }
+}
