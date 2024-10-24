@@ -50,5 +50,105 @@
       }
     }
   }
+
+  &.play{
+    .accordion__header{
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        max-width: 75px;
+        img{
+          max-width: 75px;
+          max-height: 75px;
+          min-width: 75px;
+          min-height: 75px;
+        }
+      }
+
+
+      h5{
+        margin: 0;
+      }
+
+      .time{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        max-width: 72px;
+        p{
+          margin: 0;
+        }
+      }
+
+      .situation{
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        gap: 5px;
+
+        p{
+          margin: 0;
+        }
+      }
+    }
+    &.is-active {
+      min-height: 200px;
+      max-height: 800px;
+      flex-direction: column;
+      .accordion__content {
+        padding: 10px 15px;
+        display: block;
+        max-height: 500px;
+        transform: translateY(0);
+
+        .video{
+          .media{
+            position: relative;
+            img{
+              height: 100%;
+              width: 100%;
+              object-fit: cover;
+              aspect-ratio: 16 / 9;
+              min-height: 150px;
+              display: block;
+              filter: brightness(0.75);
+            }
+
+            .container {
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+              height: 50px;
+              width: 50px;
+              background-color: var(--color-black);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+            }
+          }
+
+        }
+      }
+  
+      .accordion__header {
+        svg {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
 }
 

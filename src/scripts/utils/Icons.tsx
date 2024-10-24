@@ -3,6 +3,8 @@ import { ComponentProps, FC, useEffect, useRef, useState } from 'react';
 interface LazySvgProps extends ComponentProps<'svg'> {
   name: string;
   size: string,
+  height?: string,
+  width?: string,
   isStroke?: boolean
 }
 
@@ -36,7 +38,7 @@ const useLazySvgImport = (name: string) => {
 };
 
 // Example wrapper component using the hook.
-export const Svg = ({ name, size, isStroke}: LazySvgProps) => {
+export const Svg = ({ name, size, isStroke, height, width}: LazySvgProps) => {
   const { loading, error, Svg } = useLazySvgImport(name);
 
   if (error) {
@@ -54,6 +56,8 @@ export const Svg = ({ name, size, isStroke}: LazySvgProps) => {
   return (
     <Svg 
       className={`icon${isStroke ? " icon--stroke" : ""} icon--${size}`}
+      height={height}
+      width={width}
     />
   );
 };

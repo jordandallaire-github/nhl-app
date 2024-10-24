@@ -17,6 +17,40 @@
     align-items: center;
     justify-items: center;
 
+    .player {
+      position: relative;
+    }
+
+    .player:hover .player-infos {
+      display: block;
+    }
+
+    .player-infos {
+      background-image: none;
+      font-size: 1.4rem;
+      padding: 8px 15px;
+      background-color: rgba(0, 0, 0, 0.9);
+      position: absolute;
+      display: none;
+      bottom: 100%;
+      left: 50%;
+      z-index: 2;
+      transform: translateX(-50%);
+      text-align: center;
+      min-width: 140px;
+
+      img {
+        min-width: 75px;
+        min-height: 75px;
+        max-width: 75px;
+        max-height: 75px;
+      }
+
+      p{
+        margin: 0;
+      }
+    }
+
     .forward.away {
       grid-area: awayForwards;
       height: 100%;

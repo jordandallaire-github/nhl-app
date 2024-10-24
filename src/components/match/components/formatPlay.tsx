@@ -39,7 +39,7 @@ const Stoppage = (stoppage: string | null) => {
   }
 };
 
- export const TypeDesc = (desc: string | null) => {
+export const TypeDesc = (desc: string | null) => {
   switch (desc) {
     case "faceoff":
       return "Mise en jeu";
@@ -75,6 +75,33 @@ const Stoppage = (stoppage: string | null) => {
       return "Temps d'arrêt domicile";
     default:
       return desc;
+  }
+};
+
+export const SvgName = (svg: string | null) => {
+  switch (svg) {
+    case "faceoff":
+      return svg;
+    case "takeaway":
+      return "turnover";
+    case "hit":
+      return svg;
+    case "shot-on-goal":
+      return "shot";
+    case "missed-shot":
+      return "block";
+    case "giveaway":
+      return "turnover";
+    case "blocked-shot":
+      return "Tir bloqué";
+    case "delayed-penalty":
+      return "block";
+    case "penalty":
+      return "block";
+    case "goal":
+      return "siren";
+    default:
+      return svg;
   }
 };
 

@@ -73,6 +73,7 @@ export interface INTMainGameInfos {
           sweaterNumber: number;
           positionCode: string;
           headshot: string;
+          totalSOI: number;
         }>;
         defensemen: Array<{
           playerId: number;
@@ -85,6 +86,7 @@ export interface INTMainGameInfos {
           sweaterNumber: number;
           positionCode: string;
           headshot: string;
+          totalSOI: number;
         }>;
         goalies: Array<{
           playerId: number;
@@ -113,6 +115,7 @@ export interface INTMainGameInfos {
           sweaterNumber: number;
           positionCode: string;
           headshot: string;
+          totalSOI: number;
         }>;
         defensemen: Array<{
           playerId: number;
@@ -125,6 +128,7 @@ export interface INTMainGameInfos {
           sweaterNumber: number;
           positionCode: string;
           headshot: string;
+          totalSOI: number;
         }>;
         goalies: Array<{
           playerId: number;

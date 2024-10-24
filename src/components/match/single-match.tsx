@@ -286,7 +286,8 @@ const SingleMatch: React.FC<MatchProps> = ({
                       teamColors ?? { home: "", away: "" },
                       plays,
                       homeRoster,
-                      awayRoster
+                      awayRoster,
+                      gameVideo
                     )}
                 </>
               )}
