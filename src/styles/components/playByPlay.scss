@@ -1,5 +1,11 @@
 .playByPlay {
   .stop-play.whistle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: none;
+    border-radius: 0;
+    gap: 5px;
     svg {
       color: var(--color-white);
       stroke: var(--color-white);
@@ -7,6 +13,10 @@
       path:last-child {
         stroke: var(--color-black);
       }
+    }
+
+    p{
+      margin: 0;
     }
   }
 

@@ -20,6 +20,29 @@ const IceRink: React.FC<IceRinkProps> = ({
   goal,
   plays,
 }) => {
+  const getPeriodSide = () => {
+    const periodNumber = parseInt(
+      (game?.periodDescriptor?.number || "1").toString()
+    );
+    return periodNumber % 2 === 1 ? "right" : "left";
+  };
+
+  const getTeamInfo = (side: string) => {
+    const homeSide =
+      goal?.homeTeamDefendingSide ||
+      plays?.homeTeamDefendingSide ||
+      getPeriodSide();
+    const isHomeSide = side === homeSide;
+
+    return {
+      color: isHomeSide ? teamColors?.home : teamColors?.away,
+      text: isHomeSide ? game?.homeTeam?.abbrev : game?.awayTeam?.abbrev,
+    };
+  };
+
+  const rightTeam = getTeamInfo("right");
+  const leftTeam = getTeamInfo("left");
+
   return (
     <svg
       className="goal-simulation"
@@ -64,53 +87,25 @@ const IceRink: React.FC<IceRinkProps> = ({
       ></image>
       <text
         style={{
-          fill: `${
-            goal?.homeTeamDefendingSide
-              ? goal.homeTeamDefendingSide === "left"
-                ? teamColors?.home
-                : teamColors?.away
-              : plays?.homeTeamDefendingSide === "left"
-              ? teamColors?.home
-              : teamColors?.away
-          }`,
+          fill: `${leftTeam.color}`,
         }}
         x="510"
         y="-25"
-        text-anchor="middle"
+        textAnchor="middle"
         transform="rotate(90)"
       >
-        {goal?.homeTeamDefendingSide
-          ? goal.homeTeamDefendingSide === "left"
-            ? game?.homeTeam?.abbrev
-            : game?.awayTeam?.abbrev
-          : plays?.homeTeamDefendingSide === "left"
-          ? game?.homeTeam?.abbrev
-          : game?.awayTeam.abbrev}
+        {leftTeam.text}
       </text>
       <text
         style={{
-          fill: `${
-            goal?.homeTeamDefendingSide
-              ? goal.homeTeamDefendingSide === "right"
-                ? teamColors?.home
-                : teamColors?.away
-              : plays?.homeTeamDefendingSide === "right"
-              ? teamColors?.home
-              : teamColors?.away
-          }`,
+          fill: `${rightTeam.color}`,
         }}
         x="-510"
         y="2375"
-        text-anchor="middle"
+        textAnchor="middle"
         transform="rotate(270)"
       >
-        {goal?.homeTeamDefendingSide
-          ? goal.homeTeamDefendingSide === "right"
-            ? game?.homeTeam?.abbrev
-            : game?.awayTeam?.abbrev
-          : plays?.homeTeamDefendingSide === "right"
-          ? game?.homeTeam?.abbrev
-          : game?.awayTeam.abbrev}
+        {rightTeam.text}
       </text>
       <rect x="1194" width="12" height="1020" fill="#CC3333"></rect>
       <g>

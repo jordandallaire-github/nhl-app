@@ -1,8 +1,6 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { Link } from "react-router-dom";
-/* import { SimulationGoal } from "./simulationGoal"; */
 import React from "react";
-/* import { IReplayFrame } from "../../../interfaces/goal-simulation"; */
 import { TeamsLogoLinks } from "./teamLogoLink";
 import GoalClip from "./goalClip";
 import { INTGameVideo } from "../../../interfaces/game-video";
@@ -16,7 +14,6 @@ interface Colors {
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
   teamColors: Colors,
-  /* goalSimulation: Record<string, IReplayFrame[]>, */
   goalVideo: INTGameVideo | null
 ) => {
   const formatShotType = (shot: string) => {
@@ -35,6 +32,8 @@ export const renderGoalInfos = (
         return "Dévié";
       case "backhand":
         return "Du Revers";
+      default:
+        return shot;
     }
   };
 
@@ -50,15 +49,27 @@ export const renderGoalInfos = (
   const noGoal =
     game?.summary.scoring.filter((score) => score.goals.length > 0) || [];
 
+  // Générer un ID unique pour chaque but
+  const generateUniqueGoalId = (
+    periodNumber: number,
+    periodType: string,
+    timeInPeriod: string,
+    playerId: string | number,
+    goalIndex: number,
+    teamAbbrev: string
+  ) => {
+    return `goal-${periodNumber}-${periodType}-${timeInPeriod}-${playerId}-${goalIndex}-${teamAbbrev}`;
+  };
+
   return (
     <>
       <div className="goal-infos-card">
         <h3>Résumé des buts</h3>
         {game?.summary?.scoring
           ?.filter((goal) => goal.goals.length > 0)
-          .map((scoring) => (
+          .map((scoring, periodIndex) => (
             <div
-              key={scoring.periodDescriptor.number}
+              key={`period-${scoring.periodDescriptor.number}-${scoring.periodDescriptor.periodType}-${periodIndex}`}
               className="period-container"
             >
               {scoring.goals.length !== 0 &&
@@ -77,7 +88,7 @@ export const renderGoalInfos = (
                 )}
               {scoring.goals
                 .filter((situation) => situation.situationCode !== "1010")
-                .map((goal, index) => {
+                .map((goal, goalIndex) => {
                   const frVideoId = goal.highlightClipSharingUrlFr
                     ? getVideoId(goal.highlightClipSharingUrlFr)
                     : null;
@@ -96,13 +107,19 @@ export const renderGoalInfos = (
                     );
                   }
 
+                  const uniqueGoalId = generateUniqueGoalId(
+                    scoring.periodDescriptor.number,
+                    scoring.periodDescriptor.periodType,
+                    goal.timeInPeriod,
+                    goal.playerId,
+                    goalIndex,
+                    goal.teamAbbrev.default
+                  );
+
                   return (
-                    <div
-                      key={`${goal.firstName}-${index}`}
-                      className="goal-container"
-                    >
+                    <div key={uniqueGoalId} className="goal-container">
                       <div className="players-goal window-effect">
-                        <div className="glare-effect"></div>
+                        <div className="glare-effect" />
                         <div className="goals-container">
                           <div className="player-infos">
                             <div className="media">
@@ -153,18 +170,22 @@ export const renderGoalInfos = (
                                         ? game.homeTeam
                                         : game.awayTeam
                                     }
-                                  ></TeamsLogoLinks>
+                                  />
                                   <div className="assist">
                                     {goal.assists.length > 0 ? (
                                       <>
-                                        {goal.assists.map((assist, index) => (
-                                          <React.Fragment
-                                            key={`${assist.playerId}`}
-                                          >
-                                            {index > 0 && <span> et </span>}
-                                            <span>{`${assist.name.default} (${assist.assistsToDate})`}</span>
-                                          </React.Fragment>
-                                        ))}
+                                        {goal.assists.map(
+                                          (assist, assistIndex) => (
+                                            <React.Fragment
+                                              key={`assist-${assist.playerId}-${assistIndex}`}
+                                            >
+                                              {assistIndex > 0 && (
+                                                <span> et </span>
+                                              )}
+                                              <span>{`${assist.name.default} (${assist.assistsToDate})`}</span>
+                                            </React.Fragment>
+                                          )
+                                        )}
                                       </>
                                     ) : (
                                       <span>Sans aide</span>
@@ -232,29 +253,22 @@ export const renderGoalInfos = (
                                 date={formatPublicationDate(
                                   matchingVideo?.contentDate ?? ""
                                 )}
-                              ></GoalClip>
+                              />
                             )}
                           </div>
                         </div>
-                        {/*                         <div className="simulation">
-                          {goal.pptReplayUrl !== undefined && (
-                            <SimulationGoal
-                              game={game}
-                              goal={goal}
-                              teamColors={teamColors}
-                              goalSimulation={goalSimulation}
-                            ></SimulationGoal>
-                          )}
-                        </div> */}
                       </div>
                     </div>
                   );
                 })}
             </div>
           ))}
-        {game?.summary.shootout.map((so) => (
-          <div key={so.lastName} className="goal-container so window-effect">
-            <div className="glare-effect"></div>
+        {game?.summary.shootout.map((so, shootoutIndex) => (
+          <div
+            key={`shootout-${so.playerId}-${shootoutIndex}-${so.teamAbbrev}`}
+            className="goal-container so window-effect"
+          >
+            <div className="glare-effect" />
             <div className="player-infos">
               <div className="media">
                 <Link
@@ -290,7 +304,7 @@ export const renderGoalInfos = (
                           ? game.homeTeam
                           : game.awayTeam
                       }
-                    ></TeamsLogoLinks>
+                    />
                     <p>
                       <strong>{so.result === "goal" ? "But" : "Arrêt"}</strong>
                     </p>

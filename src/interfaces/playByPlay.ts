@@ -117,6 +117,8 @@ export interface INTPlayByPlay {
       highlightClipFr: number,
       discreteClip: number,
       discreteClipFr: number
+      hittingPlayerId: number,
+      hitteePlayerId: number
     };
   }>;
 }

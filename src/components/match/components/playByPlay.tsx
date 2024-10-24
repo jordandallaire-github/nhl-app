@@ -3,7 +3,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { INTPlayByPlay } from "../../../interfaces/playByPlay";
 import { Svg } from "../../../scripts/utils/Icons";
 import Accordion from "../../utils/accordion";
-import { Play, TypeDesc, SvgName } from "./formatPlay";
+import { Play, TypeDesc, SvgName, formatPlayDescription } from "./formatPlay";
 import IceRink from "./iceRink";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { INTGameVideo } from "../../../interfaces/game-video";
@@ -43,7 +43,7 @@ const transformCoordinates = (x: number, y: number) => {
 
   transformedY += RINK_DIMENSIONS.yOffset;
 
-  if (x === 0 && y === 0) {
+  if (x === 0 && y === 0 || x === undefined && y === undefined ) {
     return { x: 1125, y: 435 };
   }
 
@@ -92,13 +92,16 @@ interface Colors {
 
 const formatPlayerName = (
   player: PlayerDetailsType,
-  total: string | undefined
+  total?: string | undefined,
+  istotal?: boolean
 ) => {
-  return `${player.firstName.default} ${player.lastName.default} #${player.sweaterNumber} (${total})`;
+  return `${player.firstName.default} ${player.lastName.default} #${
+    player.sweaterNumber
+  } ${istotal && `(${total})`}`;
 };
 
 const findPlayer = (
-  playerId: string | undefined,
+  playerId: string | number | undefined,
   homeRoster: PlayerDetailsType[] | null,
   awayRoster: PlayerDetailsType[] | null
 ): PlayerDetailsType | undefined => {
@@ -121,14 +124,22 @@ const getGoalPlayersInfo = (
 
   return {
     scorerName: players.scorer
-      ? formatPlayerName(players.scorer, play.details?.scoringPlayerTotal)
+      ? formatPlayerName(players.scorer, play.details?.scoringPlayerTotal, true)
       : undefined,
     assists: [
       players.assist1
-        ? formatPlayerName(players.assist1, play.details?.assist1PlayerTotal)
+        ? formatPlayerName(
+            players.assist1,
+            play.details?.assist1PlayerTotal,
+            true
+          )
         : undefined,
       players.assist2
-        ? formatPlayerName(players.assist2, play.details?.assist2PlayerTotal)
+        ? formatPlayerName(
+            players.assist2,
+            play.details?.assist2PlayerTotal,
+            true
+          )
         : undefined,
     ].filter(Boolean),
   };
@@ -191,6 +202,8 @@ export const renderPlayByPlay = (
           const isEventOwnerHome =
             play.details?.eventOwnerTeamId === game.homeTeam.id;
           const team = isEventOwnerHome ? game.homeTeam : game.awayTeam;
+
+          const playInfo = formatPlayDescription(play, homeRoster, awayRoster);
 
           const goalInfo = isGoal
             ? getGoalPlayersInfo(play, homeRoster, awayRoster)
@@ -342,10 +355,7 @@ export const renderPlayByPlay = (
                           ) : (
                             <>
                               <h5>{TypeDesc(play.typeDescKey)}</h5>
-                              <p>
-                                {play.details?.reason}
-                                {play.details?.shotType}
-                              </p>
+                              {playInfo && <p>{playInfo}</p>}
                             </>
                           )}
                         </div>

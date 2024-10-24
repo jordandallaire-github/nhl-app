@@ -1,55 +1,8 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
+import { formatPenalty } from "./formatPlay";
 import { TeamsLogoLinks } from "./teamLogoLink";
 
 export const renderPenalties = (game: INTMainGameInfos | null) => {
-  const formatPenalty = (penalty: string) => {
-    switch (penalty) {
-      case "unsportsmanlike-conduct":
-        return "conduite antisportive aux dépens de";
-      case "fighting":
-        return "s'être battu aux dépens de";
-      case "roughing":
-        return "rudesse aux dépens de";
-      case "tripping":
-        return "avoir fait trébucher aux dépens de";
-      case "interference":
-        return "obstruction aux dépens de";
-      case "delaying-game-puck-over-glass":
-        return "avoir retardé le match - rondelle par-dessus la baie vitrée";
-      case "slashing":
-        return "coup de bâton aux dépens de";
-      case "interference-goalkeeper":
-        return "obstruction du gardien aux dépens de";
-      case "delaying-game-unsuccessful-challenge":
-        return "Avoir retardé le match - contestation infructueuse";
-      case "holding":
-        return "avoir retenu aux dépens de";
-      case "cross-checking":
-        return "double-échec aux dépens de";
-      case "hooking":
-        return "avoir accroché aux dépens de";
-      case "high-sticking":
-        return "bâton élevé aux dépens de";
-      case "too-many-men-on-the-ice":
-        return "Trop de joueurs sur la glace";
-      case "holding-the-stick":
-        return "avoir retenu le bâton aux dépens de";
-      case "roughing-removing-opponents-helmet":
-        return "rudesse - retirer le casque d'un adversaire aux dépens de";
-      case "instigator":
-        return "instigateur aux dépens de";
-      case "instigator-misconduct":
-        return "instigateur - inconduite";
-      case "game-misconduct":
-        return "inconduite de partie";
-      case "elbowing":
-        return "avoir donné du coude aux dépens de";
-      case "misconduct":
-        return "inconduite";
-      default:
-        return penalty;
-    }
-  };
   const noPenalty =
     game?.summary.penalties.filter((pen) => pen.penalties.length > 0) || [];
   return (
@@ -91,7 +44,7 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
                       </thead>
                       <tbody>
                         {penaltie.penalties.map((pen) => (
-                          <tr key={pen.timeInPeriod}>
+                          <tr key={`${pen.timeInPeriod}-${pen.committedByPlayer}-${pen.descKey}`}>
                             <td scope="row">
                               <TeamsLogoLinks
                                 team={

@@ -67,7 +67,6 @@ const changeIndicatorColor = (teamType: "away" | "home", colors: Colors) => {
     ".indicator-pill-roster"
   ) as HTMLElement;
 
-  console.log(indicatorPill);
 
   if (teamType === "away") {
     indicator.style.backgroundColor = colors.away || "#000";
