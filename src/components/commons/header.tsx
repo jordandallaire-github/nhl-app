@@ -23,7 +23,7 @@ export default function Header() {
           </div>
           <nav className="nav-wrapper">
             <div
-              className={`indicator-page-top ${currentPath.split("/")[1]}`}
+              className={`indicator-page-top ${currentPath.split("/")[1] !== "" ? currentPath.split("/")[1] : "accueil"}`}
             ></div>
             <div className="nav-pill">
               <ul>
@@ -54,7 +54,7 @@ export default function Header() {
                 </li>
               </ul>
               <div
-                className={`indicator-pill ${currentPath.split("/")[1]}`}
+                className={`indicator-pill ${currentPath.split("/")[1] !== "" ? currentPath.split("/")[1] : "accueil"}`}
               ></div>
             </div>
           </nav>

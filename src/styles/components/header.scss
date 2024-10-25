@@ -140,25 +140,34 @@ header {
   width: var(--width-line);
   height: 4px;
   margin-bottom: -2px;
-  margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * 2);
   box-shadow: 0 2px 25px 2px var(--color-white);
   transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: none;
   filter: brightness(2);
+
+  &.accueil {
+    margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * 2);
+    display: block;
+  }
 
   &.equipes {
     margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * 0);
+    display: block;
   }
 
   &.calendrier {
     margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * -2);
+    display: block;
   }
 
   &.classements {
     margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * -4);
+    display: block;
   }
 
   &.statistiques {
     margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * -6);
+    display: block;
   }
 
   @media screen and (max-width: 620px) {
@@ -173,30 +182,38 @@ header {
   border-radius: 18px;
   width: var(--link-width);
   height: 36px;
-  display: block;
   position: absolute;
   top: 5px;
-  left: calc(var(--padding-pill) + var(--link-width) * 0);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: none;
+
+  &.accueil {
+    left: calc(var(--padding-pill) + var(--link-width) * 0);
+    display: block;
+  }
 
   &.equipes {
     left: calc(var(--padding-pill) + var(--link-width) * 1);
+    display: block;
   }
 
   &.calendrier {
     left: calc(var(--padding-pill) + var(--link-width) * 2);
+    display: block;
   }
 
   &.classements {
     left: calc(var(--padding-pill) + var(--link-width) * 3);
+    display: block;
   }
 
-  &.statistiques{
+  &.statistiques {
     left: calc(var(--padding-pill) + var(--link-width) * 4);
+    display: block;
   }
 
   @media screen and (max-width: 620px) {
-    display: none;
+    display: block;
   }
 }
 

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { INTGameVideo } from "../../../interfaces/game-video";
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { Svg } from "../../../scripts/utils/Icons";
@@ -50,13 +51,12 @@ export const renderGameVideo = (
                 </GoalClip>
               ))}
             </div>
-            <a
+            <Link
               className="more button window-effect"
-              target="_blank"
-              href={`https://www.nhl.com/fr/video/game/gameid-${game?.id}`}
+              to={`video`}
             >
               Voir plus
-            </a>
+            </Link>
           </>
         ) : (
           <p>Aucun faits saillants.</p>

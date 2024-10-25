@@ -1,0 +1,18 @@
+.hero .team-versus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 75px;
+
+  img {
+    width: clamp(10.938rem, 12.5vw + 8.438rem, 23.438rem);
+  }
+
+  span{
+    display: block;
+    font-weight: 800;
+    font-size: 3rem;
+  }
+
+  margin-bottom: 60px;
+}

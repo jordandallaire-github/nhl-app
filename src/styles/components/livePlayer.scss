@@ -91,7 +91,7 @@
       height: 100%;
       display: grid;
       align-content: space-evenly;
-      justify-self: end;
+      justify-self: flex-end;
       padding: 0 10px;
       display: flex;
       align-items: center;
@@ -139,7 +139,7 @@
       height: 100%;
       display: grid;
       align-content: space-evenly;
-      justify-self: end;
+      justify-self: flex-start;
       padding: 0 10px;
       display: flex;
       align-items: center;
