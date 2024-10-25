@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { INTMainGameInfos } from "../../interfaces/main-match";
 import { INTMoreGameInfos } from "../../interfaces/more-detail-match";
 import TVA from "../../assets/images/TVA.svg";
@@ -21,7 +21,7 @@ import { renderPenalties } from "./components/gamePenalty";
 import { ThreeStars } from "./components/threeStars";
 import GoalClip from "./components/goalClip";
 import { formatPublicationDate } from "../../scripts/utils/formatDate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { renderRosterMatch } from "./components/roster";
 import { INTBoxscore } from "../../interfaces/boxscores";
 import { renderBoxscore } from "./components/statsSheet";
@@ -49,38 +49,42 @@ const SingleMatch: React.FC<MatchProps> = ({
   gameInfos,
   gameMoreInfos,
   teamColors,
-  /* goalSimulation, */
   gameVideo,
   boxscore,
   plays,
   homeRoster,
   awayRoster
 }) => {
-  const [showSummary, setSummary] = useState<boolean>(false);
-  const [showDescription, setDescription] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>("detail-match");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState<string>(
+    searchParams.get("section") || "details-match"
+  );
+  const [showSummary, setSummary] = useState<boolean>(activeTab === "sommaire");
+  const [showDescription, setDescription] = useState<boolean>(activeTab === "description");
+
+  useEffect(() => {
+    const section = searchParams.get("section");
+    if (section) {
+      setSummary(section === "sommaire");
+      setDescription(section === "description");
+      setActiveTab(section);
+
+      const navContainer = document.querySelector(".main-nav");
+      if (navContainer) {
+        navContainer.className = `main-nav ${section}`;
+      }
+    }
+  }, [searchParams]);
 
   const recapVideo = gameVideo?.items.find((video) =>
     video.tags.some((tag) => tag.slug === "game-recap")
   );
 
   const handleNavClick = (type: string) => {
-    if (type === "summary") {
-      setSummary(true);
-    } else {
-      setSummary(false);
-    }
-    if (type === "description") {
-      setDescription(true);
-    } else {
-      setDescription(false);
-    }
-
-    const navContainer = document.querySelector(".main-nav");
-    if (navContainer) {
-      navContainer.className = `main-nav ${type}`;
-      setActiveTab(type);
-    }
+    setSearchParams({ section: type });
+    setSummary(type === "sommaire");
+    setDescription(type === "description");
+    setActiveTab(type);
   };
 
   return (
@@ -171,14 +175,14 @@ const SingleMatch: React.FC<MatchProps> = ({
             <div className="nav-match">
               <div className="main-nav">
                 <p
-                  className={activeTab === "detail-match" ? "active" : ""}
-                  onClick={() => handleNavClick("detail-match")}
+                  className={activeTab === "details-match" ? "active" : ""}
+                  onClick={() => handleNavClick("details-match")}
                 >
                   Résumé
                 </p>
                 <p
-                  className={activeTab === "summary" ? "active" : ""}
-                  onClick={() => handleNavClick("summary")}
+                  className={activeTab === "sommaire" ? "active" : ""}
+                  onClick={() => handleNavClick("sommaire")}
                 >
                   Sommaire
                 </p>
@@ -203,9 +207,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                       }`}
                       title={recapVideo?.title}
                       description={recapVideo?.fields.longDescription}
-                      date={formatPublicationDate(
-                        recapVideo?.contentDate ?? ""
-                      )}
+                      date={formatPublicationDate(recapVideo?.contentDate ?? "")}
                     >
                       <Svg name="recap-play-video" size="xs"></Svg>
                       <p>Résumé</p>
@@ -221,9 +223,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                         recapVideo?.fields.longDescription?.replace(".", "") +
                         " en 10 minutes."
                       }
-                      date={formatPublicationDate(
-                        recapVideo?.contentDate ?? ""
-                      )}
+                      date={formatPublicationDate(recapVideo?.contentDate ?? "")}
                     >
                       <Svg name="recap-play-video" size="xs"></Svg>
                       <p>Condensé</p>
@@ -261,7 +261,6 @@ const SingleMatch: React.FC<MatchProps> = ({
                       {renderGoalInfos(
                         gameInfos,
                         teamColors ?? { home: "", away: "" },
-                        /* goalSimulation, */
                         gameVideo
                       )}
                       {renderGameVideo(gameInfos, gameVideo)}

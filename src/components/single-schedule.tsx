@@ -170,7 +170,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                     : game.homeTeam.name.default
                         .toLowerCase()
                         .replace(/\s+/g, "-")
-                }/${leader.firstName.default.toLowerCase()}-${leader.lastName.default.toLowerCase()}-${
+                }/joueur/${leader.firstName.default.toLowerCase()}-${leader.lastName.default.toLowerCase()}-${
                   leader.id
                 }`}
               >
@@ -258,7 +258,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                     : game.homeTeam.name.default
                         .toLowerCase()
                         .replace(/\s+/g, "-")
-                }/${goal.firstName?.default.toLowerCase()}-${goal.lastName?.default.toLowerCase()}-${
+                }/joueur/${goal.firstName?.default.toLowerCase()}-${goal.lastName?.default.toLowerCase()}-${
                   goal.playerId
                 }`}
               >

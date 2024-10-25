@@ -424,7 +424,7 @@
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    &.summary::after{
+    &.sommaire::after{
       left: calc((var(--width-line) * 2 + 40px)/2);
     }
 

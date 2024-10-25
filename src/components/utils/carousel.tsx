@@ -2,6 +2,7 @@ import { Navigation, Pagination, Autoplay, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ReactNode } from "react";
 import React from "react";
+import type { Swiper as SwiperType } from 'swiper';
 
 interface CarouselProps {
   centeredSlides?: boolean;
@@ -35,6 +36,8 @@ interface CarouselProps {
     spaceBetween?: number;
     slidesPerView?: number | "auto";
   }>;
+  onSwiper?: (swiper: SwiperType) => void;
+  onSlideChange?: (swiper: SwiperType) => void;
   children: ReactNode;
 }
 
@@ -75,6 +78,8 @@ function Carousel({
       spaceBetween: 30,
     },
   },
+  onSwiper,
+  onSlideChange,
   children,
 }: CarouselProps) {
   const modules = [Navigation, FreeMode ,Pagination, ...(autoplay ? [Autoplay] : [])];
@@ -92,7 +97,7 @@ function Carousel({
       navigation={navigation}
       autoplay={autoplaySettings}
       pagination={pagination}
-      noSwiping = {noSwiping}
+      noSwiping={noSwiping}
       noSwipingClass={noSwipingClass}
       centeredSlides={centeredSlides}
       autoHeight={autoHeight}
@@ -100,6 +105,8 @@ function Carousel({
       breakpoints={breakpoint}
       setWrapperSize={setWrapperSize}
       freeMode={freeMode}
+      onSwiper={onSwiper}
+      onSlideChange={onSlideChange}
     >
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.props['data-is-swiper-slide']) {

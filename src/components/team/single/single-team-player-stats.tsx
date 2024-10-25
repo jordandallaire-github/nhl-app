@@ -111,7 +111,7 @@ const PlayerDisplay: React.FC<{
     <div className="display-player">
       <div className="media">
         <Link
-          to={`/equipes/${teamName}/${generatePlayerSlug(
+          to={`/equipes/${teamName}/joueur/${generatePlayerSlug(
             player.firstName.default,
             player.lastName.default,
             player.playerId

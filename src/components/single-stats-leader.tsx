@@ -50,7 +50,7 @@ const PlayerDisplay: React.FC<{
       <Link
         to={`/equipes/${player.teamName.default
           .toLowerCase()
-          .replace(/\s+/g, "-")}/${generatePlayerSlug(
+          .replace(/\s+/g, "-")}/joueur/${generatePlayerSlug(
           player.firstName.default,
           player.lastName.default,
           player.id

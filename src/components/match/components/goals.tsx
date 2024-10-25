@@ -49,7 +49,6 @@ export const renderGoalInfos = (
   const noGoal =
     game?.summary.scoring.filter((score) => score.goals.length > 0) || [];
 
-  // Générer un ID unique pour chaque but
   const generateUniqueGoalId = (
     periodNumber: number,
     periodType: string,
@@ -133,7 +132,7 @@ export const renderGoalInfos = (
                                     : game.homeTeam.name.default
                                         .toLowerCase()
                                         .replace(/\s+/g, "-")
-                                }/${goal.firstName?.default.toLowerCase()}-${goal.lastName?.default.toLowerCase()}-${
+                                }/joueur/${goal.firstName?.default.toLowerCase()}-${goal.lastName?.default.toLowerCase()}-${
                                   goal.playerId
                                 }`}
                               >
@@ -280,7 +279,7 @@ export const renderGoalInfos = (
                       : game.homeTeam.name.default
                           .toLowerCase()
                           .replace(/\s+/g, "-")
-                  }/${so.firstName?.toLowerCase()}-${so.lastName?.toLowerCase()}-${
+                  }/joueur/${so.firstName?.toLowerCase()}-${so.lastName?.toLowerCase()}-${
                     so.playerId
                   }`}
                 >

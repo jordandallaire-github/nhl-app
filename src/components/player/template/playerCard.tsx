@@ -15,7 +15,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, teamAbbrev, teamColor, 
 
   return (
     <Link
-      to={`/equipes/${teamCommonName}/${generatePlayerSlug(
+      to={`/equipes/${teamCommonName}/joueur/${generatePlayerSlug(
         player.firstName.default,
         player.lastName.default,
         player.id

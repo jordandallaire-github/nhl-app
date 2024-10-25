@@ -55,7 +55,7 @@ interface Colors {
                               .replace(
                                 /\s+/g,
                                 "-"
-                              )}/${awayLeader.firstName.default.toLowerCase()}-${awayLeader.lastName.default.toLowerCase()}-${
+                              )}/joueur/${awayLeader.firstName.default.toLowerCase()}-${awayLeader.lastName.default.toLowerCase()}-${
                               awayLeader.playerId
                             }`}
                           >
@@ -147,7 +147,7 @@ interface Colors {
                               .replace(
                                 /\s+/g,
                                 "-"
-                              )}/${homeLeader.firstName.default.toLowerCase()}-${homeLeader.lastName.default.toLowerCase()}-${
+                              )}/joueur/${homeLeader.firstName.default.toLowerCase()}-${homeLeader.lastName.default.toLowerCase()}-${
                               homeLeader.playerId
                             }`}
                           >

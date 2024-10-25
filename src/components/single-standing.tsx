@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { INTStanding, INTStandingOtherInfos } from "../interfaces/standing";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Carousel from "./utils/carousel";
+import Swiper from "swiper";
 
 interface SingleStandingProps {
   standing: INTStanding | null;
@@ -32,10 +33,23 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
   standing,
   standingOther,
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [swiperInstance, setSwiperInstance] = useState<Swiper | null>(null);
   const [sortConfig, setSortConfig] = useState<{
     key: SortKey;
     direction: "ascending" | "descending";
   } | null>(null);
+
+  useEffect(() => {
+    const standing = searchParams.get("classement") || "divisions";
+    if (swiperInstance) {
+      swiperInstance.slideTo(standing === "divisions" ? 0 : 1, 0);
+    }
+  }, [swiperInstance, searchParams]);
+
+  const handleSlideChange = (classement: "divisions" | "ligue") => {
+    setSearchParams({ classement });
+  };
 
   const filteredStandings = useMemo(() => {
     if (!standing || !standing.standings) return null;
@@ -105,14 +119,21 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
   const sortedStandings = useMemo(() => {
     if (!filteredStandings) return filteredStandings;
 
-    const sortedData: FilteredStandings = JSON.parse(JSON.stringify(filteredStandings));
+    const sortedData: FilteredStandings = JSON.parse(
+      JSON.stringify(filteredStandings)
+    );
 
-    const sortTeams = (teams: { team: TeamStanding; otherInfo: INTStandingOtherInfos["data"][0] | null }[]) => {
+    const sortTeams = (
+      teams: {
+        team: TeamStanding;
+        otherInfo: INTStandingOtherInfos["data"][0] | null;
+      }[]
+    ) => {
       return teams.sort((a, b) => {
         if (!sortConfig) return 0;
-        
+
         const { key, direction } = sortConfig;
-        
+
         if (key === "powerPlayPct" || key === "penaltyKillPct") {
           const aValue = a.otherInfo?.[key] ?? 0;
           const bValue = b.otherInfo?.[key] ?? 0;
@@ -133,7 +154,9 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
 
     for (const conference of ["Est", "Ouest"] as const) {
       for (const division in sortedData[conference]) {
-        sortedData[conference][division] = sortTeams(sortedData[conference][division]);
+        sortedData[conference][division] = sortTeams(
+          sortedData[conference][division]
+        );
       }
     }
     sortedData.Ligue = sortTeams(sortedData.Ligue);
@@ -144,7 +167,8 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
   const requestSort = (key: SortKey) => {
     let direction: "ascending" | "descending" = "descending";
     if (sortConfig && sortConfig.key === key) {
-      direction = sortConfig.direction === "descending" ? "ascending" : "descending";
+      direction =
+        sortConfig.direction === "descending" ? "ascending" : "descending";
     }
     setSortConfig({ key, direction });
   };
@@ -171,9 +195,7 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
       <th onClick={() => requestSort("gamesPlayed")}>
         PJ{renderSortArrow("gamesPlayed")}
       </th>
-      <th onClick={() => requestSort("wins")}>
-        V{renderSortArrow("wins")}
-      </th>
+      <th onClick={() => requestSort("wins")}>V{renderSortArrow("wins")}</th>
       <th onClick={() => requestSort("losses")}>
         D{renderSortArrow("losses")}
       </th>
@@ -313,12 +335,24 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
           noSwiping={true}
           grabCursor={false}
           autoHeight={true}
+          onSwiper={(swiper) => setSwiperInstance(swiper)}
+          onSlideChange={(swiper) => {
+            handleSlideChange(
+              swiper.activeIndex === 0 ? "divisions" : "ligue"
+            );
+          }}
         >
           <div className="nav standing">
-            <div className="swiper-button-prev">
+            <div
+              className="swiper-button-prev"
+              onClick={() => handleSlideChange("divisions")}
+            >
               <h3>Quatrième as</h3>
             </div>
-            <div className="swiper-button-next">
+            <div
+              className="swiper-button-next"
+              onClick={() => handleSlideChange("ligue")}
+            >
               <h3>Ligue</h3>
             </div>
           </div>

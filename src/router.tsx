@@ -28,7 +28,7 @@ import {
           <Route path="/classements" element={<MainStanding />} />
           <Route path="/statistiques" element={<MainStatsLeader />} />
           <Route path="/equipes/:teamCommonName" element={<Team />} />
-          <Route path="/equipes/:teamCommonName/:playerSlug" element={<Player />} />
+          <Route path="/equipes/:teamCommonName/joueur/:playerSlug" element={<Player />} />
         </Route>
       </>
     ), { /* basename: "/projets/dist/" */ /*Change the basename to your url project location ex : https://jordandallaire.ca/projets/dist/ dist being the folder containing all the project*/}

@@ -86,7 +86,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                               .replace(
                                 /\s+/g,
                                 "-"
-                              )}/${leader.awayLeader.firstName.default.toLowerCase()}-${leader.awayLeader.lastName.default.toLowerCase()}-${
+                              )}/joueur/${leader.awayLeader.firstName.default.toLowerCase()}-${leader.awayLeader.lastName.default.toLowerCase()}-${
                               leader.awayLeader.playerId
                             }`}
                           >
@@ -132,7 +132,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                               .replace(
                                 /\s+/g,
                                 "-"
-                              )}/${leader.homeLeader.firstName.default.toLowerCase()}-${leader.homeLeader.lastName.default.toLowerCase()}-${
+                              )}/joueur/${leader.homeLeader.firstName.default.toLowerCase()}-${leader.homeLeader.lastName.default.toLowerCase()}-${
                               leader.homeLeader.playerId
                             }`}
                           >

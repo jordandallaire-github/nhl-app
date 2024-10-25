@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import SingleTeamPlayerGroup from "../components/team/single/single-team-player";
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
 import { TeamDetail } from "../interfaces/team/teamDetails";
@@ -13,21 +13,20 @@ import SingleTeamPlayerStats from "../components/team/single/single-team-player-
 
 const TeamDetails: React.FC = () => {
   const { teamCommonName } = useParams<{ teamCommonName: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
-  const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>(
-    []
-  );
+  const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>([]);
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(null);
-  const [playerStats, setTeamPlayerStats] = useState<TeamPlayerStats | null>(
-    null
-  );
+  const [playerStats, setTeamPlayerStats] = useState<TeamPlayerStats | null>(null);
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [showPlayerStats, setShowPlayerStats] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>("accueil");
+
+  const activeSection = searchParams.get('section') || 'accueil';
+  const showCalendar = activeSection === "calendrier";
+  const showPlayerStats = activeSection === "statistiques";
 
   const fetchTeamData = useCallback(async () => {
     setLoading(true);
@@ -122,22 +121,12 @@ const TeamDetails: React.FC = () => {
     (player) => player.positionCode === "G"
   );
 
-  const handleNavClick = (type: string) => {
-    if (type === "calendrier") {
-      setShowCalendar(true);
+  const handleNavClick = (section: string) => {
+    if (section === "accueil") {
+      searchParams.delete('section');
+      setSearchParams(searchParams);
     } else {
-      setShowCalendar(false);
-    }
-    if (type === "statistiques") {
-      setShowPlayerStats(true);
-    } else {
-      setShowPlayerStats(false);
-    }
-
-    const navContainer = document.querySelector(".nav-container");
-    if (navContainer) {
-      navContainer.className = `nav-container ${type}`;
-      setActiveTab(type);
+      setSearchParams({ section });
     }
   };
 
@@ -146,24 +135,24 @@ const TeamDetails: React.FC = () => {
       <SingleTeamHero
         teamName={teamCommonName ?? ""}
         abr={teamAbbrev}
-      ></SingleTeamHero>
+      />
       <section className="nav-section">
         <div className="wrapper">
-          <div className={`nav-container ${activeTab}`}>
+          <div className={`nav-container ${activeSection}`}>
             <p
-              className={activeTab === "accueil" ? "active" : ""}
+              className={activeSection === "accueil" ? "active" : ""}
               onClick={() => handleNavClick("accueil")}
             >
               Accueil
             </p>
             <p
-              className={activeTab === "calendrier" ? "active" : ""}
+              className={activeSection === "calendrier" ? "active" : ""}
               onClick={() => handleNavClick("calendrier")}
             >
               Calendrier
             </p>
             <p
-              className={activeTab === "statistiques" ? "active" : ""}
+              className={activeSection === "statistiques" ? "active" : ""}
               onClick={() => handleNavClick("statistiques")}
             >
               Statistiques
@@ -177,7 +166,7 @@ const TeamDetails: React.FC = () => {
           <SingleTeamScoreboard
             teamColor={teamColor}
             teamScoreboard={scoreBoard}
-          ></SingleTeamScoreboard>
+          />
           <section className="roster">
             <div className="wrapper">
               <h2>Joueurs de l'équipe des {teamCommonName}</h2>
@@ -211,7 +200,7 @@ const TeamDetails: React.FC = () => {
           abr={teamAbbrev}
           teamColor={teamColor}
           schedule={schedule}
-        ></SingleTeamSchedule>
+        />
       )}
       {!showCalendar && showPlayerStats && (
         <SingleTeamPlayerStats
@@ -220,7 +209,7 @@ const TeamDetails: React.FC = () => {
           playerStats={playerStats}
           abr={teamAbbrev}
           teamName={teamCommonName}
-        ></SingleTeamPlayerStats>
+        />
       )}
     </>
   );
