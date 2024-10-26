@@ -7,6 +7,15 @@ export const renderGameSituation = (game: INTMainGameInfos | null) => {
     return (
       <>
         <p className="period-status">
+          {game.situation?.homeTeam?.strength &&
+            game.situation?.awayTeam?.strength && (
+              <>
+                {game.situation.homeTeam.strength >
+                game.situation.awayTeam.strength
+                  ? `${game.situation.homeTeam.strength} contre ${game.situation.awayTeam.strength}`
+                  : `${game.situation.awayTeam.strength} contre ${game.situation.homeTeam.strength}`}
+              </>
+            )}
           <strong className="period">
             {`${
               game.periodDescriptor.number === 1
@@ -16,15 +25,6 @@ export const renderGameSituation = (game: INTMainGameInfos | null) => {
           </strong>
           {game.clock.inIntermission ? "ENT" : ""} {game.clock.timeRemaining}
         </p>
-        {game.situation?.homeTeam?.strength &&
-          game.situation?.awayTeam?.strength && (
-            <p>
-              {game.situation.homeTeam.strength >
-              game.situation.awayTeam.strength
-                ? `${game.situation.homeTeam.strength} contre ${game.situation.awayTeam.strength}`
-                : `${game.situation.awayTeam.strength} contre ${game.situation.homeTeam.strength}`}
-            </p>
-          )}
       </>
     );
   }
@@ -45,9 +45,7 @@ export const renderGameSituation = (game: INTMainGameInfos | null) => {
                 game?.easternUTCOffset ?? ""
               )} HAE`}
         </p>
-        <p>
-          {formatDate(game?.gameDate ?? "")}
-        </p>
+        <p>{formatDate(game?.gameDate ?? "")}</p>
       </div>
     </>
   );

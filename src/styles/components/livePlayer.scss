@@ -46,7 +46,7 @@
         max-height: 75px;
       }
 
-      p{
+      p {
         margin: 0;
       }
     }
@@ -71,9 +71,6 @@
       align-content: space-evenly;
       justify-self: center;
       padding: 0 10px;
-
-      .player.away {
-      }
     }
     .goalie.away {
       grid-area: awayGoalie;
@@ -82,9 +79,6 @@
       align-content: space-evenly;
       justify-self: center;
       padding: 0 10px;
-
-      .player.away {
-      }
     }
     .penalty-box.away {
       grid-area: awayPenaltyBox;
@@ -95,9 +89,6 @@
       padding: 0 10px;
       display: flex;
       align-items: center;
-
-      .player.away {
-      }
     }
     .forward.home {
       grid-area: homeForwards;
@@ -119,9 +110,6 @@
       align-content: space-evenly;
       justify-self: center;
       padding: 0 10px;
-
-      .player.home {
-      }
     }
     .goalie.home {
       grid-area: homeGoalie;
@@ -130,9 +118,6 @@
       align-content: space-evenly;
       justify-self: center;
       padding: 0 10px;
-
-      .player.home {
-      }
     }
     .penalty-box.home {
       grid-area: homePenaltyBox;
@@ -143,9 +128,6 @@
       padding: 0 10px;
       display: flex;
       align-items: center;
-
-      .player.home {
-      }
     }
     .number {
       font-size: var(--font-size-content);
