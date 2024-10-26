@@ -121,7 +121,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
 
   const renderTeamLeaders = (game: Game) => (
     <>
-      <p>Meneurs de l'équipe</p>
+      <p><strong>Meneurs de l'équipe</strong></p>
       <Carousel
         breakpoint={{
           375: { slidesPerView: "auto", spaceBetween: 10 },
@@ -209,7 +209,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
 
   const renderGoals = (game: Game) => (
     <>
-      <p>Buts</p>
+      <p><strong>Buts</strong></p>
       <Carousel
         breakpoint={{
           375: { slidesPerView: "auto", spaceBetween: 10 },

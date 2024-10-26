@@ -37,7 +37,7 @@ const Match: React.FC = () => {
 
   const fetchTeamColors = useCallback(async () => {
     try {
-      const response = await fetch("/teamColor.json");
+      const response = await fetch("/projets/dist/teamColor.json");
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des couleurs des équipes");
       }
@@ -71,8 +71,8 @@ const Match: React.FC = () => {
   const fetchRosters = useCallback(async (homeTeamAbbrev: string, awayTeamAbbrev: string) => {
     try {
       const [rosterAwayResponse, rosterHomeResponse] = await Promise.all([
-        fetch(`https://api-web.nhle.com/v1/roster/${awayTeamAbbrev}/current`),
-        fetch(`https://api-web.nhle.com/v1/roster/${homeTeamAbbrev}/current`)
+        fetch(`/proxy.php/v1/roster/${awayTeamAbbrev}/current`),
+        fetch(`/proxy.php/v1/roster/${homeTeamAbbrev}/current`)
       ]);
 
       if (!rosterAwayResponse.ok || !rosterHomeResponse.ok) {
@@ -119,11 +119,11 @@ const Match: React.FC = () => {
         gameVideoResponse,
         teamColorsData,
       ] = await Promise.all([
-        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/landing`),
-        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/right-rail`),
-        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/boxscore`),
-        fetch(`https://api-web.nhle.com/v1/gamecenter/${matchId}/play-by-play`),
-        fetch(`https://forge-dapi.d3.nhle.com/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
+        fetch(`/proxy.php/v1/gamecenter/${matchId}/landing`),
+        fetch(`/proxy.php/v1/gamecenter/${matchId}/right-rail`),
+        fetch(`/proxy.php/v1/gamecenter/${matchId}/boxscore`),
+        fetch(`/proxy.php/v1/gamecenter/${matchId}/play-by-play`),
+        fetch(`/proxy.php/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
         fetchTeamColors(),
       ]);
 

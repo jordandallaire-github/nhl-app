@@ -6,14 +6,8 @@ import GoalClip from "./goalClip";
 import { INTGameVideo } from "../../../interfaces/game-video";
 import { formatPublicationDate } from "../../../scripts/utils/formatDate";
 
-interface Colors {
-  home: string | null;
-  away: string | null;
-}
-
 export const renderGoalInfos = (
   game: INTMainGameInfos | null,
-  teamColors: Colors,
   goalVideo: INTGameVideo | null
 ) => {
   const formatShotType = (shot: string) => {

@@ -260,10 +260,9 @@ const SingleMatch: React.FC<MatchProps> = ({
 
                       {renderGoalInfos(
                         gameInfos,
-                        teamColors ?? { home: "", away: "" },
                         gameVideo
                       )}
-                      {renderGameVideo(gameInfos, gameVideo)}
+                      {renderGameVideo(gameVideo)}
                       {renderPenalties(gameInfos)}
                       {gameInfos?.summary &&
                         gameInfos?.summary.threeStars.length > 0 && (
@@ -296,7 +295,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                     boxscore &&
                     renderBoxscore(
                       gameInfos,
-                      boxscore,
+                      /* boxscore */
                       teamColors ?? { home: "", away: "" }
                     )}
                 </>

@@ -43,12 +43,12 @@ const usePlayerDetails = (playerSlug: string) => {
         const playerId = playerSlug.split("-").pop();
         if (!playerId) throw new Error("Invalid player ID");
 
-        const colorRes = await fetch("/teamColor.json");
+        const colorRes = await fetch("/projets/dist/teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
         const teamColorData = await colorRes.json();
 
         const res = await fetch(
-          `https://api-web.nhle.com/v1/player/${playerId}/landing`
+          `/proxy.php/v1/player/${playerId}/landing`
         );
         if (!res.ok) throw new Error("Failed to fetch player data");
         const playerData = await res.json();

@@ -60,7 +60,7 @@ const MatchVideos: React.FC = () => {
       const [
         gameVideoResponse,
       ] = await Promise.all([
-        fetch(`https://forge-dapi.d3.nhle.com/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
+        fetch(`/proxy.php/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
       ]);
 
       if (!gameVideoResponse) {

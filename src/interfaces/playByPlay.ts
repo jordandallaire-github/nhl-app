@@ -76,49 +76,58 @@ export interface INTPlayByPlay {
   gameOutcome: {
     lastPeriodType: string;
   };
-  plays: Array<{
-    eventId: number;
-    periodDescriptor: {
-      number: number;
-      periodType: string;
-      maxRegulationPeriods: number;
-    };
-    timeInPeriod: string;
-    timeRemaining: string;
-    situationCode: string;
-    homeTeamDefendingSide: string;
-    typeCode: number;
-    typeDescKey: string;
-    sortOrder: number;
-    details?: {
-      eventOwnerTeamId: number;
-      losingPlayerId: number;
-      winningPlayerId: number;
-      xCoord: number;
-      yCoord: number;
-      zoneCode: string;
-      reason?: string;
-      shotType?: string;
-      shootingPlayerId: number;
-      goalieInNetId: number;
-      awaySOG: number;
-      homeSOG: number;
-      scoringPlayerId: string,
-      scoringPlayerTotal: string,
-      assist1PlayerId: string,
-      assist1PlayerTotal: string,
-      assist2PlayerId: string,
-      assist2PlayerTotal: string,
-      awayScore: number,
-      homeScore: number,
-      highlightClipSharingUrl: string,
-      highlightClipSharingUrlFr: string,
-      highlightClip: number,
-      highlightClipFr: number,
-      discreteClip: number,
-      discreteClipFr: number
-      hittingPlayerId: number,
-      hitteePlayerId: number
-    };
-  }>;
+  plays: Array<PlayerEvent>;
+}
+
+export interface PlayerEvent {
+  eventId: number;
+  periodDescriptor: {
+    number: number;
+    periodType: string;
+    maxRegulationPeriods: number;
+  };
+  timeInPeriod: string;
+  timeRemaining: string;
+  situationCode: string;
+  homeTeamDefendingSide: string;
+  typeCode: number;
+  typeDescKey: string;
+  sortOrder: number;
+  details?: {
+    eventOwnerTeamId: number;
+    losingPlayerId: number;
+    winningPlayerId: number;
+    xCoord: number;
+    yCoord: number;
+    zoneCode: string;
+    reason?: string;
+    shotType?: string;
+    shootingPlayerId: number;
+    goalieInNetId: number;
+    awaySOG: number;
+    homeSOG: number;
+    scoringPlayerId: string,
+    scoringPlayerTotal: string,
+    assist1PlayerId: string,
+    assist1PlayerTotal: string,
+    assist2PlayerId: string,
+    assist2PlayerTotal: string,
+    awayScore: number,
+    homeScore: number,
+    highlightClipSharingUrl: string,
+    highlightClipSharingUrlFr: string,
+    highlightClip: number,
+    highlightClipFr: number,
+    discreteClip: number,
+    discreteClipFr: number
+    hittingPlayerId: number,
+    hitteePlayerId: number,
+    playerId?: string | number;
+    drawnByPlayerId?: string | number;
+    committedByPlayerId?: string | number;
+    blockingPlayerId?: string | number;
+    pulledPlayerId?: string | number;
+    descKey: string;
+    duration: number;
+  };
 }

@@ -19,7 +19,7 @@ const StatsLeader: React.FC = () => {
     setLoading(true);
     try {
       const responsePlayerStats = await fetch(
-        `https://api-web.nhle.com/v1/skater-stats-leaders/current`
+        `/proxy.php/v1/skater-stats-leaders/current`
       );
       if (!responsePlayerStats.ok) {
         throw new Error(
@@ -31,7 +31,7 @@ const StatsLeader: React.FC = () => {
       setPlayerStats(dataPlayerStats);
 
       const responseGoalieStats = await fetch(
-        `https://api-web.nhle.com/v1/goalie-stats-leaders/current`
+        `/proxy.php/v1/goalie-stats-leaders/current`
       );
       if (!responseGoalieStats.ok) {
         throw new Error("Erreur lors de la récupération du classement.");

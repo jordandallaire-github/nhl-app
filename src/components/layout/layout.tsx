@@ -13,7 +13,7 @@ function Layout() {
     const fetchTeamColor = async () => {
       if (teamCommonName) {
         try {
-          const res = await fetch("https://api-web.nhle.com/v1/standings/now");
+          const res = await fetch("/proxy.php/v1/standings/now");
           if (!res.ok) throw new Error("Failed to fetch team data");
           const data = await res.json();
           const team = data.standings?.find(
@@ -24,7 +24,7 @@ function Layout() {
 
           if (team) {
             const teamAbbrev = team.teamAbbrev.default;
-            const colorRes = await fetch("/teamColor.json");
+            const colorRes = await fetch("/projets/dist/teamColor.json");
             if (!colorRes.ok) throw new Error("Failed to fetch team colors");
             const colorData: Record<string, { color: string }> =
               await colorRes.json();

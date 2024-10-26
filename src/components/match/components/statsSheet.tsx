@@ -1,7 +1,7 @@
-import { INTBoxscore } from "../../../interfaces/boxscores";
+/* import { INTBoxscore } from "../../../interfaces/boxscores"; */
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import Carousel from "../../utils/carousel";
-import { goalieStats, playerStats } from "./utilRosterPlayer";
+/* import { goalieStats, playerStats } from "./utilRosterPlayer"; */
 
 interface Colors {
   home: string | null;
@@ -11,7 +11,7 @@ interface Colors {
 
 export const renderBoxscore = (
   game: INTMainGameInfos,
-  boxscore: INTBoxscore,
+  /* boxscore: INTBoxscore, */
   teamColors: Colors,
 ) => {
   return (
@@ -40,7 +40,7 @@ export const renderBoxscore = (
             </div>
           </div>
 
-          <div data-is-swiper-slide className="roster-slide swiper-no-swiping">
+{/*           <div data-is-swiper-slide className="roster-slide swiper-no-swiping">
             {playerStats(game, true, boxscore || null, false)}
             {playerStats(game, false, boxscore || null, false)}
             {goalieStats(game, boxscore || null, false)}
@@ -49,7 +49,7 @@ export const renderBoxscore = (
             {playerStats(game, true, boxscore || null, true)}
             {playerStats(game, false, boxscore || null, true)}
             {goalieStats(game, boxscore || null, true)}
-          </div>
+          </div> */}
         </Carousel>
       </div>
     </>

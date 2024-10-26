@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/* import { useState } from 'react';
 
 const SortableHeader = ({ children, onSort, isSortedAsc, isSortedDesc }) => {
   return (
@@ -96,4 +96,4 @@ const SortableTable = ({ headers, data, initialSortColumn }) => {
   );
 };
 
-export default SortableTable;
+export default SortableTable; */

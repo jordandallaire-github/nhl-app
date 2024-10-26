@@ -31,7 +31,7 @@ const TeamDetails: React.FC = () => {
   const fetchTeamData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://api-web.nhle.com/v1/standings/now");
+      const res = await fetch("/proxy.php/v1/standings/now");
       if (!res.ok) throw new Error("Failed to fetch team data");
       const data = await res.json();
       const team = data.standings?.find(
@@ -45,7 +45,7 @@ const TeamDetails: React.FC = () => {
         setTeamAbbrev(teamAbbrev);
 
         const playerRes = await fetch(
-          `https://api-web.nhle.com/v1/roster/${teamAbbrev}/current`
+          `/proxy.php/v1/roster/${teamAbbrev}/current`
         );
         if (!playerRes.ok) throw new Error("Failed to fetch players");
         const playerData = await playerRes.json();
@@ -58,21 +58,21 @@ const TeamDetails: React.FC = () => {
         setPlayersPosition(playersArray);
 
         const gameDataResponse = await fetch(
-          `https://api-web.nhle.com/v1/scoreboard/${teamAbbrev}/now`
+          `/proxy.php/v1/scoreboard/${teamAbbrev}/now`
         );
         if (!gameDataResponse.ok) throw new Error("Failed to fetch game data");
         const gameData: TeamScoreboard = await gameDataResponse.json();
         setScoreBoard(gameData);
 
         const scheduleResponse = await fetch(
-          `https://api-web.nhle.com/v1/club-schedule/${teamAbbrev}/month/now`
+          `/proxy.php/v1/club-schedule/${teamAbbrev}/month/now`
         );
         if (!scheduleResponse.ok) throw new Error("Failed to fetch game data");
         const scheduleData: INTeamSchedule = await scheduleResponse.json();
         setSchedule(scheduleData);
 
         const playerStatsResponse = await fetch(
-          `https://api-web.nhle.com/v1/club-stats/${teamAbbrev}/now`
+          `/proxy.php/v1/club-stats/${teamAbbrev}/now`
         );
         if (!playerStatsResponse.ok)
           throw new Error("Failed to fetch game data");
@@ -80,7 +80,7 @@ const TeamDetails: React.FC = () => {
           await playerStatsResponse.json();
         setTeamPlayerStats(playerStatsData);
 
-        const colorRes = await fetch("/teamColor.json");
+        const colorRes = await fetch("/projets/dist/teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
         const colorData: Record<string, TeamDetail> = await colorRes.json();
         const teamInfo = colorData[teamAbbrev as keyof typeof colorData];

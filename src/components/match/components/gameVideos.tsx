@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { INTGameVideo } from "../../../interfaces/game-video";
-import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { Svg } from "../../../scripts/utils/Icons";
 import { formatPublicationDate } from "../../../scripts/utils/formatDate";
 import GoalClip from "./goalClip";
 
 export const renderGameVideo = (
-  game: INTMainGameInfos | null,
   gameVideos: INTGameVideo | null
 ) => {
   if (gameVideos) {

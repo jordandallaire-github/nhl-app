@@ -24,13 +24,13 @@ const ListTeams: React.FC = () => {
     const fetchTeamsAndColors = async () => {
       try {
         // Fetch team colors
-        const colorRes = await fetch("/teamColor.json");
+        const colorRes = await fetch("./teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
         const colorData = await colorRes.json();
         setTeamColors(colorData);
 
         // Fetch teams from the NHL API
-        const res = await fetch("https://api-web.nhle.com/v1/standings/now");
+        const res = await fetch("/proxy.php/v1/standings/now");
         if (!res.ok) throw new Error("Failed to fetch teams");
         const teamData = await res.json();
         setTeams(teamData.standings);

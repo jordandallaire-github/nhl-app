@@ -71,7 +71,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
 
       try {
         const res = await fetch(
-          `https://api-web.nhle.com/v1/club-schedule/${abr}/month/${newMonth
+          `/proxy.php/v1/club-schedule/${abr}/month/${newMonth
             .toISOString()
             .slice(0, 7)}`
         );
@@ -89,7 +89,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
   );
 
   const handleGameClick = (
-    event: React.MouseEvent,
+    _event: React.MouseEvent,
     game: INTeamSchedule["games"][number],
     gameDayElement: HTMLElement
   ) => {

@@ -25,7 +25,7 @@ const Schedule: React.FC = () => {
     setLoading(true);
     try {
       console.log("Date envoyée à l'API:", date);
-      const response = await fetch(`https://api-web.nhle.com/v1/score/${date}`);
+      const response = await fetch(`/proxy.php/v1/score/${date}`);
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération du calendrier.");
       }

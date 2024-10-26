@@ -1,6 +1,6 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import Carousel from "../../utils/carousel";
-import { goalieStats, playerStats } from "./utilRosterPlayer";
+/* import { goalieStats, playerStats } from "./utilRosterPlayer"; */
 
 interface Colors {
   home: string | null;
@@ -43,7 +43,7 @@ export const renderRosterMatch = (
             </div>
           </div>
 
-          <div data-is-swiper-slide className="roster-slide swiper-no-swiping">
+{/*           <div data-is-swiper-slide className="roster-slide swiper-no-swiping">
             {playerStats(game, true, null, false)}
             {playerStats(game, false, null, false)}
             {goalieStats(game, null, false)}
@@ -52,7 +52,7 @@ export const renderRosterMatch = (
             {playerStats(game, true, null, true)}
             {playerStats(game, false, null, true)}
             {goalieStats(game, null, true)}
-          </div>
+          </div> */}
         </Carousel>
       </div>
     </>

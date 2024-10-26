@@ -1,3 +1,4 @@
+import { PlayerEvent } from "../../../interfaces/playByPlay";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { Svg } from "../../../scripts/utils/Icons";
 
@@ -198,33 +199,6 @@ export const formatPenalty = (penalty: string) => {
       return penalty;
   }
 };
-
-interface PlayerEvent {
-  details?: {
-    playerId?: string | number;
-    scoringPlayerId?: string | number;
-    goalieInNetId?: string | number;
-    assist1PlayerId?: string | number;
-    assist2PlayerId?: string | number;
-    hittingPlayerId?: string | number;
-    hitteePlayerId?: string | number;
-    winningPlayerId?: string | number;
-    losingPlayerId?: string | number;
-    shootingPlayerId?: string | number;
-    drawnByPlayerId?: string | number;
-    committedByPlayerId?: string | number;
-    blockingPlayerId?: string | number;
-    pulledPlayerId?: string | number;
-    scoringPlayerTotal?: string;
-    assist1PlayerTotal?: string;
-    assist2PlayerTotal?: string;
-    reason: string;
-    shotType: string;
-    descKey: string;
-    duration: number;
-  };
-  typeDescKey: string;
-}
 
 const findPlayerByEventType = (
   play: PlayerEvent,

@@ -95,7 +95,7 @@ const SingleLeaderStats: React.FC<LeaderStatsProps> = ({ player, goalie }) => {
   useEffect(() => {
     const fetchTeamColors = async () => {
       try {
-        const colorRes = await fetch("/teamColor.json");
+        const colorRes = await fetch("./teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
         const colorData: Record<string, { color: string }> = await colorRes.json();
         setTeamColors(Object.fromEntries(Object.entries(colorData).map(([key, value]) => [key, value.color])));

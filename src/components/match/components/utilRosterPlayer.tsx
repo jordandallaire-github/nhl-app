@@ -1,5 +1,4 @@
-import React from "react";
-import { INTBoxscore } from "../../../interfaces/boxscores";
+/* import { INTBoxscore } from "../../../interfaces/boxscores";
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { FormatPosition } from "../../../scripts/utils/formatPosition";
 import SortableTable from "../components/sortableHeader";
@@ -179,3 +178,4 @@ export const goalieStats = (
     </div>
   );
 };
+ */
