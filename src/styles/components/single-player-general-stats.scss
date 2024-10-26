@@ -64,10 +64,13 @@
     text-align: center;
   }
 
-  h3 {
-    min-width: 300px;
+  p {
+    min-width: 200px;
     text-align: center;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   th,
@@ -89,10 +92,9 @@
   @media screen and (max-width: 868px) {
     padding: 0;
 
-    h3 {
+    p {
       position: absolute;
       top: -50%;
-      font-size: 2rem;
       left: 50%;
       min-width: initial;
       transform: translateX(-50%);

@@ -6,7 +6,7 @@ export const renderGameSituation = (game: INTMainGameInfos | null) => {
   if (game?.gameState === "LIVE" || game?.gameState === "CRIT") {
     return (
       <>
-        <p>
+        <p className="period-status">
           <strong className="period">
             {`${
               game.periodDescriptor.number === 1
@@ -46,7 +46,7 @@ export const renderGameSituation = (game: INTMainGameInfos | null) => {
               )} HAE`}
         </p>
         <p>
-          <strong>{formatDate(game?.gameDate ?? "")}</strong>
+          {formatDate(game?.gameDate ?? "")}
         </p>
       </div>
     </>

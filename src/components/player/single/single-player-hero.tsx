@@ -37,13 +37,13 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({ player }) =
         <div className="card-content">
           <h1>{`${player.firstName} ${player.lastName}`}</h1>
           <div className="other-infos">
-            <p>{`#${player.sweaterNumber}`}</p>
+            <p><strong>{`#${player.sweaterNumber}`}</strong></p>
             <img
               className="team-logo"
               src={player.teamLogo}
               alt={`${player.fullTeamName} logo`}
             />
-            <p>{`${FormatPosition(player.positionCode)}`}</p>
+            <p><strong>{`${FormatPosition(player.positionCode)}`}</strong></p>
           </div>
         </div>
       </div>

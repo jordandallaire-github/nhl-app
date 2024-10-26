@@ -3,9 +3,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     .home-away-infos {
-      font-size: 1.6rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -38,6 +38,10 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 10px;
       text-align: center;
+
+      h4{
+        margin-bottom: 10px;
+      }
 
       @media screen and (max-width: 1050px) {
         gap: 4px;

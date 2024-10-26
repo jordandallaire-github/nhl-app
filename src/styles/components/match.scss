@@ -105,10 +105,11 @@
       }
 
       .score-games {
-        font-size: 3.5rem;
+        
         font-weight: bolder;
 
         .score {
+          font-size: 3rem;
           opacity: 0.6;
         }
       }
@@ -121,6 +122,7 @@
           transform: translateY(50%);
         }
       }
+
     }
 
     .team-infos {
@@ -148,6 +150,13 @@
       margin: 0;
       font-size: 1.4rem;
       width: fit-content;
+    }
+
+    .period-status{
+      display: flex;
+      align-items: center;
+      flex-direction: column-reverse;
+      justify-content: center;
     }
   }
 
@@ -183,10 +192,6 @@
         max-width: 40px;
         max-width: 40px;
       }
-    }
-
-    strong {
-      font-size: 2.4rem;
     }
   }
 
@@ -255,6 +260,10 @@
     .player-matchup {
       margin-top: 30px;
     }
+
+    @media screen and (max-width: 550px) {
+      padding: 0;
+    }
   }
 
   .players {
@@ -285,22 +294,32 @@
       }
 
       &.home {
-        flex-direction: row-reverse;
-
         .infos {
-          flex-direction: row-reverse;
+          text-align: right;
+
+          @media screen and (max-width: $breakpoint-sm) {
+            flex-direction: column-reverse;
+          }
         }
       }
 
       &.away {
         text-align: right;
+        flex-direction: row-reverse;
+
+        .infos {
+          flex-direction: row-reverse;
+          text-align: left;
+
+          @media screen and (max-width: $breakpoint-sm) {
+            flex-direction: column-reverse;
+            text-align: left;
+          }
+        }
       }
 
       .stat {
         text-align: center;
-        strong {
-          font-size: 3rem;
-        }
         p {
           margin: 0;
         }
@@ -324,6 +343,26 @@
           display: none;
         }
       }
+
+      @media screen and (max-width: 550px) {
+        &.home {
+          flex-direction: column-reverse;
+          gap: 10px;
+          .infos {
+            flex-direction: column-reverse;
+            text-align: center;
+          }
+        }
+
+        &.away {
+          flex-direction: column-reverse;
+          gap: 10px;
+          .infos {
+            flex-direction: column-reverse;
+            text-align: center;
+          }
+        }
+      }
     }
 
     &.goalie {
@@ -341,7 +380,69 @@
 
       .player {
         text-align: left;
+        flex-direction: initial;
       }
+
+      .home {
+        .infos {
+          flex-direction: initial;
+          text-align: left;
+        }
+      }
+
+      .away {
+        .infos {
+          flex-direction: initial;
+        }
+      }
+
+      @media screen and (max-width: $breakpoint-sm) {
+        justify-content: flex-start;
+
+        .home {
+          flex-direction: row;
+          .infos {
+            flex-direction: row;
+            justify-content: flex-start;
+            text-align: left;
+          }
+        }
+
+        .away {
+          text-align: right;
+          flex-direction: row;
+
+          .infos {
+            flex-direction: row;
+            justify-content: flex-start;
+          }
+        }
+
+        .player {
+          flex-direction: column;
+          gap: 10px;
+          align-items: initial;
+        }
+      }
+
+      @media screen and (max-width: 550px) {
+        .home {
+          .infos {
+            text-align: left;
+          }
+        }
+
+        .away {
+          gap: 10px;
+          .infos {
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 550px) {
+      gap: 40px;
     }
   }
 }
@@ -380,7 +481,7 @@
   }
 }
 
-.nav-match{
+.nav-match {
   display: grid;
   grid-template-columns: 65% 1fr;
   gap: 30px;
@@ -388,7 +489,7 @@
   font-size: 1.8rem;
   margin-bottom: 30px;
 
-  .main-nav{
+  .main-nav {
     --width-line: 110px;
 
     position: relative;
@@ -398,7 +499,7 @@
     width: 100%;
     border-bottom: 1px solid var(--color-white);
 
-    p{
+    p {
       cursor: pointer;
       width: var(--width-line);
       display: flex;
@@ -407,13 +508,13 @@
       opacity: 0.5;
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 
-      &.active{
+      &.active {
         opacity: 1;
       }
     }
-    
-    &::after{
-      content: '';
+
+    &::after {
+      content: "";
       position: absolute;
       width: var(--width-line);
       height: 3px;
@@ -424,27 +525,27 @@
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    &.sommaire::after{
-      left: calc((var(--width-line) * 2 + 40px)/2);
+    &.sommaire::after {
+      left: calc((var(--width-line) * 2 + 40px) / 2);
     }
 
-    &.description::after{
+    &.description::after {
       left: calc((var(--width-line) * 2 + 40px));
     }
   }
 
-  .game-recap{
+  .game-recap {
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
-    .video{
+    .video {
       background-image: none;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 20px;
 
-      p{
+      p {
         margin: 0;
       }
     }

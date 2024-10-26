@@ -64,6 +64,13 @@
         flex-direction: column;
       }
 
+      .media{
+        img{
+          width: clamp(22.5rem, 20.28rem + 11.1vw, 33.6rem);
+          height:clamp(22.5rem, 20.28rem + 11.1vw, 33.6rem);
+        }
+      }
+
       .other-infos {
         display: flex;
         align-items: center;
@@ -86,7 +93,7 @@
       }
 
       strong {
-        font-size: 5rem;
+        font-size: 3rem;
       }
     }
 

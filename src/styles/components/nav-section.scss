@@ -1,7 +1,6 @@
 .nav-section {
   --number-links: 2;
   --gap: 20px;
-  font-size: 2.4rem;
   color: var(--color-white);
   font-weight: 600;
 
@@ -12,13 +11,12 @@
     position: relative;
     text-align: center;
     width: fit-content;
-    gap: var(--gap);
 
     &::after {
       content: "";
       display: block;
       position: absolute;
-      bottom: 20px;
+      bottom: 15px;
       left: 0;
       --width-line: 130px;
       background-color: var(--color-white);
@@ -28,8 +26,8 @@
       box-shadow: 0 2px 25px 2px var(--color-white);
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
 
-      @media screen and (max-width: 525px) {
-        --width-line: 100px;
+      @media screen and (max-width: 500px) {
+        --width-line: 110px;
       }
     }
 
@@ -39,29 +37,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: calc(var(--font-size-content) + 0.3rem);
       cursor: pointer;
 
       &.active {
         opacity: 1;
       }
 
-      @media screen and (max-width: 525px) {
-        width: 100px;
-        font-size: 1.8rem;
+      @media screen and (max-width: 500px) {
+        width: 110px;
       }
     }
 
     &.calendrier::after {
-      left: calc(var(--width-line) + var(--gap));
+      left: calc(var(--width-line));
     }
     &.statistiques::after {
       left: calc(
-        var(--width-line) * var(--number-links) + var(--gap) * var(--number-links)
+        var(--width-line) * var(--number-links)
       );
     }
-
-    @media screen and (max-width: 525px) {
-      --gap: 10px
-    }
   }
+
 }

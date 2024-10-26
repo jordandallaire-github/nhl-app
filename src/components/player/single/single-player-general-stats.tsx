@@ -4,7 +4,7 @@ import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import formatSeason from "../../../scripts/utils/formatSeason";
 
 interface StatsTableProps {
-  stats: any;
+  stats: Record<string, number>;
   isGoalie: boolean;
 }
 
@@ -64,9 +64,9 @@ const StatsTable: React.FC<StatsTableProps> = ({ stats, isGoalie }) => {
   );
 };
 
-const StatSection: React.FC<{ title: string; stats: any; isGoalie: boolean }> = ({ title, stats, isGoalie }) => (
+const StatSection: React.FC<{ title: string; stats: Record<string, number>; isGoalie: boolean }> = ({ title, stats, isGoalie }) => (
   <div className="stats-section">
-    <h3>{title}</h3>
+    <p><strong>{title}</strong></p>
     <div className="short-stats-list">
       <StatsTable stats={stats} isGoalie={isGoalie} />
     </div>
@@ -81,12 +81,12 @@ const PlayerSingleGeneralStats: React.FC<{ player: PlayerDetailsType }> = ({ pla
     <div data-is-swiper-slide className={`${isPlayoffs ? 'playoff' : 'normal'}-stats-general swiper-no-swiping`}>
       <StatSection
         title={`${isPlayoffs ? 'Série' : 'Saison'} ${season}`}
-        stats={player.featuredStats?.[isPlayoffs ? 'playoffs' : 'regularSeason']?.subSeason}
+        stats={player.featuredStats?.[isPlayoffs ? 'playoffs' : 'regularSeason']?.subSeason || {}}
         isGoalie={isGoalie}
       />
       <StatSection
         title={`Carrière${isPlayoffs ? ' en séries' : ''}`}
-        stats={player.careerTotals?.[isPlayoffs ? 'playoffs' : 'regularSeason']}
+        stats={player.careerTotals?.[isPlayoffs ? 'playoffs' : 'regularSeason'] || {}}
         isGoalie={isGoalie}
       />
     </div>

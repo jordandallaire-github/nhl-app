@@ -138,7 +138,7 @@ interface Colors {
                   className="player-matchup"
                 >
                   <div className="players goalie">
-                    <div className="player away left">
+                    <div className="player home left">
                       <div className="infos">
                         <div className="media">
                           <Link

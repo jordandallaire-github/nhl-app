@@ -10,7 +10,12 @@ interface PlayerCardProps {
   teamCommonName?: string;
 }
 
-const PlayerCard: React.FC<PlayerCardProps> = ({ player, teamAbbrev, teamColor, teamCommonName }) => {
+const PlayerCard: React.FC<PlayerCardProps> = ({
+  player,
+  teamAbbrev,
+  teamColor,
+  teamCommonName,
+}) => {
   const teamLogo = `https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_light.svg`;
 
   return (
@@ -30,18 +35,22 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, teamAbbrev, teamColor, 
         />
       </div>
       <div className="card-content">
-        <h3>
+        <h4>
           {player.firstName.default} {player.lastName.default}
-        </h3>
+        </h4>
         <div className="other-infos">
-          <p>#{player.sweaterNumber}</p>
+          <p>
+            <strong>#{player.sweaterNumber}</strong>
+          </p>
           <img className="team-logo" src={teamLogo} alt={`logo`} />
           <p>
-            {player.positionCode === "R"
-              ? "AD"
-              : player.positionCode === "L"
-              ? "AG"
-              : player.positionCode}
+            <strong>
+              {player.positionCode === "R"
+                ? "AD"
+                : player.positionCode === "L"
+                ? "AG"
+                : player.positionCode}
+            </strong>
           </p>
         </div>
       </div>

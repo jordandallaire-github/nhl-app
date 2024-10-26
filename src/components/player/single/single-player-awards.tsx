@@ -107,7 +107,7 @@ const PlayerSingleAwards: React.FC<{
             </div>
           ))
         ) : (
-          <h3>Aucune récompense.</h3>
+          <p><strong>Aucune récompense.</strong></p>
         )}
       </div>
     </section>

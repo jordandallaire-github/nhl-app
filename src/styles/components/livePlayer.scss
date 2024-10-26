@@ -148,14 +148,14 @@
       }
     }
     .number {
-      font-size: 1.6rem;
+      font-size: var(--font-size-content);
       line-height: 12px;
       font-weight: 500;
       letter-spacing: 0px;
       font-weight: 700;
       cursor: pointer;
-      width: 40px;
-      height: 40px;
+      width: clamp(2.4rem, 2.08rem + 1.6vw, 4rem);
+      height: clamp(2.4rem, 2.08rem + 1.6vw, 4rem);
       border-radius: 50%;
       text-align: center;
       display: grid;

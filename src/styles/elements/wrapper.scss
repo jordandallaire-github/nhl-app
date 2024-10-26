@@ -13,4 +13,10 @@
 
 section + section {
     margin-top: var(--spacing-lg);
+
+    &.scoreboard,
+    &.schedule,
+    &.stats-team-player{
+        margin-top: 60px;
+    }
 }

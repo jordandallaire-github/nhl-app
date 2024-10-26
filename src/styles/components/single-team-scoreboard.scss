@@ -1,6 +1,10 @@
 .scoreboard {
   color: var(--color-white);
 
+  h2{
+    margin-bottom: 20px;
+  }
+
   .swiper {
     overflow-x: clip;
     overflow-y: visible;
@@ -13,7 +17,7 @@
     max-width: 420px;
     min-width: 250px;
 
-    h3 {
+    p {
       text-align: center;
       margin: 0 0 15px 0;
     }
@@ -36,7 +40,7 @@
         position: relative;
         margin-top: 15px;
 
-        .situation{
+        .situation {
           background-color: red;
           width: fit-content;
           height: 20px;
@@ -65,6 +69,10 @@
         justify-content: center;
         gap: 5px;
         flex-wrap: wrap;
+
+        p {
+          font-size: 1.4rem;
+        }
 
         @media screen and (max-width: 500px) {
           display: none;

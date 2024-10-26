@@ -19,7 +19,7 @@ const SingleTeamPlayerGroup: React.FC<PlayerGroupProps> = ({
 }) => {
   return (
     <div className="player-position">
-      <h2>{title} :</h2>
+      <h3>{title} :</h3>
       <div className="cards">
         {players.map((player) => (
           <PlayerCard

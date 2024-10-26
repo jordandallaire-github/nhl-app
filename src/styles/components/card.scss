@@ -27,6 +27,7 @@
   color: var(--color-white);
   display: flex;
   flex-direction: column;
+  gap: 15px;
   align-items: center;
   justify-content: center;
   max-width: 450px;
@@ -34,8 +35,8 @@
 
   .card-media {
     position: relative;
-    max-width: 350px;
-    max-height: 350px;
+    max-width: 250px;
+    max-height: 250px;
     z-index: 2;
 
     .image__container{
@@ -72,8 +73,6 @@
     }
 
     p{
-      font-size: 3.0rem;
-      font-weight: 600;
       width: 55px;
       align-items: center;
       text-align: center;
@@ -94,7 +93,7 @@
 }
 
 .player-position{
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .card-background-color{

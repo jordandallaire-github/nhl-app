@@ -303,17 +303,17 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                   <span>Sans aide</span>
                 )}
               </span>
-              <p>
+              <p className="time-goal">
                 {goal.teamAbbrev === game.homeTeam.abbrev ? (
                   <>
                     {game.awayTeam.abbrev} {goal.awayScore} -{" "}
-                    <strong>
+                    <strong className="team-goal">
                       {game.homeTeam.abbrev} {goal.homeScore}
                     </strong>{" "}
                   </>
                 ) : (
                   <>
-                    <strong>
+                    <strong className="team-goal">
                       {game.awayTeam.abbrev} {goal.awayScore}
                     </strong>{" "}
                     - {game.homeTeam.abbrev} {goal.homeScore}{" "}

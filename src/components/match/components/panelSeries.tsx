@@ -58,7 +58,7 @@ import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
                         alt={`${serie?.awayTeam.abbrev} logo`}
                       />
                       <p>
-                        <strong>{serie?.awayTeam.abbrev}</strong>
+                        {serie?.awayTeam.abbrev}
                       </p>
                     </div>
                     {(serie.gameState === "LIVE" ||
@@ -78,7 +78,7 @@ import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
                         alt={`${serie?.homeTeam.abbrev} logo`}
                       />
                       <p>
-                        <strong>{serie?.homeTeam.abbrev}</strong>
+                        {serie?.homeTeam.abbrev}
                       </p>
                     </div>
                     {(serie.gameState === "LIVE" ||

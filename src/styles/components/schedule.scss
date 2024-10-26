@@ -213,6 +213,15 @@
       font-size: 1.2rem;
     }
 
+    .time-goal,
+    .team-goal{
+      font-size: 1.4rem;
+    }
+
+    .goal-situation strong{
+      font-size: 1.6rem;
+    }
+
     .clip {
       margin-left: -20px;
     }
@@ -231,8 +240,11 @@
     }
 
     .stats {
-      font-size: 1.8rem;
       text-align: center;
+    }
+
+    .other-infos strong{
+      font-size: 1.6rem;
     }
   }
 
