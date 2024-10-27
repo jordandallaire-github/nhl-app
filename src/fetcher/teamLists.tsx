@@ -20,6 +20,9 @@ const ListTeams: React.FC = () => {
   const [teamColors, setTeamColors] = useState<TeamColor | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const isBuildProduction = false;
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
   useEffect(() => {
     const fetchTeamsAndColors = async () => {
       try {
@@ -30,7 +33,7 @@ const ListTeams: React.FC = () => {
         setTeamColors(colorData);
 
         // Fetch teams from the NHL API
-        const res = await fetch("/proxy.php/v1/standings/now");
+        const res = await fetch(`${apiWeb}v1/standings/now`);
         if (!res.ok) throw new Error("Failed to fetch teams");
         const teamData = await res.json();
         setTeams(teamData.standings);
@@ -50,7 +53,6 @@ const ListTeams: React.FC = () => {
     return <div>Error: {error}</div>;
   }
 
-  // Grouper les équipes par division
   const teamsByDivision = groupTeamsByDivision(teams);
 
   return (

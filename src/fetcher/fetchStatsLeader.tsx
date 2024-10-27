@@ -15,11 +15,14 @@ const StatsLeader: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const isBuildProduction = false;
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
   const fetchStanding = useCallback(async () => {
     setLoading(true);
     try {
       const responsePlayerStats = await fetch(
-        `/proxy.php/v1/skater-stats-leaders/current`
+        `${apiWeb}v1/skater-stats-leaders/current`
       );
       if (!responsePlayerStats.ok) {
         throw new Error(
@@ -31,7 +34,7 @@ const StatsLeader: React.FC = () => {
       setPlayerStats(dataPlayerStats);
 
       const responseGoalieStats = await fetch(
-        `/proxy.php/v1/goalie-stats-leaders/current`
+        `${apiWeb}v1/goalie-stats-leaders/current`
       );
       if (!responseGoalieStats.ok) {
         throw new Error("Erreur lors de la récupération du classement.");

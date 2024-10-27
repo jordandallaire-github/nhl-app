@@ -1,6 +1,6 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import Carousel from "../../utils/carousel";
-/* import { goalieStats, playerStats } from "./utilRosterPlayer"; */
+import { goalieStats, playerStats } from "./utilRosterPlayer";
 
 interface Colors {
   home: string | null;
@@ -25,7 +25,13 @@ export const renderRosterMatch = (
           grabCursor={false}
         >
           <div className="nav-wrapper">
-            <div className="indicator" style={{backgroundColor: teamColors.away || "#000", boxShadow: `0 2px 25px 2px ${teamColors.away}`}}></div>
+            <div
+              className="indicator"
+              style={{
+                backgroundColor: teamColors.away || "#000",
+                boxShadow: `0 2px 25px 2px ${teamColors.away}`,
+              }}
+            ></div>
             <div className="nav-pill-roster">
               <div
                 onClick={() => changeIndicatorColor("away", teamColors)}
@@ -39,11 +45,14 @@ export const renderRosterMatch = (
               >
                 <p>{game.homeTeam.name.fr ?? game.homeTeam.name.default}</p>
               </div>
-              <div className="indicator-pill-roster" style={{backgroundColor: teamColors.away || "#000"}}></div>
+              <div
+                className="indicator-pill-roster"
+                style={{ backgroundColor: teamColors.away || "#000" }}
+              ></div>
             </div>
           </div>
 
-{/*           <div data-is-swiper-slide className="roster-slide swiper-no-swiping">
+          <div data-is-swiper-slide className="roster-slide swiper-no-swiping">
             {playerStats(game, true, null, false)}
             {playerStats(game, false, null, false)}
             {goalieStats(game, null, false)}
@@ -52,7 +61,7 @@ export const renderRosterMatch = (
             {playerStats(game, true, null, true)}
             {playerStats(game, false, null, true)}
             {goalieStats(game, null, true)}
-          </div> */}
+          </div>
         </Carousel>
       </div>
     </>
@@ -60,13 +69,10 @@ export const renderRosterMatch = (
 };
 
 const changeIndicatorColor = (teamType: "away" | "home", colors: Colors) => {
-  const indicator = document.querySelector(
-    ".indicator"
-  ) as HTMLElement;
+  const indicator = document.querySelector(".indicator") as HTMLElement;
   const indicatorPill = document.querySelector(
     ".indicator-pill-roster"
   ) as HTMLElement;
-
 
   if (teamType === "away") {
     indicator.style.backgroundColor = colors.away || "#000";

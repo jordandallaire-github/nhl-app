@@ -40,6 +40,9 @@ const MatchVideos: React.FC = () => {
   const [date, setDate] = useState<string | null>(null);
   const location = useLocation();
 
+  const isBuildProduction = false;
+  const apiForge = isBuildProduction ? "/proxy.php/" : "https://forge-dapi.d3.nhle.com/"
+
   useEffect(() => {
     const teamAbbreviations = extractTeamAbbreviations(location.pathname);
     setTeams(teamAbbreviations);
@@ -60,7 +63,7 @@ const MatchVideos: React.FC = () => {
       const [
         gameVideoResponse,
       ] = await Promise.all([
-        fetch(`/proxy.php/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
+        fetch(`${apiForge}v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
       ]);
 
       if (!gameVideoResponse) {
@@ -76,7 +79,7 @@ const MatchVideos: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [matchId]);
+  }, [apiForge, matchId]);
 
   useEffect(() => {
     fetchMatchVideoData();

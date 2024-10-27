@@ -35,6 +35,10 @@ const usePlayerDetails = (playerSlug: string) => {
   const [player, setPlayer] = useState<PlayerDetailsType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const isBuildProduction = false;
+  const path = isBuildProduction ? "/projets/dist/" : "/";
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
   useEffect(() => {
     const fetchPlayer = async () => {
       try {
@@ -43,12 +47,12 @@ const usePlayerDetails = (playerSlug: string) => {
         const playerId = playerSlug.split("-").pop();
         if (!playerId) throw new Error("Invalid player ID");
 
-        const colorRes = await fetch("/projets/dist/teamColor.json");
+        const colorRes = await fetch(`${path}teamColor.json`);
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
         const teamColorData = await colorRes.json();
 
         const res = await fetch(
-          `/proxy.php/v1/player/${playerId}/landing`
+          `${apiWeb}v1/player/${playerId}/landing`
         );
         if (!res.ok) throw new Error("Failed to fetch player data");
         const playerData = await res.json();
@@ -101,7 +105,7 @@ const usePlayerDetails = (playerSlug: string) => {
     };
 
     fetchPlayer();
-  }, [playerSlug]);
+  }, [apiWeb, path, playerSlug]);
 
   return { player, error };
 };

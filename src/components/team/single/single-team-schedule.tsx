@@ -32,6 +32,8 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
     initialSchedule
   );
 
+  const isBuildProduction = false;
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 
   const totalDays = 35;
   const nextMonthDate = new Date(schedule?.nextMonth ?? "");
@@ -71,7 +73,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
 
       try {
         const res = await fetch(
-          `/proxy.php/v1/club-schedule/${abr}/month/${newMonth
+          `${apiWeb}v1/club-schedule/${abr}/month/${newMonth
             .toISOString()
             .slice(0, 7)}`
         );
@@ -85,7 +87,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
         );
       }
     },
-    [abr, schedule]
+    [abr, apiWeb, schedule]
   );
 
   const handleGameClick = (

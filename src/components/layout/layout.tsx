@@ -9,11 +9,15 @@ function Layout() {
   const location = useLocation();
   const { teamCommonName } = useParams<{ teamCommonName?: string }>();
 
+  const isBuildProduction = false;
+  const path = isBuildProduction ? "/projets/dist/" : "/";
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
   useEffect(() => {
     const fetchTeamColor = async () => {
       if (teamCommonName) {
         try {
-          const res = await fetch("/proxy.php/v1/standings/now");
+          const res = await fetch(`${apiWeb}v1/standings/now`);
           if (!res.ok) throw new Error("Failed to fetch team data");
           const data = await res.json();
           const team = data.standings?.find(
@@ -24,7 +28,7 @@ function Layout() {
 
           if (team) {
             const teamAbbrev = team.teamAbbrev.default;
-            const colorRes = await fetch("/projets/dist/teamColor.json");
+            const colorRes = await fetch(`${path}teamColor.json`);
             if (!colorRes.ok) throw new Error("Failed to fetch team colors");
             const colorData: Record<string, { color: string }> =
               await colorRes.json();
@@ -42,7 +46,7 @@ function Layout() {
     };
 
     fetchTeamColor();
-  }, [teamCommonName]);
+  }, [apiWeb, path, teamCommonName]);
 
   useEffect(() => {
     const mainElement = document.querySelector("main");

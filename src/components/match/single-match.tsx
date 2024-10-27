@@ -295,7 +295,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                     boxscore &&
                     renderBoxscore(
                       gameInfos,
-                      /* boxscore */
+                      boxscore,
                       teamColors ?? { home: "", away: "" }
                     )}
                 </>

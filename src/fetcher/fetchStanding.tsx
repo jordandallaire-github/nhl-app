@@ -9,6 +9,10 @@ const Standing: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const isBuildProduction = false;
+  const api = isBuildProduction ? "/proxy.php/" : "https://api.nhle.com/"
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
   const fetchData = async (url: string, params?: URLSearchParams) => {
     const fullUrl = params ? `${url}?${params}` : url;
     const response = await fetch(fullUrl, {
@@ -29,11 +33,9 @@ const Standing: React.FC = () => {
   const fetchStanding = useCallback(async () => {
     setLoading(true);
     try {
-      // Premier appel API
-      const standingsData = await fetchData("/proxy.php/v1/standings/now");
+      const standingsData = await fetchData(`${apiWeb}v1/standings/now`);
       setStanding(standingsData);
 
-      // Deuxième appel API
       const statsParams = new URLSearchParams({
         isAggregate: 'false',
         isGame: 'false',
@@ -43,7 +45,7 @@ const Standing: React.FC = () => {
         cayenneExp: 'gameTypeId=2 and seasonId<=20242025 and seasonId>=20242025'
       });
       
-      const statsData = await fetchData('/proxy.php/stats/rest/en/team/summary', statsParams);
+      const statsData = await fetchData(`${api}stats/rest/en/team/summary`, statsParams);
       setStandingOther(statsData);
 
     } catch (err) {
@@ -52,7 +54,7 @@ const Standing: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [api, apiWeb]);
 
   useEffect(() => {
     fetchStanding();

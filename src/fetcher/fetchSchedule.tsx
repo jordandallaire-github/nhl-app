@@ -21,11 +21,14 @@ const Schedule: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const isBuildProduction = false;
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
   const fetchSchedule = useCallback(async (date: string) => {
     setLoading(true);
     try {
       console.log("Date envoyée à l'API:", date);
-      const response = await fetch(`/proxy.php/v1/score/${date}`);
+      const response = await fetch(`${apiWeb}v1/score/${date}`);
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération du calendrier.");
       }
@@ -37,7 +40,7 @@ const Schedule: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [apiWeb]);
 
   useEffect(() => {
     fetchSchedule(currentDate);

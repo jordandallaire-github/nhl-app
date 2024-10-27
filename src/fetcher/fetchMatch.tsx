@@ -31,13 +31,18 @@ const Match: React.FC = () => {
     away: string;
   } | null>(null);
 
+  const isBuildProduction = false;
+  const path = isBuildProduction ? "/projets/dist/" : "/";
+  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+  const apiForge = isBuildProduction ? "/proxy.php/" : "https://forge-dapi.d3.nhle.com/"
+
 /*   const [replayData, setReplayData] = useState<{
     [goalId: string]: IReplayFrame[];
   }>({}); */
 
   const fetchTeamColors = useCallback(async () => {
     try {
-      const response = await fetch("/projets/dist/teamColor.json");
+      const response = await fetch(`${path}teamColor.json`);
       if (!response.ok) {
         throw new Error("Erreur lors de la récupération des couleurs des équipes");
       }
@@ -47,7 +52,7 @@ const Match: React.FC = () => {
       console.error("Erreur lors du chargement des couleurs des équipes:", err);
       return null;
     }
-  }, []);
+  }, [path]);
 
 /*   const fetchReplayData = useCallback(async (goal: INTGoal) => {
     if (!goal.pptReplayUrl) return;
@@ -71,8 +76,8 @@ const Match: React.FC = () => {
   const fetchRosters = useCallback(async (homeTeamAbbrev: string, awayTeamAbbrev: string) => {
     try {
       const [rosterAwayResponse, rosterHomeResponse] = await Promise.all([
-        fetch(`/proxy.php/v1/roster/${awayTeamAbbrev}/current`),
-        fetch(`/proxy.php/v1/roster/${homeTeamAbbrev}/current`)
+        fetch(`${apiWeb}v1/roster/${awayTeamAbbrev}/current`),
+        fetch(`${apiWeb}v1/roster/${homeTeamAbbrev}/current`)
       ]);
 
       if (!rosterAwayResponse.ok || !rosterHomeResponse.ok) {
@@ -99,7 +104,7 @@ const Match: React.FC = () => {
     } catch (err) {
       throw new Error("Erreur lors de la récupération des rosters");
     }
-  }, []);
+  }, [apiWeb]);
 
   const fetchMatchData = useCallback(async () => {
     if (!matchId) {
@@ -119,11 +124,11 @@ const Match: React.FC = () => {
         gameVideoResponse,
         teamColorsData,
       ] = await Promise.all([
-        fetch(`/proxy.php/v1/gamecenter/${matchId}/landing`),
-        fetch(`/proxy.php/v1/gamecenter/${matchId}/right-rail`),
-        fetch(`/proxy.php/v1/gamecenter/${matchId}/boxscore`),
-        fetch(`/proxy.php/v1/gamecenter/${matchId}/play-by-play`),
-        fetch(`/proxy.php/v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
+        fetch(`${apiWeb}v1/gamecenter/${matchId}/landing`),
+        fetch(`${apiWeb}v1/gamecenter/${matchId}/right-rail`),
+        fetch(`${apiWeb}v1/gamecenter/${matchId}/boxscore`),
+        fetch(`${apiWeb}v1/gamecenter/${matchId}/play-by-play`),
+        fetch(`${apiForge}v2/content/fr-ca/videos?context.slug=nhl&tags.slug=highlight&tags.slug=gameid-${matchId}`),
         fetchTeamColors(),
       ]);
 
@@ -169,7 +174,7 @@ const Match: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [matchId, fetchTeamColors, fetchRosters, /* fetchReplayData */]);
+  }, [matchId, apiWeb, apiForge, fetchTeamColors, fetchRosters]);/* fetchReplayData */
 
   useEffect(() => {
     fetchMatchData();

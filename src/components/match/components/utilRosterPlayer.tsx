@@ -1,4 +1,4 @@
-/* import { INTBoxscore } from "../../../interfaces/boxscores";
+import { INTBoxscore } from "../../../interfaces/boxscores";
 import { INTMainGameInfos } from "../../../interfaces/main-match";
 import { FormatPosition } from "../../../scripts/utils/formatPosition";
 import SortableTable from "../components/sortableHeader";
@@ -91,7 +91,7 @@ export const playerStats = (
     <div className="roster-table-container window-effect">
       <SortableTable
         headers={headers}
-        data={formattedData}
+        data={formattedData ?? []}
         initialSortColumn="name"
       />
     </div>
@@ -172,10 +172,9 @@ export const goalieStats = (
     <div className="roster-table-container window-effect">
       <SortableTable
         headers={headers}
-        data={formattedData}
+        data={formattedData ?? []}
         initialSortColumn="name"
       />
     </div>
   );
 };
- */
