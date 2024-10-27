@@ -31,6 +31,10 @@
       gap: 60px;
     }
   }
+
+  @media screen and (max-width: 868px) {
+    margin-top: 60px;
+  }
 }
 
 .swiper-button-next.swiper-button-disabled {

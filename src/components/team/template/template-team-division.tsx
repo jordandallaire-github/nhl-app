@@ -9,10 +9,30 @@ interface TeamsByDivisionProps {
   teamColors: TeamColor | null;
 }
 
-const TemplateTeamDivision: React.FC<TeamsByDivisionProps> = ({ division, teams, teamColors }) => {
+const formatDivisionName = (division: string) => {
+  switch (division) {
+    case "Central":
+      return "Centrale";
+    case "Pacific":
+      return "Pacifique";
+    case "Atlantic":
+      return "Atlantique";
+    case "Metropolitan":
+      return "Métropolitaine";
+
+    default:
+      return division;
+  }
+};
+
+const TemplateTeamDivision: React.FC<TeamsByDivisionProps> = ({
+  division,
+  teams,
+  teamColors,
+}) => {
   return (
     <div className="division-section">
-      <h2>{division}</h2>
+      <h2>{formatDivisionName(division)}</h2>
       <div className="cards teams">
         {teams.length > 0 ? (
           teams.map((team, index) => (
@@ -27,6 +47,3 @@ const TemplateTeamDivision: React.FC<TeamsByDivisionProps> = ({ division, teams,
 };
 
 export default TemplateTeamDivision;
-
-
-

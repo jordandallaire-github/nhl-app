@@ -4,8 +4,8 @@
   object-fit: cover;
   display: block;
   object-position: 0 15%;
-  max-height: 425px;
-  min-height: 325px;
+  max-height: clamp(27.5rem, 23.8592rem + 15.534vw, 42.5rem);
+  min-height: 225px;
 
   @media screen and (max-width: 515px) {
     object-position: 35% 0%;
@@ -24,13 +24,21 @@
       margin: 0;
     }
 
+    .media {
+      width: clamp(24rem, 11.3592rem + 15.534vw, 30rem);
+      height: clamp(24rem, 11.3592rem + 15.534vw, 30rem);
+    }
+
     @media screen and (max-width: 868px) {
       margin-top: 0;
     }
   }
+
+  @media screen and (max-width: 868px) {
+    display: block;
+    padding: 0;
+  }
 }
-
-
 
 .more-infos {
   h2 {

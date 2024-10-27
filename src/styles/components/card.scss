@@ -1,25 +1,87 @@
 .cards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  row-gap: 130px;
-  column-gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  row-gap: 100px;
+  column-gap: 60px;
   margin-top: 100px;
 
-  @media screen and (max-width: 1240px) {
-    grid-template-columns: 1fr 1fr;
+  @media screen and (max-width: $breakpoint-sm) {
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    row-gap: 85px;
+    column-gap: 40px;
   }
 
-  @media screen and (max-width: $breakpoint-sm) {
+  @media screen and (max-width: 520px) {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
 
-  &.teams{
+  &.teams {
     row-gap: 60px;
-  }
+    column-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    margin-top: 40px;
 
+    .card {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      padding: 16px 10px;
+      background-image: none;
+      justify-content: flex-start;
+      align-items: center;
+      min-width: 100%;
+
+
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: left;
+        gap: 10px;
+        margin-bottom: 0;
+
+        .links-team {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+
+          a {
+            font-size: var(--font-size-content);
+            position: relative;
+
+            &:not(:last-child):after {
+              position: absolute;
+              content: "";
+              width: 5px;
+              height: 5px;
+              background-color: var(--color-white);
+              right: -12px;
+              border-radius: 50%;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 807px) {
+      grid-template-columns: 1fr;
+      row-gap: 25px;
+      column-gap: 0;
+      .card {
+        gap: 5px;
+      }
+    }
+  }
+}
+
+.division-section {
+  margin-bottom: 40px;
 }
 
 .card {
@@ -30,18 +92,18 @@
   gap: 15px;
   align-items: center;
   justify-content: center;
-  max-width: 450px;
-  width: 100%;
+  min-height: 235px;
 
   .card-media {
     position: relative;
-    max-width: 250px;
-    max-height: 250px;
+    width: clamp(6rem, 5.0291rem + 4.1424vw, 10rem);
+    height: clamp(6rem, 5.0291rem + 4.1424vw, 10rem);
+    display: flex;
     z-index: 2;
 
-    .image__container{
-        position: absolute;
-        inset: 0;
+    .image__container {
+      position: absolute;
+      inset: 0;
     }
 
     img {
@@ -49,21 +111,24 @@
       height: 100%;
     }
 
-    &.player{
+    &.player {
       margin-top: -100px;
+      width: clamp(15rem, 13.1796rem + 7.767vw, 22.5rem);
+      height: clamp(15rem, 13.1796rem + 7.767vw, 22.5rem);
     }
   }
 
-  .card-content{
+  .card-content {
     text-align: center;
-    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
 
-    .other-infos{
+    .other-infos {
       position: relative;
       width: 100%;
       display: flex;
@@ -72,31 +137,35 @@
       gap: 15px;
     }
 
-    p{
+    p {
       width: 55px;
       align-items: center;
       text-align: center;
     }
   }
 
-}
-
-.team-logo{
-  max-width: 100px;
-  min-height: 100px;
-  filter: drop-shadow(2px 4px 6px black) brightness(1.2);
-
-  &.list-team{
-    max-width: 100%;
-    min-height: 100%;
+  @media screen and (max-width: 520px) {
+    min-width: 320px;
   }
 }
 
-.player-position{
+.team-logo {
+  filter: drop-shadow(2px 4px 6px black) brightness(1.2);
+  max-width: clamp(6rem, 5.0291rem + 4.1424vw, 10rem);
+  max-height: clamp(6rem, 5.0291rem + 4.1424vw, 10rem);
+}
+
+.list-team {
+  max-width: 100%;
+  min-height: 100%;
+  filter: drop-shadow(2px 4px 6px black) brightness(1.2);
+}
+
+.player-position {
   margin-top: 40px;
 }
 
-.card-background-color{
+.card-background-color {
   z-index: -1;
   position: absolute;
   opacity: 1;

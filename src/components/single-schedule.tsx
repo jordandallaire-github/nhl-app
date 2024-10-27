@@ -124,7 +124,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
       <p><strong>Meneurs de l'équipe</strong></p>
       <Carousel
         breakpoint={{
-          375: { slidesPerView: "auto", spaceBetween: 10 },
+          320: { slidesPerView: "auto", spaceBetween: 10 },
         }}
         pagination={{
           clickable: true,
@@ -212,7 +212,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
       <p><strong>Buts</strong></p>
       <Carousel
         breakpoint={{
-          375: { slidesPerView: "auto", spaceBetween: 10 },
+          320: { slidesPerView: "auto", spaceBetween: 10 },
         }}
         pagination={{
           clickable: true,

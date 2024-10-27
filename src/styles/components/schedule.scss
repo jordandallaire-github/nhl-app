@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: flex-start;
     gap: 8px;
+    margin-bottom: 40px;
     button {
       min-width: 40px;
       max-width: 100px;
@@ -55,7 +56,7 @@
     font-weight: 800;
     max-width: 270px;
     max-height: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     padding: 8px;
     button {
       border-width: 0;
@@ -78,7 +79,6 @@
       align-items: flex-start;
       flex-direction: column;
       justify-content: center;
-      gap: 30px;
 
       a {
         display: flex;
@@ -127,8 +127,12 @@
 
   .container-games {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(332px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     gap: 24px;
+
+    @media screen and (max-width: 500px) {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
   }
 
   .situation {
@@ -172,8 +176,8 @@
     justify-content: flex-start;
     font-size: 1.4rem;
     max-width: 450px;
-    gap: 15px;
     padding: 10px 15px;
+    width: 330px;
 
     .media,
     a {
@@ -182,6 +186,7 @@
       min-width: 60px;
       min-height: 60px;
       aspect-ratio: 16 / 9;
+      margin-right: 10px;
 
       a {
         display: flex;
@@ -201,7 +206,12 @@
       justify-content: center;
       align-items: flex-start;
       gap: 5px;
-      width: 100%;
+    }
+
+    .video{
+      margin-left: 10px;
+      position: absolute;
+      right: 10px;
     }
 
     p {
@@ -225,14 +235,26 @@
     .clip {
       margin-left: -20px;
     }
+
+    @media screen and (max-width: 500px) {
+      width: 310px;
+    }
+  }
+
+  .schedule-container{
+    h2{
+      margin-bottom: 40px;
+    }
   }
 
   .slide.leader {
+    width: initial;
     .player-infos {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 15px;
+      margin-right: 10px;
     }
 
     .player-stats {
@@ -268,7 +290,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 25px;
+    margin-top: 15px;
 
     a,div {
       padding: 15px;
@@ -310,7 +332,7 @@
 
     .swiper-navigation {
       position: absolute;
-      top: 66%;
+      top: 68%;
       width: 100%;
       display: flex;
       justify-content: center;
