@@ -20,7 +20,7 @@ const ListTeams: React.FC = () => {
   const [teamColors, setTeamColors] = useState<TeamColor | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const isBuildProduction = false;
+  const isBuildProduction = true;
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 
   useEffect(() => {

@@ -8,8 +8,8 @@
   }
 
   .hero-logo{
-    max-width: 300px;
-    max-height: 300px;
+    max-width: clamp(15rem, 11.3592rem + 15.534vw, 30rem);
+    max-height: clamp(15rem, 11.3592rem + 15.534vw, 30rem);
   }
 }
 
