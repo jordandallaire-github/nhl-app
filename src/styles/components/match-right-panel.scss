@@ -65,10 +65,8 @@
             gap: 5px;
             align-items: center;
             img {
-              min-width: 50px;
-              min-height: 50px;
-              max-height: 50px;
-              max-width: 50px;
+              width: 55px;
+              height: 55px;
             }
           }
 
@@ -110,6 +108,7 @@
 
       h4 {
         margin: 0;
+        text-align: center;
       }
     }
 

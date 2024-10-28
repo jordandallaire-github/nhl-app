@@ -2,11 +2,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 75px;
+  gap: clamp(2.5rem, 1.2864rem + 5.178vw, 7.5rem);
   margin-bottom: 60px;
 
-  img {
-    width: clamp(10.938rem, 12.5vw + 8.438rem, 23.438rem);
+  .team-logo-video {
+
+    img{
+      width: clamp(12.5rem, 8.8592rem + 15.534vw, 27.5rem);
+      height: clamp(12.5rem, 8.8592rem + 15.534vw, 27.5rem);
+    }
+
   }
 
   span{

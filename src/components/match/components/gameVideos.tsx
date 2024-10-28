@@ -17,7 +17,7 @@ export const renderGameVideo = (
 
     return (
       <div className="highlight">
-        <h3>Faits saillants</h3>
+        <h2>Faits saillants</h2>
         {filteredVideos.length > 0 ? (
           <>
             <div className="videos-container">
@@ -42,7 +42,7 @@ export const renderGameVideo = (
                       <span>{video.fields.duration?.slice(4, 8)}</span>
                     </div>
                     <div className="content">
-                      <h4>{video.title}</h4>
+                      <p><strong>{video.title}</strong></p>
                       <p>{formatPublicationDate(video.contentDate)}</p>
                     </div>
                   </div>

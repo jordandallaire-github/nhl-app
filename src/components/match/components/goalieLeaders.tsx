@@ -12,7 +12,7 @@ interface Colors {
     <>
       <div className="matchup-card window-effect">
         <div className="glare-effect"></div>
-        <h3>Gardiens</h3>
+        <h2>Gardiens</h2>
         <p className="border">
           {game.matchup?.teamLeaders.context === "regular_season"
             ? "Saison régulière"

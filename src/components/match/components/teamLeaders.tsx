@@ -8,7 +8,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
       <>
         <div className="matchup-card window-effect">
           <div className="glare-effect"></div>
-          <h3>Joueurs à surveiller</h3>
+          <h2>Joueurs à surveiller</h2>
           <p className="border">
             {game.matchup?.teamLeaders.context === "regular_season"
               ? "Saison régulière"

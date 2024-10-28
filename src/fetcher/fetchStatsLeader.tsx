@@ -15,7 +15,7 @@ const StatsLeader: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const isBuildProduction = true;
+  const isBuildProduction = false;
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 
   const fetchStanding = useCallback(async () => {

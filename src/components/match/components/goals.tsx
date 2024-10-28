@@ -57,7 +57,7 @@ export const renderGoalInfos = (
   return (
     <>
       <div className="goal-infos-card">
-        <h3>Résumé des buts</h3>
+        <h2>Résumé des buts</h2>
         {game?.summary?.scoring
           ?.filter((goal) => goal.goals.length > 0)
           .map((scoring, periodIndex) => (
@@ -67,17 +67,17 @@ export const renderGoalInfos = (
             >
               {scoring.goals.length !== 0 &&
                 scoring.periodDescriptor.periodType === "OT" && (
-                  <h4>Prolongation</h4>
+                  <h3>Prolongation</h3>
                 )}
               {scoring.goals.length !== 0 &&
                 scoring.periodDescriptor.periodType === "SO" && (
-                  <h4>Tirs de barrage</h4>
+                  <h3>Tirs de barrage</h3>
                 )}
               {scoring.goals.length !== 0 &&
                 scoring.periodDescriptor.number <= 3 && (
-                  <h4>{`${scoring.periodDescriptor.number}${
+                  <h3>{`${scoring.periodDescriptor.number}${
                     scoring.periodDescriptor.number > 1 ? "e" : "re"
-                  } Période`}</h4>
+                  } Période`}</h3>
                 )}
               {scoring.goals
                 .filter((situation) => situation.situationCode !== "1010")
@@ -157,6 +157,7 @@ export const renderGoalInfos = (
                                 </div>
                                 <div className="assists">
                                   <TeamsLogoLinks
+                                    isNoMobile
                                     team={
                                       goal.teamAbbrev.default ===
                                       game.homeTeam.abbrev
@@ -173,7 +174,15 @@ export const renderGoalInfos = (
                                               key={`assist-${assist.playerId}-${assistIndex}`}
                                             >
                                               {assistIndex > 0 && (
-                                                <span> et </span>
+                                                <>
+                                                  <span className="no-mobile">
+                                                    {" "}
+                                                    et{" "}
+                                                  </span>
+                                                  <span className="mobile">
+                                                    ,{" "}
+                                                  </span>
+                                                </>
                                               )}
                                               <span>{`${assist.name.default} (${assist.assistsToDate})`}</span>
                                             </React.Fragment>
@@ -189,34 +198,49 @@ export const renderGoalInfos = (
                             </div>
                           </div>
                           <div className="goal-infos-stats">
-                            <div className="stat window-effect">
-                              <p>
+                            <div className="stat score window-effect">
                                 {goal.teamAbbrev.default ===
                                 game.homeTeam.abbrev ? (
                                   <>
-                                    <strong>
-                                      {goal.awayScore} - {goal.homeScore}{" "}
-                                      {`${
-                                        goal.homeScore === goal.awayScore
-                                          ? "Égalité"
-                                          : game.homeTeam.abbrev
-                                      }`}
-                                    </strong>
+                                    <div className="away-team">
+                                      <img
+                                        className="no-goal"
+                                        src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
+                                        alt={`${game.awayTeam.name} logo`}
+                                      />
+                                      <p>{goal.awayScore}</p>
+                                    </div>
+                                    <div className="home-team">
+                                      <img
+                                        src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
+                                        alt={`${game.homeTeam.name} logo`}
+                                      />
+                                      <p>
+                                        <strong>{goal.homeScore}</strong>
+                                      </p>
+                                    </div>
                                   </>
                                 ) : (
                                   <>
-                                    <strong>
-                                      {goal.awayScore} - {goal.homeScore}{" "}
-                                      {`${
-                                        goal.homeScore === goal.awayScore
-                                          ? "Égalité"
-                                          : game.awayTeam.abbrev
-                                      }`}
-                                    </strong>
+                                    <div className="away-team">
+                                      <img
+                                        src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
+                                        alt={`${game.awayTeam.name} logo`}
+                                      />
+                                      <p>
+                                        <strong>{goal.awayScore}</strong>
+                                      </p>
+                                    </div>
+                                    <div className="home-team">
+                                      <img
+                                        className="no-goal"
+                                        src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
+                                        alt={`${game.homeTeam.name} logo`}
+                                      />
+                                      <p>{goal.homeScore}</p>
+                                    </div>
                                   </>
                                 )}
-                              </p>
-                              <p>Pointage</p>
                             </div>
                             <div className="stat window-effect">
                               <p>
@@ -292,6 +316,7 @@ export const renderGoalInfos = (
                   </div>
                   <div className="assists so">
                     <TeamsLogoLinks
+                      isNoMobile
                       team={
                         so.teamAbbrev === game.homeTeam.abbrev
                           ? game.homeTeam

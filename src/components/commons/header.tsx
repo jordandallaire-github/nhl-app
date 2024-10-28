@@ -21,7 +21,7 @@ export default function Header() {
               <Svg name="php" size="md"></Svg>
             </Link>
           </div>
-          <nav className="nav-wrapper">
+          <nav className="nav-wrapper header">
             <div
               className={`indicator-page-top ${currentPath.split("/")[1] !== "" ? currentPath.split("/")[1] : "accueil"}`}
             ></div>

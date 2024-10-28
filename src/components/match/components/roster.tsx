@@ -14,7 +14,7 @@ export const renderRosterMatch = (
   return (
     <>
       <div className="roster-match">
-        <h3>Formation</h3>
+        <h2>Formation</h2>
         <Carousel
           navigation={{
             nextEl: ".roster-home",
@@ -26,7 +26,9 @@ export const renderRosterMatch = (
         >
           <div className="nav-wrapper">
             <div
-              className="indicator"
+              className={`indicator ${
+                game.awayTeam.abbrev === "UTA" ? "uta" : ""
+              }`}
               style={{
                 backgroundColor: teamColors.away || "#000",
                 boxShadow: `0 2px 25px 2px ${teamColors.away}`,
@@ -34,19 +36,29 @@ export const renderRosterMatch = (
             ></div>
             <div className="nav-pill-roster">
               <div
-                onClick={() => changeIndicatorColor("away", teamColors)}
-                className="roster-away"
+                onClick={() =>
+                  changeIndicatorColor("away", teamColors, game.awayTeam.abbrev)
+                }
+                className={`roster-away ${
+                  game.awayTeam.abbrev === "UTA" ? "uta" : ""
+                }`}
               >
                 <p>{game.awayTeam.name.fr ?? game.awayTeam.name.default}</p>
               </div>
               <div
-                onClick={() => changeIndicatorColor("home", teamColors)}
-                className="roster-home"
+                onClick={() =>
+                  changeIndicatorColor("home", teamColors, game.homeTeam.abbrev)
+                }
+                className={`roster-home ${
+                  game.homeTeam.abbrev === "UTA" ? "uta" : ""
+                }`}
               >
                 <p>{game.homeTeam.name.fr ?? game.homeTeam.name.default}</p>
               </div>
               <div
-                className="indicator-pill-roster"
+                className={`indicator-pill-roster ${
+                  game.awayTeam.abbrev === "UTA" ? "uta" : ""
+                }`}
                 style={{ backgroundColor: teamColors.away || "#000" }}
               ></div>
             </div>
@@ -68,19 +80,47 @@ export const renderRosterMatch = (
   );
 };
 
-const changeIndicatorColor = (teamType: "away" | "home", colors: Colors) => {
+const changeIndicatorColor = (
+  teamType: "away" | "home",
+  colors: Colors,
+  teamAbr: string
+) => {
   const indicator = document.querySelector(".indicator") as HTMLElement;
   const indicatorPill = document.querySelector(
     ".indicator-pill-roster"
   ) as HTMLElement;
 
   if (teamType === "away") {
+    indicator.classList.remove("home");
+    indicator.classList.add("away");
     indicator.style.backgroundColor = colors.away || "#000";
     indicator.style.boxShadow = `0 2px 25px 2px ${colors.away}`;
     indicatorPill.style.backgroundColor = colors.away || "#000";
+
+    if (teamAbr !== "UTA" && indicatorPill.classList.contains("uta")) {
+      indicatorPill.classList.remove("uta");
+      indicator.classList.remove("uta-home");
+    }
+
+    if (teamAbr === "UTA") {
+      indicatorPill.classList.add("uta");
+      indicator.classList.add("uta-away");
+    }
   } else {
+    indicator.classList.remove("away");
+    indicator.classList.add("home");
     indicator.style.backgroundColor = colors.home || "#000";
     indicator.style.boxShadow = `0 2px 25px 2px ${colors.home}`;
     indicatorPill.style.backgroundColor = colors.home || "#000";
+
+    if (teamAbr !== "UTA" && indicatorPill.classList.contains("uta")) {
+      indicatorPill.classList.remove("uta");
+      indicator.classList.remove("uta-away");
+    }
+
+    if (teamAbr === "UTA") {
+      indicatorPill.classList.add("uta");
+      indicator.classList.add("uta-home");
+    }
   }
 };

@@ -20,8 +20,8 @@ export const renderTeamInfo = (
         style={{
           backgroundImage: `${
             isAway
-              ? `radial-gradient(circle at 56% 0px, rgba(127, 207, 255, 0.2), rgba(0, 0, 0, 0) 0%), radial-gradient(circle at -100% 12px, ${teamColors?.away}, rgba(0, 0, 0, 0) 100%)`
-              : `radial-gradient(circle at -56% 0px, rgba(127, 207, 255, 0.2), rgba(0, 0, 0, 0) 0%), radial-gradient(circle at 160% 1px, ${teamColors?.home}, rgba(0, 0, 0, 0) 100%)`
+              ? `radial-gradient(circle at 56% 0px, rgba(127, 207, 255, 0.2), rgba(0, 0, 0, 0) 0%), radial-gradient(circle at -100% 12px, ${teamColors?.away}, rgba(0, 0, 0, 0) 90%)`
+              : `radial-gradient(circle at -56% 0px, rgba(127, 207, 255, 0.2), rgba(0, 0, 0, 0) 0%), radial-gradient(circle at 160% 1px, ${teamColors?.home}, rgba(0, 0, 0, 0) 90%)`
           }`,
         }}
       ></div>
@@ -39,9 +39,9 @@ export const renderTeamInfo = (
       </div>
       <div className="team-infos">
         <div className="team-name">
-          <h2 className="no-mobile">{team?.name.default}</h2>
+          <p className="no-mobile"><strong>{team?.name.default}</strong></p>
           <p className="no-mobile">{team?.placeNameWithPreposition.fr}</p>
-          <h2 className="mobile">{team?.abbrev}</h2>
+          <p className="mobile"><strong>{team?.abbrev}</strong></p>
         </div>
         {game?.gameState === "LIVE" ||
         game?.gameState === "FINAL" ||

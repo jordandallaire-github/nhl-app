@@ -85,6 +85,16 @@ export const formatDateMonthYear = (dateString: string): string => {
   });
 };
 
+export const formatDateShortMonth = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("fr-FR", {
+    month: "short",
+    year: "numeric",
+    day: "2-digit",
+    timeZone: "UTC",
+  });
+};
+
 export const formatPublicationDate = (dateString: string): string => {
   const date = new Date(dateString)
   return date.toLocaleString('fr-FR', {

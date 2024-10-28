@@ -1,13 +1,21 @@
 .roster-match {
-  --link-width: 200px;
+  --link-width: 150px;
+  --uta-width: 185px;
   --padding-pill: 6px;
   --current-link-index: 0;
   --total-links: 2; // number of link in the nav the properly setup the css for the header
   --total-nav-width: calc(
     var(--total-links) * var(--link-width) - var(--padding-pill) * 2
   );
-  h3 {
+  --total-nav-uta-width: calc(
+     var(--uta-width) + var(--link-width) - var(--padding-pill) * 2
+  );
+  h2 {
     margin: 0;
+
+    @media screen and (max-width: 630px) {
+      margin: 0 0 60px 0;
+    }
   }
   .roster-table-container {
     background-image: none;
@@ -77,7 +85,8 @@
     position: absolute;
     top: -30px;
     height: 44px;
-    right: 0;
+    right: 50%;
+    transform: translateX(50%);
 
     .indicator {
       --width-line: 24px;
@@ -85,15 +94,25 @@
       background-color: var(--color-white);
       border-radius: 2px;
       width: var(--width-line);
+      position: absolute;
+      top: -3px;
       height: 4px;
       margin-bottom: -2px;
-      margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2);
+      left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2);
       box-shadow: 0 2px 25px 2px var(--color-white);
       transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
       filter: brightness(2.5);
 
-      & + .nav-pill-roster:has(.roster-home.swiper-button-disabled) {
-        margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * 3.95);
+      &.home {
+        left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * -1);
+      }
+
+      &.home.uta-home{
+        left: calc(var(--total-nav-width) / 2 - var(--uta-width) / 2 * -1);
+      }
+
+      &.uta{
+        left: calc(var(--total-nav-uta-width) / 2 - var(--uta-width) / 2.5);
       }
     }
   }
@@ -124,17 +143,36 @@
       left: calc(var(--padding-pill) + var(--link-width) * 0);
       transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
       filter: saturate(0.6);
+
+      &.uta{
+        width: var(--uta-width);
+      }
     }
 
-    p {
-      width: var(--link-width);
-      height: 30px;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      cursor: pointer;
+    .roster-away,
+    .roster-home {
+      p {
+        width: var(--link-width);
+        height: 30px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+
+    .roster-away.uta{
+      p{
+        width: var(--uta-width);
+      }
+    }
+
+    .roster-home.uta{
+      p{
+        width: var(--uta-width);
+      }
     }
 
     .roster-home.swiper-button-disabled + .indicator-pill-roster {
@@ -142,5 +180,3 @@
     }
   }
 }
-
-

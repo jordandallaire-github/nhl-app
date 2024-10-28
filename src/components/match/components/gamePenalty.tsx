@@ -8,7 +8,7 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
   return (
     <>
       <div className="penalties">
-        <h3>Pénalités</h3>
+        <h2>Pénalités</h2>
         {noPenalty.length > 0 ? (
           <>
             {game?.summary?.penalties
@@ -20,17 +20,17 @@ export const renderPenalties = (game: INTMainGameInfos | null) => {
                 >
                   {penaltie.penalties.length !== 0 &&
                     penaltie.periodDescriptor.periodType === "OT" && (
-                      <h4>Prolongation</h4>
+                      <h3>Prolongation</h3>
                     )}
                   {penaltie.penalties.length !== 0 &&
                     penaltie.periodDescriptor.periodType === "SO" && (
-                      <h4>Tirs de barrage</h4>
+                      <h3>Tirs de barrage</h3>
                     )}
                   {penaltie.penalties.length !== 0 &&
                     penaltie.periodDescriptor.number <= 3 && (
-                      <h4>{`${penaltie.periodDescriptor.number}${
+                      <h3>{`${penaltie.periodDescriptor.number}${
                         penaltie.periodDescriptor.number > 1 ? "e" : "re"
-                      } Période`}</h4>
+                      } Période`}</h3>
                     )}
                   <div className="penalty-table window-effect">
                     <table>

@@ -1,5 +1,5 @@
 import { INTMainGameInfos } from "../../../interfaces/main-match";
-import { formatDate } from "../../../scripts/utils/formatDate";
+import { formatDateShortMonth } from "../../../scripts/utils/formatDate";
 import { formatGameTime } from "../../../scripts/utils/formatGameTime";
 
 export const renderGameSituation = (game: INTMainGameInfos | null) => {
@@ -45,7 +45,7 @@ export const renderGameSituation = (game: INTMainGameInfos | null) => {
                 game?.easternUTCOffset ?? ""
               )} HAE`}
         </p>
-        <p>{formatDate(game?.gameDate ?? "")}</p>
+        <p>{formatDateShortMonth(game?.gameDate ?? "")}</p>
       </div>
     </>
   );

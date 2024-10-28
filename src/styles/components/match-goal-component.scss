@@ -1,8 +1,8 @@
 .goal-infos-card {
-
   .players-goal {
     background-image: none;
     padding: 0;
+    box-shadow: none;
   }
 
   strong {
@@ -15,7 +15,7 @@
     margin: 0;
   }
 
-  .period-container{
+  .period-container {
     margin-top: 40px;
   }
 
@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 20px;
+    padding: 8px 12px;
     gap: 10px;
     position: relative;
 
@@ -31,11 +31,20 @@
       flex-direction: column;
       align-items: inherit;
 
-      .clip{
+      .clip {
         position: absolute;
         top: 25%;
         right: 20px;
         transform: translateY(-25%);
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .clip {
+        svg {
+          height: 1.6em;
+          width: 1.6em;
+        }
       }
     }
   }
@@ -47,39 +56,58 @@
       align-items: center;
       justify-content: space-between;
       background-image: none;
-      padding: 8px 20px;
+      padding: 8px 12px;
 
-      .result{
-        span{
-          font-size: 2.0rem;
+      .result {
+        span {
+          font-size: 2rem;
           padding: 10px 12px;
           background-color: gray;
 
-          
           border-radius: 50%;
         }
 
-        .goal{
+        .goal {
           background-color: green;
         }
-
       }
     }
 
-    
     .assists {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       gap: 3px;
-      img{
-        max-width: 40px;
-        max-height: 40px;
-        min-width: 40px;
-        min-height: 40px;
+
+      a {
+        img {
+          max-width: 40px;
+          max-height: 40px;
+          min-width: 40px;
+          min-height: 40px;
+        }
+        @media screen and (max-width: 500px) {
+          &.no-mobile {
+            display: none;
+          }
+        }
       }
-      .assist{
+
+      .assist {
         min-width: 120px;
+      }
+      @media screen and (max-width: 500px) {
+        span.no-mobile {
+          display: none;
+        }
+        span{
+          font-size: 1.2rem;
+        }
+      }
+      @media screen and (min-width: 500px) {
+        span.mobile {
+          display: none;
+        }
       }
     }
   }
@@ -90,10 +118,8 @@
     justify-content: flex-start;
     gap: 10px;
     img {
-      min-width: 80px;
-      min-height: 80px;
-      max-width: 80px;
-      max-height: 80px;
+      width: clamp(4.4rem, 3.5262rem + 3.7282vw, 8rem);
+      height: clamp(4.4rem, 3.5262rem + 3.7282vw, 8rem);
     }
   }
 
@@ -107,14 +133,47 @@
     .stat {
       min-width: 108px;
       background-image: none;
-
-      strong{
+      padding: 4px;
+      strong {
         font-size: 1.4rem;
+      }
+
+      &.score{
+        min-width: 130px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      &.score .away-team,
+      &.score .home-team{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+
+      img{
+        width: 40px;
+        height: 40px;
+
+        &.no-goal{
+          opacity: 0.5;
+        }
       }
 
       @media screen and (max-width: 1170px) {
         min-width: inherit;
         width: 100%;
+      }
+
+      @media screen and (max-width: 500px) {
+        p,
+        strong{
+          font-size: 1.2rem;
+        }
+        
       }
     }
   }

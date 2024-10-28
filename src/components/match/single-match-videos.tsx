@@ -7,7 +7,7 @@ import { TeamAbbreviations } from "../../fetcher/fetchMatchVideos";
 export const renderMatchVideo = (
   gameVideos: INTGameVideo | null,
   team: TeamAbbreviations | null,
-  gameDate: string,
+  gameDate: string
 ) => {
   if (gameVideos) {
     return (
@@ -15,15 +15,19 @@ export const renderMatchVideo = (
         <div className="hero">
           <div className="wrapper">
             <div className="team-versus">
-              <img
-                src={`https://assets.nhle.com/logos/nhl/svg/${team?.awayTeam}_dark.svg`}
-                alt={`${team?.awayTeam} logo`}
-              />
+              <div className="team-logo-video">
+                <img
+                  src={`https://assets.nhle.com/logos/nhl/svg/${team?.awayTeam}_dark.svg`}
+                  alt={`${team?.awayTeam} logo`}
+                />
+              </div>
               <span>VS</span>
-              <img
-                src={`https://assets.nhle.com/logos/nhl/svg/${team?.homeTeam}_dark.svg`}
-                alt={`${team?.homeTeam} logo`}
-              />
+              <div className="team-logo-video">
+                <img
+                  src={`https://assets.nhle.com/logos/nhl/svg/${team?.homeTeam}_dark.svg`}
+                  alt={`${team?.homeTeam} logo`}
+                />
+              </div>
             </div>
             <h1>Match du {gameDate}</h1>
           </div>
@@ -55,7 +59,9 @@ export const renderMatchVideo = (
                           <span>{video.fields.duration?.slice(4, 8)}</span>
                         </div>
                         <div className="content">
-                          <h4>{video.title}</h4>
+                          <p>
+                            <strong>{video.title}</strong>
+                          </p>
                           <p>{formatPublicationDate(video.contentDate)}</p>
                         </div>
                       </div>
