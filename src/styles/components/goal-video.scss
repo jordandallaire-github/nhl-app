@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100vh);
+  height: 100vh;
   z-index: 99;
   display: flex;
   align-items: center;
@@ -19,7 +19,6 @@
     .vjs-tech {
       height: 100%;
       max-width: 824px;
-      height: 350px;
       width: 100%;
       position: relative !important;
       aspect-ratio: 16 / 9;
@@ -41,9 +40,10 @@
     display: flex;
     align-items: center;
     flex-direction: column-reverse;
-    width: min(90vw, 650px);
-    padding: 16px;
+    width: min(95vw, 870px);
+    padding: 12px;
     font-size: 1.6rem;
+    border-radius: 12px;
 
     p {
       max-width: 100%;
@@ -51,6 +51,32 @@
 
     h4 {
       margin-bottom: 0;
+    }
+  }
+
+  & div:last-child{
+    width: 100%;
+    max-width: 824px;
+
+    &.vjs-fullscreen{
+      .vjs-tech{
+        max-width: 100%;
+      }
+    }
+  }
+
+  .goal-info{
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  @media screen and (max-height: 820px) {
+    height: calc(100vh + var(--height-header));
+  }
+
+  .vjs-ima3-ad-container{
+    div:first-child{
+      max-width: 100%;
     }
   }
 

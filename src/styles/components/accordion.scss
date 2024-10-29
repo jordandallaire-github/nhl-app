@@ -51,45 +51,40 @@
     }
   }
 
-  &.play{
-    .accordion__header{
+  &.play {
+    .accordion__header {
       padding: 20px;
       align-items: center;
       justify-content: center;
       width: 100%;
 
-      a{
+      a {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex: 1;
         max-width: 75px;
-        img{
-          max-width: 75px;
-          max-height: 75px;
-          min-width: 75px;
-          min-height: 75px;
+        img {
+          width: clamp(3.5rem, 2.5291rem + 4.1424vw, 7.5rem);
+          height: clamp(3.5rem, 2.5291rem + 4.1424vw, 7.5rem);
         }
       }
 
-
-      h5{
+      h5 {
         margin: 0;
       }
 
-      .time{
+      .time {
         display: flex;
         align-items: center;
         flex-direction: column;
         justify-content: center;
-        flex: 1;
         max-width: 72px;
-        p{
+        p {
           margin: 0;
         }
       }
 
-      .situation{
+      .situation {
         display: flex;
         align-items: flex-start;
         flex-direction: column;
@@ -97,8 +92,12 @@
         flex: 1;
         gap: 5px;
 
-        p{
+        p {
           margin: 0;
+
+          @media screen and (max-width: $breakpoint-sm) {
+            font-size: 1.4rem;
+          }
         }
       }
     }
@@ -107,15 +106,15 @@
       max-height: 800px;
       flex-direction: column;
       .accordion__content {
-        padding: 10px 15px;
+        padding: 0;
         display: block;
         max-height: 500px;
         transform: translateY(0);
 
-        .video{
-          .media{
+        .video {
+          .media {
             position: relative;
-            img{
+            img {
               height: 100%;
               width: 100%;
               object-fit: cover;
@@ -139,10 +138,13 @@
               border-radius: 50%;
             }
           }
+        }
 
+        &:has(.video){
+          padding: 10px 15px;
         }
       }
-  
+
       .accordion__header {
         svg {
           transform: rotate(-90deg);
@@ -151,4 +153,3 @@
     }
   }
 }
-

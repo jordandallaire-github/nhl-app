@@ -39,13 +39,13 @@ export const renderBoxscore = (
                 onClick={() => changeIndicatorColor("away", teamColors)}
                 className="roster-away"
               >
-                <p>{game.awayTeam.name.fr ?? game.awayTeam.name.default}</p>
+                <p>{game.awayTeam.name.fr === "Club de hockey de l'Utah" ? "Club de l'Utah" : game.awayTeam.name.fr ? game.awayTeam.name.fr : game.awayTeam.name.default}</p>
               </div>
               <div
                 onClick={() => changeIndicatorColor("home", teamColors)}
                 className="roster-home"
               >
-                <p>{game.homeTeam.name.fr ?? game.homeTeam.name.default}</p>
+                <p>{game.homeTeam.name.fr === "Club de hockey de l'Utah" ? "Club de l'Utah" : game.homeTeam.name.fr ? game.homeTeam.name.fr : game.homeTeam.name.default}</p>
               </div>
               <div
                 className="indicator-pill-roster"
@@ -81,10 +81,14 @@ const changeIndicatorColor = (teamType: "away" | "home", colors: Colors) => {
   console.log(indicatorPill);
 
   if (teamType === "away") {
+    indicator.classList.remove("home");
+    indicator.classList.add("away");
     indicator.style.backgroundColor = colors.away || "#000";
     indicator.style.boxShadow = `0 2px 25px 2px ${colors.away}`;
     indicatorPill.style.backgroundColor = colors.away || "#000";
   } else {
+    indicator.classList.remove("away");
+    indicator.classList.add("home");
     indicator.style.backgroundColor = colors.home || "#000";
     indicator.style.boxShadow = `0 2px 25px 2px ${colors.home}`;
     indicatorPill.style.backgroundColor = colors.home || "#000";

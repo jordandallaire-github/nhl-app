@@ -316,7 +316,6 @@ export const renderGoalInfos = (
                   </div>
                   <div className="assists so">
                     <TeamsLogoLinks
-                      isNoMobile
                       team={
                         so.teamAbbrev === game.homeTeam.abbrev
                           ? game.homeTeam

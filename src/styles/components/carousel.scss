@@ -39,7 +39,8 @@
 
 .nav {
   height: fit-content;
-  --gap: 0px;
+  --gap: 20px;
+  gap: var(--gap);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,20 +82,23 @@
   }
 
   &.game-infos {
-    --gap: 20px;
+    --gap: 35px;
     gap: var(--gap);
     bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
 
     &::after {
-      --width-line: 148px;
+      --width-line: 150px;
     }
 
     h5 {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 148px;
       margin: 0;
+      width: 150px;
+      
     }
 
     &.no-report {
@@ -102,6 +106,15 @@
 
       &::after {
         display: none;
+      }
+    }
+    @media screen and (max-width: 425px) {
+      h5{
+        width: 130px;
+      }
+
+      &::after{
+        --width-line: 130px;
       }
     }
   }
@@ -113,13 +126,10 @@
 
   .swiper-button-next,
   .swiper-button-prev {
-    position: relative;
-    top: inherit;
-    height: fit-content;
     width: fit-content;
-    right: inherit;
+    height: 100%;
+    position: relative;
     text-align: center;
-    left: inherit;
     color: var(--color--white);
     opacity: 0.35;
     transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -156,11 +166,24 @@
   &:has(
       .swiper-button-next.swiper-button-disabled
     )::after {
-    left: calc(50% + (var(--gap) / 2));
+    left: calc(50% + (var(--gap) - 40px / 2));
   }
   &:has(
       .swiper-button-prev.swiper-button-disabled
     )::after {
-    left: calc(50% - var(--width-line) - (var(--gap) / 2));
+    left: calc(50% - var(--width-line) - (var(--gap) - 40px / 2));
+  }
+
+  &.game-infos{
+    &:has(
+      .swiper-button-next.swiper-button-disabled
+    )::after {
+      left: calc(50% + (var(--gap) - 55px / 2));
+  }
+  &:has(
+      .swiper-button-prev.swiper-button-disabled
+    )::after {
+      left: calc(50% - var(--width-line) - (var(--gap) - 55px / 2));
+  }
   }
 }

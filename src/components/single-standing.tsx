@@ -266,7 +266,8 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
             src={`https://assets.nhle.com/logos/nhl/svg/${team.teamAbbrev.default}_dark.svg`}
             alt={`${team.teamName.fr || team.teamName.default} logo`}
           />
-          {`${team.teamName.fr || team.teamName.default}`}
+          <span className="no-mobile">{`${team.teamName.fr || team.teamName.default}`}</span>
+          <span className="mobile">{`${team.teamAbbrev.default}`}</span>
         </Link>
       </td>
       <td>{team.gamesPlayed}</td>

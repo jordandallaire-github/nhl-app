@@ -39,7 +39,7 @@ export const renderTeamInfo = (
       </div>
       <div className="team-infos">
         <div className="team-name">
-          <p className="no-mobile"><strong>{team?.name.default}</strong></p>
+          <p className="no-mobile"><strong>{team?.name.fr === "Club de hockey de l'Utah" ? "Club de hockey" : team?.name.fr ? team?.name.fr : team?.name.default}</strong></p>
           <p className="no-mobile">{team?.placeNameWithPreposition.fr}</p>
           <p className="mobile"><strong>{team?.abbrev}</strong></p>
         </div>

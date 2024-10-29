@@ -15,7 +15,7 @@
       align-items: center;
 
       @media screen and (max-width: 500px) {
-        p{
+        p {
           font-size: 1.2rem;
           white-space: nowrap;
         }
@@ -36,7 +36,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 30px;
+      gap: 10px;
+      flex: 1;
 
       p {
         margin: 0;
@@ -50,12 +51,15 @@
       &.home {
         flex-direction: row-reverse;
         text-align: right;
-        padding-right: 125px;
 
         .score-games {
           .score.home-win {
             opacity: 1;
           }
+        }
+
+        .team-infos {
+          margin-left: 20px;
         }
 
         .team-color {
@@ -75,12 +79,12 @@
           }
           .team-infos {
             grid-column: 2;
+            margin-left: 0;
           }
         }
       }
 
       &.away {
-        padding-left: 125px;
         .score.away-win {
           opacity: 1;
         }
@@ -88,6 +92,10 @@
         .team-color {
           left: calc(0px - 8px);
           border-radius: 24px 0 0 24px;
+        }
+
+        .team-infos {
+          margin-right: 20px;
         }
         @media screen and (max-width: 1270px) {
           padding-left: 0;
@@ -99,11 +107,15 @@
           .score-games {
             grid-column: 2;
           }
+
+          .team-infos {
+            margin-right: 0;
+          }
         }
       }
 
-      .media{
-        a{
+      .media {
+        a {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -128,22 +140,20 @@
         }
       }
 
-      .team-name .no-mobile:first-child strong{
+      .team-name .no-mobile:first-child strong {
         font-size: calc(var(--font-size-content) + 1rem);
-        
       }
 
       .team-name .no-mobile {
         line-height: 2rem;
       }
-
     }
 
     .team-infos {
       min-width: fit-content;
 
       @media screen and (max-width: 500px) {
-        p{
+        p {
           font-size: 1.2rem;
         }
       }
@@ -168,7 +178,7 @@
       width: fit-content;
     }
 
-    .period-status{
+    .period-status {
       display: flex;
       align-items: center;
       flex-direction: column-reverse;
@@ -547,6 +557,10 @@
 
     &.description::after {
       left: calc((var(--width-line) * 2 + 40px));
+    }
+
+    @media screen and (max-width: 425px) {
+      --width-line: 90px;
     }
   }
 

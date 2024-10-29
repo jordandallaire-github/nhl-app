@@ -34,7 +34,7 @@ export const renderMatchVideo = (
         </div>
         <section className="highlight match-video">
           <div className="wrapper">
-            <h2>Vidéos Du Match</h2>
+            <h2>Vidéos du match</h2>
             {gameVideos.items.length > 0 ? (
               <>
                 <div className="videos-container">

@@ -2,13 +2,24 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 0 15px;
     .pcStat,
     .indication-color,
     .standing-stat{
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      p:nth-child(2){
+        @media screen and (max-width: 425px) {
+          font-size: 1.4rem;
+          text-align: center;
+        }
+      }
+
+      strong{
+        font-size: 1.6rem;
+        flex: 1;
+      }
     }
 
     .indication-color{
@@ -40,7 +51,7 @@
     justify-content: space-between;
 
     img {
-      min-width: 65px;
-      max-width: 65px;
+      width: 50px;
+      height: 50px;
     }
   }

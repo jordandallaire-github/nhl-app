@@ -16,6 +16,7 @@ const TeamDetails: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
+  const [teamName, setTeamName] = useState<string | null>(null);
   const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>([]);
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(null);
@@ -40,13 +41,17 @@ const TeamDetails: React.FC = () => {
       const data = await res.json();
       const team = data.standings?.find(
         (t: TeamDetail) =>
-          t.teamCommonName.default.toLowerCase().replace(/\s+/g, "-") ===
+          t.teamCommonName?.default?.toLowerCase().replace(/\s+/g, "-") ===
           teamCommonName
       );
 
       if (team) {
         const teamAbbrev = team.teamAbbrev.default;
         setTeamAbbrev(teamAbbrev);
+
+        const teamName = team.teamCommonName.fr ?? team.teamCommonName.default;
+        setTeamName(teamName);
+
 
         const playerRes = await fetch(
           `${apiWeb}v1/roster/${teamAbbrev}/current`
@@ -173,7 +178,6 @@ const TeamDetails: React.FC = () => {
           />
           <section className="roster">
             <div className="wrapper">
-              <h2>Joueurs de l'équipe des {teamCommonName}</h2>
               <SingleTeamPlayerGroup
                 title="Attaquants"
                 players={forwards}

@@ -54,7 +54,7 @@ export const ThreeStars: React.FC<{
               <div className="content">
                 <h5>{star.name.default}</h5>
                 <div className="infos-player">
-                  <span>#{star.sweaterNo}</span>
+                  <span><strong>#{star.sweaterNo}</strong></span>
                   <TeamsLogoLinks
                     team={
                       star.teamAbbrev === game.homeTeam.abbrev
@@ -62,7 +62,7 @@ export const ThreeStars: React.FC<{
                         : game.awayTeam
                     }
                   ></TeamsLogoLinks>
-                  <span> {FormatPosition(star.position)}</span>
+                  <span><strong>{FormatPosition(star.position)}</strong></span>
                 </div>
                 <div className="stats window-effect">
                   {star.position === "C" ||

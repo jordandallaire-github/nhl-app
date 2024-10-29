@@ -53,14 +53,16 @@ const SingleMatch: React.FC<MatchProps> = ({
   boxscore,
   plays,
   homeRoster,
-  awayRoster
+  awayRoster,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>(
     searchParams.get("section") || "details-match"
   );
   const [showSummary, setSummary] = useState<boolean>(activeTab === "sommaire");
-  const [showDescription, setDescription] = useState<boolean>(activeTab === "description");
+  const [showDescription, setDescription] = useState<boolean>(
+    activeTab === "description"
+  );
 
   useEffect(() => {
     const section = searchParams.get("section");
@@ -207,7 +209,9 @@ const SingleMatch: React.FC<MatchProps> = ({
                       }`}
                       title={recapVideo?.title}
                       description={recapVideo?.fields.longDescription}
-                      date={formatPublicationDate(recapVideo?.contentDate ?? "")}
+                      date={formatPublicationDate(
+                        recapVideo?.contentDate ?? ""
+                      )}
                     >
                       <Svg name="recap-play-video" size="xs"></Svg>
                       <p>Résumé</p>
@@ -223,7 +227,9 @@ const SingleMatch: React.FC<MatchProps> = ({
                         recapVideo?.fields.longDescription?.replace(".", "") +
                         " en 10 minutes."
                       }
-                      date={formatPublicationDate(recapVideo?.contentDate ?? "")}
+                      date={formatPublicationDate(
+                        recapVideo?.contentDate ?? ""
+                      )}
                     >
                       <Svg name="recap-play-video" size="xs"></Svg>
                       <p>Condensé</p>
@@ -251,19 +257,6 @@ const SingleMatch: React.FC<MatchProps> = ({
                     </>
                   ) : (
                     <>
-                      {gameInfos &&
-                        gameInfos.gameState === "LIVE" &&
-                        renderLivePlayer(
-                          gameInfos,
-                          teamColors ?? { home: "", away: "" }
-                        )}
-
-                      {renderGoalInfos(
-                        gameInfos,
-                        gameVideo
-                      )}
-                      {renderGameVideo(gameVideo)}
-                      {renderPenalties(gameInfos)}
                       {gameInfos?.summary &&
                         gameInfos?.summary.threeStars.length > 0 && (
                           <ThreeStars
@@ -271,6 +264,16 @@ const SingleMatch: React.FC<MatchProps> = ({
                             game={gameInfos}
                           />
                         )}
+                      {gameInfos &&
+                        gameInfos.gameState === "LIVE" &&
+                        renderLivePlayer(
+                          gameInfos,
+                          teamColors ?? { home: "", away: "" }
+                        )}
+
+                      {renderGoalInfos(gameInfos, gameVideo)}
+                      {renderGameVideo(gameVideo)}
+                      {renderPenalties(gameInfos)}
                     </>
                   )}
                 </>
