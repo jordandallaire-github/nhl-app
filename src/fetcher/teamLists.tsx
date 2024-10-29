@@ -47,7 +47,7 @@ const ListTeams: React.FC = () => {
     };
 
     fetchTeamsAndColors();
-  }, []);
+  }, [apiWeb]);
 
   if (error) {
     return <div>Error: {error}</div>;

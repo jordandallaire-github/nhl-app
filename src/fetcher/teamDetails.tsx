@@ -11,10 +11,16 @@ import SingleTeamHero from "../components/team/single/single-team-hero";
 import SingleTeamSchedule from "../components/team/single/single-team-schedule";
 import SingleTeamPlayerStats from "../components/team/single/single-team-player-stats";
 
+interface TeamRanking {
+  divisionRank: number;
+  conferenceRank: number;
+  leagueRank: number;
+}
+
 const TeamDetails: React.FC = () => {
   const { teamCommonName } = useParams<{ teamCommonName: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  
+  const [teamRecord, setTeamRecord] = useState<TeamDetail>();
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
   const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>([]);
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
@@ -23,6 +29,11 @@ const TeamDetails: React.FC = () => {
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [teamRanking, setTeamRanking] = useState<TeamRanking>({
+    divisionRank: 0,
+    conferenceRank: 0,
+    leagueRank: 0,
+  });
 
   const activeSection = searchParams.get('section') || 'accueil';
   const showCalendar = activeSection === "calendrier";
@@ -31,6 +42,37 @@ const TeamDetails: React.FC = () => {
   const isBuildProduction = false;
   const path = isBuildProduction ? "/projets/dist/" : "/";
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+
+  const calculateRankings = (standings: TeamDetail[], currentTeam: TeamDetail): TeamRanking => {
+    const sortedTeams = [...standings].sort((a, b) => {
+      const pointsDiff = (b.points || 0) - (a.points || 0);
+      if (pointsDiff !== 0) return pointsDiff;
+      
+      const winsDiff = (b.wins || 0) - (a.wins || 0);
+      if (winsDiff !== 0) return winsDiff;
+      
+      return (b.goalDifferential || 0) - (a.goalDifferential || 0);
+    });
+
+    const divisionTeams = sortedTeams.filter(team => 
+      team.divisionName === currentTeam.divisionName
+    );
+    const conferenceTeams = sortedTeams.filter(team => 
+      team.conferenceName === currentTeam.conferenceName
+    );
+
+    return {
+      divisionRank: divisionTeams.findIndex(team => 
+        team.teamAbbrev.default === currentTeam.teamAbbrev.default
+      ) + 1,
+      conferenceRank: conferenceTeams.findIndex(team => 
+        team.teamAbbrev.default === currentTeam.teamAbbrev.default
+      ) + 1,
+      leagueRank: sortedTeams.findIndex(team => 
+        team.teamAbbrev.default === currentTeam.teamAbbrev.default
+      ) + 1
+    };
+  };
 
   const fetchTeamData = useCallback(async () => {
     setLoading(true);
@@ -45,8 +87,12 @@ const TeamDetails: React.FC = () => {
       );
 
       if (team) {
+        setTeamRecord(team);
         const teamAbbrev = team.teamAbbrev.default;
         setTeamAbbrev(teamAbbrev);
+
+        const rankings = calculateRankings(data.standings, team);
+        setTeamRanking(rankings);
         
         const playerRes = await fetch(
           `${apiWeb}v1/roster/${teamAbbrev}/current`
@@ -139,6 +185,12 @@ const TeamDetails: React.FC = () => {
       <SingleTeamHero
         teamName={teamCommonName ?? ""}
         abr={teamAbbrev}
+        otLoss={teamRecord?.otLosses ?? 0}
+        loss={teamRecord?.losses ?? 0}
+        wins={teamRecord?.wins ?? 0}
+        division={teamRanking.divisionRank}
+        conference={teamRanking.conferenceRank}
+        league={teamRanking.leagueRank}
       />
       <section className="nav-section">
         <div className="wrapper">

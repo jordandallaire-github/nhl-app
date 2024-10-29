@@ -5,4 +5,10 @@ export interface TeamDetail {
   divisionName: string;
   teamLogo: string;
   teamName: { default: string; fr: string };
+  losses: number;
+  wins: number;
+  otLosses: number;
+  points: number;
+  goalDifferential: number;
+  conferenceName: string;
 }
