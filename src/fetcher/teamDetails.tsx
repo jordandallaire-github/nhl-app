@@ -16,7 +16,6 @@ const TeamDetails: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
-  const [teamName, setTeamName] = useState<string | null>(null);
   const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>([]);
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(null);
@@ -48,11 +47,7 @@ const TeamDetails: React.FC = () => {
       if (team) {
         const teamAbbrev = team.teamAbbrev.default;
         setTeamAbbrev(teamAbbrev);
-
-        const teamName = team.teamCommonName.fr ?? team.teamCommonName.default;
-        setTeamName(teamName);
-
-
+        
         const playerRes = await fetch(
           `${apiWeb}v1/roster/${teamAbbrev}/current`
         );
