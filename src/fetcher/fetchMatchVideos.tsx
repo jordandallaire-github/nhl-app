@@ -40,7 +40,7 @@ const MatchVideos: React.FC = () => {
   const [date, setDate] = useState<string | null>(null);
   const location = useLocation();
 
-  const isBuildProduction = false;
+  const isBuildProduction = true;
   const apiForge = isBuildProduction ? "/proxy.php/" : "https://forge-dapi.d3.nhle.com/"
 
   useEffect(() => {

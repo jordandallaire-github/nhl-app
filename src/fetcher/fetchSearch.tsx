@@ -12,7 +12,8 @@ const Search = () => {
   const [teamNames, setTeamNames] = useState<{ [key: string]: string }>({});
   const [teamColors, setTeamColors] = useState<Record<string, { color: string }>>({});
 
-  const isBuildProduction = false;
+  const isBuildProduction = true;
+  const path = isBuildProduction ? "/projets/dist/" : "/";
   const apiWeb = isBuildProduction
     ? "/proxy.php/"
     : "https://search.d3.nhle.com/";
@@ -22,7 +23,7 @@ const Search = () => {
       try {
         const [names, colorsResponse] = await Promise.all([
           fetchTeamNames(),
-          fetch("/teamColor.json"),
+          fetch(`${path}teamColor.json`),
         ]);
         const colors = await colorsResponse.json();
         setTeamNames(names);
@@ -32,7 +33,7 @@ const Search = () => {
       }
     };
     loadData();
-  }, []);
+  }, [path]);
 
   const fetchSearch = useCallback(
     async (searchQuery: string) => {
@@ -63,6 +64,7 @@ const Search = () => {
     [apiWeb]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFetchSearch = useCallback(
     debounce((searchQuery: string) => {
       fetchSearch(searchQuery);
