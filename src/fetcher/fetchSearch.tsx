@@ -12,7 +12,7 @@ const Search = () => {
   const [teamNames, setTeamNames] = useState<{ [key: string]: string }>({});
   const [teamColors, setTeamColors] = useState<Record<string, { color: string }>>({});
 
-  const isBuildProduction = true;
+  const isBuildProduction = false;
   const path = isBuildProduction ? "/projets/dist/" : "/";
   const apiWeb = isBuildProduction
     ? "/proxy.php/"

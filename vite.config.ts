@@ -11,7 +11,7 @@ export default defineConfig({
   publicDir: "../public",
   assetsInclude: ["**/*.svg"],
   plugins: [react(), svgr()],
-  base: "/projets/dist/", /**/
+  base: "./", /*/projets/dist/*/
   build: {
     outDir,
     emptyOutDir: true,
