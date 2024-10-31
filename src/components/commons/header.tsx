@@ -23,7 +23,11 @@ export default function Header() {
           </div>
           <nav className="nav-wrapper header">
             <div
-              className={`indicator-page-top ${currentPath.split("/")[1] !== "" ? currentPath.split("/")[1] : "accueil"}`}
+              className={`indicator-page-top ${
+                currentPath.split("/")[1] !== ""
+                  ? currentPath.split("/")[1]
+                  : "accueil"
+              }`}
             ></div>
             <div className="nav-pill">
               <ul>
@@ -54,15 +58,26 @@ export default function Header() {
                 </li>
               </ul>
               <div
-                className={`indicator-pill ${currentPath.split("/")[1] !== "" ? currentPath.split("/")[1] : "accueil"}`}
+                className={`indicator-pill ${
+                  currentPath.split("/")[1] !== ""
+                    ? currentPath.split("/")[1]
+                    : "accueil"
+                }`}
               ></div>
             </div>
           </nav>
-          <button className="header__toggle js-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          <div className="mobile-nav">
+            <div className="search">
+              <Link to="/recherche">
+                <Svg name="search" size="sm"></Svg>
+              </Link>
+            </div>
+            <button className="header__toggle js-toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
         </div>
         <div className="bg-menu-mobile"></div>
       </header>

@@ -14,6 +14,7 @@ import {
   import MainStatsLeader from "./pages/stats.tsx";
   import MainMatch from "./pages/single-match.tsx";
   import MainMatchVideos from "./pages/single-match-videos.tsx";
+  import MainSearch from "./pages/search.tsx";
   
   
   const router = createBrowserRouter(
@@ -27,6 +28,7 @@ import {
           <Route path="/match/:teamAbbrs/:year/:month/:day/:matchId/video" element={<MainMatchVideos />} />
           <Route path="/classements" element={<MainStanding />} />
           <Route path="/statistiques" element={<MainStatsLeader />} />
+          <Route path="/recherche" element={<MainSearch />} />
           <Route path="/equipes/:teamCommonName" element={<Team />} />
           <Route path="/equipes/:teamCommonName/joueur/:playerSlug" element={<Player />} />
         </Route>

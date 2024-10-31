@@ -65,7 +65,7 @@ header {
           text-transform: capitalize;
         }
 
-        @media screen and (max-width: 620px) {
+        @media screen and (max-width: $breakpoint-sm) {
           display: block;
           font-size: 2.5rem;
           text-align: left;
@@ -75,8 +75,8 @@ header {
           }
         }
       }
-      @media screen and (max-width: 620px) {
-        &::after {
+      @media screen and (max-width: $breakpoint-sm) {
+        & a.active::after {
           content: "";
           position: absolute;
           border-radius: 50%;
@@ -86,17 +86,17 @@ header {
           top: 50%;
           background-color: var(--color-white);
           transform: translateY(-50%);
-          display: none;
+          display: block;
         }
       }
     }
 
-    @media screen and (max-width: 620px) {
+    @media screen and (max-width: $breakpoint-sm) {
       flex-direction: column;
       gap: 2rem;
     }
   }
-  @media screen and (max-width: 620px) {
+  @media screen and (max-width: $breakpoint-sm) {
     position: absolute;
     top: calc(var(--height-header) - 24px);
     display: initial;
@@ -121,7 +121,7 @@ header {
   position: relative;
   box-shadow: 0 10px 25px #00000026;
 
-  @media screen and (max-width: 620px) {
+  @media screen and (max-width: $breakpoint-sm) {
     height: fit-content;
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     clip-path: circle(0% at 100% 0);
@@ -145,7 +145,7 @@ header {
   display: none;
   filter: brightness(2);
 
-  @media screen and (min-width: 620px) {
+  @media screen and (min-width: $breakpoint-sm) {
     &.accueil {
       margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * 2);
       display: block;
@@ -191,7 +191,7 @@ header {
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: none;
 
-  @media screen and (min-width: 620px) {
+  @media screen and (min-width: $breakpoint-sm) {
     &.accueil {
       left: calc(var(--padding-pill) + var(--link-width) * 0);
       display: block;
@@ -279,7 +279,7 @@ header {
     }
   }
 
-  @media screen and (min-width: 620px) {
+  @media screen and (min-width: $breakpoint-sm) {
     display: none;
   }
 }
@@ -310,6 +310,24 @@ header {
   }
 }
 
-li:has(a.active)::after {
-  display: block;
+.mobile-nav{
+  display: flex;
+  gap: 20px;
+}
+
+.search{
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  background-color: #f2f2f20d;
+  border: 1px solid #f2f2f21a;
+  border-radius: 100px;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  box-shadow: 0 4px 15px #00000040;
+  pointer-events: initial;
+  cursor: pointer;
 }
