@@ -4,7 +4,6 @@
 
   .team-matchup {
     display: flex;
-    align-items: center;
     justify-content: space-between;
     min-height: 125px;
     background-image: none;
@@ -24,11 +23,15 @@
 
     .special {
       position: absolute;
-      top: -32px;
+      top: -45px;
       left: 50%;
-      transform: translateX(-48%);
-      max-width: 150px;
-      max-height: 150px;
+      transform: translateX(-50%);
+      width: clamp(9rem, 7.5437rem + 6.2136vw, 15rem);
+      z-index: 1;
+      
+      @media screen and (max-width: 600px) {
+        top: -25px;
+      }
     }
 
     .team {
@@ -161,7 +164,7 @@
 
     .team-color {
       position: absolute;
-      height: 125px;
+      height: calc(100% + 16px);
       width: 100%;
       left: 0;
       z-index: -10;

@@ -79,8 +79,8 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
     <table>
       <thead>
         <tr>
-          <th onClick={() => requestSort("season")}>Saison {getSortArrow("season")}</th>
-          <th>Équipe</th>
+          <th scope="row" onClick={() => requestSort("season")}>Saison {getSortArrow("season")}</th>
+          <th scope="row">Équipe</th>
           <th onClick={() => requestSort("gamesStarted")}>PJ {getSortArrow("gamesStarted")}</th>
           <th onClick={() => requestSort("wins")}>V {getSortArrow("wins")}</th>
           <th onClick={() => requestSort("losses")}>D {getSortArrow("losses")}</th>
@@ -130,8 +130,8 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
     <table>
       <thead>
         <tr>
-          <th onClick={() => requestSort("season")}>Saison {getSortArrow("season")}</th>
-          <th>Équipe</th>
+          <th scope="row" onClick={() => requestSort("season")}>Saison {getSortArrow("season")}</th>
+          <th scope="row">Équipe</th>
           <th onClick={() => requestSort("gamesPlayed")}>PJ {getSortArrow("gamesPlayed")}</th>
           <th onClick={() => requestSort("goals")}>B {getSortArrow("goals")}</th>
           <th onClick={() => requestSort("assists")}>A {getSortArrow("assists")}</th>

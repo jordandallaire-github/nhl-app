@@ -1,6 +1,7 @@
-import { FormEvent, useRef, useEffect } from "react";
+import { FormEvent, useRef } from "react";
 import { INTSearch } from "../interfaces/search";
 import { Link } from "react-router-dom";
+import { Svg } from "../scripts/utils/Icons";
 
 interface SearchPageProps {
   onSubmit: (e: FormEvent) => void;
@@ -24,31 +25,9 @@ export const SearchPage: React.FC<SearchPageProps> = ({
   teamColor,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const wasLoadingRef = useRef(loading);
-
-  useEffect(() => {
-    if (wasLoadingRef.current && !loading) {
-      inputRef.current?.focus();
-    }
-    wasLoadingRef.current = loading;
-  }, [loading]);
-
-  useEffect(() => {
-    const currentSelection = inputRef.current?.selectionStart || 0;
-    inputRef.current?.focus();
-    inputRef.current?.setSelectionRange(currentSelection, currentSelection);
-  }, [query]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cursorPosition = e.target.selectionStart || 0;
     onQueryChange(e.target.value);
-
-    requestAnimationFrame(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-        inputRef.current.setSelectionRange(cursorPosition, cursorPosition);
-      }
-    });
   };
 
   return (
@@ -62,7 +41,6 @@ export const SearchPage: React.FC<SearchPageProps> = ({
             onSubmit={(e) => {
               e.preventDefault();
               onSubmit(e);
-              inputRef.current?.focus();
             }}
           >
             <input
@@ -72,23 +50,24 @@ export const SearchPage: React.FC<SearchPageProps> = ({
               name="q"
               value={query}
               onChange={handleInputChange}
-              onBlur={(e) => {
-                if (!e.relatedTarget) {
-                  e.target.focus();
-                }
-              }}
               placeholder="Recherche"
               aria-label="Rechercher vos joueurs préférés!"
-              disabled={loading}
               autoComplete="off"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck="false"
               className="window window-effect"
             />
           </form>
           {searchResults.length === 0 && !query && (
-            <p><strong>Rechercher vos joueurs préférés!</strong></p>
+            <p>
+              <strong>Rechercher vos joueurs préférés!</strong>
+            </p>
           )}
           {searchResults.length === 0 && query && !loading && (
-            <p><strong>Aucun joueur trouvé pour {query}</strong></p>
+            <p>
+              <strong>Aucun joueur trouvé pour {query}</strong>
+            </p>
           )}
         </div>
 
@@ -99,15 +78,14 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         {searchResults.length > 0 && (
           <div className="search-results cards">
             {searchResults.map((player) => (
-              <Link
-                key={player.playerId}
-                to={`/equipes/${
-                  teamName[player.teamAbbrev]
-                }/joueur/${player.name.toLowerCase().replace(/\s+/g, "-")}-${
-                  player.playerId
-                }`}
-                className="card window-effect"
-              >
+              <div key={player.playerId} className="card window-effect">
+                <Link
+                  to={`/equipes/${
+                    teamName[player.teamAbbrev]
+                  }/joueur/${player.name.toLowerCase().replace(/\s+/g, "-")}-${
+                    player.playerId
+                  }`}
+                >
                 <div className="card-media player">
                   <img
                     src={`https://assets.nhle.com/mugs/nhl/20242025/${player.teamAbbrev}/${player.playerId}.png`}
@@ -123,6 +101,7 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                     <img
                       className="team-logo"
                       src={`https://assets.nhle.com/logos/nhl/svg/${player.teamAbbrev}_dark.svg`}
+                      alt={`${teamName[player.teamAbbrev]} logo`}
                     />
                     <p>
                       <strong>
@@ -143,7 +122,13 @@ export const SearchPage: React.FC<SearchPageProps> = ({
                     }, #0000)`,
                   }}
                 ></div>
-              </Link>
+                </Link>
+                <button
+                  className="follow-player window-effect"
+                >
+                  <Svg name="star" size="sm"></Svg>
+                </button>
+              </div>
             ))}
           </div>
         )}

@@ -1,46 +1,49 @@
-.search-page{
-    text-align: center;
+.search-page {
+  text-align: center;
 
-    .searchbar{
-        border-top: 1px solid rgba(256, 256, 256, .4);
-        border-bottom: 1px solid rgba(256, 256, 256, .4);
-        padding: 60px 0;
+  .searchbar {
+    border-top: 1px solid rgba(256, 256, 256, 0.4);
+    border-bottom: 1px solid rgba(256, 256, 256, 0.4);
+    padding: 60px 0;
 
-        input{
-            box-shadow: none;
-            background-image: none;
-            border: 0;
-            padding: 16px 24px;
-            width: 612px;
-            background-color: var(--color-black);
-            color: var(--color-white);
+    input {
+      box-shadow: none;
+      background-image: none;
+      border: 0;
+      padding: 16px 24px;
+      width: 612px;
+      background-color: var(--color-black);
+      color: var(--color-white);
 
-            @media screen and (max-width: $breakpoint-sm) {
-                width: 100%;
-              }
+      @media screen and (max-width: $breakpoint-sm) {
+        width: 100%;
+      }
 
-              &:focus{
-                outline: 2px solid var(--color-white);
-              }
-        }
-
-        p strong{
-            font-size: calc(var(--font-size-content) + 0.44rem);
-        }
-
-        input[type="search"]::-webkit-search-cancel-button {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
-            background-size: contain;
-            filter: invert(1);
-            border-radius: 50%;
-            cursor: pointer;
-
-            &::after{
-                position: absolute;
-            }
-          }
+      &:focus {
+        outline: 2px solid var(--color-white);
+      }
     }
+
+    p strong {
+      font-size: calc(var(--font-size-content) + 0.44rem);
+    }
+
+    input[type="search"]::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg)
+        no-repeat 50% 50%;
+      background-size: contain;
+      filter: invert(1);
+      border-radius: 50%;
+      cursor: pointer;
+
+      &::after {
+        position: absolute;
+      }
+    }
+  }
 }
+
+

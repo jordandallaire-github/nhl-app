@@ -26,6 +26,12 @@
     a {
       font-size: inherit;
     }
+
+    @media screen and (max-width: 500px) {
+      width: calc((100vw - 40px) / 9);
+      font-size: 1.4rem;
+      min-width: 40px;
+    }
   }
 
   thead {

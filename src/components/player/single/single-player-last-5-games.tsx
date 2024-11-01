@@ -114,7 +114,7 @@ const PlayerSingleLast5Games: React.FC<{
     <table>
       <thead>
         <tr>
-          <th onClick={() => requestSort("gameDate")}>
+          <th scope="row" onClick={() => requestSort("gameDate")}>
             Date {getSortArrow("gameDate")}
           </th>
           <th>Adv.</th>
@@ -141,7 +141,7 @@ const PlayerSingleLast5Games: React.FC<{
       <tbody>
         {sortedGames.map((game, index) => (
           <tr key={index}>
-            <td>{formatDate(game.gameDate)}</td>
+            <td scope="row">{formatDate(game.gameDate)}</td>
             <td>
               <Link to={`/equipes/${teamNames[game.opponentAbbrev]}`}>
                 <img
@@ -174,7 +174,7 @@ const PlayerSingleLast5Games: React.FC<{
     <table>
       <thead>
         <tr>
-          <th onClick={() => requestSort("gameDate")}>
+          <th scope="row" onClick={() => requestSort("gameDate")}>
             Date {getSortArrow("gameDate")}
           </th>
           <th>Adv.</th>
@@ -200,7 +200,7 @@ const PlayerSingleLast5Games: React.FC<{
       <tbody>
         {sortedGames.map((game, index) => (
           <tr key={index}>
-            <td>{formatDate(game.gameDate)}</td>
+            <td scope="row">{formatDate(game.gameDate)}</td>
             <td>
               <Link to={`/equipes/${teamNames[game.opponentAbbrev]}`}>
                 <img

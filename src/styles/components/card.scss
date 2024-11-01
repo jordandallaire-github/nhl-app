@@ -124,6 +124,7 @@
 
 .card {
   z-index: 1;
+  position: relative;
   color: var(--color-white);
   display: flex;
   flex-direction: column;
@@ -200,6 +201,26 @@
 
 .player-position {
   margin-top: 40px;
+}
+
+.roster .card a,
+.search-page .card a {
+  display: contents;
+}
+
+.follow-player {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  border-radius: 0 24px;
+  border: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  svg{
+    transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    fill: rgb(121, 121, 121);
+  }
 }
 
 .card-background-color {
