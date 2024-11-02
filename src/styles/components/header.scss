@@ -29,6 +29,10 @@ header {
       pointer-events: initial;
     }
   }
+
+  @media screen and (max-width: $breakpoint-sm) {
+    padding: 24px var(--spacing-sm);
+  }
 }
 
 .nav-wrapper.header {
