@@ -56,6 +56,11 @@ export default function Header() {
                     <div>statistiques</div>
                   </ActiveCustomLink>
                 </li>
+                <li>
+                  <ActiveCustomLink to="/joueurs-suivis">
+                    <div>Mes joueurs</div>
+                  </ActiveCustomLink>
+                </li>
               </ul>
               <div
                 className={`indicator-pill ${
@@ -67,11 +72,9 @@ export default function Header() {
             </div>
           </nav>
           <div className="mobile-nav">
-            <div className="search">
-              <Link to="/recherche">
+            <Link to={"/recherche"} className="search">
                 <Svg name="search" size="sm"></Svg>
-              </Link>
-            </div>
+            </Link>
             <button className="header__toggle js-toggle">
               <span></span>
               <span></span>

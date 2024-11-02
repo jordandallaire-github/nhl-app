@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { generatePlayerSlug } from "../../../scripts/utils/generatePlayerSlug";
-import { Svg } from "../../../scripts/utils/Icons";
+import FollowButton from "../../utils/follow";
 
 interface PlayerCardProps {
   player: PlayerDetailsType;
@@ -61,9 +61,17 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
           }}
         ></div>
       </Link>
-      <button className="follow-player window-effect">
-        <Svg name="star" size="sm"></Svg>
-      </button>
+      <FollowButton
+        playerId={player.id}
+        playerData={{
+          name: player.firstName.default + " " + player.lastName.default,
+          teamAbbrev: teamAbbrev ?? "",
+          sweaterNumber: player.sweaterNumber,
+          positionCode: player.positionCode,
+          teamName: teamCommonName ?? "",
+          teamColor: teamColor ?? "",
+        }}
+      ></FollowButton>
     </div>
   );
 };

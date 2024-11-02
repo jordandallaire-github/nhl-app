@@ -14,7 +14,7 @@ export const ThreeStars: React.FC<{
   teamColors: Colors;
 }> = ({ game, teamColors }) => (
   <div className="three-stars">
-    <h3>Trois étoiles du match</h3>
+    <h2>Trois étoiles du match</h2>
     <div className="cards-container three-star">
       <Carousel
         breakpoint={{
@@ -52,7 +52,7 @@ export const ThreeStars: React.FC<{
                 <img src={star.headshot} alt={`${star.name}`} />
               </Link>
               <div className="content">
-                <h5>{star.name.default}</h5>
+                <p><strong>{star.name.default}</strong></p>
                 <div className="infos-player">
                   <span><strong>#{star.sweaterNo}</strong></span>
                   <TeamsLogoLinks

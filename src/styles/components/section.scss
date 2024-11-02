@@ -53,6 +53,11 @@
     max-width: clamp(15rem, 11.3592rem + 15.534vw, 30rem);
     max-height: clamp(15rem, 11.3592rem + 15.534vw, 30rem);
   }
+
+  &.search-page,
+  &.follow-players{
+    min-height: calc(100vh - var(--height-header) + 60px);
+  }
 }
 
 .window-effect {

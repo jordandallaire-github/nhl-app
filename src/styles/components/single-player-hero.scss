@@ -41,6 +41,7 @@
 }
 
 .more-infos {
+  padding-top: 20px;
   h2 {
     margin-top: 0;
   }
@@ -52,5 +53,9 @@
     @media screen and (max-width: 868px) {
       display: block;
     }
+  }
+
+  @media screen and (max-width: 868px) {
+   padding-top: 0;
   }
 }

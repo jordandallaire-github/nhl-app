@@ -65,17 +65,18 @@ header {
           text-transform: capitalize;
         }
 
-        @media screen and (max-width: $breakpoint-sm) {
+        @media screen and (max-width: 900px) {
           display: block;
           font-size: 2.5rem;
           text-align: left;
+          width: 100%;
 
           &.active {
             margin-left: 20px;
           }
         }
       }
-      @media screen and (max-width: $breakpoint-sm) {
+      @media screen and (max-width: 900px) {
         & a.active::after {
           content: "";
           position: absolute;
@@ -91,12 +92,12 @@ header {
       }
     }
 
-    @media screen and (max-width: $breakpoint-sm) {
+    @media screen and (max-width: 900px) {
       flex-direction: column;
       gap: 2rem;
     }
   }
-  @media screen and (max-width: $breakpoint-sm) {
+  @media screen and (max-width: 900px) {
     position: absolute;
     top: calc(var(--height-header) - 24px);
     display: initial;
@@ -121,7 +122,7 @@ header {
   position: relative;
   box-shadow: 0 10px 25px #00000026;
 
-  @media screen and (max-width: $breakpoint-sm) {
+  @media screen and (max-width: 900px) {
     height: fit-content;
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     clip-path: circle(0% at 100% 0);
@@ -145,7 +146,7 @@ header {
   display: none;
   filter: brightness(2);
 
-  @media screen and (min-width: $breakpoint-sm) {
+  @media screen and (min-width: 900px) {
     &.accueil {
       margin-left: calc(var(--total-nav-width) / 2 - var(--link-width) / 2 * 2);
       display: block;
@@ -176,6 +177,13 @@ header {
       );
       display: block;
     }
+
+    &.joueurs-suivis {
+      margin-left: calc(
+        var(--total-nav-width) / 2 - var(--link-width) / 2 * -8
+      );
+      display: block;
+    }
   }
 }
 
@@ -191,7 +199,7 @@ header {
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: none;
 
-  @media screen and (min-width: $breakpoint-sm) {
+  @media screen and (min-width: 900px) {
     &.accueil {
       left: calc(var(--padding-pill) + var(--link-width) * 0);
       display: block;
@@ -214,6 +222,11 @@ header {
 
     &.statistiques {
       left: calc(var(--padding-pill) + var(--link-width) * 4);
+      display: block;
+    }
+
+    &.joueurs-suivis {
+      left: calc(var(--padding-pill) + var(--link-width) * 5);
       display: block;
     }
   }
@@ -279,7 +292,7 @@ header {
     }
   }
 
-  @media screen and (min-width: $breakpoint-sm) {
+  @media screen and (min-width: 900px) {
     display: none;
   }
 }

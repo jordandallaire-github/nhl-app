@@ -12,6 +12,10 @@
       z-index: 0;
     }
 
+    p:first-child{
+      margin: 0;
+    }
+
     img {
       width: clamp(12rem, 11.0291rem + 4.1424vw, 16rem);
       height: clamp(12rem, 11.0291rem + 4.1424vw, 16rem);

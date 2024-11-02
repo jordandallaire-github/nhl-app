@@ -7,7 +7,7 @@ export interface INTSearch {
   lastTeamId: string;
   lastTeamAbbrev: string;
   lastSeasonId?: string | null;
-  sweaterNumber?: number | null;
+  sweaterNumber?: string | null;
   active: boolean;
   height: string;
   heightInInches: number;
@@ -17,4 +17,8 @@ export interface INTSearch {
   birthCity: string;
   birthStateProvince?: string | null;
   birthCountry: string;
+  // For followed player feature
+  imageUrl: string;
+  teamColor: string;
+  teamName: string;
 }
