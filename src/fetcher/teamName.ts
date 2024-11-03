@@ -1,5 +1,5 @@
 const fetchTeamNames = async (): Promise<{ [key: string]: string }> => {
-    const isBuildProduction = true;
+    const isBuildProduction = false;
     const path = isBuildProduction ? "/projets/dist/" : "/";
 
     const response = await fetch(`${path}teamName.json`);

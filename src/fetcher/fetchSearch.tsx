@@ -16,7 +16,7 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const searchInProgress = useRef(false);
 
-  const isBuildProduction = true;
+  const isBuildProduction = false;
   const path = isBuildProduction ? "/projets/dist/" : "/";
   const apiWeb = isBuildProduction
     ? "/proxy.php/"

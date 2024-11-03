@@ -9,7 +9,7 @@ const Standing: React.FC<{ isHome?: boolean }> = ({ isHome = false }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const isBuildProduction = true;
+  const isBuildProduction = false;
   const api = isBuildProduction ? "/proxy.php/" : "https://api.nhle.com/"
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 

@@ -31,7 +31,7 @@ const Match: React.FC = () => {
     away: string;
   } | null>(null);
 
-  const isBuildProduction = true;
+  const isBuildProduction = false;
   const path = isBuildProduction ? "/projets/dist/" : "/";
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
   const apiForge = isBuildProduction ? "/proxy.php/" : "https://forge-dapi.d3.nhle.com/"
