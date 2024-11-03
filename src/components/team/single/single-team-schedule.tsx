@@ -32,7 +32,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
     initialSchedule
   );
 
-  const isBuildProduction = false;
+  const isBuildProduction = true;
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 
   const totalDays = 35;

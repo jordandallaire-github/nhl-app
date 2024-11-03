@@ -19,7 +19,7 @@ import { FollowedPlayer } from "../interfaces/followedPlayer";
           />
         </div>
         <div className="card-content">
-          <h4>{player.name}</h4>
+          <p className="name"><strong>{player.name}</strong></p>
           <div className="other-infos">
             <p>
               <strong>#{player.sweaterNumber}</strong>

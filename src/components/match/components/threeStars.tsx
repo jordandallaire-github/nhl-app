@@ -47,7 +47,7 @@ export const ThreeStars: React.FC<{
                     : game?.homeTeam.name.default
                         .toLowerCase()
                         .replace(/\s+/g, "-")
-                }/${star.name.default.toLowerCase()}-${star.playerId}`}
+                }/joueur/${star.name.default.toLowerCase()}-${star.playerId}`}
               >
                 <img src={star.headshot} alt={`${star.name}`} />
               </Link>

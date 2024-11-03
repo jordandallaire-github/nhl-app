@@ -35,9 +35,11 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
           />
         </div>
         <div className="card-content">
-          <h4>
-            {player.firstName.default} {player.lastName.default}
-          </h4>
+          <p className="name">
+            <strong>
+              {player.firstName.default} {player.lastName.default}
+            </strong>
+          </p>
           <div className="other-infos">
             <p>
               <strong>#{player.sweaterNumber}</strong>
