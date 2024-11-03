@@ -126,7 +126,7 @@ const PlayerDisplay: React.FC<{
       <div className="content">
         <h3>{`${player.firstName.default} ${player.lastName.default}`}</h3>
         <div className="other-infos">
-          <p>{`#${playerDetails?.sweaterNumber}`}</p>
+          <p>{`#${playerDetails?.sweaterNumber ?? 0}`}</p>
           <img
             src={`https://assets.nhle.com/logos/nhl/svg/${abr}_dark.svg`}
             alt={`${abr} Logo`}
@@ -233,7 +233,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
     const getPlayerDetails = useCallback(
       (playerId: string): PlayerDetailsType | null => {
         return (
-          playerOtherInfos?.find((player) => player.id === playerId) || null
+          playerOtherInfos?.find((player) => player.playerId === playerId) || null
         );
       },
       [playerOtherInfos]

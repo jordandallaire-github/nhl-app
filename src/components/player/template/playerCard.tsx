@@ -20,12 +20,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   const teamLogo = `https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_light.svg`;
 
   return (
-    <div key={player.id} className="card window-effect">
+    <div key={player.playerId} className="card window-effect">
       <Link
         to={`/equipes/${teamCommonName}/joueur/${generatePlayerSlug(
           player.firstName.default,
           player.lastName.default,
-          player.id
+          player.playerId
         )}`}
       >
         <div className="card-media player">
@@ -64,7 +64,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
         ></div>
       </Link>
       <FollowButton
-        playerId={player.id}
+        playerId={player.playerId}
         playerData={{
           name: player.firstName.default + " " + player.lastName.default,
           teamAbbrev: teamAbbrev ?? "",

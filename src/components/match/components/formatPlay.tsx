@@ -214,8 +214,8 @@ const findPlayerByEventType = (
     playerId: string | number | undefined
   ): PlayerDetailsType | undefined => {
     return (
-      homeRoster?.find((player) => player.id === playerId) ||
-      awayRoster?.find((player) => player.id === playerId)
+      homeRoster?.find((player) => player.playerId === playerId) ||
+      awayRoster?.find((player) => player.playerId === playerId)
     );
   };
 

@@ -106,8 +106,8 @@ const findPlayer = (
   awayRoster: PlayerDetailsType[] | null
 ): PlayerDetailsType | undefined => {
   return (
-    homeRoster?.find((player) => player.id === playerId) ||
-    awayRoster?.find((player) => player.id === playerId)
+    homeRoster?.find((player) => player.playerId === playerId) ||
+    awayRoster?.find((player) => player.playerId === playerId)
   );
 };
 

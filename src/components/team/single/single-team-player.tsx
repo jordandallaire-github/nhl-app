@@ -23,7 +23,7 @@ const SingleTeamPlayerGroup: React.FC<PlayerGroupProps> = ({
       <div className="cards team-players">
         {players.map((player) => (
           <PlayerCard
-            key={player.id}
+            key={player.playerId}
             player={player}
             teamColor={teamColor}
             teamAbbrev={teamAbbrev}
