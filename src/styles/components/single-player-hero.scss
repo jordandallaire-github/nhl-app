@@ -38,6 +38,14 @@
     display: block;
     padding: 0;
   }
+
+  .name-follow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-align: center;
+  }
 }
 
 .more-infos {

@@ -4,7 +4,6 @@ import { SeasonTotals } from "./seasonTotals";
 import { Award } from "./awards";
 
 export interface PlayerDetailsType {
-  id: string;
   heroImage: string;
   firstName: { default: string; fr: string };
   lastName: { default: string; fr: string };
@@ -15,7 +14,7 @@ export interface PlayerDetailsType {
   teamLogo: string;
   teamName: string;
   color?: string;
-  teamCommonName:{ default: string; fr: string }
+  teamCommonName:{ default: string; fr: string };
   fullTeamName: string;
   shootsCatches: string;
   teamColor: string;
@@ -59,4 +58,9 @@ export interface PlayerDetailsType {
   }[];
   seasonTotals?: SeasonTotals[];
   awards?: Award[];
+  // For followed player
+  playerId: string;
+  name: string;
+  teamAbbrev: string;
+  imageUrl: string;
 }

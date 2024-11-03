@@ -1,6 +1,5 @@
-import Video from "../components/utils/youtube";
-import Thumbnail from "../assets/images/scale.png";
 import Scrolly from "../components/utils/scrolly";
+import Standing from "../fetcher/fetchStanding";
 
 function Home() {
   Scrolly();
@@ -9,19 +8,9 @@ function Home() {
       <section className="hero">
         <div className="wrapper">
           <h1 data-scrolly="opacity" data-norepeat>
-            Accueil
+            Suivez la NHL en direct - Équipes, Matchs, Joueurs
           </h1>
-          <div className="window-effect glare-item">
-            <Video
-              platform="youtube"
-              iconName="php"
-              iconSize="xl"
-              customThumbnail={true}
-              poster={Thumbnail}
-              videoId="SqcY0GlETPk&t=494s"
-            ></Video>
-          </div>
-          <div className="fade"></div>
+          <Standing isHome></Standing>
         </div>
       </section>
     </>

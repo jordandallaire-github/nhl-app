@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { INTStanding, INTStandingOtherInfos } from "../interfaces/standing";
 import SingleStanding from "../components/single-standing";
 
-const Standing: React.FC = () => {
+const Standing: React.FC<{ isHome?: boolean }> = ({ isHome = false }) => {
   const [standing, setStanding] = useState<INTStanding | null>(null);
   const [standingOther, setStandingOther] =
     useState<INTStandingOtherInfos | null>(null);
@@ -79,7 +79,7 @@ const Standing: React.FC = () => {
 
   return (
     <>
-      <SingleStanding standingOther={standingOther} standing={standing} />
+      <SingleStanding standingOther={standingOther} home={isHome} standing={standing} />
     </>
   );
 };

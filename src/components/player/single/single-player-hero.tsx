@@ -1,25 +1,28 @@
 import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { FormatPosition } from "../../../scripts/utils/formatPosition";
+import FollowButton from "../../utils/follow";
 
 const getDraftDetails = (player: PlayerDetailsType) => {
-    if (
-      player.draftYear &&
-      player.draftTeamAbbre &&
-      player.draftOverallPick &&
-      player.draftRound &&
-      player.draftPickRound
-    ) {
-      const overallSuffix = player.draftOverallPick === "1" ? "re" : "e";
-      const roundSuffix = player.draftRound === "1" ? "re" : "e";
-      const pickSuffix = player.draftPickRound === "1" ? "re" : "e";
-  
-      return `${player.draftYear}, ${player.draftTeamAbbre} (${player.draftOverallPick}${overallSuffix} au total), ${player.draftRound}${roundSuffix} ronde, ${player.draftPickRound}${pickSuffix} choix`;
-    }
-  
-    return "Jamais repêché";
+  if (
+    player.draftYear &&
+    player.draftTeamAbbre &&
+    player.draftOverallPick &&
+    player.draftRound &&
+    player.draftPickRound
+  ) {
+    const overallSuffix = player.draftOverallPick === "1" ? "re" : "e";
+    const roundSuffix = player.draftRound === "1" ? "re" : "e";
+    const pickSuffix = player.draftPickRound === "1" ? "re" : "e";
+
+    return `${player.draftYear}, ${player.draftTeamAbbre} (${player.draftOverallPick}${overallSuffix} au total), ${player.draftRound}${roundSuffix} ronde, ${player.draftPickRound}${pickSuffix} choix`;
+  }
+
+  return "Jamais repêché";
 };
 
-const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({ player }) => (
+const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({
+  player,
+}) => (
   <section className="hero single-player">
     <img
       className="hero-player"
@@ -35,15 +38,33 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({ player }) =
           />
         </div>
         <div className="card-content">
-          <h1>{`${player.firstName} ${player.lastName}`}</h1>
+          <div className="name-follow">
+            <h1>{`${player.firstName} ${player.lastName}`} </h1>
+            <FollowButton
+              playerId={player.playerId}
+              playerData={{
+                name: player.name,
+                teamAbbrev: player.teamAbbrev,
+                sweaterNumber: player.sweaterNumber,
+                positionCode: player.positionCode,
+                teamColor: player.teamColor,
+                teamName: player.teamName.toLowerCase(),
+              }}
+              isSinglePlayer
+            ></FollowButton>
+          </div>
           <div className="other-infos">
-            <p><strong>{`#${player.sweaterNumber}`}</strong></p>
+            <p>
+              <strong>{`#${player.sweaterNumber}`}</strong>
+            </p>
             <img
               className="team-logo"
               src={player.teamLogo}
               alt={`${player.fullTeamName} logo`}
             />
-            <p><strong>{`${FormatPosition(player.positionCode)}`}</strong></p>
+            <p>
+              <strong>{`${FormatPosition(player.positionCode)}`}</strong>
+            </p>
           </div>
         </div>
       </div>
@@ -84,4 +105,4 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({ player }) =
   </section>
 );
 
-export default PlayerSingleHero;  
+export default PlayerSingleHero;

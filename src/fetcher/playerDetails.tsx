@@ -58,7 +58,6 @@ const usePlayerDetails = (playerSlug: string) => {
         const playerData = await res.json();
 
         setPlayer({
-          id: playerData.id,
           heroImage: playerData.heroImage,
           firstName: playerData.firstName?.[DEFAULT_LANGUAGE],
           lastName: playerData.lastName?.[DEFAULT_LANGUAGE],
@@ -68,7 +67,7 @@ const usePlayerDetails = (playerSlug: string) => {
           currentTeamAbbrev: playerData.currentTeamAbbrev,
           headshot: playerData.headshot,
           teamLogo: playerData.teamLogo,
-          teamName: playerData.teamName?.[DEFAULT_LANGUAGE],
+          teamName: playerData.teamCommonName?.[DEFAULT_LANGUAGE],
           fullTeamName: playerData.fullTeamName?.[FRENCH_LANGUAGE],
           shootsCatches: playerData.shootsCatches,
           teamColor: teamColorData[playerData.currentTeamAbbrev].color,
@@ -98,6 +97,10 @@ const usePlayerDetails = (playerSlug: string) => {
               (season: SeasonTotals) => season.leagueAbbrev === "NHL"
             ) || [],
           awards: playerData.awards,
+          playerId: playerData.playerId,
+          name: playerData.firstName?.[DEFAULT_LANGUAGE] + " " + playerData.lastName?.[DEFAULT_LANGUAGE],
+          teamAbbrev: playerData.currentTeamAbbrev,
+          imageUrl: playerData.headshot,
         });
       } catch (error) {
         if (error instanceof Error) setError(error.message);

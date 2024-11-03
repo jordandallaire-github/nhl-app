@@ -13,9 +13,10 @@ interface FollowButtonProps {
     teamColor: string;
     teamName: string;
   };
+  isSinglePlayer?: boolean;
 }
 
-const FollowButton: React.FC<FollowButtonProps> = ({ playerId, playerData }) => {
+const FollowButton: React.FC<FollowButtonProps> = ({ playerId, playerData, isSinglePlayer }) => {
   const { isPlayerFollowed, addFollowedPlayer, removeFollowedPlayer, followedPlayers } = useFollowSystem();
   const [isFollowed, setIsFollowed] = useState(false);
 
@@ -48,7 +49,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ playerId, playerData }) => 
 
   return (
     <button 
-      className={`follow-player window-effect ${isFollowed ? 'active' : ''}`}
+      className={`follow-player window-effect ${isFollowed ? 'active' : ''} ${isSinglePlayer ? "singlePlayer" : ""}`}
       onClick={handleFollowClick}
       aria-label={isFollowed ? 'Ne plus suivre' : 'Suivre'}
     >

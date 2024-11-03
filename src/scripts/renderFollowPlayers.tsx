@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import FollowButton from "../components/utils/follow";
 import { INTSearch } from "../interfaces/search";
 import { FollowedPlayer } from "../interfaces/followedPlayer";
+import { PlayerDetailsType } from "../interfaces/player/playerDetails";
 
- export const renderPlayerCard = (player: INTSearch | FollowedPlayer, teamName?: { [key: string]: string }, teamColor?: Record<string, { color: string }>) => (
+ export const renderPlayerCard = (player: INTSearch | FollowedPlayer | PlayerDetailsType, teamName?: { [key: string]: string }, teamColor?: Record<string, { color: string }>) => (
     <div key={player.playerId} className="card window-effect">
       <Link
         to={`/equipes/${

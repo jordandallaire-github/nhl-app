@@ -7,6 +7,7 @@ import Swiper from "swiper";
 interface SingleStandingProps {
   standing: INTStanding | null;
   standingOther: INTStandingOtherInfos | null;
+  home: boolean;
 }
 
 type TeamStanding = INTStanding["standings"][0];
@@ -29,16 +30,28 @@ interface FilteredStandings {
 
 type SortKey = keyof TeamStanding | "powerPlayPct" | "penaltyKillPct";
 
+type TableId =
+  | "Ligue"
+  | "Atlantique"
+  | "Métropolitaine"
+  | "Centrale"
+  | "Pacifique"
+  | "Quatrième as";
+
+interface SortConfig {
+  tableId: TableId;
+  key: SortKey;
+  direction: "ascending" | "descending";
+}
+
 const SingleStanding: React.FC<SingleStandingProps> = ({
   standing,
   standingOther,
+  home,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [swiperInstance, setSwiperInstance] = useState<Swiper | null>(null);
-  const [sortConfig, setSortConfig] = useState<{
-    key: SortKey;
-    direction: "ascending" | "descending";
-  } | null>(null);
+  const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
 
   useEffect(() => {
     const standing = searchParams.get("classement") || "divisions";
@@ -117,7 +130,7 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
   }, [standing, standingOther]);
 
   const sortedStandings = useMemo(() => {
-    if (!filteredStandings) return filteredStandings;
+    if (!filteredStandings || !sortConfig) return filteredStandings;
 
     const sortedData: FilteredStandings = JSON.parse(
       JSON.stringify(filteredStandings)
@@ -130,8 +143,6 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
       }[]
     ) => {
       return teams.sort((a, b) => {
-        if (!sortConfig) return 0;
-
         const { key, direction } = sortConfig;
 
         if (key === "powerPlayPct" || key === "penaltyKillPct") {
@@ -152,87 +163,100 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
       });
     };
 
-    for (const conference of ["Est", "Ouest"] as const) {
-      for (const division in sortedData[conference]) {
-        sortedData[conference][division] = sortTeams(
-          sortedData[conference][division]
-        );
+    if (sortConfig.tableId === "Ligue") {
+      sortedData.Ligue = sortTeams(sortedData.Ligue);
+    } else {
+      for (const conference of ["Est", "Ouest"] as const) {
+        if (sortConfig.tableId in sortedData[conference]) {
+          sortedData[conference][sortConfig.tableId] = sortTeams(
+            sortedData[conference][sortConfig.tableId]
+          );
+        }
       }
     }
-    sortedData.Ligue = sortTeams(sortedData.Ligue);
 
     return sortedData;
   }, [filteredStandings, sortConfig]);
 
-  const requestSort = (key: SortKey) => {
+  const requestSort = (key: SortKey, tableId: TableId) => {
     let direction: "ascending" | "descending" = "descending";
-    if (sortConfig && sortConfig.key === key) {
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.tableId === tableId
+    ) {
       direction =
         sortConfig.direction === "descending" ? "ascending" : "descending";
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ tableId, key, direction });
   };
 
-  const getSortDirection = (key: SortKey) => {
-    if (!sortConfig || sortConfig.key !== key) {
+  const getSortDirection = (key: SortKey, tableId: TableId) => {
+    if (
+      !sortConfig ||
+      sortConfig.key !== key ||
+      sortConfig.tableId !== tableId
+    ) {
       return null;
     }
     return sortConfig.direction;
   };
 
-  const renderSortArrow = (key: SortKey) => {
-    const direction = getSortDirection(key);
+  const renderSortArrow = (key: SortKey, tableId: TableId) => {
+    const direction = getSortDirection(key, tableId);
     if (!direction) return null;
     return direction === "ascending" ? " ↓" : " ↑";
   };
 
-  const renderTableHeader = () => (
+  const renderTableHeader = (tableId: TableId) => (
     <tr>
-      <th onClick={() => requestSort("conferenceSequence")}>
-        Rang{renderSortArrow("conferenceSequence")}
+      <th onClick={() => requestSort("conferenceSequence", tableId)}>
+        Rang{renderSortArrow("conferenceSequence", tableId)}
       </th>
       <th scope="row">Équipe</th>
-      <th onClick={() => requestSort("gamesPlayed")}>
-        PJ{renderSortArrow("gamesPlayed")}
+      <th onClick={() => requestSort("gamesPlayed", tableId)}>
+        PJ{renderSortArrow("gamesPlayed", tableId)}
       </th>
-      <th onClick={() => requestSort("wins")}>V{renderSortArrow("wins")}</th>
-      <th onClick={() => requestSort("losses")}>
-        D{renderSortArrow("losses")}
+      <th onClick={() => requestSort("wins", tableId)}>
+        V{renderSortArrow("wins", tableId)}
       </th>
-      <th onClick={() => requestSort("otLosses")}>
-        DPr.{renderSortArrow("otLosses")}
+      <th onClick={() => requestSort("losses", tableId)}>
+        D{renderSortArrow("losses", tableId)}
       </th>
-      <th onClick={() => requestSort("points")}>
-        PTS{renderSortArrow("points")}
+      <th onClick={() => requestSort("otLosses", tableId)}>
+        DPr.{renderSortArrow("otLosses", tableId)}
       </th>
-      <th onClick={() => requestSort("pointPctg")}>
-        %PTS{renderSortArrow("pointPctg")}
+      <th onClick={() => requestSort("points", tableId)}>
+        PTS{renderSortArrow("points", tableId)}
       </th>
-      <th onClick={() => requestSort("regulationWins")}>
-        VR{renderSortArrow("regulationWins")}
+      <th onClick={() => requestSort("pointPctg", tableId)}>
+        %PTS{renderSortArrow("pointPctg", tableId)}
       </th>
-      <th onClick={() => requestSort("regulationPlusOtWins")}>
-        VPr.{renderSortArrow("regulationPlusOtWins")}
+      <th onClick={() => requestSort("regulationWins", tableId)}>
+        VR{renderSortArrow("regulationWins", tableId)}
       </th>
-      <th onClick={() => requestSort("goalFor")}>
-        BP{renderSortArrow("goalFor")}
+      <th onClick={() => requestSort("regulationPlusOtWins", tableId)}>
+        VPr.{renderSortArrow("regulationPlusOtWins", tableId)}
       </th>
-      <th onClick={() => requestSort("goalAgainst")}>
-        BC{renderSortArrow("goalAgainst")}
+      <th onClick={() => requestSort("goalFor", tableId)}>
+        BP{renderSortArrow("goalFor", tableId)}
       </th>
-      <th onClick={() => requestSort("goalDifferential")}>
-        DIFF{renderSortArrow("goalDifferential")}
+      <th onClick={() => requestSort("goalAgainst", tableId)}>
+        BC{renderSortArrow("goalAgainst", tableId)}
       </th>
-      <th onClick={() => requestSort("powerPlayPct")}>
-        %AN{renderSortArrow("powerPlayPct")}
+      <th onClick={() => requestSort("goalDifferential", tableId)}>
+        DIFF{renderSortArrow("goalDifferential", tableId)}
       </th>
-      <th onClick={() => requestSort("penaltyKillPct")}>
-        %IN{renderSortArrow("penaltyKillPct")}
+      <th onClick={() => requestSort("powerPlayPct", tableId)}>
+        %AN{renderSortArrow("powerPlayPct", tableId)}
+      </th>
+      <th onClick={() => requestSort("penaltyKillPct", tableId)}>
+        %IN{renderSortArrow("penaltyKillPct", tableId)}
       </th>
       <th className="record">DOM</th>
       <th className="record">ÉTR</th>
-      <th onClick={() => requestSort("shootoutWins")}>
-        TB{renderSortArrow("shootoutWins")}
+      <th onClick={() => requestSort("shootoutWins", tableId)}>
+        TB{renderSortArrow("shootoutWins", tableId)}
       </th>
       <th className="record last">10D.M.</th>
       <th>SÉQ.</th>
@@ -266,7 +290,9 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
             src={`https://assets.nhle.com/logos/nhl/svg/${team.teamAbbrev.default}_dark.svg`}
             alt={`${team.teamName.fr || team.teamName.default} logo`}
           />
-          <span className="no-mobile">{`${team.teamName.fr || team.teamName.default}`}</span>
+          <span className="no-mobile">{`${
+            team.teamName.fr || team.teamName.default
+          }`}</span>
           <span className="mobile">{`${team.teamAbbrev.default}`}</span>
         </Link>
       </td>
@@ -313,10 +339,11 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
     teams: {
       team: TeamStanding;
       otherInfo: INTStandingOtherInfos["data"][0] | null;
-    }[]
+    }[],
+    tableId: TableId
   ) => (
     <table>
-      <thead>{renderTableHeader()}</thead>
+      <thead>{renderTableHeader(tableId)}</thead>
       <tbody>{teams.map((team, index) => renderTeamRow(team, index))}</tbody>
     </table>
   );
@@ -324,9 +351,9 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
   if (!sortedStandings) return <p>Aucune donnée disponible.</p>;
 
   return (
-    <section className="standing hero">
-      <div className="wrapper">
-        <h1>Classements</h1>
+    <section className={`standing ${home ? "" : "hero"}`}>
+      <div className={`${home ? "" : "wrapper"}`}>
+        {home ? <h2>Classements</h2> : <h1>Classements</h1>}
         <Carousel
           navigation={{
             nextEl: ".swiper-button-next",
@@ -338,9 +365,7 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
           autoHeight={true}
           onSwiper={(swiper) => setSwiperInstance(swiper)}
           onSlideChange={(swiper) => {
-            handleSlideChange(
-              swiper.activeIndex === 0 ? "divisions" : "ligue"
-            );
+            handleSlideChange(swiper.activeIndex === 0 ? "divisions" : "ligue");
           }}
         >
           <div className="nav standing">
@@ -371,7 +396,7 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
                       {teams.length === 0 ? (
                         <p>Aucune équipe disponible dans cette division.</p>
                       ) : (
-                        renderStandingsTable(teams)
+                        renderStandingsTable(teams, division as TableId)
                       )}
                     </div>
                   )
@@ -385,7 +410,7 @@ const SingleStanding: React.FC<SingleStandingProps> = ({
           >
             <h2>Classement de la ligue</h2>
             <div className="table-standing-container">
-              {renderStandingsTable(sortedStandings.Ligue)}
+              {renderStandingsTable(sortedStandings.Ligue, "Ligue")}
             </div>
           </div>
         </Carousel>
