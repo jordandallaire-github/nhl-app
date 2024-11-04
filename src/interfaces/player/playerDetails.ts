@@ -4,6 +4,7 @@ import { SeasonTotals } from "./seasonTotals";
 import { Award } from "./awards";
 
 export interface PlayerDetailsType {
+  id: string | number;
   heroImage: string;
   firstName: { default: string; fr: string };
   lastName: { default: string; fr: string };

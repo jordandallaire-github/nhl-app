@@ -21,15 +21,17 @@ const SingleTeamPlayerGroup: React.FC<PlayerGroupProps> = ({
     <div className="player-position">
       <h2>{title} :</h2>
       <div className="cards team-players">
-        {players.map((player) => (
-          <PlayerCard
-            key={player.playerId}
-            player={player}
-            teamColor={teamColor}
-            teamAbbrev={teamAbbrev}
-            teamCommonName={teamCommonName}
-          />
-        ))}
+        {players.map((player) => {
+          return (
+            <PlayerCard
+              key={player.id}
+              player={player}
+              teamColor={teamColor}
+              teamAbbrev={teamAbbrev}
+              teamCommonName={teamCommonName}
+            />
+          );
+        })}
       </div>
     </div>
   );

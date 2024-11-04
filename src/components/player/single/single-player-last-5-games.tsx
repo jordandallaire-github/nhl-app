@@ -104,7 +104,7 @@ const PlayerSingleLast5Games: React.FC<{
     return (
       <section className="last-games">
         <div className="wrapper">
-          <p><strong>Aucun match récent trouvé.</strong></p>
+          <h2>Aucun match récent trouvé.</h2>
         </div>
       </section>
     );

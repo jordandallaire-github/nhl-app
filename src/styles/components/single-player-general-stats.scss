@@ -6,6 +6,26 @@
     overflow-x: clip;
   }
 
+  .league-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 95px;
+
+    h2 {
+      margin-bottom: 0;
+    }
+
+    select {
+      background-color: black;
+      background-image: none;
+      color: var(--color-white);
+      font-weight: 700;
+      padding: 12px 12px;
+      min-width: 150px;
+    }
+  }
+
   .swiper-wrapper {
     box-sizing: inherit;
     padding-top: 30px;
@@ -19,7 +39,6 @@
     justify-content: inherit;
     transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
-
 
   .normal-stats-general,
   .playoff-stats-general {

@@ -20,12 +20,12 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   const teamLogo = `https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_light.svg`;
 
   return (
-    <div key={player.playerId} className="card window-effect">
+    <div className="card window-effect">
       <Link
         to={`/equipes/${teamCommonName}/joueur/${generatePlayerSlug(
           player.firstName.default,
           player.lastName.default,
-          player.playerId
+          player.id.toString()
         )}`}
       >
         <div className="card-media player">

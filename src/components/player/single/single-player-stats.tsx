@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Carousel from "../../utils/carousel";
-import { PlayerDetailsType} from "../../../interfaces/player/playerDetails";
+import { PlayerDetailsType } from "../../../interfaces/player/playerDetails";
 import { SeasonTotals } from "../../../interfaces/player/seasonTotals";
 import { Link } from "react-router-dom";
 import formatSeason from "../../../scripts/utils/formatSeason";
+import Swiper from "swiper";
 
 type SortConfig = {
   key: keyof SeasonTotals;
@@ -13,8 +14,44 @@ type SortConfig = {
 const REGULAR_SEASON = 2;
 const PLAYOFFS = 3;
 
-const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) => {
+const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
+  player,
+}) => {
   const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
+  const [selectedLeague, setSelectedLeague] = useState<string>("");
+  const [swiperInstance, setSwiperInstance] = useState<Swiper | null>(null);
+
+  const availableLeagues = useMemo(() => {
+    if (!player.seasonTotals) return [];
+
+    const leagues = new Set<string>();
+    player.seasonTotals.forEach((season) => {
+      if (season.leagueAbbrev) {
+        leagues.add(season.leagueAbbrev);
+      }
+    });
+
+    return Array.from(leagues);
+  }, [player.seasonTotals]);
+
+  useEffect(() => {
+    if (Array.isArray(player.seasonTotals)) {
+      const sortedSeasons = [...player.seasonTotals].sort(
+        (a, b) => b.season - a.season
+      );
+      setSelectedLeague(sortedSeasons[0]?.leagueAbbrev);
+
+      if (!swiperInstance?.destroyed && swiperInstance) {
+        swiperInstance.updateAutoHeight();
+      }
+    }
+  }, [player.seasonTotals, swiperInstance]);
+
+  useEffect(() => {
+    if (swiperInstance && !swiperInstance.destroyed) {
+      swiperInstance.updateAutoHeight();
+    }
+  }, [selectedLeague, swiperInstance]);
 
   const requestSort = (key: keyof SeasonTotals) => {
     setSortConfig((prevConfig) => ({
@@ -29,7 +66,11 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
   const sortedSeasonTotals = useMemo(() => {
     if (!player.seasonTotals) return [];
 
-    return [...player.seasonTotals].sort((a, b) => {
+    const leagueFiltered = player.seasonTotals.filter(
+      (season) => season.leagueAbbrev === selectedLeague
+    );
+
+    return [...leagueFiltered].sort((a, b) => {
       if (!sortConfig) return 0;
 
       const valueA = a[sortConfig.key];
@@ -49,15 +90,21 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
 
       return 0;
     });
-  }, [player.seasonTotals, sortConfig]);
+  }, [player.seasonTotals, sortConfig, selectedLeague]);
 
   const regularSeasonStats = useMemo(
-    () => sortedSeasonTotals.filter((seasonData) => seasonData.gameTypeId === REGULAR_SEASON),
+    () =>
+      sortedSeasonTotals.filter(
+        (seasonData) => seasonData.gameTypeId === REGULAR_SEASON
+      ),
     [sortedSeasonTotals]
   );
 
   const playoffStats = useMemo(
-    () => sortedSeasonTotals.filter((seasonData) => seasonData.gameTypeId === PLAYOFFS),
+    () =>
+      sortedSeasonTotals.filter(
+        (seasonData) => seasonData.gameTypeId === PLAYOFFS
+      ),
     [sortedSeasonTotals]
   );
 
@@ -65,6 +112,20 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
     if (!sortConfig || sortConfig.key !== key) return null;
     return sortConfig.direction === "ascending" ? "↓" : "↑";
   };
+
+  const renderLeagueSelector = () => (
+    <select
+      className="window-effect"
+      value={selectedLeague}
+      onChange={(e) => setSelectedLeague(e.target.value)}
+    >
+      {availableLeagues.map((league) => (
+        <option key={league} value={league}>
+          {league}
+        </option>
+      ))}
+    </select>
+  );
 
   if (!player.seasonTotals || player.seasonTotals.length === 0)
     return (
@@ -79,22 +140,48 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
     <table>
       <thead>
         <tr>
-          <th scope="row" onClick={() => requestSort("season")}>Saison {getSortArrow("season")}</th>
+          <th scope="row" onClick={() => requestSort("season")}>
+            Saison {getSortArrow("season")}
+          </th>
           <th scope="row">Équipe</th>
-          <th onClick={() => requestSort("gamesStarted")}>PJ {getSortArrow("gamesStarted")}</th>
+          <th onClick={() => requestSort("gamesStarted")}>
+            PJ {getSortArrow("gamesStarted")}
+          </th>
           <th onClick={() => requestSort("wins")}>V {getSortArrow("wins")}</th>
-          <th onClick={() => requestSort("losses")}>D {getSortArrow("losses")}</th>
-          <th onClick={() => requestSort("otLosses")}>DP {getSortArrow("otLosses")}</th>
-          <th onClick={() => requestSort("shotsAgainst")}>TC {getSortArrow("shotsAgainst")}</th>
-          <th onClick={() => requestSort("goalsAgainst")}>BC {getSortArrow("goalsAgainst")}</th>
-          <th onClick={() => requestSort("savePctg")}>%Arr. {getSortArrow("savePctg")}</th>
-          <th onClick={() => requestSort("goalsAgainstAvg")}>Moy. {getSortArrow("goalsAgainstAvg")}</th>
-          <th onClick={() => requestSort("shutouts")}>BL {getSortArrow("shutouts")}</th>
-          <th onClick={() => requestSort("goals")}>B {getSortArrow("goals")}</th>
-          <th onClick={() => requestSort("assists")}>A {getSortArrow("assists")}</th>
-          <th onClick={() => requestSort("points")}>P {getSortArrow("points")}</th>
+          <th onClick={() => requestSort("losses")}>
+            D {getSortArrow("losses")}
+          </th>
+          <th onClick={() => requestSort("otLosses")}>
+            DP {getSortArrow("otLosses")}
+          </th>
+          <th onClick={() => requestSort("shotsAgainst")}>
+            TC {getSortArrow("shotsAgainst")}
+          </th>
+          <th onClick={() => requestSort("goalsAgainst")}>
+            BC {getSortArrow("goalsAgainst")}
+          </th>
+          <th onClick={() => requestSort("savePctg")}>
+            %Arr. {getSortArrow("savePctg")}
+          </th>
+          <th onClick={() => requestSort("goalsAgainstAvg")}>
+            Moy. {getSortArrow("goalsAgainstAvg")}
+          </th>
+          <th onClick={() => requestSort("shutouts")}>
+            BL {getSortArrow("shutouts")}
+          </th>
+          <th onClick={() => requestSort("goals")}>
+            B {getSortArrow("goals")}
+          </th>
+          <th onClick={() => requestSort("assists")}>
+            A {getSortArrow("assists")}
+          </th>
+          <th onClick={() => requestSort("points")}>
+            P {getSortArrow("points")}
+          </th>
           <th onClick={() => requestSort("pim")}>PUN {getSortArrow("pim")}</th>
-          <th onClick={() => requestSort("timeOnIce")}>TG {getSortArrow("timeOnIce")}</th>
+          <th onClick={() => requestSort("timeOnIce")}>
+            TG {getSortArrow("timeOnIce")}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -102,24 +189,36 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
           <tr key={index}>
             <td scope="row">{formatSeason(seasonData.season)}</td>
             <td scope="row">
-              <Link to={`/equipes/${seasonData.teamCommonName.default.toLowerCase().replace(/\s+/g, "-")}`}>
-                {seasonData.teamName.fr}
-              </Link>
+              {seasonData.teamCommonName ? (
+                <Link
+                  to={`/equipes/${seasonData.teamCommonName?.default
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                >
+                  {seasonData.teamName.fr ?? seasonData.teamName.default}
+                </Link>
+              ) : (
+                seasonData.teamName.fr ?? seasonData.teamName.default
+              )}
             </td>
-            <td>{seasonData.gamesStarted}</td>
-            <td>{seasonData.wins}</td>
-            <td>{seasonData.losses}</td>
-            <td>{seasonData.otLosses}</td>
-            <td>{seasonData.shotsAgainst}</td>
-            <td>{seasonData.goalsAgainst}</td>
-            <td>{seasonData.savePctg.toFixed(3)}</td>
-            <td>{seasonData.goalsAgainstAvg.toFixed(2)}</td>
-            <td>{seasonData.shutouts}</td>
-            <td>{seasonData.goals}</td>
-            <td>{seasonData.assists}</td>
-            <td>{seasonData.goals + seasonData.assists}</td>
-            <td>{seasonData.pim}</td>
-            <td>{seasonData.timeOnIce}</td>
+            <td>{seasonData.gamesPlayed ?? "--"}</td>
+            <td>{seasonData.wins ?? "--"}</td>
+            <td>{seasonData.losses ?? "--"}</td>
+            <td>{seasonData.otLosses ?? "--"}</td>
+            <td>{seasonData.shotsAgainst ?? "--"}</td>
+            <td>{seasonData.goalsAgainst ?? "--"}</td>
+            <td>{seasonData.savePctg?.toFixed(3) ?? "--"}</td>
+            <td>{seasonData.goalsAgainstAvg?.toFixed(2) ?? "--"}</td>
+            <td>{seasonData.shutouts ?? "--"}</td>
+            <td>{seasonData.goals ?? "--"}</td>
+            <td>{seasonData.assists ?? "--"}</td>
+            <td>
+              {seasonData.goals >= 0 && seasonData.assists >= 0
+                ? seasonData.goals + seasonData.assists
+                : "--"}
+            </td>
+            <td>{seasonData.pim ?? "--"}</td>
+            <td>{seasonData.timeOnIce ?? "--"}</td>
           </tr>
         ))}
       </tbody>
@@ -130,24 +229,56 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
     <table>
       <thead>
         <tr>
-          <th scope="row" onClick={() => requestSort("season")}>Saison {getSortArrow("season")}</th>
+          <th scope="row" onClick={() => requestSort("season")}>
+            Saison {getSortArrow("season")}
+          </th>
           <th scope="row">Équipe</th>
-          <th onClick={() => requestSort("gamesPlayed")}>PJ {getSortArrow("gamesPlayed")}</th>
-          <th onClick={() => requestSort("goals")}>B {getSortArrow("goals")}</th>
-          <th onClick={() => requestSort("assists")}>A {getSortArrow("assists")}</th>
-          <th onClick={() => requestSort("points")}>P {getSortArrow("points")}</th>
-          <th onClick={() => requestSort("plusMinus")}>+/- {getSortArrow("plusMinus")}</th>
+          <th onClick={() => requestSort("gamesPlayed")}>
+            PJ {getSortArrow("gamesPlayed")}
+          </th>
+          <th onClick={() => requestSort("goals")}>
+            B {getSortArrow("goals")}
+          </th>
+          <th onClick={() => requestSort("assists")}>
+            A {getSortArrow("assists")}
+          </th>
+          <th onClick={() => requestSort("points")}>
+            P {getSortArrow("points")}
+          </th>
+          <th onClick={() => requestSort("plusMinus")}>
+            +/- {getSortArrow("plusMinus")}
+          </th>
           <th onClick={() => requestSort("pim")}>PUN {getSortArrow("pim")}</th>
-          <th onClick={() => requestSort("shots")}>T {getSortArrow("shots")}</th>
-          <th onClick={() => requestSort("shootingPctg")}>%T {getSortArrow("shootingPctg")}</th>
-          <th onClick={() => requestSort("powerPlayGoals")}>BAN {getSortArrow("powerPlayGoals")}</th>
-          <th onClick={() => requestSort("powerPlayPoints")}>PAN {getSortArrow("powerPlayPoints")}</th>
-          <th onClick={() => requestSort("shorthandedGoals")}>BIN {getSortArrow("shorthandedGoals")}</th>
-          <th onClick={() => requestSort("shorthandedPoints")}>PIN {getSortArrow("shorthandedPoints")}</th>
-          <th onClick={() => requestSort("avgToi")}>TG/PJ {getSortArrow("avgToi")}</th>
-          <th onClick={() => requestSort("gameWinningGoals")}>BG {getSortArrow("gameWinningGoals")}</th>
-          <th onClick={() => requestSort("otGoals")}>B Pr {getSortArrow("otGoals")}</th>
-          <th onClick={() => requestSort("faceoffWinningPctg")}>%MAJ {getSortArrow("faceoffWinningPctg")}</th>
+          <th onClick={() => requestSort("shots")}>
+            T {getSortArrow("shots")}
+          </th>
+          <th onClick={() => requestSort("shootingPctg")}>
+            %T {getSortArrow("shootingPctg")}
+          </th>
+          <th onClick={() => requestSort("powerPlayGoals")}>
+            BAN {getSortArrow("powerPlayGoals")}
+          </th>
+          <th onClick={() => requestSort("powerPlayPoints")}>
+            PAN {getSortArrow("powerPlayPoints")}
+          </th>
+          <th onClick={() => requestSort("shorthandedGoals")}>
+            BIN {getSortArrow("shorthandedGoals")}
+          </th>
+          <th onClick={() => requestSort("shorthandedPoints")}>
+            PIN {getSortArrow("shorthandedPoints")}
+          </th>
+          <th onClick={() => requestSort("avgToi")}>
+            TG/PJ {getSortArrow("avgToi")}
+          </th>
+          <th onClick={() => requestSort("gameWinningGoals")}>
+            BG {getSortArrow("gameWinningGoals")}
+          </th>
+          <th onClick={() => requestSort("otGoals")}>
+            B Pr {getSortArrow("otGoals")}
+          </th>
+          <th onClick={() => requestSort("faceoffWinningPctg")}>
+            %MAJ {getSortArrow("faceoffWinningPctg")}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -155,26 +286,34 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
           <tr key={index}>
             <td scope="row">{formatSeason(seasonData.season)}</td>
             <td scope="row">
-              <Link to={`/equipes/${seasonData.teamCommonName.default.toLowerCase().replace(/\s+/g, "-")}`}>
-                {seasonData.teamName.fr}
-              </Link>
+              {seasonData.teamCommonName ? (
+                <Link
+                  to={`/equipes/${seasonData.teamCommonName?.default
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                >
+                  {seasonData.teamName.fr ?? seasonData.teamName.default}
+                </Link>
+              ) : (
+                seasonData.teamName.fr ?? seasonData.teamName.default
+              )}
             </td>
-            <td>{seasonData.gamesPlayed}</td>
-            <td>{seasonData.goals}</td>
-            <td>{seasonData.assists}</td>
-            <td>{seasonData.points}</td>
-            <td>{seasonData.plusMinus}</td>
-            <td>{seasonData.pim}</td>
-            <td>{seasonData.shots}</td>
-            <td>{seasonData.shootingPctg.toFixed(3)}</td>
-            <td>{seasonData.powerPlayGoals}</td>
-            <td>{seasonData.powerPlayPoints}</td>
-            <td>{seasonData.shorthandedGoals}</td>
-            <td>{seasonData.shorthandedPoints}</td>
-            <td>{seasonData.avgToi}</td>
-            <td>{seasonData.gameWinningGoals}</td>
-            <td>{seasonData.otGoals}</td>
-            <td>{seasonData.faceoffWinningPctg.toFixed(3)}</td>
+            <td>{seasonData.gamesPlayed ?? "--"}</td>
+            <td>{seasonData.goals ?? "--"}</td>
+            <td>{seasonData.assists ?? "--"}</td>
+            <td>{seasonData.points ?? "--"}</td>
+            <td>{seasonData.plusMinus ?? "--"}</td>
+            <td>{seasonData.pim ?? "--"}</td>
+            <td>{seasonData.shots ?? "--"}</td>
+            <td>{seasonData.shootingPctg?.toFixed(3) ?? "--"}</td>
+            <td>{seasonData.powerPlayGoals ?? "--"}</td>
+            <td>{seasonData.powerPlayPoints ?? "--"}</td>
+            <td>{seasonData.shorthandedGoals ?? "--"}</td>
+            <td>{seasonData.shorthandedPoints ?? "--"}</td>
+            <td>{seasonData.avgToi ?? "--"}</td>
+            <td>{seasonData.gameWinningGoals ?? "--"}</td>
+            <td>{seasonData.otGoals ?? "--"}</td>
+            <td>{seasonData.faceoffWinningPctg?.toFixed(3) ?? "--"}</td>
           </tr>
         ))}
       </tbody>
@@ -186,11 +325,12 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
 
     return (
       <Carousel
+        onSwiper={(swiper) => setSwiperInstance(swiper)}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
-        breakpoint={{ 1020: { spaceBetween: 10, slidesPerView: 1 } }}
+        breakpoint={{ 320: { spaceBetween: 10, slidesPerView: 1 } }}
         noSwiping={true}
         grabCursor={false}
         autoHeight={true}
@@ -205,13 +345,19 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
         </div>
         <div data-is-swiper-slide className="season swiper-no-swiping">
           <div className="season-stats">
-            {isGoalie ? renderGoalieStats(regularSeasonStats) : renderPlayerStats(regularSeasonStats)}
+            {isGoalie
+              ? renderGoalieStats(regularSeasonStats)
+              : renderPlayerStats(regularSeasonStats)}
           </div>
         </div>
         <div data-is-swiper-slide className="playoff swiper-no-swiping">
           <div className="playoff-stats">
             {playoffStats.length > 0 ? (
-              isGoalie ? renderGoalieStats(playoffStats) : renderPlayerStats(playoffStats)
+              isGoalie ? (
+                renderGoalieStats(playoffStats)
+              ) : (
+                renderPlayerStats(playoffStats)
+              )
             ) : (
               <h4>Aucun match de série joué.</h4>
             )}
@@ -224,7 +370,10 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({ player }) 
   return (
     <section className="global-stats stats">
       <div className="wrapper">
-        <h2>Statistiques</h2>
+        <div className="league-stats">
+          <h2>Statistiques</h2>
+          {renderLeagueSelector()}
+        </div>
         {renderStats()}
       </div>
     </section>

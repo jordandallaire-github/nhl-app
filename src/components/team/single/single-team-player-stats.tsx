@@ -233,7 +233,7 @@ const SingleTeamPlayerStats: React.FC<PlayerStatsProps> = React.memo(
     const getPlayerDetails = useCallback(
       (playerId: string): PlayerDetailsType | null => {
         return (
-          playerOtherInfos?.find((player) => player.playerId === playerId) || null
+          playerOtherInfos?.find((player) => player.id === playerId) || null
         );
       },
       [playerOtherInfos]

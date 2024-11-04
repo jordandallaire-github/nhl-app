@@ -7,7 +7,6 @@ import PlayerSingleLast5Games from "../components/player/single/single-player-la
 import PlayerSingleStats from "../components/player/single/single-player-stats";
 import PlayerSingleAwards from "../components/player/single/single-player-awards";
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
-import { SeasonTotals } from "../interfaces/player/seasonTotals";
 
 const DEFAULT_LANGUAGE = "default";
 const FRENCH_LANGUAGE = "fr";
@@ -58,6 +57,7 @@ const usePlayerDetails = (playerSlug: string) => {
         const playerData = await res.json();
 
         setPlayer({
+          id: playerData.id,
           heroImage: playerData.heroImage,
           firstName: playerData.firstName?.[DEFAULT_LANGUAGE],
           lastName: playerData.lastName?.[DEFAULT_LANGUAGE],
@@ -92,10 +92,10 @@ const usePlayerDetails = (playerSlug: string) => {
           featuredStats: playerData.featuredStats,
           careerTotals: playerData.careerTotals,
           last5Games: playerData.last5Games,
-          seasonTotals:
-            playerData.seasonTotals?.filter(
-              (season: SeasonTotals) => season.leagueAbbrev === "NHL"
-            ) || [],
+          seasonTotals: playerData.seasonTotals.map(season => ({
+            ...season,
+            leagueAbbrev: season.leagueAbbrev || 'NHL'
+          })),
           awards: playerData.awards,
           playerId: playerData.playerId,
           name: playerData.firstName?.[DEFAULT_LANGUAGE] + " " + playerData.lastName?.[DEFAULT_LANGUAGE],

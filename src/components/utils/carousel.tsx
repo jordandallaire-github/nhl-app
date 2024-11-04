@@ -2,13 +2,14 @@ import { Navigation, Pagination, Autoplay, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ReactNode } from "react";
 import React from "react";
-import type { Swiper as SwiperType } from 'swiper';
+import type { Swiper as SwiperType } from "swiper";
 
 interface CarouselProps {
   centeredSlides?: boolean;
   loop?: boolean;
   setWrapperSize?: boolean;
   noSwiping?: boolean;
+  slidesPerView?: number;
   freeMode?: boolean;
   noSwipingClass?: string;
   autoHeight?: boolean;
@@ -32,21 +33,25 @@ interface CarouselProps {
     bulletClass?: string;
     bulletElement?: string;
   };
-  breakpoint?: Record<number, {
-    spaceBetween?: number;
-    slidesPerView?: number | "auto";
-  }>;
+  breakpoint?: Record<
+    number,
+    {
+      spaceBetween?: number;
+      slidesPerView?: number | "auto";
+    }
+  >;
   onSwiper?: (swiper: SwiperType) => void;
   onSlideChange?: (swiper: SwiperType) => void;
   children: ReactNode;
 }
 
 function Carousel({
+  slidesPerView = 1,
   freeMode = false,
   centeredSlides = false,
   setWrapperSize = false,
   loop = false,
-  autoplay = false, 
+  autoplay = false,
   noSwiping = false,
   autoHeight = false,
   noSwipingClass = "swiper-no-swiping",
@@ -62,7 +67,7 @@ function Carousel({
     el: ".swiper-pagination",
     bulletActiveClass: "swiper-pagination-bullet-active",
     bulletClass: "swiper-pagination-bullet",
-    bulletElement: "span"
+    bulletElement: "span",
   },
   breakpoint = {
     320: {
@@ -82,17 +87,24 @@ function Carousel({
   onSlideChange,
   children,
 }: CarouselProps) {
-  const modules = [Navigation, FreeMode ,Pagination, ...(autoplay ? [Autoplay] : [])];
+  const modules = [
+    Navigation,
+    FreeMode,
+    Pagination,
+    ...(autoplay ? [Autoplay] : []),
+  ];
   const autoplaySettings =
     typeof autoplay === "object"
       ? autoplay
-      : (autoplay ? { pauseOnMouseEnter: true, delay: 1000 } : false);
+      : autoplay
+      ? { pauseOnMouseEnter: true, delay: 1000 }
+      : false;
 
   return (
     <Swiper
       modules={modules}
       spaceBetween={20}
-      slidesPerView={1}
+      slidesPerView={slidesPerView}
       grabCursor={grabCursor}
       navigation={navigation}
       autoplay={autoplaySettings}
@@ -109,7 +121,10 @@ function Carousel({
       onSlideChange={onSlideChange}
     >
       {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.props['data-is-swiper-slide']) {
+        if (
+          React.isValidElement(child) &&
+          child.props["data-is-swiper-slide"]
+        ) {
           return <SwiperSlide>{child}</SwiperSlide>;
         }
         return child;
