@@ -92,7 +92,7 @@ const usePlayerDetails = (playerSlug: string) => {
           featuredStats: playerData.featuredStats,
           careerTotals: playerData.careerTotals,
           last5Games: playerData.last5Games,
-          seasonTotals: playerData.seasonTotals.map(season => ({
+          seasonTotals: playerData.seasonTotals.map((season: any) => ({
             ...season,
             leagueAbbrev: season.leagueAbbrev || 'NHL'
           })),
