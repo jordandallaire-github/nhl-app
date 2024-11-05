@@ -114,17 +114,19 @@ const PlayerSingleStats: React.FC<{ player: PlayerDetailsType }> = ({
   };
 
   const renderLeagueSelector = () => (
-    <select
-      className="window-effect"
-      value={selectedLeague}
-      onChange={(e) => setSelectedLeague(e.target.value)}
-    >
-      {availableLeagues.map((league) => (
-        <option key={league} value={league}>
-          {league}
-        </option>
-      ))}
-    </select>
+    <div className="dropdown">
+      <select
+        className="window-effect"
+        value={selectedLeague}
+        onChange={(e) => setSelectedLeague(e.target.value)}
+      >
+        {availableLeagues.map((league) => (
+          <option key={league} value={league}>
+            {league}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 
   if (!player.seasonTotals || player.seasonTotals.length === 0)

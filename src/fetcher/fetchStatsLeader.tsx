@@ -4,6 +4,7 @@ import {
   LeaderGoalieStats,
 } from "../interfaces/leader-stats";
 import SingleLeaderStats from "../components/single-stats-leader";
+import { loaderComponent } from "../components/utils/loader";
 
 const StatsLeader: React.FC = () => {
   const [playerStats, setPlayerStats] = useState<LeaderPlayerStats | null>(
@@ -47,7 +48,7 @@ const StatsLeader: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [apiWeb]);
 
   useEffect(() => {
     fetchStanding();
@@ -58,7 +59,11 @@ const StatsLeader: React.FC = () => {
   }
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return (
+      <>
+        {loaderComponent()}
+      </>
+    );
   }
 
   return (

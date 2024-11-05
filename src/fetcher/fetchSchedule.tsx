@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { INTSchedule } from "../interfaces/schedule";
 import SingleSchedule from "../components/single-schedule";
+import { loaderComponent } from "../components/utils/loader";
 
 const getLocalDate = (): string => {
   const now = new Date();
@@ -63,7 +64,11 @@ const Schedule: React.FC = () => {
   }
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return (
+      <>
+        {loaderComponent()}
+      </>
+    );
   }
 
   return (

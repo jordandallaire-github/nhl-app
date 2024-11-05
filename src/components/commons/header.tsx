@@ -18,7 +18,7 @@ export default function Header() {
         <div className="header-content">
           <div className="logo">
             <Link to="/">
-              <Svg name="php" size="md"></Svg>
+              <Svg name="jdh" size="md"></Svg>
             </Link>
           </div>
           <nav className="nav-wrapper header">

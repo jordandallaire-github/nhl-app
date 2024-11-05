@@ -98,7 +98,6 @@ export const SearchPage: React.FC<SearchPageProps> = ({
         </div>
 
         {error && <div className="error-message">{error}</div>}
-        {loading && <div className="loading">Chargement...</div>}
         
         {renderResults()}
       </div>

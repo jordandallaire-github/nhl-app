@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { INTStanding, INTStandingOtherInfos } from "../interfaces/standing";
 import SingleStanding from "../components/single-standing";
+import { loaderComponent } from "../components/utils/loader";
 
 const Standing: React.FC<{ isHome?: boolean }> = ({ isHome = false }) => {
   const [standing, setStanding] = useState<INTStanding | null>(null);
@@ -71,9 +72,9 @@ const Standing: React.FC<{ isHome?: boolean }> = ({ isHome = false }) => {
 
   if (loading) {
     return (
-      <div>
-        <p>Chargement des classements...</p>
-      </div>
+      <>
+        {loaderComponent()}
+      </>
     );
   }
 

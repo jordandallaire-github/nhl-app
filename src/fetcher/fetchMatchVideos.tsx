@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { INTGameVideo } from "../interfaces/game-video";
 import { renderMatchVideo } from "../components/match/single-match-videos";
 import { formatDate } from "../scripts/utils/formatDate";
+import { loaderComponent } from "../components/utils/loader";
 
  export interface TeamAbbreviations {
   awayTeam: string;
@@ -90,7 +91,11 @@ const MatchVideos: React.FC = () => {
   }
 
   if (loading) {
-    return <div>Chargement...</div>;
+    return (
+      <>
+        {loaderComponent()}
+      </>
+    );
   }
 
 

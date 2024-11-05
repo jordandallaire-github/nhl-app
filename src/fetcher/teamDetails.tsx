@@ -10,6 +10,7 @@ import SingleTeamScoreboard from "../components/team/single/single-team-scoreboa
 import SingleTeamHero from "../components/team/single/single-team-hero";
 import SingleTeamSchedule from "../components/team/single/single-team-schedule";
 import SingleTeamPlayerStats from "../components/team/single/single-team-player-stats";
+import { loaderComponent } from "../components/utils/loader";
 
 interface TeamRanking {
   divisionRank: number;
@@ -158,7 +159,11 @@ const TeamDetails: React.FC = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        {loaderComponent()}
+      </>
+    );
   }
 
   const forwards = playersPosition.filter((player) =>

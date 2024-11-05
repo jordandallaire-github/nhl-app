@@ -15,14 +15,14 @@
     h2 {
       margin-bottom: 0;
     }
-
     select {
-      background-color: black;
+      background-color: var(--color-black);
       background-image: none;
       color: var(--color-white);
       font-weight: 700;
-      padding: 12px 12px;
-      min-width: 150px;
+      padding: 12px 24px;
+      width: clamp(13rem, 10.0874rem + 12.4272vw, 25rem);
+      outline: 2px solid var(--color-white);
     }
   }
 

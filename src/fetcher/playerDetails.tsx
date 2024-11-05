@@ -7,6 +7,7 @@ import PlayerSingleLast5Games from "../components/player/single/single-player-la
 import PlayerSingleStats from "../components/player/single/single-player-stats";
 import PlayerSingleAwards from "../components/player/single/single-player-awards";
 import { PlayerDetailsType } from "../interfaces/player/playerDetails";
+import { loaderComponent } from "../components/utils/loader";
 
 const DEFAULT_LANGUAGE = "default";
 const FRENCH_LANGUAGE = "fr";
@@ -118,7 +119,14 @@ const PlayerDetails: React.FC = () => {
   const { player, error } = usePlayerDetails(params.playerSlug ?? "");
 
   if (error) return <div>Error: {error}</div>;
-  if (!player) return <div>Loading...</div>;
+  
+  if (!player) {
+    return (
+      <>
+        {loaderComponent()}
+      </>
+    );
+  }
 
   return (
     <>

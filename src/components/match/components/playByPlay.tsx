@@ -183,7 +183,6 @@ export const renderPlayByPlay = (
       if (frenchVideo) return frenchVideo;
     }
 
-    // Fallback to English video
     if (englishVideoId) {
       const englishVideo = filteredGoalVideos.find(
         (video) => video.fields.brightcoveId === englishVideoId

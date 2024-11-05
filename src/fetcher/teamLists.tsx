@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TemplateTeamDivision from "../components/team/template/template-team-division";
 import { TeamColor } from "../interfaces/team/teamColor";
 import { TeamDetail } from "../interfaces/team/teamDetails";
-
+import { loaderComponent } from "../components/utils/loader";
 
 const groupTeamsByDivision = (teams: TeamDetail[]) => {
   return teams.reduce((acc: { [key: string]: TeamDetail[] }, team) => {
@@ -19,20 +19,22 @@ const ListTeams: React.FC = () => {
   const [teams, setTeams] = useState<TeamDetail[]>([]);
   const [teamColors, setTeamColors] = useState<TeamColor | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const isBuildProduction = false;
-  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+  const apiWeb = isBuildProduction
+    ? "/proxy.php/"
+    : "https://api-web.nhle.com/";
 
   useEffect(() => {
     const fetchTeamsAndColors = async () => {
+      setLoading(true);
       try {
-        // Fetch team colors
         const colorRes = await fetch("./teamColor.json");
         if (!colorRes.ok) throw new Error("Failed to fetch team colors");
         const colorData = await colorRes.json();
         setTeamColors(colorData);
 
-        // Fetch teams from the NHL API
         const res = await fetch(`${apiWeb}v1/standings/now`);
         if (!res.ok) throw new Error("Failed to fetch teams");
         const teamData = await res.json();
@@ -43,6 +45,8 @@ const ListTeams: React.FC = () => {
         } else {
           setError("An unknown error occurred");
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,6 +55,10 @@ const ListTeams: React.FC = () => {
 
   if (error) {
     return <div>Error: {error}</div>;
+  }
+
+  if (loading) {
+    return <>{loaderComponent()}</>;
   }
 
   const teamsByDivision = groupTeamsByDivision(teams);
