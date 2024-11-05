@@ -309,9 +309,9 @@ header {
 }
 
 .bg-menu-mobile {
-  -webkit-backdrop-filter: blur(40px);
-  backdrop-filter: blur(40px);
-  background-color: #f2f2f20d;
+  -webkit-backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  background-color: #000000ad;
   border: 1px solid #f2f2f21a;
   transition: box-shadow 1s cubic-bezier(0.23, 1, 0.32, 1),
     border 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
