@@ -113,8 +113,8 @@ const Match: React.FC = () => {
 
         setAwayTeamRoster(awayRosterArray);
         setHomeTeamRoster(homeRosterArray);
-      } catch (err) {
-        throw new Error("Erreur lors de la récupération des rosters");
+      } catch (error: unknown) {
+        setError(error instanceof Error ? error.message : "An error occurred");
       }
     },
     [apiWeb]
@@ -214,11 +214,7 @@ const Match: React.FC = () => {
   }
 
   if (loading) {
-    return (
-      <>
-        {loaderComponent()}
-      </>
-    );
+    return <>{loaderComponent()}</>;
   }
 
   const forwardsAway = awayTeamRoster.filter((player) =>

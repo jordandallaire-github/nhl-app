@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { INTeamSchedule } from "../../../interfaces/team/teamSchedule";
 import {
   formatDateMonthYear,
@@ -13,14 +13,15 @@ interface SingleTeamScheduleProps {
   teamColor: string | null;
   schedule: INTeamSchedule | null;
   abr: string | null;
+  onMonthChange: (direction: "previous" | "next") => void;
 }
 
 const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
   teamColor,
   schedule: initialSchedule,
   abr,
+  onMonthChange,
 }) => {
-  const [, setCurrentMonth] = useState<string>("2024-09");
   const [selectedGame, setSelectedGame] = useState<
     INTeamSchedule["games"][number] | null
   >(null);
@@ -32,8 +33,9 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
     initialSchedule
   );
 
-  const isBuildProduction = false;
-  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+  useEffect(() => {
+    setSchedule(initialSchedule);
+  }, [initialSchedule]);
 
   const totalDays = 35;
   const nextMonthDate = new Date(schedule?.nextMonth ?? "");
@@ -57,38 +59,6 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
       ? new Date(firstDayOfMonth.getFullYear(), firstDayOfMonth.getMonth(), day)
       : null;
   });
-
-  const handleMonthChange = useCallback(
-    async (direction: "previous" | "next") => {
-      if (!abr || !schedule) return;
-
-      let newMonth: Date;
-      if (direction === "previous" && schedule.previousMonth) {
-        newMonth = new Date(schedule.previousMonth);
-      } else if (direction === "next" && schedule.nextMonth) {
-        newMonth = new Date(schedule.nextMonth);
-      } else {
-        return;
-      }
-
-      try {
-        const res = await fetch(
-          `${apiWeb}v1/club-schedule/${abr}/month/${newMonth
-            .toISOString()
-            .slice(0, 7)}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch new schedule");
-        const newSchedule: INTeamSchedule = await res.json();
-        setSchedule(newSchedule);
-        setCurrentMonth(newMonth.toISOString().slice(0, 7));
-      } catch (error: unknown) {
-        console.error(
-          error instanceof Error ? error.message : "An error occurred"
-        );
-      }
-    },
-    [abr, apiWeb, schedule]
-  );
 
   const handleGameClick = (
     _event: React.MouseEvent,
@@ -142,11 +112,11 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
         <h1>Calendrier :</h1>
         <div className="schedule-panel">
           <div className="general-schedule-infos">
-            <h3>
+            <h2>
               {schedule?.currentMonth
                 ? formatDateMonthYear(schedule.currentMonth)
                 : ""}
-            </h3>
+            </h2>
             <div className="home-away-infos">
               <div className="home">
                 <div
@@ -165,7 +135,7 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
             <div className="day-week">
               {["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."].map(
                 (day, index) => (
-                  <h4 key={index}>{day}</h4>
+                  <p key={index}><strong>{day}</strong></p>
                 )
               )}
             </div>
@@ -237,14 +207,14 @@ const SingleTeamSchedule: React.FC<SingleTeamScheduleProps> = ({
         <div className="nav-month">
           <button
             className="window-effect"
-            onClick={() => handleMonthChange("previous")}
+            onClick={() => onMonthChange("previous")}
           >
             <Svg name="left-arrow" size="sm" />
             {`${formatDateMonthShortYear(schedule?.previousMonth ?? "")}`}
           </button>
           <button
             className="window-effect"
-            onClick={() => handleMonthChange("next")}
+            onClick={() => onMonthChange("next")}
           >
             {`${formatDateMonthShortYear(schedule?.nextMonth ?? "")}`}
             <Svg name="right-arrow" size="sm" />

@@ -23,10 +23,14 @@ const TeamDetails: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [teamRecord, setTeamRecord] = useState<TeamDetail>();
   const [teamAbbrev, setTeamAbbrev] = useState<string | null>(null);
-  const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>([]);
+  const [playersPosition, setPlayersPosition] = useState<PlayerDetailsType[]>(
+    []
+  );
   const [scoreBoard, setScoreBoard] = useState<TeamScoreboard | null>(null);
   const [schedule, setSchedule] = useState<INTeamSchedule | null>(null);
-  const [playerStats, setTeamPlayerStats] = useState<TeamPlayerStats | null>(null);
+  const [playerStats, setTeamPlayerStats] = useState<TeamPlayerStats | null>(
+    null
+  );
   const [teamColor, setTeamColor] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,42 +40,50 @@ const TeamDetails: React.FC = () => {
     leagueRank: 0,
   });
 
-  const activeSection = searchParams.get('section') || 'accueil';
+  const activeSection = searchParams.get("section") || "accueil";
   const showCalendar = activeSection === "calendrier";
   const showPlayerStats = activeSection === "statistiques";
 
   const isBuildProduction = false;
   const path = isBuildProduction ? "/projets/dist/" : "/";
-  const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
+  const apiWeb = isBuildProduction
+    ? "/proxy.php/"
+    : "https://api-web.nhle.com/";
 
-  const calculateRankings = (standings: TeamDetail[], currentTeam: TeamDetail): TeamRanking => {
+  const calculateRankings = (
+    standings: TeamDetail[],
+    currentTeam: TeamDetail
+  ): TeamRanking => {
     const sortedTeams = [...standings].sort((a, b) => {
       const pointsDiff = (b.points || 0) - (a.points || 0);
       if (pointsDiff !== 0) return pointsDiff;
-      
+
       const winsDiff = (b.wins || 0) - (a.wins || 0);
       if (winsDiff !== 0) return winsDiff;
-      
+
       return (b.goalDifferential || 0) - (a.goalDifferential || 0);
     });
 
-    const divisionTeams = sortedTeams.filter(team => 
-      team.divisionName === currentTeam.divisionName
+    const divisionTeams = sortedTeams.filter(
+      (team) => team.divisionName === currentTeam.divisionName
     );
-    const conferenceTeams = sortedTeams.filter(team => 
-      team.conferenceName === currentTeam.conferenceName
+    const conferenceTeams = sortedTeams.filter(
+      (team) => team.conferenceName === currentTeam.conferenceName
     );
 
     return {
-      divisionRank: divisionTeams.findIndex(team => 
-        team.teamAbbrev.default === currentTeam.teamAbbrev.default
-      ) + 1,
-      conferenceRank: conferenceTeams.findIndex(team => 
-        team.teamAbbrev.default === currentTeam.teamAbbrev.default
-      ) + 1,
-      leagueRank: sortedTeams.findIndex(team => 
-        team.teamAbbrev.default === currentTeam.teamAbbrev.default
-      ) + 1
+      divisionRank:
+        divisionTeams.findIndex(
+          (team) => team.teamAbbrev.default === currentTeam.teamAbbrev.default
+        ) + 1,
+      conferenceRank:
+        conferenceTeams.findIndex(
+          (team) => team.teamAbbrev.default === currentTeam.teamAbbrev.default
+        ) + 1,
+      leagueRank:
+        sortedTeams.findIndex(
+          (team) => team.teamAbbrev.default === currentTeam.teamAbbrev.default
+        ) + 1,
     };
   };
 
@@ -94,7 +106,7 @@ const TeamDetails: React.FC = () => {
 
         const rankings = calculateRankings(data.standings, team);
         setTeamRanking(rankings);
-        
+
         const playerRes = await fetch(
           `${apiWeb}v1/roster/${teamAbbrev}/current`
         );
@@ -154,16 +166,44 @@ const TeamDetails: React.FC = () => {
     fetchTeamData();
   }, [fetchTeamData]);
 
+  const handleMonthChange = useCallback(
+    async (direction: "previous" | "next") => {
+      if (!teamAbbrev || !schedule) return;
+  
+      let newMonth: Date;
+      if (direction === "previous" && schedule.previousMonth) {
+        newMonth = new Date(schedule.previousMonth);
+      } else if (direction === "next" && schedule.nextMonth) {
+        newMonth = new Date(schedule.nextMonth);
+      } else {
+        return;
+      }
+  
+      try {
+        const res = await fetch(
+          `${apiWeb}v1/club-schedule/${teamAbbrev}/month/${newMonth
+            .toISOString()
+            .slice(0, 7)}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch new schedule");
+        const newSchedule: INTeamSchedule = await res.json();
+        setSchedule(newSchedule);
+      } catch (error) {
+        console.error(
+          "Error fetching new schedule:",
+          error instanceof Error ? error.message : "An unknown error occurred"
+        );
+      }
+    },
+    [teamAbbrev, apiWeb, schedule]
+  );
+
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   if (loading) {
-    return (
-      <>
-        {loaderComponent()}
-      </>
-    );
+    return <>{loaderComponent()}</>;
   }
 
   const forwards = playersPosition.filter((player) =>
@@ -178,7 +218,7 @@ const TeamDetails: React.FC = () => {
 
   const handleNavClick = (section: string) => {
     if (section === "accueil") {
-      searchParams.delete('section');
+      searchParams.delete("section");
       setSearchParams(searchParams);
     } else {
       setSearchParams({ section });
@@ -260,6 +300,7 @@ const TeamDetails: React.FC = () => {
           abr={teamAbbrev}
           teamColor={teamColor}
           schedule={schedule}
+          onMonthChange={handleMonthChange} 
         />
       )}
       {!showCalendar && showPlayerStats && (
