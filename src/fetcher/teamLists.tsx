@@ -21,7 +21,7 @@ const ListTeams: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const isBuildProduction = false;
+  const isBuildProduction = true;
   const apiWeb = isBuildProduction
     ? "/proxy.php/"
     : "https://api-web.nhle.com/";

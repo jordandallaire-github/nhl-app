@@ -122,7 +122,9 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
 
   const renderTeamLeaders = (game: Game) => (
     <>
-      <p><strong>Meneurs de l'équipe</strong></p>
+      <p>
+        <strong>Meneurs de l'équipe</strong>
+      </p>
       <Carousel
         breakpoint={{
           320: { slidesPerView: "auto", spaceBetween: 10 },
@@ -211,7 +213,9 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
 
   const renderGoals = (game: Game) => (
     <>
-      <p><strong>Buts</strong></p>
+      <p>
+        <strong>Buts</strong>
+      </p>
       <Carousel
         breakpoint={{
           320: { slidesPerView: "auto", spaceBetween: 10 },
@@ -357,14 +361,20 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
         <h1>Calendrier de la journée</h1>
         <div className="nav-week">
           <div className="change-week window-effect">
-            <button onClick={() => onChangeWeek("prev")}>
+            <button
+              aria-label="Bouton semaine précédente"
+              onClick={() => onChangeWeek("prev")}
+            >
               <Svg name="left-arrow" size="sm" />
             </button>
             <p>
               {formatDateMonthDay(schedule.gameWeek[0].date, false)} -{" "}
               {formatDateMonthDay(schedule.gameWeek[6].date, false)}
             </p>
-            <button onClick={() => onChangeWeek("next")}>
+            <button
+              aria-label="Bouton semaine prochaine"
+              onClick={() => onChangeWeek("next")}
+            >
               <Svg name="right-arrow" size="sm" />
             </button>
           </div>
@@ -372,6 +382,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
         <div className="day-of-week">
           {schedule.gameWeek.map((game, index) => (
             <button
+              aria-label={`Bouton journée du ${getFrenchDayAbbr(game.date)}`}
               className={`window-effect ${
                 game.date === currentDate ? "active" : ""
               }`}
@@ -406,7 +417,11 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                             <p key={`${broadcast.id}-${index}`}>
                               {broadcast.network === "RDS" ? (
                                 <Link to={`https://www.rds.ca/`}>
-                                  <img src={RDS} alt="RDS logo" loading="lazy" />
+                                  <img
+                                    src={RDS}
+                                    alt="RDS logo"
+                                    loading="lazy"
+                                  />
                                 </Link>
                               ) : broadcast.network === "TVAS" ? (
                                 <Link to={`https://www.tvasports.ca/`}>

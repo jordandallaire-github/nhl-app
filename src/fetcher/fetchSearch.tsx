@@ -16,8 +16,8 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
   const searchInProgress = useRef(false);
 
-  const isBuildProduction = false;
-  const path = isBuildProduction ? "/projets/dist/" : "/";
+  const isBuildProduction = true;
+  const path = isBuildProduction ? "/projets/jdh/" : "/";
   const apiWeb = isBuildProduction
     ? "/proxy.php/"
     : "https://search.d3.nhle.com/";

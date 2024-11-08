@@ -35,8 +35,8 @@ const usePlayerDetails = (playerSlug: string) => {
   const [player, setPlayer] = useState<PlayerDetailsType | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const isBuildProduction = false;
-  const path = isBuildProduction ? "/projets/dist/" : "/";
+  const isBuildProduction = true;
+  const path = isBuildProduction ? "/projets/jdh/" : "/";
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 
   useEffect(() => {

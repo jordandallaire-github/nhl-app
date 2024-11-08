@@ -9,8 +9,8 @@ function Layout() {
   const location = useLocation();
   const { teamCommonName } = useParams<{ teamCommonName?: string }>();
 
-  const isBuildProduction = false;
-  const path = isBuildProduction ? "/projets/dist/" : "/";
+  const isBuildProduction = true;
+  const path = isBuildProduction ? "/projets/jdh/" : "/";
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 
   useEffect(() => {
