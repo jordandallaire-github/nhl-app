@@ -9,7 +9,7 @@ function Layout() {
   const location = useLocation();
   const { teamCommonName } = useParams<{ teamCommonName?: string }>();
 
-  const isBuildProduction = true;
+  const isBuildProduction = false
   const path = isBuildProduction ? "/projets/jdh/" : "/";
   const apiWeb = isBuildProduction ? "/proxy.php/" : "https://api-web.nhle.com/"
 

@@ -36,7 +36,7 @@ const Match: React.FC = () => {
     away: string;
   } | null>(null);
 
-  const isBuildProduction = true;
+  const isBuildProduction = false
   const path = isBuildProduction ? "/projets/jdh/" : "/";
   const apiWeb = isBuildProduction
     ? "/proxy.php/"

@@ -44,7 +44,7 @@ const TeamDetails: React.FC = () => {
   const showCalendar = activeSection === "calendrier";
   const showPlayerStats = activeSection === "statistiques";
 
-  const isBuildProduction = true;
+  const isBuildProduction = false
   const path = isBuildProduction ? "/projets/jdh/" : "/";
   const apiWeb = isBuildProduction
     ? "/proxy.php/"
