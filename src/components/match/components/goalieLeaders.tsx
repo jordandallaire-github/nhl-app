@@ -34,6 +34,7 @@ interface Colors {
               <img
                 src={`https://assets.nhle.com/logos/nhl/svg/${game?.awayTeam.abbrev}_dark.svg`}
                 alt={`${game?.awayTeam.name.default} logo`}
+                loading="lazy"
               />
             </Link>
           </div>
@@ -62,6 +63,7 @@ interface Colors {
                             <img
                               src={awayLeader.headshot}
                               alt={`${awayLeader.firstName.default} ${awayLeader.lastName.default}`}
+                              loading="lazy"
                             />
                           </Link>
                         </div>
@@ -126,6 +128,7 @@ interface Colors {
               <img
                 src={`https://assets.nhle.com/logos/nhl/svg/${game?.homeTeam.abbrev}_dark.svg`}
                 alt={`${game?.awayTeam.name.default} logo`}
+                loading="lazy"
               />
             </Link>
           </div>
@@ -154,6 +157,7 @@ interface Colors {
                             <img
                               src={homeLeader.headshot}
                               alt={`${homeLeader.firstName.default} ${homeLeader.lastName.default}`}
+                              loading="lazy"
                             />
                           </Link>
                         </div>

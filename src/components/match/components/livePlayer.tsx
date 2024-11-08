@@ -39,7 +39,7 @@ export const renderLivePlayer = (
                 {forward.sweaterNumber}
               </div>
               <div className="player-infos window-effect">
-                <img src={forward.headshot} alt={forward.name.default} />
+                <img src={forward.headshot} alt={forward.name.default} loading="lazy"/>
                 <p>
                   <strong>{forward.name.default}</strong>
                 </p>
@@ -73,6 +73,7 @@ export const renderLivePlayer = (
                 <img
                   src={defensemen.headshot}
                   alt={defensemen.name.default}
+                  loading="lazy"
                 />
                 <p>
                   <strong>{defensemen.name.default}</strong>
@@ -104,7 +105,7 @@ export const renderLivePlayer = (
                 {goalie.sweaterNumber}
               </div>
               <div className="player-infos window-effect">
-                <img src={goalie.headshot} alt={goalie.name.default} />
+                <img src={goalie.headshot} alt={goalie.name.default} loading="lazy"/>
                 <p>
                   <strong>{goalie.name.default}</strong>
                 </p>
@@ -135,7 +136,7 @@ export const renderLivePlayer = (
                 {penalty.sweaterNumber}
               </div>
               <div className="player-infos window-effect">
-                <img src={penalty.headshot} alt={penalty.name.default} />
+                <img src={penalty.headshot} alt={penalty.name.default} loading="lazy" />
                 <p>
                   <strong>{penalty.name.default}</strong>
                 </p>
@@ -161,7 +162,7 @@ export const renderLivePlayer = (
                 {forward.sweaterNumber}
               </div>
               <div className="player-infos window-effect">
-                <img src={forward.headshot} alt={forward.name.default} />
+                <img src={forward.headshot} alt={forward.name.default} loading="lazy" />
                 <p>
                   <strong>{forward.name.default}</strong>
                 </p>
@@ -190,6 +191,7 @@ export const renderLivePlayer = (
                 <img
                   src={defensemen.headshot}
                   alt={defensemen.name.default}
+                  loading="lazy"
                 />
                 <p>
                   <strong>{defensemen.name.default}</strong>
@@ -216,7 +218,7 @@ export const renderLivePlayer = (
                 {goalie.sweaterNumber}
               </div>
               <div className="player-infos window-effect">
-                <img src={goalie.headshot} alt={goalie.name.default} />
+                <img src={goalie.headshot} alt={goalie.name.default} loading="lazy"/>
                 <p>
                   <strong>{goalie.name.default}</strong>
                 </p>
@@ -245,7 +247,7 @@ export const renderLivePlayer = (
                 {penalty.sweaterNumber}
               </div>
               <div className="player-infos window-effect">
-                <img src={penalty.headshot} alt={penalty.name.default} />
+                <img src={penalty.headshot} alt={penalty.name.default} loading="lazy" />
                 <p>
                   <strong>{penalty.name.default}</strong>
                 </p>

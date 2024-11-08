@@ -147,6 +147,7 @@ const PlayerSingleLast5Games: React.FC<{
                 <img
                   src={`https://assets.nhle.com/logos/nhl/svg/${game.opponentAbbrev}_dark.svg`}
                   alt={`${teamNames[game.opponentAbbrev]} logo`}
+                  loading="lazy"
                 />
               </Link>
             </td>
@@ -206,6 +207,7 @@ const PlayerSingleLast5Games: React.FC<{
                 <img
                   src={`https://assets.nhle.com/logos/nhl/svg/${game.opponentAbbrev}_dark.svg`}
                   alt={`${teamNames[game.opponentAbbrev]} logo`}
+                  loading="lazy"
                 />
               </Link>
             </td>

@@ -49,7 +49,7 @@ export const ThreeStars: React.FC<{
                         .replace(/\s+/g, "-")
                 }/joueur/${star.name.default.toLowerCase()}-${star.playerId}`}
               >
-                <img src={star.headshot} alt={`${star.name}`} />
+                <img src={star.headshot} alt={`${star.name}`} loading="lazy" />
               </Link>
               <div className="content">
                 <p><strong>{star.name.default}</strong></p>

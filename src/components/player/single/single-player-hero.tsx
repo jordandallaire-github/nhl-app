@@ -28,6 +28,7 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({
       className="hero-player"
       src={player.heroImage}
       alt={`${player.firstName} ${player.lastName}`}
+      loading="lazy"
     />
     <div className="wrapper">
       <div className="card basic-infos-player">
@@ -35,6 +36,7 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({
           <img
             src={player.headshot}
             alt={`${player.firstName} ${player.lastName}`}
+            loading="lazy"
           />
         </div>
         <div className="card-content">
@@ -61,6 +63,7 @@ const PlayerSingleHero: React.FC<{ player: PlayerDetailsType }> = ({
               className="team-logo"
               src={player.teamLogo}
               alt={`${player.fullTeamName} logo`}
+              loading="lazy"
             />
             <p>
               <strong>{`${FormatPosition(player.positionCode)}`}</strong>

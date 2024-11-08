@@ -17,6 +17,7 @@ import { PlayerDetailsType } from "../interfaces/player/playerDetails";
           <img
             src={`https://assets.nhle.com/mugs/nhl/20242025/${player.teamAbbrev}/${player.playerId}.png`}
             alt={`${player.name}`}
+            loading="lazy"
           />
         </div>
         <div className="card-content">
@@ -29,6 +30,7 @@ import { PlayerDetailsType } from "../interfaces/player/playerDetails";
               className="team-logo"
               src={`https://assets.nhle.com/logos/nhl/svg/${player.teamAbbrev}_dark.svg`}
               alt={`${teamName?.[player.teamAbbrev]} logo`}
+              loading="lazy"
             />
             <p>
               <strong>

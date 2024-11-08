@@ -133,6 +133,7 @@ export const renderGoalInfos = (
                                 <img
                                   src={goal.headshot}
                                   alt={`${goal.firstName.default} ${goal.lastName.default}`}
+                                  loading="lazy"
                                 />
                               </Link>
                               <div className="goals-infos">
@@ -207,6 +208,7 @@ export const renderGoalInfos = (
                                         className="no-goal"
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
                                         alt={`${game.awayTeam.name} logo`}
+                                        loading="lazy"
                                       />
                                       <p>{goal.awayScore}</p>
                                     </div>
@@ -214,6 +216,7 @@ export const renderGoalInfos = (
                                       <img
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
                                         alt={`${game.homeTeam.name} logo`}
+                                        loading="lazy"
                                       />
                                       <p>
                                         <strong>{goal.homeScore}</strong>
@@ -226,6 +229,7 @@ export const renderGoalInfos = (
                                       <img
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
                                         alt={`${game.awayTeam.name} logo`}
+                                        loading="lazy"
                                       />
                                       <p>
                                         <strong>{goal.awayScore}</strong>
@@ -236,6 +240,7 @@ export const renderGoalInfos = (
                                         className="no-goal"
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
                                         alt={`${game.homeTeam.name} logo`}
+                                        loading="lazy"
                                       />
                                       <p>{goal.homeScore}</p>
                                     </div>
@@ -304,6 +309,7 @@ export const renderGoalInfos = (
                   <img
                     src={so.headshot}
                     alt={`${so.firstName} ${so.lastName}`}
+                    loading="lazy"
                   />
                 </Link>
                 <div className="goals-infos">

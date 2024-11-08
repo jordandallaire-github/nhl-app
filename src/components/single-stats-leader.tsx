@@ -59,11 +59,12 @@ const PlayerDisplay: React.FC<{
         <img
           src={player.headshot}
           alt={`${player.firstName.default} ${player.lastName.default}`}
+          loading="lazy"
         />
       </Link>
     </div>
     <div className="content">
-      <h3>{`${player.firstName.default} ${player.lastName.default}`}</h3>
+      <p className="name"><strong>{`${player.firstName.default} ${player.lastName.default}`}</strong></p>
       <div className="other-infos">
         <p>{`#${player.sweaterNumber}`}</p>
         <Link
@@ -74,6 +75,7 @@ const PlayerDisplay: React.FC<{
           <img
             src={`https://assets.nhle.com/logos/nhl/svg/${player.teamAbbrev}_dark.svg`}
             alt={`${player.teamName.default} Logo`}
+            loading="lazy"
           />
         </Link>
         <p>{FormatPosition(player.position)}</p>

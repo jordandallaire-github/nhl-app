@@ -19,6 +19,7 @@ export const renderMatchVideo = (
                 <img
                   src={`https://assets.nhle.com/logos/nhl/svg/${team?.awayTeam}_dark.svg`}
                   alt={`${team?.awayTeam} logo`}
+                  loading="lazy"
                 />
               </div>
               <span>VS</span>
@@ -26,6 +27,7 @@ export const renderMatchVideo = (
                 <img
                   src={`https://assets.nhle.com/logos/nhl/svg/${team?.homeTeam}_dark.svg`}
                   alt={`${team?.homeTeam} logo`}
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -53,7 +55,8 @@ export const renderMatchVideo = (
                               /t_ratio1_1-size20/,
                               "t_ratio16_9-size20/f_auto/"
                             )}`}
-                            alt=""
+                            alt={`${video.title}`}
+                            loading="lazy"
                           />
                           <Svg name="play" size="sm" />
                           <span>{video.fields.duration?.slice(4, 8)}</span>

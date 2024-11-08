@@ -86,6 +86,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
           <img
             src={`https://assets.nhle.com/logos/nhl/svg/${team.abbrev}_dark.svg`}
             alt={`${team.name.default} logo`}
+            loading="lazy"
           />
           <div className="team-stats">
             <p>{team.name.default}</p>
@@ -177,6 +178,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                 <img
                   src={leader.headshot}
                   alt={`${leader.firstName.default} ${leader.lastName.default}`}
+                  loading="lazy"
                 />
               </Link>
               <div className="other-infos">
@@ -265,6 +267,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                 <img
                   src={goal.mugshot}
                   alt={`${goal.firstName.default} ${goal.lastName.default}`}
+                  loading="lazy"
                 />
               </Link>
             </div>
@@ -403,7 +406,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                             <p key={`${broadcast.id}-${index}`}>
                               {broadcast.network === "RDS" ? (
                                 <Link to={`https://www.rds.ca/`}>
-                                  <img src={RDS} alt="RDS logo" />
+                                  <img src={RDS} alt="RDS logo" loading="lazy" />
                                 </Link>
                               ) : broadcast.network === "TVAS" ? (
                                 <Link to={`https://www.tvasports.ca/`}>
@@ -411,6 +414,7 @@ const SingleSchedule: React.FC<SingleScheduleProps> = ({
                                     className="white"
                                     src={TVA}
                                     alt="TVA sports logo"
+                                    loading="lazy"
                                   />
                                 </Link>
                               ) : (

@@ -120,16 +120,18 @@ const PlayerDisplay: React.FC<{
           <img
             src={player?.headshot}
             alt={`${player.firstName.default} ${player.lastName.default}`}
+            loading="lazy"
           />
         </Link>
       </div>
       <div className="content">
-        <h3>{`${player.firstName.default} ${player.lastName.default}`}</h3>
+        <p className="name"><strong>{`${player.firstName.default} ${player.lastName.default}`}</strong></p>
         <div className="other-infos">
           <p>{`#${playerDetails?.sweaterNumber ?? 0}`}</p>
           <img
             src={`https://assets.nhle.com/logos/nhl/svg/${abr}_dark.svg`}
             alt={`${abr} Logo`}
+            loading="lazy"
           />
           {isSkater(player) ? (
             <p>{FormatPosition(player.positionCode)}</p>

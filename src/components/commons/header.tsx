@@ -17,7 +17,7 @@ export default function Header() {
       <header data-component="Header">
         <div className="header-content">
           <div className="logo">
-            <Link to="/">
+            <Link aria-label="Logo JDH retour à l'accueil" to="/">
               <Svg name="jdh" size="md"></Svg>
             </Link>
           </div>
@@ -72,10 +72,10 @@ export default function Header() {
             </div>
           </nav>
           <div className="mobile-nav">
-            <Link to={"/recherche"} className="search">
+            <Link aria-label="Bouton rechercher" to={"/recherche"} className="search">
                 <Svg name="search" size="sm"></Svg>
             </Link>
-            <button className="header__toggle js-toggle">
+            <button aria-label="Bouton Menu" className="header__toggle js-toggle">
               <span></span>
               <span></span>
               <span></span>

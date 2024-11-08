@@ -266,6 +266,7 @@ const DayWithGames: React.FC<{
               ? game.homeTeam.abbrev
               : game.awayTeam.abbrev
           } logo`}
+          loading="lazy"
         />
       </div>
       <h4 className="mobile">{`${

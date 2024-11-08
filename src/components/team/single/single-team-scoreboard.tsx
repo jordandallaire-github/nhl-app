@@ -70,6 +70,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                       <img
                         src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
                         alt={`${game.awayTeam.name.fr} logo`}
+                        loading="lazy"
                       />
                     </Link>
                     <p>{game.awayTeam.abbrev}</p>
@@ -146,6 +147,7 @@ const SingleTeamScoreboard: React.FC<SingleTeamScoreboardProps> = ({
                       <img
                         src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
                         alt={`${game.homeTeam.name.fr} logo`}
+                        loading="lazy"
                       />
                     </Link>
                     <p>{game.homeTeam.abbrev}</p>

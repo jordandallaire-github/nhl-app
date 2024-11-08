@@ -9,6 +9,7 @@ export const TeamsLogoLinks: React.FC<{
     <img
       src={`https://assets.nhle.com/logos/nhl/svg/${team.abbrev}_dark.svg`}
       alt={`${team.name.default} logo`}
+      loading="lazy"
     />
   </Link>
 );

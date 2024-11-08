@@ -106,7 +106,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                         <span key={`${broadcast.id}-${index}`}>
                           {broadcast.network === "RDS" ? (
                             <Link to={`https://www.rds.ca/`}>
-                              <img src={RDS} alt="RDS logo" />
+                              <img src={RDS} alt="RDS logo" loading="lazy" />
                             </Link>
                           ) : broadcast.network === "TVAS" ? (
                             <Link to={`https://www.tvasports.ca/`}>
@@ -114,6 +114,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                                 className="white"
                                 src={TVA}
                                 alt="TVA sports logo"
+                                loading="lazy"
                               />
                             </Link>
                           ) : (
@@ -151,6 +152,7 @@ const SingleMatch: React.FC<MatchProps> = ({
                   className="special"
                   src={gameInfos.specialEventLogo}
                   alt={gameInfos.specialEvent?.default}
+                  loading="lazy"
                 />
               )}
               {renderTeamInfo(

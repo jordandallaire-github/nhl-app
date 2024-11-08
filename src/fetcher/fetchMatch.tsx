@@ -165,7 +165,6 @@ const Match: React.FC = () => {
       const dataPlays: INTPlayByPlay = await playsResponse.json();
       const dataGameVideo: INTGameVideo = await gameVideoResponse.json();
 
-      // Une fois que nous avons les données principales, nous pouvons récupérer les rosters
       await fetchRosters(
         dataMainGameInfos.homeTeam.abbrev,
         dataMainGameInfos.awayTeam.abbrev

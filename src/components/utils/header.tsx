@@ -8,7 +8,7 @@ const HeaderComponent: React.FC = () => {
   const scrollLimit = 0.1;
   const location = useLocation();
   const navMobileInitialized = useRef(false);
-  const lastScrollPosition = useRef(0); // Utiliser une référence pour stocker l'ancienne position
+  const lastScrollPosition = useRef(0);
 
   useEffect(() => {
     const headerElement = document.querySelector('[data-component="Header"]');
@@ -60,7 +60,6 @@ const HeaderComponent: React.FC = () => {
     document.documentElement.classList.toggle("is-scrolling-down", isScrollingDown);
     document.documentElement.classList.toggle("is-scrolling-up", !isScrollingDown);
 
-    // Mettre à jour la dernière position de défilement
     lastScrollPosition.current = scrollPosition;
 
   }, [scrollPosition, element]);

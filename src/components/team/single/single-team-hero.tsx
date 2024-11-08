@@ -26,6 +26,7 @@ const SingleTeamHero: React.FC<TeamHeroProps> = ({
           className="hero-logo"
           src={`https://assets.nhle.com/logos/nhl/svg/${abr}_dark.svg`}
           alt={`${teamName} logo`}
+          loading="lazy"
         />
         <div className="team-standing window-effect">
           <div className="ranking">

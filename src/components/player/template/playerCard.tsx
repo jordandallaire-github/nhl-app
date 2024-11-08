@@ -32,6 +32,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
           <img
             src={player.headshot}
             alt={`${player.firstName.default} ${player.lastName.default}`}
+            loading="lazy"
           />
         </div>
         <div className="card-content">
@@ -44,7 +45,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
             <p>
               <strong>#{player.sweaterNumber}</strong>
             </p>
-            <img className="team-logo" src={teamLogo} alt={`logo`} />
+            <img className="team-logo" src={teamLogo} alt={`logo`} loading="lazy" />
             <p>
               <strong>
                 {player.positionCode === "R"

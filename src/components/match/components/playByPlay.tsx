@@ -240,6 +240,7 @@ export const renderPlayByPlay = (
                         <img
                           src={getTeamLogo(game.awayTeam.abbrev)}
                           alt={`${game.awayTeam.name.default} logo`}
+                          loading="lazy"
                         />
                       </div>
                       <Link
@@ -251,6 +252,7 @@ export const renderPlayByPlay = (
                         <img
                           src={getTeamLogo(game.awayTeam.abbrev)}
                           alt={`${game.awayTeam.name.default} logo`}
+                          loading="lazy"
                         />
                       </Link>
                       <p className={isEventOwnerHome ? "isScore" : ""}>
@@ -281,6 +283,7 @@ export const renderPlayByPlay = (
                         <img
                           src={getTeamLogo(game.homeTeam.abbrev)}
                           alt={`${game.homeTeam.name.default} logo`}
+                          loading="lazy"
                         />
                       </Link>
                       <div
@@ -291,6 +294,7 @@ export const renderPlayByPlay = (
                         <img
                           src={getTeamLogo(game.homeTeam.abbrev)}
                           alt={`${game.homeTeam.name.default} logo`}
+                          loading="lazy"
                         />
                       </div>
                     </div>
@@ -377,6 +381,7 @@ export const renderPlayByPlay = (
                                       "t_ratio16_9-size40/f_auto/"
                                     )}`}
                                     alt={`${goalInfo?.scorerName}`}
+                                    loading="lazy"
                                   />
                                   <div className="container">
                                     <Svg name="play" size="sm"></Svg>

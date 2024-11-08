@@ -25,6 +25,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                 <img
                   src={`https://assets.nhle.com/logos/nhl/svg/${game?.awayTeam.abbrev}_dark.svg`}
                   alt={`${game?.awayTeam.name.default} logo`}
+                  loading="lazy"
                 />
               </Link>
               <Link
@@ -35,6 +36,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                 <img
                   src={`https://assets.nhle.com/logos/nhl/svg/${game?.homeTeam.abbrev}_dark.svg`}
                   alt={`${game?.homeTeam.name.default} logo`}
+                  loading="lazy"
                 />
               </Link>
             </div>
@@ -44,13 +46,13 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                   key={`${leader.category}-${index}`}
                   className="player-matchup"
                 >
-                  <h4>
+                  <h3>
                     {leader.category === "goals"
                       ? "Buts"
                       : leader.category === "assists"
                       ? "Aides"
                       : "Points"}
-                  </h4>
+                  </h3>
                   <div className="players">
                     <div className="player away">
                       <div className="stat">
@@ -93,6 +95,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                             <img
                               src={leader.awayLeader.headshot}
                               alt={`${leader.awayLeader.firstName.default} ${leader.awayLeader.lastName.default}`}
+                              loading="lazy"
                             />
                           </Link>
                         </div>
@@ -139,6 +142,7 @@ import { INTMainGameInfos } from "../../../interfaces/main-match";
                             <img
                               src={leader.homeLeader.headshot}
                               alt={`${leader.homeLeader.firstName.default} ${leader.homeLeader.lastName.default}`}
+                              loading="lazy"
                             />
                           </Link>
                         </div>

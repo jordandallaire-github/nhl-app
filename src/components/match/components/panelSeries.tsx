@@ -56,6 +56,7 @@ import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
                       <img
                         src={`https://assets.nhle.com/logos/nhl/svg/${serie?.awayTeam.abbrev}_dark.svg`}
                         alt={`${serie?.awayTeam.abbrev} logo`}
+                        loading="lazy"
                       />
                       <p>
                         {serie?.awayTeam.abbrev}
@@ -76,6 +77,7 @@ import { formatDateMonthDay } from "../../../scripts/utils/formatDate";
                       <img
                         src={`https://assets.nhle.com/logos/nhl/svg/${serie?.homeTeam.abbrev}_dark.svg`}
                         alt={`${serie?.homeTeam.abbrev} logo`}
+                        loading="lazy"
                       />
                       <p>
                         {serie?.homeTeam.abbrev}
