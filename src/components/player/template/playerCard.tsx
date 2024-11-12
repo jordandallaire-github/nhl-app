@@ -65,7 +65,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
         ></div>
       </Link>
       <FollowButton
-        playerId={player.playerId}
+        playerId={player.id}
         playerData={{
           name: player.firstName.default + " " + player.lastName.default,
           teamAbbrev: teamAbbrev ?? "",
