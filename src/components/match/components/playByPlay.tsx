@@ -239,19 +239,19 @@ export const renderPlayByPlay = (
                       >
                         <img
                           src={getTeamLogo(game.awayTeam.abbrev)}
-                          alt={`${game.awayTeam.name.default} logo`}
+                          alt={`${game.awayTeam.commonName.default} logo`}
                           loading="lazy"
                         />
                       </div>
                       <Link
                         className={isEventOwnerHome ? "isScore" : ""}
                         to={`/equipes/${getTeamUrl(
-                          game.awayTeam.name.default
+                          game.awayTeam.commonName.default
                         )}`}
                       >
                         <img
                           src={getTeamLogo(game.awayTeam.abbrev)}
-                          alt={`${game.awayTeam.name.default} logo`}
+                          alt={`${game.awayTeam.commonName.default} logo`}
                           loading="lazy"
                         />
                       </Link>
@@ -277,12 +277,12 @@ export const renderPlayByPlay = (
                       <Link
                         className={isEventOwnerHome ? "" : "isScore"}
                         to={`/equipes/${getTeamUrl(
-                          game.homeTeam.name.default
+                          game.homeTeam.commonName.default
                         )}`}
                       >
                         <img
                           src={getTeamLogo(game.homeTeam.abbrev)}
-                          alt={`${game.homeTeam.name.default} logo`}
+                          alt={`${game.homeTeam.commonName.default} logo`}
                           loading="lazy"
                         />
                       </Link>
@@ -293,7 +293,7 @@ export const renderPlayByPlay = (
                       >
                         <img
                           src={getTeamLogo(game.homeTeam.abbrev)}
-                          alt={`${game.homeTeam.name.default} logo`}
+                          alt={`${game.homeTeam.commonName.default} logo`}
                           loading="lazy"
                         />
                       </div>
@@ -332,10 +332,10 @@ export const renderPlayByPlay = (
                             </p>
                           )}
                         </div>
-                        <Link to={`/equipes/${getTeamUrl(team.name.default)}`}>
+                        <Link to={`/equipes/${getTeamUrl(team.commonName.default)}`}>
                           <img
                             src={getTeamLogo(team.abbrev)}
-                            alt={`${team.name.default} logo`}
+                            alt={`${team.commonName.default} logo`}
                           />
                         </Link>
                         <div className="situation">

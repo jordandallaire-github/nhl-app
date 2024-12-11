@@ -41,10 +41,10 @@ export const ThreeStars: React.FC<{
               <Link
                 to={`/equipes/${
                   game?.awayTeam.abbrev === star.teamAbbrev
-                    ? game?.awayTeam.name.default
+                    ? game?.awayTeam.commonName.default
                         .toLowerCase()
                         .replace(/\s+/g, "-")
-                    : game?.homeTeam.name.default
+                    : game?.homeTeam.commonName.default
                         .toLowerCase()
                         .replace(/\s+/g, "-")
                 }/joueur/${star.name.default.toLowerCase()}-${star.playerId}`}

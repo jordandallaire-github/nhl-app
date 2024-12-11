@@ -120,10 +120,10 @@ export const renderGoalInfos = (
                                 to={`/equipes/${
                                   game.awayTeam.abbrev ===
                                   goal.teamAbbrev.default
-                                    ? game.awayTeam.name.default
+                                    ? game.awayTeam.commonName.default
                                         .toLowerCase()
                                         .replace(/\s+/g, "-")
-                                    : game.homeTeam.name.default
+                                    : game.homeTeam.commonName.default
                                         .toLowerCase()
                                         .replace(/\s+/g, "-")
                                 }/joueur/${goal.firstName?.default.toLowerCase()}-${goal.lastName?.default.toLowerCase()}-${
@@ -207,7 +207,7 @@ export const renderGoalInfos = (
                                       <img
                                         className="no-goal"
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
-                                        alt={`${game.awayTeam.name} logo`}
+                                        alt={`${game.awayTeam.commonName.default} logo`}
                                         loading="lazy"
                                       />
                                       <p>{goal.awayScore}</p>
@@ -215,7 +215,7 @@ export const renderGoalInfos = (
                                     <div className="home-team">
                                       <img
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
-                                        alt={`${game.homeTeam.name} logo`}
+                                        alt={`${game.homeTeam.commonName.default} logo`}
                                         loading="lazy"
                                       />
                                       <p>
@@ -228,7 +228,7 @@ export const renderGoalInfos = (
                                     <div className="away-team">
                                       <img
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.awayTeam.abbrev}_dark.svg`}
-                                        alt={`${game.awayTeam.name} logo`}
+                                        alt={`${game.awayTeam.commonName.default} logo`}
                                         loading="lazy"
                                       />
                                       <p>
@@ -239,7 +239,7 @@ export const renderGoalInfos = (
                                       <img
                                         className="no-goal"
                                         src={`https://assets.nhle.com/logos/nhl/svg/${game.homeTeam.abbrev}_dark.svg`}
-                                        alt={`${game.homeTeam.name} logo`}
+                                        alt={`${game.homeTeam.commonName.default} logo`}
                                         loading="lazy"
                                       />
                                       <p>{goal.homeScore}</p>
@@ -296,10 +296,10 @@ export const renderGoalInfos = (
                 <Link
                   to={`/equipes/${
                     game.awayTeam.abbrev === so.teamAbbrev
-                      ? game.awayTeam.name.default
+                      ? game.awayTeam.commonName.default
                           .toLowerCase()
                           .replace(/\s+/g, "-")
-                      : game.homeTeam.name.default
+                      : game.homeTeam.commonName.default
                           .toLowerCase()
                           .replace(/\s+/g, "-")
                   }/joueur/${so.firstName?.toLowerCase()}-${so.lastName?.toLowerCase()}-${

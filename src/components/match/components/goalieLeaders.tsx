@@ -27,13 +27,13 @@ interface Colors {
             }}
           >
             <Link
-              to={`/equipes/${game?.awayTeam.name.default
+              to={`/equipes/${game?.awayTeam.commonName.default
                 .toLowerCase()
                 .replace(/\s+/g, "-")}`}
             >
               <img
                 src={`https://assets.nhle.com/logos/nhl/svg/${game?.awayTeam.abbrev}_dark.svg`}
-                alt={`${game?.awayTeam.name.default} logo`}
+                alt={`${game?.awayTeam.commonName.default} logo`}
                 loading="lazy"
               />
             </Link>
@@ -51,7 +51,7 @@ interface Colors {
                       <div className="infos">
                         <div className="media">
                           <Link
-                            to={`/equipes/${game?.awayTeam.name.default
+                            to={`/equipes/${game?.awayTeam.commonName.default
                               .toLowerCase()
                               .replace(
                                 /\s+/g,
@@ -121,13 +121,13 @@ interface Colors {
             }}
           >
             <Link
-              to={`/equipes/${game?.homeTeam.name.default
+              to={`/equipes/${game?.homeTeam.commonName.default
                 .toLowerCase()
                 .replace(/\s+/g, "-")}`}
             >
               <img
                 src={`https://assets.nhle.com/logos/nhl/svg/${game?.homeTeam.abbrev}_dark.svg`}
-                alt={`${game?.awayTeam.name.default} logo`}
+                alt={`${game?.awayTeam.commonName.default} logo`}
                 loading="lazy"
               />
             </Link>
@@ -145,7 +145,7 @@ interface Colors {
                       <div className="infos">
                         <div className="media">
                           <Link
-                            to={`/equipes/${game?.homeTeam.name.default
+                            to={`/equipes/${game?.homeTeam.commonName.default
                               .toLowerCase()
                               .replace(
                                 /\s+/g,

@@ -39,7 +39,7 @@ export const renderRosterMatch = (
                 }
                 className={`roster-away`}
               >
-                <p>{game.awayTeam.name.fr === "Club de hockey de l'Utah" ? "Club de l'Utah" : game.awayTeam.name.fr ? game.awayTeam.name.fr : game.awayTeam.name.default}</p>
+                <p>{game.awayTeam.commonName.fr === "Club de hockey de l'Utah" ? "Club de l'Utah" : game.awayTeam.commonName.fr ? game.awayTeam.commonName.fr : game.awayTeam.commonName.default}</p>
               </div>
               <div
                 onClick={() =>
@@ -47,7 +47,7 @@ export const renderRosterMatch = (
                 }
                 className={`roster-home`}
               >
-                <p>{game.homeTeam.name.fr === "Club de hockey de l'Utah" ? "Club de l'Utah" : game.homeTeam.name.fr ? game.homeTeam.name.fr : game.homeTeam.name.default}</p>
+                <p>{game.homeTeam.commonName.fr === "Club de hockey de l'Utah" ? "Club de l'Utah" : game.homeTeam.commonName.fr ? game.homeTeam.commonName.fr : game.homeTeam.commonName.default}</p>
               </div>
               <div
                 className={`indicator-pill-roster`}

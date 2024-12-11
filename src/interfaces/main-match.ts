@@ -294,7 +294,7 @@ export interface INTMainGameInfos {
 
 interface INTTeam {
   id: number;
-  name: {
+  commonName: {
     default: string;
     fr: string;
   };
